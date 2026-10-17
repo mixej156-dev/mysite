@@ -85,7 +85,7 @@ export function LatestNews() {
                 )}
               >
                 <div className="min-h-0 flex-1 border-b border-rule">
-                  <PostCover slug={post.slug} category={post.category} />
+                  <PostCover slug={post.slug} category={post.category} colored />
                 </div>
                 <div className="flex flex-col gap-3 p-5 sm:p-6">
                   <Meta post={post} />
@@ -113,7 +113,7 @@ export function LatestNews() {
                 )}
               >
                 <div className="h-[38%] shrink-0 border-b border-rule lg:h-[42%]">
-                  <PostCover slug={post.slug} category={post.category} />
+                  <PostCover slug={post.slug} category={post.category} colored />
                 </div>
                 <div className="flex min-h-0 flex-1 flex-col justify-between gap-2 p-4 sm:p-5">
                   <div className="flex flex-col gap-2">

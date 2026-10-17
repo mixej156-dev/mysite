@@ -1,83 +1,124 @@
 "use client";
 
 import * as Nav from "@radix-ui/react-navigation-menu";
-import { ChevronDown } from "lucide-react";
+import { ArrowRight, ChevronDown } from "lucide-react";
+import type { ReactNode } from "react";
 import { Link } from "@/components/Link";
 import { usePathname } from "next/navigation";
 import { featuredPools } from "@/data/pools";
 import { formatPercent, formatUnbondingShort } from "@/lib/format";
 import { cn } from "@/lib/cn";
-import { NAV_SECTIONS, isSectionActive, type NavLink, type NavSection } from "./nav";
+import { LearnCover } from "@/components/blocks/LearnCover";
+import { NAV_SECTIONS, POOL_ART, isSectionActive, type NavFeature, type NavLink, type NavSection } from "./nav";
+import { NavArt } from "./NavArt";
 
 const panelLink =
-  "group/link block rounded-field p-3 outline-offset-0 transition-colors duration-fast hover:bg-surface-2 focus-visible:bg-surface-2";
+  "group/link flex items-center gap-4 rounded-field p-3 outline-offset-0 transition-colors duration-fast hover:bg-surface-2 focus-visible:bg-surface-2";
 
-function MenuLink({ link }: { link: NavLink }) {
+const tileLink = "h-full border border-rule p-4 hover:border-rule-strong";
+
+/** `tile` draws the link as a bordered card that fills its grid cell */
+function MenuLink({ link, tile = false }: { link: NavLink; tile?: boolean }) {
   return (
     <Nav.Link asChild>
-      <Link href={link.href} className={panelLink}>
-        <span className="block text-small font-medium text-text">{link.label}</span>
-        {link.description && <span className="mt-0.5 block text-small text-muted">{link.description}</span>}
+      <Link href={link.href} className={cn(panelLink, tile && tileLink)}>
+        {link.art && <NavArt {...link.art} className={tile ? "size-16" : undefined} />}
+        <span className="min-w-0">
+          <span className="block text-body font-medium text-text transition-colors duration-fast group-hover/link:text-accent-text">
+            {link.label}
+          </span>
+          {link.description && <span className="mt-0.5 block text-small text-muted">{link.description}</span>}
+        </span>
       </Link>
     </Nav.Link>
   );
 }
 
+/** Right-hand promo card, with cover art in the ECO. LEARN style */
+function FeatureCard({ feature }: { feature: NavFeature }) {
+  return (
+    <Nav.Link asChild>
+      <Link
+        href={feature.href}
+        className="group/feature flex flex-col overflow-hidden rounded-field border border-rule bg-surface-2 transition-colors duration-fast hover:border-rule-strong"
+      >
+        <span className="block aspect-[16/9] overflow-hidden border-b border-rule">
+          <span className="block size-full transition-transform duration-slow group-hover/feature:scale-[1.04] motion-reduce:transition-none">
+            <LearnCover slug={feature.seed} topic={feature.topic} />
+          </span>
+        </span>
+        <span className="flex flex-1 flex-col gap-1.5 p-5">
+          <span className="text-body font-medium text-text">{feature.title}</span>
+          <span className="font-serif text-small text-muted">{feature.body}</span>
+          <span className="mt-auto inline-flex items-center gap-1.5 pt-3 text-small font-medium text-accent-text">
+            {feature.cta}
+            <ArrowRight
+              aria-hidden
+              className="size-4 transition-transform duration-fast group-hover/feature:translate-x-0.5"
+            />
+          </span>
+        </span>
+      </Link>
+    </Nav.Link>
+  );
+}
+
+function Panel({ section, children }: { section: NavSection; children: ReactNode }) {
+  return (
+    <div className="grid gap-4 p-4 md:grid-cols-[minmax(0,1fr)_20rem]">
+      <div className="min-w-0">{children}</div>
+      <FeatureCard feature={section.feature} />
+    </div>
+  );
+}
+
 function StakingPanel({ section }: { section: NavSection }) {
   return (
-    <div className="grid gap-4 p-3 md:grid-cols-[minmax(0,1fr)_17rem]">
-      <div>
-        <p className="px-3 pt-2 pb-1 text-caption text-muted">Featured pools</p>
-        <ul className="grid gap-x-2 sm:grid-cols-2">
-          {featuredPools.map((pool) => (
-            <li key={pool.id}>
-              <Nav.Link asChild>
-                <Link href={`/staking/${pool.id}`} className={cn(panelLink, "flex items-baseline justify-between gap-4")}>
-                  <span>
-                    <span className="block text-small font-medium text-text">{pool.name}</span>
-                    <span className="mt-0.5 block text-small text-muted">
-                      {pool.ticker}, {formatUnbondingShort(pool.unbondingDays)}
-                    </span>
+    <Panel section={section}>
+      <ul aria-label="Featured pools" className="grid h-full auto-rows-fr gap-3 sm:grid-cols-2">
+        {featuredPools.map((pool) => (
+          <li key={pool.id}>
+            <Nav.Link asChild>
+              <Link href={`/staking/${pool.id}`} className={cn(panelLink, tileLink)}>
+                {POOL_ART[pool.id] && <NavArt {...POOL_ART[pool.id]} className="size-16" />}
+                <span className="min-w-0 flex-1">
+                  <span className="block text-body font-medium text-text transition-colors duration-fast group-hover/link:text-accent-text">
+                    {pool.name}
                   </span>
-                  <span className="font-mono text-small text-text">{formatPercent(pool.apy)}</span>
-                </Link>
-              </Nav.Link>
-            </li>
-          ))}
-        </ul>
-        <div className="mt-1 border-t border-rule pt-1">
-          {section.links.map((link) => (
-            <MenuLink key={link.href} link={link} />
-          ))}
-        </div>
-      </div>
-      <Nav.Link asChild>
-        <Link
-          href="/tools/calculator"
-          className="flex flex-col justify-between gap-6 rounded-field bg-surface-2 p-5 transition-colors duration-fast hover:bg-rule"
-        >
-          <span>
-            <span className="block text-body font-medium text-text">Estimate your rewards</span>
-            <span className="mt-1.5 block font-serif text-small text-muted">
-              Pick a pool and an amount to see projected earnings by month and year.
-            </span>
-          </span>
-          <span className="text-small font-medium text-accent-text">Open calculator</span>
-        </Link>
-      </Nav.Link>
-    </div>
+                  <span className="mt-0.5 block text-small text-muted">
+                    {pool.ticker}, {formatUnbondingShort(pool.unbondingDays)}
+                  </span>
+                </span>
+                <span className="text-right">
+                  <span className="block font-mono text-body text-text">{formatPercent(pool.apy)}</span>
+                  <span className="block text-caption text-muted">APY</span>
+                </span>
+              </Link>
+            </Nav.Link>
+          </li>
+        ))}
+        {section.links.map((link) => (
+          <li key={link.href} className="sm:col-span-2">
+            <MenuLink link={link} tile />
+          </li>
+        ))}
+      </ul>
+    </Panel>
   );
 }
 
 function LinksPanel({ section }: { section: NavSection }) {
   return (
-    <ul className="grid gap-1 p-3 sm:grid-cols-2 xl:grid-cols-4">
-      {section.links.map((link) => (
-        <li key={link.href}>
-          <MenuLink link={link} />
-        </li>
-      ))}
-    </ul>
+    <Panel section={section}>
+      {/* Tiles stretch to the promo card's height: three stack in rows, four sit in a 2×2 grid */}
+      <ul className={cn("grid h-full auto-rows-fr gap-3", section.links.length % 2 === 0 && "sm:grid-cols-2")}>
+        {section.links.map((link) => (
+          <li key={link.href}>
+            <MenuLink link={link} tile />
+          </li>
+        ))}
+      </ul>
+    </Panel>
   );
 }
 
