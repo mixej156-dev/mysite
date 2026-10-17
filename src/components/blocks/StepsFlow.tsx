@@ -2,10 +2,12 @@ import { cn } from "@/lib/cn";
 
 export type Step = { title: string; body: string };
 
+const COLUMNS: Record<number, string> = { 2: "lg:grid-cols-2", 3: "lg:grid-cols-3", 4: "lg:grid-cols-4" };
+
 /** Numbered sequence. A rule with step markers runs across on desktop and down the side on mobile. */
 export function StepsFlow({ steps, className }: { steps: Step[]; className?: string }) {
   return (
-    <ol className={cn("grid gap-0 lg:grid-cols-4 lg:gap-8", className)}>
+    <ol className={cn("grid gap-0 lg:gap-8", COLUMNS[steps.length] ?? "lg:grid-cols-4", className)}>
       {steps.map((step, i) => (
         <li key={step.title} className="relative flex gap-6 pb-12 last:pb-0 lg:flex-col lg:gap-0 lg:pb-0">
           {/* Connector: vertical on mobile, horizontal on desktop */}
