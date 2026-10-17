@@ -1,11 +1,20 @@
 "use client";
 
-import { useId, useMemo, useState, useSyncExternalStore } from "react";
-import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis, type TooltipContentProps } from "recharts";
+import { useEffect, useId, useMemo, useRef, useState, useSyncExternalStore } from "react";
+import {
+  Area,
+  AreaChart,
+  CartesianGrid,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+  type TooltipContentProps,
+} from "recharts";
 import { Tabs, TabsList, TabsTrigger } from "@/design-system";
 import type { Point } from "@/lib/series";
 import { cn } from "@/lib/cn";
-import { formatDate, formatNumber, formatPercent } from "@/lib/format";
+import { formatCompactCurrency, formatDate, formatNumber, formatPercent } from "@/lib/format";
 
 export type Series = {
   id: string;
@@ -32,13 +41,14 @@ export type TimeSeriesChartProps = {
 
 type Row = { date: string } & Record<string, number | string>;
 
-export type ValueFormat = "percent" | "number" | "amount";
+export type ValueFormat = "percent" | "number" | "amount" | "usd";
 
 const FORMATTERS: Record<ValueFormat, (v: number) => string> = {
   percent: (v) => formatPercent(v),
   number: (v) => formatNumber(v, 2),
   /* Token amounts: more decimals for small values */
   amount: (v) => formatNumber(v, Math.abs(v) >= 1000 ? 2 : 4),
+  usd: (v) => formatCompactCurrency(v),
 };
 
 /** "date": points carry ISO dates. "month": points carry a month index ("0", "1", …). */
@@ -50,7 +60,9 @@ const X_FORMATTERS: Record<XFormat, { tick: (x: string) => string; full: (x: str
 };
 
 const shortDate = (iso: string) =>
-  new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", timeZone: "UTC" }).format(new Date(`${iso}T00:00:00Z`));
+  new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", timeZone: "UTC" }).format(
+    new Date(`${iso}T00:00:00Z`),
+  );
 
 const NARROW = "(max-width: 47.99rem)";
 
@@ -62,7 +74,11 @@ function subscribeNarrow(onChange: () => void) {
 
 /** True below 768px. False during server render, so hydration matches. */
 function useNarrowScreen() {
-  return useSyncExternalStore(subscribeNarrow, () => window.matchMedia(NARROW).matches, () => false);
+  return useSyncExternalStore(
+    subscribeNarrow,
+    () => window.matchMedia(NARROW).matches,
+    () => false,
+  );
 }
 
 /** Clean axis ticks (steps of 1, 2, 2.5 or 5 × 10^n) covering the data with a little headroom. */
@@ -76,6 +92,20 @@ function niceTicks(min: number, max: number, target = 4): number[] {
   const ticks: number[] = [];
   for (let v = start; v <= end + step / 2; v += step) ticks.push(Math.round(v * 1e6) / 1e6);
   return ticks;
+}
+
+/** True once the element has a non-zero width, so charts never measure a hidden container. */
+function useHasSize<T extends HTMLElement>() {
+  const ref = useRef<T>(null);
+  const [hasSize, setHasSize] = useState(false);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new ResizeObserver(([entry]) => setHasSize(entry.contentRect.width > 0));
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+  return { ref, hasSize };
 }
 
 function periodLabel(days: number) {
@@ -103,6 +133,7 @@ export function TimeSeriesChart({
   const period = periods.length === 0 ? Infinity : (chosenPeriod ?? (narrow ? periods[0] : defaultPeriod));
   const [view, setView] = useState<"chart" | "table">("chart");
   const titleId = useId();
+  const { ref: plotRef, hasSize } = useHasSize<HTMLDivElement>();
   const formatValue = FORMATTERS[valueFormat];
   const formatX = X_FORMATTERS[xFormat];
 
@@ -138,18 +169,21 @@ export function TimeSeriesChart({
 
   const single = series.length === 1;
   const last = rows[rows.length - 1];
+  /* Room for the end-of-line label: ~7.5px per monospace character at 12px, plus the dot and gap */
+  const endLabelRoom = last && single ? formatValue(Number(last[series[0].id])).length * 7.5 + 18 : 20;
 
   return (
-    <figure aria-labelledby={titleId} className={cn("rounded-card border border-rule bg-surface p-5 md:p-6", className)}>
+    <figure
+      aria-labelledby={titleId}
+      className={cn("rounded-card border border-rule bg-surface p-5 md:p-6", className)}
+    >
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <figcaption id={titleId} className="text-body font-medium">
             {title}
           </figcaption>
           {single && last && (
-            <p className="mt-1 text-small text-muted">
-              {formatValue(Number(last[series[0].id]))} today
-            </p>
+            <p className="mt-1 text-small text-muted">{formatValue(Number(last[series[0].id]))} today</p>
           )}
         </div>
         <div className="flex flex-wrap items-center gap-2">
@@ -185,72 +219,81 @@ export function TimeSeriesChart({
       )}
 
       {view === "chart" ? (
-        <div className="mt-6 h-64 md:h-72" aria-hidden>
-          <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={rows} margin={{ top: 8, right: single ? 56 : 20, bottom: 0, left: 0 }}>
-              <CartesianGrid vertical={false} stroke="var(--rule)" />
-              <XAxis
-                dataKey="date"
-                tickFormatter={formatX.tick}
-                ticks={xTicks}
-                interval={xTicks ? 0 : "preserveEnd"}
-                tickLine={false}
-                axisLine={{ stroke: "var(--rule)" }}
-                tick={{ fill: "var(--muted)", fontSize: 12 }}
-                minTickGap={40}
-                tickMargin={8}
-              />
-              <YAxis
-                tickFormatter={(v: number) => formatValue(v)}
-                tickLine={false}
-                axisLine={false}
-                tick={{ fill: "var(--muted)", fontSize: 12, fontFamily: "var(--ds-font-mono)" }}
-                width={56}
-                domain={[yTicks[0], yTicks[yTicks.length - 1]]}
-                ticks={yTicks}
-              />
-              <Tooltip
-                content={<ChartTooltip series={series} formatValue={formatValue} formatX={formatX.full} />}
-                cursor={{ stroke: "var(--rule-strong)", strokeWidth: 1 }}
-                isAnimationActive={false}
-              />
-              {series.map((s) => (
-                <Area
-                  key={s.id}
-                  type="monotone"
-                  dataKey={s.id}
-                  name={s.label}
-                  stroke={s.color}
-                  strokeWidth={2}
-                  fill={s.color}
-                  fillOpacity={single ? 0.1 : 0.04}
-                  dot={false}
-                  activeDot={{ r: 4, fill: s.color, stroke: "var(--surface)", strokeWidth: 2 }}
-                  isAnimationActive={false}
-                  label={
-                    single
-                      ? ({ x, y, index }: { x?: number | string; y?: number | string; index?: number }) =>
-                          index === rows.length - 1 ? (
-                            <g key="end">
-                              <circle cx={Number(x)} cy={Number(y)} r={4} fill={s.color} stroke="var(--surface)" strokeWidth={2} />
-                              <text
-                                x={Number(x) + 10}
-                                y={Number(y)}
-                                dy={4}
-                                fill="var(--text)"
-                                fontSize={12}
-                                fontFamily="var(--ds-font-mono)"
-                              >
-                                {formatValue(Number(rows[rows.length - 1][s.id]))}
-                              </text>
-                            </g>
-                          ) : null
-                      : undefined
-                  }
+        <div ref={plotRef} className="mt-6 h-64 md:h-72" aria-hidden>
+          {hasSize && (
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={rows} margin={{ top: 8, right: single ? endLabelRoom : 20, bottom: 0, left: 0 }}>
+                <CartesianGrid vertical={false} stroke="var(--rule)" />
+                <XAxis
+                  dataKey="date"
+                  tickFormatter={formatX.tick}
+                  ticks={xTicks}
+                  interval={xTicks ? 0 : "preserveEnd"}
+                  tickLine={false}
+                  axisLine={{ stroke: "var(--rule)" }}
+                  tick={{ fill: "var(--muted)", fontSize: 12 }}
+                  minTickGap={40}
+                  tickMargin={8}
                 />
-              ))}
-            </AreaChart>
-          </ResponsiveContainer>
+                <YAxis
+                  tickFormatter={(v: number) => formatValue(v)}
+                  tickLine={false}
+                  axisLine={false}
+                  tick={{ fill: "var(--muted)", fontSize: 12, fontFamily: "var(--ds-font-mono)" }}
+                  width={56}
+                  domain={[yTicks[0], yTicks[yTicks.length - 1]]}
+                  ticks={yTicks}
+                />
+                <Tooltip
+                  content={<ChartTooltip series={series} formatValue={formatValue} formatX={formatX.full} />}
+                  cursor={{ stroke: "var(--rule-strong)", strokeWidth: 1 }}
+                  isAnimationActive={false}
+                />
+                {series.map((s) => (
+                  <Area
+                    key={s.id}
+                    type="monotone"
+                    dataKey={s.id}
+                    name={s.label}
+                    stroke={s.color}
+                    strokeWidth={2}
+                    fill={s.color}
+                    fillOpacity={single ? 0.1 : 0.04}
+                    dot={false}
+                    activeDot={{ r: 4, fill: s.color, stroke: "var(--surface)", strokeWidth: 2 }}
+                    isAnimationActive={false}
+                    label={
+                      single
+                        ? ({ x, y, index }: { x?: number | string; y?: number | string; index?: number }) =>
+                            index === rows.length - 1 ? (
+                              <g key="end">
+                                <circle
+                                  cx={Number(x)}
+                                  cy={Number(y)}
+                                  r={4}
+                                  fill={s.color}
+                                  stroke="var(--surface)"
+                                  strokeWidth={2}
+                                />
+                                <text
+                                  x={Number(x) + 10}
+                                  y={Number(y)}
+                                  dy={4}
+                                  fill="var(--text)"
+                                  fontSize={12}
+                                  fontFamily="var(--ds-font-mono)"
+                                >
+                                  {formatValue(Number(rows[rows.length - 1][s.id]))}
+                                </text>
+                              </g>
+                            ) : null
+                        : undefined
+                    }
+                  />
+                ))}
+              </AreaChart>
+            </ResponsiveContainer>
+          )}
         </div>
       ) : (
         <div className="mt-6 max-h-72 overflow-y-auto">
@@ -290,7 +333,9 @@ export function TimeSeriesChart({
       {view === "chart" && last && (
         <p className="sr-only">
           {title}.{" "}
-          {series.map((s) => `${s.label}: ${formatValue(Number(last[s.id]))} at ${formatX.full(String(last.date))}.`).join(" ")}{" "}
+          {series
+            .map((s) => `${s.label}: ${formatValue(Number(last[s.id]))} at ${formatX.full(String(last.date))}.`)
+            .join(" ")}{" "}
           Switch to the table view for the values.
         </p>
       )}

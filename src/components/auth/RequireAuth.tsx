@@ -6,7 +6,9 @@ import { useAuth } from "@/lib/auth";
 
 /**
  * Client-side guard for /dashboard/*. Guests are sent to /login with a return path.
- * `fallback` renders while the session is read or the redirect is in flight.
+ * `fallback` shows while the session is read or the redirect is in flight. Children are always
+ * rendered (hidden until signed in) so the server can prerender the page segment; they only ever
+ * contain demo data.
  */
 export function RequireAuth({ children, fallback }: { children: ReactNode; fallback: ReactNode }) {
   const { status } = useAuth();
@@ -17,5 +19,13 @@ export function RequireAuth({ children, fallback }: { children: ReactNode; fallb
     if (status === "guest") router.replace(`/login?next=${encodeURIComponent(pathname)}`);
   }, [status, router, pathname]);
 
-  return status === "authed" ? children : fallback;
+  const authed = status === "authed";
+  return (
+    <>
+      {!authed && fallback}
+      <div hidden={!authed} className="contents">
+        {children}
+      </div>
+    </>
+  );
 }
