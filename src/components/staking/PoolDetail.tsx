@@ -77,8 +77,8 @@ export function PoolDetail({ pool }: { pool: Pool }) {
         </div>
       </PageHeader>
 
-      <section aria-labelledby="params-title" className="container-page">
-        <h2 id="params-title" className="sr-only">
+      <section aria-labelledby={`${pool.id}-params-title`} className="container-page">
+        <h2 id={`${pool.id}-params-title`} className="sr-only">
           Pool terms
         </h2>
         <dl className="grid grid-cols-2 overflow-hidden rounded-card border border-rule md:grid-cols-4">
@@ -110,10 +110,10 @@ export function PoolDetail({ pool }: { pool: Pool }) {
         />
       </section>
 
-      <Section labelledBy="about-pool-title">
+      <Section labelledBy={`${pool.id}-about-pool-title`}>
         <div className="grid gap-16 lg:grid-cols-2 lg:gap-12">
           <div>
-            <h2 id="about-pool-title" className="text-h2">
+            <h2 id={`${pool.id}-about-pool-title`} className="text-h2">
               About this pool
             </h2>
             <p className="mt-5 max-w-[60ch] font-serif text-lead text-muted">{pool.description}</p>
@@ -141,18 +141,18 @@ export function PoolDetail({ pool }: { pool: Pool }) {
         </div>
       </Section>
 
-      <Section tone="inverse" labelledBy="pool-faq-title">
+      <Section tone="inverse" labelledBy={`${pool.id}-pool-faq-title`}>
         <div className="grid gap-10 lg:grid-cols-12 lg:gap-8">
-          <h2 id="pool-faq-title" className="text-h2 lg:col-span-4">
+          <h2 id={`${pool.id}-pool-faq-title`} className="text-h2 lg:col-span-4">
             Questions about {pool.name}
           </h2>
           <Accordion items={poolFaq(pool)} defaultOpen={["withdraw"]} className="lg:col-span-8" />
         </div>
       </Section>
 
-      <Section labelledBy="other-pools-title">
+      <Section labelledBy={`${pool.id}-other-pools-title`}>
         <SectionHeader
-          id="other-pools-title"
+          id={`${pool.id}-other-pools-title`}
           title="Other pools"
           action={
             <Link href="/staking" className={buttonClasses({ variant: "secondary" })}>

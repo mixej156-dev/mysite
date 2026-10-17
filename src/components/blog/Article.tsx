@@ -24,7 +24,7 @@ export function Article({ post }: { post: Post }) {
 
   return (
     <>
-      <article aria-labelledby="article-title">
+      <article aria-labelledby={`article-title-${post.slug}`}>
         <header className="container-page pt-12 pb-12 md:pt-16">
           <Breadcrumbs
             items={[{ label: "Home", href: "/" }, { label: "Blog", href: "/blog" }, { label: post.category }]}
@@ -35,7 +35,7 @@ export function Article({ post }: { post: Post }) {
               <time dateTime={post.date}>{formatDate(post.date)}</time>
               <span>{post.readingMinutes} min read</span>
             </div>
-            <h1 id="article-title" className="mt-4 text-h1">
+            <h1 id={`article-title-${post.slug}`} className="mt-4 text-h1">
               {post.title}
             </h1>
             <p className="mt-6 max-w-[52ch] font-serif text-lead text-muted">{post.excerpt}</p>
@@ -67,7 +67,7 @@ export function Article({ post }: { post: Post }) {
             </div>
           </aside>
           <div className="min-w-0 lg:col-span-7">
-            <Prose blocks={post.body} />
+            <Prose blocks={post.body} idPrefix={`${post.slug}-`} />
             <div className="mt-16 border-t border-rule pt-8">
               <Link href="/blog" className={buttonClasses({ variant: "secondary" })}>
                 All articles
@@ -77,8 +77,8 @@ export function Article({ post }: { post: Post }) {
         </div>
       </article>
 
-      <Section tone="inverse" labelledBy="related-title">
-        <SectionHeader id="related-title" title="Keep reading" />
+      <Section tone="inverse" labelledBy={`related-title-${post.slug}`}>
+        <SectionHeader id={`related-title-${post.slug}`} title="Keep reading" />
         <ul className="grid gap-x-8 gap-y-14 md:grid-cols-3">
           {related.map((p) => (
             <li key={p.slug}>
@@ -88,8 +88,8 @@ export function Article({ post }: { post: Post }) {
         </ul>
       </Section>
 
-      <Section labelledBy="newsletter-title">
-        <h2 id="newsletter-title" className="sr-only">
+      <Section labelledBy={`newsletter-title-${post.slug}`}>
+        <h2 id={`newsletter-title-${post.slug}`} className="sr-only">
           Newsletter
         </h2>
         <Newsletter />
