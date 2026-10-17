@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/cn";
+import { RevealGroup } from "./RevealGroup";
 
 export type SectionProps = {
   id?: string;
@@ -19,7 +20,7 @@ export function Section({ id, tone = "base", labelledBy, className, children }: 
       data-tone={tone === "inverse" ? "inverse" : undefined}
       className={cn("bg-bg py-24 text-text md:py-32", className)}
     >
-      <div className="container-page">{children}</div>
+      <RevealGroup className="container-page">{children}</RevealGroup>
     </section>
   );
 }

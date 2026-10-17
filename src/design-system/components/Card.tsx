@@ -31,7 +31,7 @@ export function Card({ variant = "surface", padding = "md", interactive = false,
         "relative rounded-card text-text",
         variants[variant],
         paddings[padding],
-        interactive && "transition-colors duration-base hover:border-rule-strong focus-within:border-rule-strong",
+        interactive && "transition-[border-color,translate,box-shadow] duration-base hover:-translate-y-0.5 hover:border-rule-strong hover:shadow-float focus-within:border-rule-strong",
         className,
       )}
       {...props}

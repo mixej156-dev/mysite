@@ -259,6 +259,19 @@
     translate: 0 8px;
   }
 }
+[data-reveal] {
+  transition:
+    opacity var(--duration-slow) var(--ds-ease-brand),
+    translate var(--duration-slow) var(--ds-ease-brand);
+}
+[data-reveal="hidden"] {
+  opacity: 0;
+  translate: 0 1rem;
+}
+[data-reveal="shown"] {
+  opacity: 1;
+  translate: none;
+}
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-group(*),
   ::view-transition-old(*),
