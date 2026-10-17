@@ -12,7 +12,7 @@ import {
   type TooltipContentProps,
 } from "recharts";
 import { Tabs, TabsList, TabsTrigger } from "@/design-system";
-import type { Point } from "@/lib/series";
+import { DEMO_TODAY, type Point } from "@/lib/series";
 import { cn } from "@/lib/cn";
 import { formatCompactCurrency, formatDate, formatNumber, formatPercent } from "@/lib/format";
 
@@ -183,7 +183,10 @@ export function TimeSeriesChart({
             {title}
           </figcaption>
           {single && last && (
-            <p className="mt-1 text-small text-muted">{formatValue(Number(last[series[0].id]))} today</p>
+            <p className="mt-1 text-small text-muted">
+              {formatValue(Number(last[series[0].id]))}{" "}
+              {xFormat === "date" && last.date !== DEMO_TODAY ? `on ${formatX.full(String(last.date))}` : "today"}
+            </p>
           )}
         </div>
         <div className="flex flex-wrap items-center gap-2">
