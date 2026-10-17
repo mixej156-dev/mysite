@@ -24,6 +24,9 @@
   --color-warning: var(--warning);
   --color-danger: var(--danger);
   --color-scrim: var(--scrim);
+  --color-series-1: var(--series-1);
+  --color-series-2: var(--series-2);
+  --color-series-3: var(--series-3);
 
   --font-*: initial;
   --font-display: var(--ds-font-display);

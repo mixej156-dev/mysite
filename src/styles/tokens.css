@@ -28,6 +28,10 @@
   --warning: #e0a93a;
   --danger: #f07070;
   --scrim: rgb(5 9 18 / 0.72);
+  /* Chart series, fixed order (validated with the dataviz palette checks, all-pairs, dark surface) */
+  --series-1: #4a6ef5;
+  --series-2: #d95926;
+  --series-3: #199e70;
   --ds-shadow-float: 0 1px 0 rgb(255 255 255 / 0.04) inset, 0 12px 32px -12px rgb(0 0 0 / 0.6);
   --ds-shadow-overlay: 0 1px 0 rgb(255 255 255 / 0.05) inset, 0 32px 64px -24px rgb(0 0 0 / 0.75);
 }
@@ -51,6 +55,10 @@
   --warning: #855a07;
   --danger: #b53030;
   --scrim: rgb(11 20 36 / 0.48);
+  /* Chart series, fixed order (validated, all-pairs, light surface; slot 3 < 3:1 → charts ship a table view) */
+  --series-1: #335cf0;
+  --series-2: #eb6834;
+  --series-3: #1baf7a;
   --ds-shadow-float: 0 12px 32px -14px rgb(11 20 36 / 0.22);
   --ds-shadow-overlay: 0 32px 64px -24px rgb(11 20 36 / 0.32);
 }
