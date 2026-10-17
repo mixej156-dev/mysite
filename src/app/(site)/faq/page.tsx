@@ -8,7 +8,7 @@ import { buttonClasses } from "@/design-system";
 
 export const metadata: Metadata = {
   title: "FAQ",
-  description: "Short answers about staking, rewards, withdrawals and account security on LONAR ECO..",
+  description: "Short answers about staking, rewards, fees, withdrawals, validator performance and account security on LONAR ECO.",
 };
 
 export default function FaqPage() {
@@ -16,7 +16,7 @@ export default function FaqPage() {
     <>
       <PageHeader
         title="Questions and answers"
-        lead="Short answers about staking, rewards, withdrawals and keeping your account safe."
+        lead="Short answers about staking, rewards, fees, withdrawals, our validators and keeping your account safe."
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "FAQ" }]}
       />
       <section aria-label="Questions" className="container-page pb-24 md:pb-32">
