@@ -5,7 +5,7 @@ import { Check, ChevronDown } from "lucide-react";
 import { useId } from "react";
 import { cn } from "@/lib/cn";
 import { useThemeScope } from "../theme-scope";
-import { fieldError, fieldFrame, fieldFrameDisabled, fieldFrameInvalid, fieldHint, fieldLabel } from "./field";
+import { fieldError, fieldFrame, fieldFrameDisabled, fieldHint, fieldLabel, fieldState } from "./field";
 
 export type SelectOption = { value: string; label: string; disabled?: boolean };
 
@@ -60,9 +60,12 @@ export function Select({
           aria-describedby={describedBy}
           className={cn(
             fieldFrame,
-            "justify-between text-left outline-none focus-visible:border-accent-text focus-visible:ring-3 focus-visible:ring-accent-text/25",
+            "justify-between text-left outline-none",
+            fieldState(Boolean(error)),
+            error
+              ? "focus-visible:ring-3 focus-visible:ring-danger/25"
+              : "focus-visible:border-accent-text focus-visible:ring-3 focus-visible:ring-accent-text/25",
             "data-placeholder:text-muted",
-            error && fieldFrameInvalid,
             disabled && fieldFrameDisabled,
           )}
         >

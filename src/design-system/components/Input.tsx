@@ -2,7 +2,7 @@
 
 import { useId, type ComponentPropsWithRef, type ReactNode } from "react";
 import { cn } from "@/lib/cn";
-import { fieldError, fieldFrame, fieldFrameDisabled, fieldFrameInvalid, fieldHint, fieldLabel } from "./field";
+import { fieldError, fieldFrame, fieldFrameDisabled, fieldHint, fieldLabel, fieldState } from "./field";
 
 export type InputProps = Omit<ComponentPropsWithRef<"input">, "prefix"> & {
   label?: string;
@@ -40,7 +40,7 @@ export function Input({
           {label}
         </label>
       )}
-      <div className={cn(fieldFrame, error && fieldFrameInvalid, disabled && fieldFrameDisabled)}>
+      <div className={cn(fieldFrame, fieldState(Boolean(error)), disabled && fieldFrameDisabled)}>
         {prefix && <span className="flex shrink-0 text-muted [&_svg]:size-4">{prefix}</span>}
         <input
           id={inputId}

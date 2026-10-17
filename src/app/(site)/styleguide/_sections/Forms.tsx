@@ -12,6 +12,7 @@ import {
   TabsContent,
   TabsList,
   TabsTrigger,
+  Textarea,
   Toggle,
 } from "@/design-system";
 import { Example, Section } from "../_components/Section";
@@ -110,6 +111,14 @@ export function InputSection() {
               placeholder="Asset or network"
               prefix={<Search aria-hidden />}
               className="sm:col-span-2"
+            />
+            <Textarea label="Message" hint="At least 20 characters." className="sm:col-span-2" rows={3} />
+            <Textarea
+              label="Message"
+              defaultValue="Too short"
+              error="Write at least 20 characters so we can help."
+              className="sm:col-span-2"
+              rows={3}
             />
           </>
         )}
