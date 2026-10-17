@@ -66,9 +66,9 @@ async function DocContent({ params }: { params: PageProps<"/docs/[slug]">["param
           )}
         </nav>
       </div>
-      <aside className="max-xl:hidden">
+      <div className="max-xl:hidden">
         <TableOfContents blocks={doc.body} idPrefix={`${slug}-`} />
-      </aside>
+      </div>
     </article>
   );
 }

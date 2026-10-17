@@ -3,7 +3,7 @@ import { Newsletter } from "@/components/blocks/Newsletter";
 import { PageHeader } from "@/components/blocks/PageHeader";
 import { Section } from "@/components/blocks/Section";
 import { LearnIndex } from "@/components/learn/LearnIndex";
-import { GUIDES, LEVELS, TOPICS, totalLearnMinutes } from "@/data/learn";
+import { GUIDES, LEVELS, TOPICS, toSummary, totalLearnMinutes } from "@/data/learn";
 
 export const metadata: Metadata = {
   title: "ECO. LEARN",
@@ -40,7 +40,7 @@ export default function LearnPage() {
       </PageHeader>
 
       <div className="container-page pt-8 pb-24 md:pb-32">
-        <LearnIndex />
+        <LearnIndex guides={GUIDES.map(toSummary)} />
       </div>
 
       <Section tone="inverse" labelledBy="learn-newsletter-title">

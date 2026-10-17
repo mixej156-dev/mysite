@@ -5,6 +5,7 @@ import { Hero } from "@/components/home/Hero";
 import { HowItWorks } from "@/components/home/HowItWorks";
 import { Metrics } from "@/components/home/Metrics";
 import { LatestNews } from "@/components/home/LatestNews";
+import { latestPosts, toPostSummary } from "@/data/posts";
 import { Trust } from "@/components/home/Trust";
 
 export const metadata: Metadata = {
@@ -18,7 +19,7 @@ export default function HomePage() {
     <>
       <Hero />
       <Metrics />
-      <LatestNews />
+      <LatestNews stories={latestPosts(3).map(toPostSummary)} />
       <HowItWorks />
       <Trust />
       <Calculator />

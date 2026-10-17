@@ -4,13 +4,15 @@ import { ChevronDown } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Link } from "@/components/Link";
-import { DOC_SECTIONS } from "@/data/docs";
 import { cn } from "@/lib/cn";
 
 const linkClass =
   "block rounded-sm border-l py-1.5 pl-4 text-small transition-colors duration-fast hover:border-rule-strong hover:text-text";
 
-export function DocsNav() {
+export type DocsNavSection = { title: string; articles: { slug: string; title: string }[] };
+
+/** Section and article titles only, passed in by the docs layout so article bodies stay on the server. */
+export function DocsNav({ sections }: { sections: DocsNavSection[] }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
@@ -23,7 +25,7 @@ export function DocsNav() {
       >
         Overview
       </Link>
-      {DOC_SECTIONS.map((section) => (
+      {sections.map((section) => (
         <div key={section.title}>
           <p className="mb-2 text-caption font-medium text-text">{section.title}</p>
           <ul>

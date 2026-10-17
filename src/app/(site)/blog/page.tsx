@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { PageHeader } from "@/components/blocks/PageHeader";
 import { BlogIndex } from "@/components/blog/BlogIndex";
+import { sortedPosts, toPostSummary } from "@/data/posts";
 
 export const metadata: Metadata = {
   title: "Blog",
@@ -16,7 +17,7 @@ export default function BlogPage() {
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Blog" }]}
       />
       <section aria-label="Articles" className="container-page pb-24 md:pb-32">
-        <BlogIndex />
+        <BlogIndex posts={sortedPosts.map(toPostSummary)} />
       </section>
     </>
   );

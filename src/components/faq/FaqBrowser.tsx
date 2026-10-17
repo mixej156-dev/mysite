@@ -111,7 +111,10 @@ export function FaqBrowser() {
   useEffect(() => {
     if (!scrollTo) return;
     const frame = requestAnimationFrame(() => {
-      document.getElementById(`answer-${scrollTo}`)?.scrollIntoView({ block: "center", behavior: "smooth" });
+      const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      document
+        .getElementById(`answer-${scrollTo}`)
+        ?.scrollIntoView({ block: "center", behavior: reduce ? "auto" : "smooth" });
     });
     return () => cancelAnimationFrame(frame);
   }, [scrollTo]);

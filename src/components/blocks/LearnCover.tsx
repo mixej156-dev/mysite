@@ -1,4 +1,4 @@
-import { getTopic, type LearnTopic, type TopicColor } from "@/data/learn";
+import { getTopic, type LearnTopic, type TopicColor } from "@/data/learn-meta";
 
 /** Stable small hash so each guide gets its own variation of the topic motif. */
 function hash(input: string): number {

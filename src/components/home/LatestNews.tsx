@@ -4,13 +4,12 @@ import { ArrowRight, Plus } from "lucide-react";
 import { useState } from "react";
 import { Link } from "@/components/Link";
 import { buttonClasses } from "@/design-system";
-import { latestPosts, type Post } from "@/data/posts";
+import type { PostSummary } from "@/data/posts-meta";
 import { cn } from "@/lib/cn";
 import { formatDate } from "@/lib/format";
 import { PostCover } from "../blocks/PostCover";
 import { Section, SectionHeader } from "../blocks/Section";
 
-const stories = latestPosts(3);
 
 /*
  * Three fixed slots inside one fixed-size frame: the open story fills the large slot, the other two
@@ -26,7 +25,7 @@ const SLOTS = [
   "top-[calc(58%+0.5rem)] left-[calc(50%+0.5rem)] h-[calc(42%-0.5rem)] w-[calc(50%-0.5rem)] lg:top-[calc(50%+0.5rem)] lg:left-[calc(58%+0.5rem)] lg:h-[calc(50%-0.5rem)] lg:w-[calc(42%-0.5rem)]",
 ] as const;
 
-function Meta({ post }: { post: Post }) {
+function Meta({ post }: { post: PostSummary }) {
   return (
     <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-caption text-muted">
       <span className="font-medium text-accent-text">{post.category}</span>
@@ -35,7 +34,8 @@ function Meta({ post }: { post: Post }) {
   );
 }
 
-export function LatestNews() {
+/** Three newest stories, passed in as summaries by the home page. */
+export function LatestNews({ stories }: { stories: PostSummary[] }) {
   /* stories[0] sits in the large slot first; slot[i] holds the index of the story shown there */
   const [slotOf, setSlotOf] = useState<number[]>(() => stories.map((_, i) => i));
 

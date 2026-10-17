@@ -35,9 +35,9 @@ export function LegalPage({ slug }: { slug: string }) {
       </div>
 
       <div className="mt-12 grid gap-10 lg:grid-cols-[14rem_minmax(0,1fr)] lg:gap-12">
-        <aside className="max-lg:hidden">
+        <div className="max-lg:hidden">
           <TableOfContents blocks={doc.body} idPrefix={`${slug}-`} />
-        </aside>
+        </div>
         <div className="min-w-0">
           <Prose blocks={doc.body} lead={false} idPrefix={`${slug}-`} />
           <nav aria-label="Other legal documents" className="mt-16 border-t border-rule pt-8">

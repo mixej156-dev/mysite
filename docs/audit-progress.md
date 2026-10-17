@@ -49,3 +49,13 @@
 - **Micro-interactions:** buttons press down 1px on `:active`; interactive cards lift 2px with the float shadow on hover. Both use existing tokens (`duration-fast`/`duration-base`, brand easing).
 - Already in place and left alone: page view-transitions, count-up stat cards, payout ledger, toast/modal/accordion motion, marquee.
 - **Final screenshots:** `docs/screenshots/` — retaken 2026-10-18 after the site went light-only: 36 routes (public incl. /learn, /tools/converter, /validators, /fees; auth; dashboard; 404) x 375/768/1440 = 108 JPEGs (~17 MB), cookie notice dismissed, named `<route>-<width>.jpg`. Script-checked: no horizontal scroll, one h1 per page.
+
+# Audit — 2026-10-18 (after Learn, converter, validators, fees, FAQ/contact rework)
+- `next build`, `tsc --noEmit`, `eslint`: clean.
+- 37 routes (public, auth, dashboard, 404) at 1440 and 375: no horizontal scroll or element overflowing the viewport, exactly one h1, no console errors or hydration warnings (only the expected 404 on `/nonexistent`), unique titles, every page has a description.
+- Internal links: all 81 distinct `href`s found on those pages resolve (no 404 UI).
+- axe-core 4.10 (wcag2a/aa, 2.1aa, best-practice): 0 violations. Fixed on the way: duplicate landmark name on /fees; `<aside>` nested inside article/main (blog, guide, docs and legal side columns, converter summary, Prose note block) → plain containers, `section` with a label, or `role="note"`.
+- Keyboard: contact topic radios move with arrow keys and show the focus ring; cookie notice buttons focusable and work with Enter.
+- Reduced motion: FAQ jump-to-answer now respects `prefers-reduced-motion`.
+- Bundle: guide, doc and blog bodies were shipped to the browser through client components (LearnIndex, DocsNav, BlogIndex, LatestNews). Split `learn-meta.ts` / `posts-meta.ts`; server pages pass summaries. Verified: no article text left in `.next/static`.
+- Content: site meta description no longer claims "non-custodial" staking.

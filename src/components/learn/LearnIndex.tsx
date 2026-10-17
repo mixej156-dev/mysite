@@ -2,9 +2,9 @@
 
 import { Search, SearchX } from "lucide-react";
 import { useReducedMotion } from "framer-motion";
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { Button, Input, Pagination, Tag } from "@/design-system";
-import { GUIDES, LEVELS, TOPICS, type LearnLevel, type LearnTopic } from "@/data/learn";
+import { LEVELS, TOPICS, type GuideSummary, type LearnLevel, type LearnTopic } from "@/data/learn-meta";
 import { EmptyState } from "../blocks/EmptyState";
 import { LearnCard } from "../blocks/LearnCard";
 import { LearnCover } from "../blocks/LearnCover";
@@ -12,15 +12,21 @@ import { LearnCover } from "../blocks/LearnCover";
 const PAGE_SIZE = 9;
 
 /* Round-robin across topics so the unfiltered grid mixes subjects instead of listing them in blocks */
-const byTopic = TOPICS.map((t) => GUIDES.filter((g) => g.topic === t.name));
-const MIXED = Array.from({ length: Math.max(...byTopic.map((list) => list.length)) }, (_, i) =>
-  byTopic.map((list) => list[i]),
-)
-  .flat()
-  .filter((g) => g !== undefined);
+function mixByTopic(guides: GuideSummary[]) {
+  const byTopic = TOPICS.map((t) => guides.filter((g) => g.topic === t.name));
+  return Array.from({ length: Math.max(...byTopic.map((list) => list.length)) }, (_, i) =>
+    byTopic.map((list) => list[i]),
+  )
+    .flat()
+    .filter((g) => g !== undefined);
+}
 
-/** Topic tiles, filters and the guide grid. Topic tiles set the filter and jump to the list. */
-export function LearnIndex() {
+/**
+ * Topic tiles, filters and the guide grid. Topic tiles set the filter and jump to the list.
+ * Takes summaries from the server page so article bodies never reach the browser bundle.
+ */
+export function LearnIndex({ guides }: { guides: GuideSummary[] }) {
+  const mixed = useMemo(() => mixByTopic(guides), [guides]);
   const [topic, setTopic] = useState<LearnTopic | "All">("All");
   const [level, setLevel] = useState<LearnLevel | "All">("All");
   const [query, setQuery] = useState("");
@@ -32,7 +38,7 @@ export function LearnIndex() {
   const reduceMotion = useReducedMotion();
 
   const q = query.trim().toLowerCase();
-  const filtered = MIXED.filter(
+  const filtered = mixed.filter(
     (g) =>
       (topic === "All" || g.topic === topic) &&
       (level === "All" || g.level === level) &&
@@ -71,7 +77,7 @@ export function LearnIndex() {
         </h2>
         <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {TOPICS.map((t) => {
-            const count = GUIDES.filter((g) => g.topic === t.name).length;
+            const count = guides.filter((g) => g.topic === t.name).length;
             return (
               <li key={t.name}>
                 <button
@@ -118,7 +124,7 @@ export function LearnIndex() {
           </div>
           <div className="flex flex-col gap-4 border-t border-rule pt-6 lg:flex-row lg:items-center lg:justify-between">
             <div role="group" aria-label="Topic" className="flex flex-wrap gap-2">
-              <Tag selected={topic === "All"} onClick={() => update(() => setTopic("All"))} count={GUIDES.length}>
+              <Tag selected={topic === "All"} onClick={() => update(() => setTopic("All"))} count={guides.length}>
                 All topics
               </Tag>
               {TOPICS.map((t) => (
@@ -126,7 +132,7 @@ export function LearnIndex() {
                   key={t.name}
                   selected={topic === t.name}
                   onClick={() => update(() => setTopic(t.name))}
-                  count={GUIDES.filter((g) => g.topic === t.name).length}
+                  count={guides.filter((g) => g.topic === t.name).length}
                 >
                   {t.name}
                 </Tag>

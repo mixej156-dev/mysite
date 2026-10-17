@@ -112,7 +112,7 @@ export default function FeesPage() {
           </p>
         </div>
         <div className="mt-8 rounded-card border border-rule bg-surface p-2 sm:p-4">
-          <Table label="Platform fee by pool">
+          <Table label="Fee and estimated APY for each pool">
             <THead>
               <tr>
                 <TH>Pool</TH>

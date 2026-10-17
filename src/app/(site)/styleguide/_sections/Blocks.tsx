@@ -7,10 +7,21 @@ import { PoolCard } from "@/components/blocks/PoolCard";
 import { StatCard } from "@/components/blocks/StatCard";
 import { metrics } from "@/data/metrics";
 import { pools } from "@/data/pools";
-import { posts } from "@/data/posts";
+import type { PostSummary } from "@/data/posts-meta";
 import { projectBalances } from "@/lib/compound";
 import { Example, Section } from "../_components/Section";
 import { Preview } from "../_components/Preview";
+
+/* Literal sample so the styleguide bundle doesn't pull in every post's text */
+const SAMPLE_POST: PostSummary = {
+  slug: "q3-validator-performance",
+  title: "Q3 validator performance report",
+  excerpt: "Uptime, missed attestations and the two incidents we had this quarter, with what changed afterwards.",
+  category: "Research",
+  date: "2026-10-01",
+  readingMinutes: 11,
+  author: "Tomasz Wren",
+};
 
 const ringScale = (1 + 0.142) ** 5 - 1;
 
@@ -38,7 +49,7 @@ export function BlocksSection() {
             </Example>
             <Example label="BlogCard">
               <div className="max-w-sm">
-                <BlogCard post={posts[3]} />
+                <BlogCard post={SAMPLE_POST} />
               </div>
             </Example>
             <Example label="GrowthRings: Cosmos Hub, 1,000 ATOM over 5 years">

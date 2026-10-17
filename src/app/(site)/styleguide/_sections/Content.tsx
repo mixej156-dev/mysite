@@ -5,11 +5,21 @@ import { LearnCover } from "@/components/blocks/LearnCover";
 import { PostCover } from "@/components/blocks/PostCover";
 import { Prose } from "@/components/blocks/Prose";
 import { Converter } from "@/components/tools/Converter";
-import { GUIDES, TOPICS } from "@/data/learn";
-import { POST_CATEGORIES } from "@/data/posts";
+import { TOPICS, type GuideSummary } from "@/data/learn-meta";
+import { POST_CATEGORIES } from "@/data/posts-meta";
 import type { ContentBlock } from "@/lib/content";
 import { Example, Section } from "../_components/Section";
 import { Preview } from "../_components/Preview";
+
+/* Literal sample so the styleguide bundle doesn't pull in every guide's text */
+const SAMPLE_GUIDE: GuideSummary = {
+  slug: "how-amms-work",
+  title: "How automated market makers set prices",
+  excerpt: "No order book, just a formula and a pool. Why big trades move the price and who earns the fees.",
+  topic: "DeFi",
+  level: "Intermediate",
+  minutes: 9,
+};
 
 const PROSE_SAMPLE: ContentBlock[] = [
   { type: "p", text: "Long-form text for articles, guides and docs. The first paragraph can be set as a lead." },
@@ -58,7 +68,7 @@ export function ContentSection() {
             </Example>
             <Example label="LearnCard">
               <div className="max-w-sm">
-                <LearnCard guide={GUIDES[13]} />
+                <LearnCard guide={SAMPLE_GUIDE} />
               </div>
             </Example>
             <Example label="Prose: paragraph, heading, steps, note, code, quote">

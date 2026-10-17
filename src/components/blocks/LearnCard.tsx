@@ -1,5 +1,5 @@
 import { Link } from "@/components/Link";
-import { getTopic, type Guide, type LearnTopic } from "@/data/learn";
+import { getTopic, type GuideSummary, type LearnTopic } from "@/data/learn-meta";
 import { cn } from "@/lib/cn";
 import { LearnCover } from "./LearnCover";
 
@@ -13,7 +13,7 @@ export function TopicLabel({ topic, className }: { topic: LearnTopic; className?
   );
 }
 
-export function LearnCard({ guide }: { guide: Guide }) {
+export function LearnCard({ guide }: { guide: GuideSummary }) {
   return (
     <article className="group relative flex h-full flex-col gap-5">
       <div className="aspect-[16/10] overflow-hidden rounded-card border border-rule">

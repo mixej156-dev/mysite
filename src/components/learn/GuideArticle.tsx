@@ -40,7 +40,7 @@ export function GuideArticle({ guide }: { guide: Guide }) {
         </div>
 
         <div className="container-page grid gap-10 pt-12 pb-24 md:pb-32 lg:grid-cols-12 lg:gap-8 lg:pt-16">
-          <aside className="lg:col-span-3">
+          <div className="lg:col-span-3">
             <dl className="grid grid-cols-3 gap-4 text-small lg:sticky lg:top-24 lg:grid-cols-1">
               {[
                 ["Level", guide.level],
@@ -53,7 +53,7 @@ export function GuideArticle({ guide }: { guide: Guide }) {
                 </div>
               ))}
             </dl>
-          </aside>
+          </div>
 
           <div className="min-w-0 lg:col-span-7">
             <section

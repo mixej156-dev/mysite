@@ -1,20 +1,11 @@
-/* Demo blog posts. Fictional authors from data/team.ts; content written for the prototype. */
-
-export type PostCategory = "Research" | "Product" | "Security" | "Guides";
+/* Blog posts. Fictional authors from data/team.ts. */
 
 import type { ContentBlock } from "@/lib/content";
+import type { PostSummary } from "./posts-meta";
 
-export type Post = {
-  slug: string;
-  title: string;
-  excerpt: string;
-  category: PostCategory;
-  /** ISO date */
-  date: string;
-  readingMinutes: number;
-  author: string;
-  body: ContentBlock[];
-};
+export * from "./posts-meta";
+
+export type Post = PostSummary & { body: ContentBlock[] };
 
 export const posts: Post[] = [
   {
@@ -355,12 +346,13 @@ export const posts: Post[] = [
   },
 ];
 
-export const POST_CATEGORIES: PostCategory[] = ["Research", "Product", "Security", "Guides"];
-
 /** Newest first */
 export const sortedPosts = [...posts].sort((a, b) => b.date.localeCompare(a.date));
 
 export const latestPosts = (count: number) => sortedPosts.slice(0, count);
+
+/** Drops the body, for lists rendered by client components */
+export const toPostSummary = ({ body: _body, ...summary }: Post): PostSummary => summary;
 
 export function getPost(slug: string): Post | undefined {
   return posts.find((post) => post.slug === slug);

@@ -3,13 +3,14 @@
 import { Search, SearchX } from "lucide-react";
 import { useRef, useState } from "react";
 import { Button, Input, Pagination, Tag } from "@/design-system";
-import { POST_CATEGORIES, sortedPosts, type PostCategory } from "@/data/posts";
+import { POST_CATEGORIES, type PostCategory, type PostSummary } from "@/data/posts-meta";
 import { BlogCard, FeaturedPostCard } from "../blocks/BlogCard";
 import { EmptyState } from "../blocks/EmptyState";
 
 const PAGE_SIZE = 6;
 
-export function BlogIndex() {
+/** Takes summaries, newest first, from the server page so post bodies stay out of the browser bundle. */
+export function BlogIndex({ posts: sortedPosts }: { posts: PostSummary[] }) {
   const [category, setCategory] = useState<PostCategory | "All">("All");
   const [query, setQuery] = useState("");
   const [page, setPage] = useState(1);

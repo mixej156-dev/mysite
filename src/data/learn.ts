@@ -1,56 +1,9 @@
 import type { ContentBlock } from "@/lib/content";
+import type { GuideFormat, GuideSummary, LearnLevel, LearnTopic } from "./learn-meta";
 
 /* ECO. LEARN: educational guides on crypto, staking and DeFi. General education, not financial advice. */
 
-export type LearnTopic = "Fundamentals" | "Wallets & security" | "Staking" | "DeFi" | "Markets" | "Technology";
-export type LearnLevel = "Beginner" | "Intermediate" | "Advanced";
-export type GuideFormat = "Explainer" | "Guide" | "Checklist" | "Deep dive";
-
-/** Names of --topic-* tokens; decorative cover colours only */
-export type TopicColor = "blue" | "green" | "teal" | "orange" | "amber" | "violet" | "rose";
-
-export type TopicMeta = { name: LearnTopic; description: string; color: TopicColor; secondary: TopicColor };
-
-export const TOPICS: TopicMeta[] = [
-  {
-    name: "Fundamentals",
-    description: "Blockchains, coins, tokens and what really happens when you send crypto.",
-    color: "blue",
-    secondary: "amber",
-  },
-  {
-    name: "Wallets & security",
-    description: "Keys, seed phrases, custody choices and how to avoid the common scams.",
-    color: "green",
-    secondary: "blue",
-  },
-  {
-    name: "Staking",
-    description: "Proof of stake, validator rewards, yield maths and liquid staking.",
-    color: "teal",
-    secondary: "orange",
-  },
-  {
-    name: "DeFi",
-    description: "Exchanges, lending and liquidity on-chain, and the risks that come with them.",
-    color: "orange",
-    secondary: "violet",
-  },
-  {
-    name: "Markets",
-    description: "Charts, supply, volatility and the habits that keep risk in proportion.",
-    color: "amber",
-    secondary: "rose",
-  },
-  {
-    name: "Technology",
-    description: "Consensus, cryptography, smart contracts and the layers built on top.",
-    color: "violet",
-    secondary: "teal",
-  },
-];
-
-export const LEVELS: LearnLevel[] = ["Beginner", "Intermediate", "Advanced"];
+export * from "./learn-meta";
 
 export type Guide = {
   slug: string;
@@ -1349,14 +1302,19 @@ export function getGuide(slug: string) {
   return GUIDES.find((g) => g.slug === slug);
 }
 
-export function getTopic(name: LearnTopic) {
-  return TOPICS.find((t) => t.name === name) ?? TOPICS[0];
-}
-
 export function relatedGuides(guide: Guide, count = 3) {
   const sameTopic = GUIDES.filter((g) => g.slug !== guide.slug && g.topic === guide.topic);
   const others = GUIDES.filter((g) => g.slug !== guide.slug && g.topic !== guide.topic && g.level === guide.level);
   return [...sameTopic, ...others].slice(0, count);
 }
+
+export const toSummary = ({ slug, title, excerpt, topic, level, minutes }: Guide): GuideSummary => ({
+  slug,
+  title,
+  excerpt,
+  topic,
+  level,
+  minutes,
+});
 
 export const totalLearnMinutes = GUIDES.reduce((sum, g) => sum + g.minutes, 0);

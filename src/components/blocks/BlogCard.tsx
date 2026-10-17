@@ -1,9 +1,9 @@
 import { Link } from "@/components/Link";
-import type { Post } from "@/data/posts";
+import type { PostSummary } from "@/data/posts-meta";
 import { formatDate } from "@/lib/format";
 import { PostCover } from "./PostCover";
 
-export function BlogCard({ post, showExcerpt = true }: { post: Post; showExcerpt?: boolean }) {
+export function BlogCard({ post, showExcerpt = true }: { post: PostSummary; showExcerpt?: boolean }) {
   return (
     <article className="group relative flex flex-col gap-5">
       <div className="aspect-[16/10] overflow-hidden rounded-card border border-rule">
@@ -30,7 +30,7 @@ export function BlogCard({ post, showExcerpt = true }: { post: Post; showExcerpt
 }
 
 /** Wide card for the newest post at the top of the blog. */
-export function FeaturedPostCard({ post }: { post: Post }) {
+export function FeaturedPostCard({ post }: { post: PostSummary }) {
   return (
     <article className="group relative grid gap-8 md:grid-cols-2 md:items-center md:gap-12">
       <div className="aspect-[16/10] overflow-hidden rounded-card border border-rule">

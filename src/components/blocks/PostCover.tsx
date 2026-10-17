@@ -1,4 +1,4 @@
-import type { TopicColor } from "@/data/learn";
+import type { TopicColor } from "@/data/learn-meta";
 import type { PostCategory } from "@/data/posts";
 
 /** Colour pairs for the `colored` variant, from the decorative topic palette (as on ECO. LEARN covers) */

@@ -57,10 +57,14 @@ export function Prose({
             );
           case "note":
             return (
-              <aside key={i} className="mt-6 rounded-field border border-rule bg-surface-2 px-5 py-4 font-display text-small">
+              <div
+                key={i}
+                role="note"
+                className="mt-6 rounded-field border border-rule bg-surface-2 px-5 py-4 font-display text-small"
+              >
                 {block.title && <p className="font-medium text-text">{block.title}</p>}
                 <p className={cn("text-muted", block.title && "mt-1")}>{block.text}</p>
-              </aside>
+              </div>
             );
           case "code":
             return (

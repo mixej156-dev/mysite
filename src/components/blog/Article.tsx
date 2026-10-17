@@ -49,7 +49,7 @@ export function Article({ post }: { post: Post }) {
         </div>
 
         <div className="container-page grid gap-10 pt-12 pb-24 md:pb-32 lg:grid-cols-12 lg:gap-8 lg:pt-16">
-          <aside className="flex flex-col gap-6 lg:col-span-3">
+          <div className="flex flex-col gap-6 lg:col-span-3">
             <div className="flex items-center gap-3 lg:sticky lg:top-24">
               <span
                 aria-hidden
@@ -65,7 +65,7 @@ export function Article({ post }: { post: Post }) {
             <div className="lg:sticky lg:top-44">
               <ShareButton />
             </div>
-          </aside>
+          </div>
           <div className="min-w-0 lg:col-span-7">
             <Prose blocks={post.body} idPrefix={`${post.slug}-`} />
             <div className="mt-16 border-t border-rule pt-8">

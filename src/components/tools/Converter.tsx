@@ -225,7 +225,7 @@ export function Converter() {
           </div>
         </div>
 
-        <aside
+        <section
           aria-label="Conversion summary"
           className="flex min-w-0 flex-col rounded-card border border-rule bg-surface p-5 md:p-8 lg:col-span-5"
         >
@@ -270,7 +270,7 @@ export function Converter() {
           <p className="mt-auto pt-8 text-caption text-muted">
             Reference rates, not a quote. Network fees go to the network, not to us, and change with network load.
           </p>
-        </aside>
+        </section>
       </div>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
