@@ -1,0 +1,91 @@
+/*
+ * Design tokens — "Clearing House" (docs/design-direction.md).
+ * Raw values live only in this file. Components use the Tailwind utilities
+ * mapped in globals.css (@theme inline), never hex values.
+ *
+ * Themes: data-theme="dark" | "light" on <html>.
+ * Inverse sections: data-tone="inverse" on any container flips to the opposite palette.
+ * Inverse resolves against the page theme on <html>; a nested data-theme panel
+ * should set its own data-theme instead of using data-tone.
+ */
+
+:root,
+[data-theme="dark"],
+[data-theme="light"] [data-tone="inverse"] {
+  color-scheme: dark;
+  --bg: #0b1424;
+  --surface: #14203a;
+  --surface-2: #1b2947;
+  --rule: #24304a;
+  --rule-strong: #34436a;
+  --text: #eef1f6;
+  --muted: #8d97a8;
+  --accent: #335cf0;
+  --accent-hover: #2a4fd8;
+  --accent-text: #8aa6ff;
+  --on-accent: #ffffff;
+  --success: #3fc28e;
+  --warning: #e0a93a;
+  --danger: #f07070;
+  --scrim: rgb(5 9 18 / 0.72);
+  --ds-shadow-float: 0 1px 0 rgb(255 255 255 / 0.04) inset, 0 12px 32px -12px rgb(0 0 0 / 0.6);
+  --ds-shadow-overlay: 0 1px 0 rgb(255 255 255 / 0.05) inset, 0 32px 64px -24px rgb(0 0 0 / 0.75);
+}
+
+[data-theme="light"],
+[data-theme="dark"] [data-tone="inverse"],
+:root:not([data-theme]) [data-tone="inverse"] {
+  color-scheme: light;
+  --bg: #f2f3ef;
+  --surface: #ffffff;
+  --surface-2: #e8eae5;
+  --rule: #d5d8de;
+  --rule-strong: #b7bcc5;
+  --text: #0b1424;
+  --muted: #5b6472;
+  --accent: #335cf0;
+  --accent-hover: #2a4fd8;
+  --accent-text: #2f57e6;
+  --on-accent: #ffffff;
+  --success: #147550;
+  --warning: #855a07;
+  --danger: #b53030;
+  --scrim: rgb(11 20 36 / 0.48);
+  --ds-shadow-float: 0 12px 32px -14px rgb(11 20 36 / 0.22);
+  --ds-shadow-overlay: 0 32px 64px -24px rgb(11 20 36 / 0.32);
+}
+
+/* Theme-independent tokens */
+:root {
+  --ds-font-display: var(--font-schibsted), ui-sans-serif, sans-serif;
+  --ds-font-serif: var(--font-source-serif), ui-serif, Georgia, serif;
+  --ds-font-mono: var(--font-plex-mono), ui-monospace, monospace;
+
+  --ds-radius-sm: 6px;
+  --ds-radius-field: 10px;
+  --ds-radius-card: 16px;
+  --ds-radius-pill: 999px;
+
+  --ds-ease-brand: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-fast: 160ms;
+  --duration-base: 280ms;
+  --duration-slow: 480ms;
+
+  --z-dropdown: 40;
+  --z-sticky: 50;
+  --z-header: 60;
+  --z-overlay: 70;
+  --z-modal: 80;
+  --z-toast: 90;
+  --z-tooltip: 100;
+
+  --container: 80rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 1ms;
+    --duration-base: 1ms;
+    --duration-slow: 1ms;
+  }
+}
