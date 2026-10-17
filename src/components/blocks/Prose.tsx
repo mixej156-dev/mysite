@@ -6,12 +6,12 @@ import { cn } from "@/lib/cn";
  */
 export function Prose({ blocks, className }: { blocks: ContentBlock[]; className?: string }) {
   return (
-    <div className={cn("max-w-[68ch] font-serif text-body text-muted", className)}>
+    <div className={cn("max-w-[68ch] font-serif text-body text-text", className)}>
       {blocks.map((block, i) => {
         switch (block.type) {
           case "p":
             return (
-              <p key={i} className={cn("mt-5 first:mt-0", i === 0 && "text-lead text-text")}>
+              <p key={i} className={cn("mt-5 first:mt-0", i === 0 && "text-lead")}>
                 {block.text}
               </p>
             );

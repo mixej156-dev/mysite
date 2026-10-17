@@ -11,14 +11,28 @@ function hash(input: string): number {
  * Generated cover art: one motif per category, drawn with rule lines and a single accent mark.
  * Decorative only.
  */
-export function PostCover({ slug, category }: { slug: string; category: PostCategory }) {
+export function PostCover({
+  slug,
+  category,
+  fit = "cover",
+}: {
+  slug: string;
+  category: PostCategory;
+  /** "contain" keeps the whole motif visible in very wide frames */
+  fit?: "cover" | "contain";
+}) {
   const h = hash(slug);
   const pick = (shift: number, mod: number) => (h >>> shift) % mod;
   const line = { stroke: "var(--rule-strong)", strokeWidth: 1.5, fill: "none" } as const;
   const accent = { stroke: "var(--accent-text)", strokeWidth: 2, fill: "none" } as const;
 
   return (
-    <svg viewBox="0 0 320 200" aria-hidden preserveAspectRatio="xMidYMid slice" className="block size-full bg-surface-2">
+    <svg
+      viewBox="0 0 320 200"
+      aria-hidden
+      preserveAspectRatio={fit === "cover" ? "xMidYMid slice" : "xMidYMid meet"}
+      className="block size-full bg-surface-2"
+    >
       {category === "Research" &&
         Array.from({ length: 12 }, (_, i) => {
           const height = 30 + (((h >>> i) % 9) + i * 4) * 3.2;
