@@ -27,8 +27,7 @@ export const NAV_SECTIONS: NavSection[] = [
     links: [
       { label: "Rewards calculator", href: "/tools/calculator", description: "Project earnings over time" },
       { label: "Compare pools", href: "/tools/compare", description: "Side-by-side terms and yield" },
-      { label: "Converter", href: "/tools#converter", description: "Convert between supported assets" },
-      { label: "Gas estimate", href: "/tools#gas", description: "Typical network fees to stake and unstake" },
+      { label: "Converter", href: "/tools/converter", description: "Rates, network fees and arrival times" },
     ],
   },
   {
@@ -45,12 +44,12 @@ export const NAV_SECTIONS: NavSection[] = [
   {
     id: "resources",
     label: "Resources",
-    match: ["/blog", "/docs", "/faq", "/legal"],
+    match: ["/learn", "/blog", "/docs", "/faq", "/legal"],
     links: [
+      { label: "ECO. LEARN", href: "/learn", description: "Guides and courses, from basics to DeFi" },
       { label: "Blog", href: "/blog", description: "Research, product notes and updates" },
       { label: "Docs", href: "/docs", description: "How staking on the platform works" },
       { label: "FAQ", href: "/faq", description: "Short answers to common questions" },
-      { label: "Risk disclosure", href: "/legal/risk-disclosure", description: "What can go wrong, in plain terms" },
     ],
   },
 ];
@@ -62,6 +61,7 @@ export const FOOTER_COLUMNS: { title: string; links: NavLink[] }[] = [
       { label: "Staking pools", href: "/staking" },
       { label: "Rewards calculator", href: "/tools/calculator" },
       { label: "Compare pools", href: "/tools/compare" },
+      { label: "Converter", href: "/tools/converter" },
       { label: "All tools", href: "/tools" },
     ],
   },
@@ -77,6 +77,7 @@ export const FOOTER_COLUMNS: { title: string; links: NavLink[] }[] = [
   {
     title: "Resources",
     links: [
+      { label: "ECO. LEARN", href: "/learn" },
       { label: "Blog", href: "/blog" },
       { label: "Docs", href: "/docs" },
       { label: "FAQ", href: "/faq" },

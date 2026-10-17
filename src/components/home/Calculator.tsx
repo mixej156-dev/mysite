@@ -13,8 +13,8 @@ const PERIODS = [1, 3, 5] as const;
 
 const TOOLS = [
   { label: "Compare pools", href: "/tools/compare", body: "Terms and yield side by side" },
-  { label: "Converter", href: "/tools#converter", body: "Between supported assets" },
-  { label: "Gas estimate", href: "/tools#gas", body: "Typical fees to stake and unstake" },
+  { label: "Converter", href: "/tools/converter", body: "Rates, network fees and arrival times" },
+  { label: "ECO. LEARN", href: "/learn", body: "Guides from basics to DeFi" },
 ];
 
 function amountDigits(ticker: string) {

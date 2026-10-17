@@ -32,6 +32,14 @@
   --series-1: #4a6ef5;
   --series-2: #d95926;
   --series-3: #199e70;
+  /* Topic palette: decorative cover art in ECO. LEARN only, never text or UI state */
+  --topic-blue: #5b7cfa;
+  --topic-green: #3fc28e;
+  --topic-teal: #3ab7c9;
+  --topic-orange: #f07a45;
+  --topic-amber: #e8b43f;
+  --topic-violet: #9a7cf5;
+  --topic-rose: #ec6f86;
   --ds-shadow-float: 0 1px 0 rgb(255 255 255 / 0.04) inset, 0 12px 32px -12px rgb(0 0 0 / 0.6);
   --ds-shadow-overlay: 0 1px 0 rgb(255 255 255 / 0.05) inset, 0 32px 64px -24px rgb(0 0 0 / 0.75);
 }
@@ -59,6 +67,13 @@
   --series-1: #335cf0;
   --series-2: #eb6834;
   --series-3: #1baf7a;
+  --topic-blue: #335cf0;
+  --topic-green: #1a9a6a;
+  --topic-teal: #16919f;
+  --topic-orange: #e0622c;
+  --topic-amber: #d39418;
+  --topic-violet: #7a5ae0;
+  --topic-rose: #d64d68;
   --ds-shadow-float: 0 12px 32px -14px rgb(11 20 36 / 0.22);
   --ds-shadow-overlay: 0 32px 64px -24px rgb(11 20 36 / 0.32);
 }
