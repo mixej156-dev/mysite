@@ -1,11 +1,11 @@
 "use client";
 
-import { useId, useMemo, useState } from "react";
+import { useId, useMemo, useState, useSyncExternalStore } from "react";
 import { Area, AreaChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis, type TooltipContentProps } from "recharts";
 import { Tabs, TabsList, TabsTrigger } from "@/design-system";
 import type { Point } from "@/lib/series";
 import { cn } from "@/lib/cn";
-import { formatDate } from "@/lib/format";
+import { formatDate, formatNumber, formatPercent } from "@/lib/format";
 
 export type Series = {
   id: string;
@@ -19,7 +19,8 @@ export type TimeSeriesChartProps = {
   title: string;
   /** Same length and dates for every series */
   series: Series[];
-  formatValue: (value: number) => string;
+  /** Serializable so server components can render the chart */
+  valueFormat: ValueFormat;
   /** Selectable windows in days; the last N points are shown */
   periods?: number[];
   defaultPeriod?: number;
@@ -30,8 +31,41 @@ export type TimeSeriesChartProps = {
 
 type Row = { date: string } & Record<string, number | string>;
 
+export type ValueFormat = "percent" | "number";
+
+const FORMATTERS: Record<ValueFormat, (v: number) => string> = {
+  percent: (v) => formatPercent(v),
+  number: (v) => formatNumber(v, 2),
+};
+
 const shortDate = (iso: string) =>
   new Intl.DateTimeFormat("en-US", { month: "short", day: "numeric", timeZone: "UTC" }).format(new Date(`${iso}T00:00:00Z`));
+
+const NARROW = "(max-width: 47.99rem)";
+
+function subscribeNarrow(onChange: () => void) {
+  const query = window.matchMedia(NARROW);
+  query.addEventListener("change", onChange);
+  return () => query.removeEventListener("change", onChange);
+}
+
+/** True below 768px. False during server render, so hydration matches. */
+function useNarrowScreen() {
+  return useSyncExternalStore(subscribeNarrow, () => window.matchMedia(NARROW).matches, () => false);
+}
+
+/** Clean axis ticks (steps of 1, 2, 2.5 or 5 × 10^n) covering the data with a little headroom. */
+function niceTicks(min: number, max: number, target = 4): number[] {
+  const span = max - min || Math.abs(max) || 1;
+  const raw = span / target;
+  const magnitude = 10 ** Math.floor(Math.log10(raw));
+  const step = [1, 2, 2.5, 5, 10].map((m) => m * magnitude).find((s) => s >= raw) ?? 10 * magnitude;
+  const start = Math.floor(min / step) * step;
+  const end = Math.ceil(max / step) * step;
+  const ticks: number[] = [];
+  for (let v = start; v <= end + step / 2; v += step) ticks.push(Math.round(v * 1e6) / 1e6);
+  return ticks;
+}
 
 function periodLabel(days: number) {
   return days >= 365 ? `${Math.round(days / 365)}Y` : `${days}D`;
@@ -44,15 +78,19 @@ function periodLabel(days: number) {
 export function TimeSeriesChart({
   title,
   series,
-  formatValue,
+  valueFormat,
   periods = [30, 90, 365],
   defaultPeriod = 90,
   note,
   className,
 }: TimeSeriesChartProps) {
-  const [period, setPeriod] = useState(defaultPeriod);
+  const narrow = useNarrowScreen();
+  const [chosenPeriod, setPeriod] = useState<number | null>(null);
+  /* Long windows turn into noise at phone width, so phones start with the shortest one */
+  const period = chosenPeriod ?? (narrow ? periods[0] : defaultPeriod);
   const [view, setView] = useState<"chart" | "table">("chart");
   const titleId = useId();
+  const formatValue = FORMATTERS[valueFormat];
 
   const rows = useMemo<Row[]>(() => {
     const length = series[0]?.points.length ?? 0;
@@ -64,11 +102,16 @@ export function TimeSeriesChart({
     });
   }, [series, period]);
 
-  /* Table: about a dozen evenly spaced rows, always including the latest */
+  /* Table: about a dozen evenly spaced rows, newest first */
   const tableRows = useMemo(() => {
     const step = Math.max(1, Math.ceil(rows.length / 12));
-    return rows.filter((_, i) => (rows.length - 1 - i) % step === 0);
+    return rows.filter((_, i) => (rows.length - 1 - i) % step === 0).reverse();
   }, [rows]);
+
+  const yTicks = useMemo(() => {
+    const values = rows.flatMap((r) => series.map((s) => Number(r[s.id])));
+    return niceTicks(Math.min(...values), Math.max(...values));
+  }, [rows, series]);
 
   const single = series.length === 1;
   const last = rows[rows.length - 1];
@@ -136,8 +179,8 @@ export function TimeSeriesChart({
                 axisLine={false}
                 tick={{ fill: "var(--muted)", fontSize: 12, fontFamily: "var(--ds-font-mono)" }}
                 width={56}
-                domain={["auto", "auto"]}
-                tickCount={5}
+                domain={[yTicks[0], yTicks[yTicks.length - 1]]}
+                ticks={yTicks}
               />
               <Tooltip
                 content={<ChartTooltip series={series} formatValue={formatValue} />}
