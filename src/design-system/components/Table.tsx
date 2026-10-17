@@ -10,7 +10,7 @@ export type TableProps = ComponentPropsWithRef<"table"> & {
 /** Scrolls horizontally inside its own frame so the page never does. */
 export function Table({ label, className, ...props }: TableProps) {
   return (
-    <div role="region" aria-label={label} tabIndex={label ? 0 : undefined} className="w-full overflow-x-auto">
+    <div role="region" aria-label={label} tabIndex={label ? 0 : undefined} className="relative w-full min-w-0 max-w-full overflow-x-auto">
       <table className={cn("w-full border-collapse text-left text-small", className)} {...props} />
     </div>
   );

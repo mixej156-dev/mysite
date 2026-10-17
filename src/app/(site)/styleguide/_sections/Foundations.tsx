@@ -192,9 +192,10 @@ export function MotionSection() {
               <motion.div
                 key={run}
                 className="absolute top-1 left-1 size-6 rounded-pill bg-accent"
-                initial={reduceMotion ? { opacity: 0 } : { left: "0.25rem" }}
-                animate={reduceMotion ? { opacity: 1 } : { left: "calc(100% - 1.75rem)" }}
-                transition={{ duration: run === 0 ? 0 : d.value, ease }}
+                // Same initial on server and client; reduced motion only changes the duration
+                initial={{ left: "0.25rem" }}
+                animate={{ left: "calc(100% - 1.75rem)" }}
+                transition={{ duration: run === 0 || reduceMotion ? 0 : d.value, ease }}
               />
             </div>
           </div>
