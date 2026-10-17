@@ -946,11 +946,7 @@ export const GUIDES: Guide[] = [
     level: "Beginner",
     format: "Guide",
     minutes: 6,
-    outcomes: [
-      "How to read a single candle",
-      "What volume adds",
-      "Common mistakes when reading charts",
-    ],
+    outcomes: ["How to read a single candle", "What volume adds", "Common mistakes when reading charts"],
     body: [
       {
         type: "p",
@@ -1106,11 +1102,7 @@ export const GUIDES: Guide[] = [
       { type: "h2", text: "Drawdowns are asymmetric" },
       {
         type: "list",
-        items: [
-          "Down 20% needs +25% to recover",
-          "Down 50% needs +100%",
-          "Down 80% needs +400%",
-        ],
+        items: ["Down 20% needs +25% to recover", "Down 50% needs +100%", "Down 80% needs +400%"],
       },
       { type: "h2", text: "Sizing positions" },
       {
@@ -1196,7 +1188,8 @@ export const GUIDES: Guide[] = [
   {
     slug: "layer-2-rollups",
     title: "Layer 2s and rollups",
-    excerpt: "Cheaper transactions that still settle on Ethereum. Optimistic vs zero-knowledge, and the bridges between.",
+    excerpt:
+      "Cheaper transactions that still settle on Ethereum. Optimistic vs zero-knowledge, and the bridges between.",
     topic: "Technology",
     level: "Intermediate",
     format: "Explainer",
@@ -1316,7 +1309,7 @@ export const GUIDES: Guide[] = [
       {
         type: "code",
         label: "SHA-256",
-        code: "\"stake\"  → 7d1a…c4f0\n\"stake.\" → e93b…0a12",
+        code: '"stake"  → 7d1a…c4f0\n"stake." → e93b…0a12',
       },
       { type: "h2", text: "Key pairs" },
       {
@@ -1352,78 +1345,12 @@ export const GUIDES: Guide[] = [
   },
 ];
 
-export type LearningPath = {
-  id: string;
-  title: string;
-  description: string;
-  level: LearnLevel;
-  topic: LearnTopic;
-  slugs: string[];
-};
-
-export const LEARNING_PATHS: LearningPath[] = [
-  {
-    id: "crypto-from-zero",
-    title: "Crypto from zero",
-    description: "Six short lessons that take you from ‘what is a blockchain’ to holding crypto safely.",
-    level: "Beginner",
-    topic: "Fundamentals",
-    slugs: [
-      "what-is-a-blockchain",
-      "how-crypto-transactions-work",
-      "what-are-stablecoins",
-      "custodial-vs-self-custody",
-      "seed-phrases",
-      "spotting-crypto-scams",
-    ],
-  },
-  {
-    id: "staking-in-depth",
-    title: "Staking in depth",
-    description: "How proof of stake pays, how to read yield, and what separates one validator from another.",
-    level: "Intermediate",
-    topic: "Staking",
-    slugs: ["proof-of-stake-explained", "apr-vs-apy", "liquid-staking", "validator-economics"],
-  },
-  {
-    id: "defi-without-jargon",
-    title: "DeFi without the jargon",
-    description: "Exchanges, liquidity and lending explained with worked numbers, and the risks named plainly.",
-    level: "Intermediate",
-    topic: "DeFi",
-    slugs: ["what-is-defi", "how-amms-work", "impermanent-loss", "lending-protocols"],
-  },
-];
-
-export const GLOSSARY: { term: string; definition: string }[] = [
-  { term: "Address", definition: "A public identifier funds are sent to, usually derived from a public key." },
-  { term: "Airdrop", definition: "Tokens distributed for free to wallets, often to early users of a protocol." },
-  { term: "Bridge", definition: "A system that moves tokens between blockchains, usually by locking and minting." },
-  { term: "Cold wallet", definition: "A wallet whose keys never touch an internet-connected device." },
-  { term: "Epoch", definition: "A fixed period after which a network calculates staking rewards." },
-  { term: "Finality", definition: "The point after which a block can’t be reversed without huge cost." },
-  { term: "Gas", definition: "The unit of computation a transaction uses; its price sets the fee." },
-  { term: "Liquidity", definition: "How easily an asset can be bought or sold without moving its price." },
-  { term: "Mempool", definition: "The waiting area for broadcast transactions not yet in a block." },
-  { term: "Oracle", definition: "A service that brings off-chain data, such as prices, onto a blockchain." },
-  { term: "Seed phrase", definition: "Twelve or twenty-four words that can restore every key in a wallet." },
-  { term: "Slashing", definition: "A penalty that burns part of a validator’s stake for breaking the rules." },
-  { term: "Slippage", definition: "The difference between the expected and actual price of a trade." },
-  { term: "Smart contract", definition: "A program on a blockchain that holds funds and runs exactly as written." },
-  { term: "TVL", definition: "Total value locked: the value of assets deposited in a protocol." },
-  { term: "Unbonding", definition: "The waiting period between unstaking and receiving your tokens." },
-];
-
 export function getGuide(slug: string) {
   return GUIDES.find((g) => g.slug === slug);
 }
 
 export function getTopic(name: LearnTopic) {
   return TOPICS.find((t) => t.name === name) ?? TOPICS[0];
-}
-
-export function pathFor(slug: string) {
-  return LEARNING_PATHS.find((p) => p.slugs.includes(slug));
 }
 
 export function relatedGuides(guide: Guide, count = 3) {
