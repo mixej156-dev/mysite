@@ -58,14 +58,22 @@ export function PostCover({ slug, category }: { slug: string; category: PostCate
           }),
         )}
 
-      {category === "Guides" && (
-        <>
-          {[0, 1, 2, 3].map((i) => (
-            <path key={i} d={`M${40 + i * 64} ${160 - i * 30}h64v-30`} {...line} />
-          ))}
-          <circle cx={40 + pick(4, 4) * 64} cy={160 - pick(4, 4) * 30} r={6} fill="var(--accent-text)" />
-        </>
-      )}
+      {category === "Guides" &&
+        (() => {
+          /* A staircase whose step count and rise vary per post */
+          const steps = 3 + pick(6, 3);
+          const run = 240 / steps;
+          const rise = 18 + pick(9, 4) * 6;
+          const marker = pick(4, steps);
+          return (
+            <>
+              {Array.from({ length: steps }, (_, i) => (
+                <path key={i} d={`M${40 + i * run} ${170 - i * rise}h${run}v-${rise}`} {...line} />
+              ))}
+              <circle cx={40 + marker * run} cy={170 - marker * rise} r={6} fill="var(--accent-text)" />
+            </>
+          );
+        })()}
     </svg>
   );
 }

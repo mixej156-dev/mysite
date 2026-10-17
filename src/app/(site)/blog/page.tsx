@@ -1,0 +1,23 @@
+import type { Metadata } from "next";
+import { PageHeader } from "@/components/blocks/PageHeader";
+import { BlogIndex } from "@/components/blog/BlogIndex";
+
+export const metadata: Metadata = {
+  title: "Blog",
+  description: "Research, validator performance reports, product notes and staking guides from the {BRAND_NAME} team.",
+};
+
+export default function BlogPage() {
+  return (
+    <>
+      <PageHeader
+        title="Blog"
+        lead="Research, validator reports, product notes and plain-language guides to staking."
+        breadcrumbs={[{ label: "Home", href: "/" }, { label: "Blog" }]}
+      />
+      <section aria-label="Articles" className="container-page pb-24 md:pb-32">
+        <BlogIndex />
+      </section>
+    </>
+  );
+}
