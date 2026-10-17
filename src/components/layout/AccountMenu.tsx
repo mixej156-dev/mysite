@@ -30,7 +30,7 @@ export function AccountMenu({ session, onSignOut }: { session: Session; onSignOu
     <Dropdown>
       <DropdownTrigger
         aria-label={`Account menu for ${session.name}`}
-        className="grid size-9 place-items-center rounded-pill tint-accent text-caption font-semibold text-accent-text transition-colors duration-fast hover:bg-surface-2"
+        className="grid size-9 place-items-center rounded-field tint-accent text-caption font-semibold text-accent-text transition-colors duration-fast hover:bg-surface-2"
       >
         {initials(session.name)}
       </DropdownTrigger>
