@@ -7,6 +7,7 @@ import {
   Checkbox,
   Input,
   Select,
+  Slider,
   Tabs,
   TabsContent,
   TabsList,
@@ -172,6 +173,39 @@ export function CheckboxSection() {
                 <Toggle label="Price alerts" disabled />
               </div>
             </Example>
+          </>
+        )}
+      </ThemePair>
+    </Section>
+  );
+}
+
+function SliderDemo({ disabled = false }: { disabled?: boolean }) {
+  const [months, setMonths] = useState(24);
+  return (
+    <Slider
+      label={disabled ? "Lock period (unavailable)" : "Period"}
+      value={months}
+      onValueChange={setMonths}
+      min={1}
+      max={60}
+      valueText={`${months} months`}
+      disabled={disabled}
+    />
+  );
+}
+
+export function SliderSection() {
+  return (
+    <Section
+      id="slider"
+      description="For choosing a value in a range where the exact number matters less than the feel of it. Pair it with a text field when people need to type an exact amount. Arrow keys step, Home and End jump to the ends."
+    >
+      <ThemePair>
+        {() => (
+          <>
+            <SliderDemo />
+            <SliderDemo disabled />
           </>
         )}
       </ThemePair>

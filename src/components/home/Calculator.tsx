@@ -6,13 +6,10 @@ import { Card, Input, Select, Tabs, TabsList, TabsTrigger } from "@/design-syste
 import { pools } from "@/data/pools";
 import { projectBalances } from "@/lib/compound";
 import { formatPercent, formatToken } from "@/lib/format";
-import { GrowthRings } from "../blocks/GrowthRings";
+import { CalculatorRings } from "../tools/CalculatorRings";
 import { Section, SectionHeader } from "../blocks/Section";
 
 const PERIODS = [1, 3, 5] as const;
-const MAX_YEARS = 5;
-/** Ring scale: the highest-yield pool over the longest period fills the full span */
-const SCALE_RATIO = (1 + Math.max(...pools.map((p) => p.apy)) / 100) ** MAX_YEARS - 1;
 
 const TOOLS = [
   { label: "Compare pools", href: "/tools/compare", body: "Terms and yield side by side" },
@@ -109,21 +106,15 @@ export function Calculator() {
         </div>
 
         <div className="flex flex-col items-center justify-center gap-6 p-6 md:p-10">
-          <GrowthRings balances={balances} maxYears={MAX_YEARS} scaleRatio={SCALE_RATIO}>
-            <div className="flex max-w-[9rem] flex-col items-center gap-1" aria-live="polite">
-              {valid ? (
-                <>
-                  <p className="text-caption text-muted">After {years === 1 ? "1 year" : `${years} years`}</p>
-                  <p className="font-mono text-body leading-tight sm:text-h4">{fmt(final)}</p>
-                  <p className="font-mono text-caption text-success">
-                    +{fmt(final - balances[0])} {pool.ticker}
-                  </p>
-                </>
-              ) : (
-                <p className="text-caption text-muted">Enter an amount to see a projection</p>
-              )}
-            </div>
-          </GrowthRings>
+          <CalculatorRings
+            yearly={balances}
+            periodLabel={years === 1 ? "1 year" : `${years} years`}
+            final={final}
+            rewards={final - balances[0]}
+            ticker={pool.ticker}
+            format={fmt}
+            valid={valid}
+          />
           <p className="text-center text-caption text-muted">
             Each ring is one year of rewards. Projection, not a forecast or a guarantee.
           </p>

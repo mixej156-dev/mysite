@@ -10,6 +10,7 @@ export * from "./components/Pagination";
 export * from "./components/Progress";
 export * from "./components/Select";
 export * from "./components/Skeleton";
+export * from "./components/Slider";
 export * from "./components/Table";
 export * from "./components/Tabs";
 export * from "./components/Tag";

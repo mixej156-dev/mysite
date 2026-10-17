@@ -7,6 +7,7 @@ export const SECTIONS = [
   { id: "input", title: "Input" },
   { id: "select", title: "Select" },
   { id: "checkbox", title: "Checkbox & Toggle" },
+  { id: "slider", title: "Slider" },
   { id: "tabs", title: "Tabs" },
   { id: "modal", title: "Modal" },
   { id: "dropdown", title: "Dropdown" },

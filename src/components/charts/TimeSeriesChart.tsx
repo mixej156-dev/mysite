@@ -21,6 +21,7 @@ export type TimeSeriesChartProps = {
   series: Series[];
   /** Serializable so server components can render the chart */
   valueFormat: ValueFormat;
+  xFormat?: XFormat;
   /** Selectable windows in days; the last N points are shown */
   periods?: number[];
   defaultPeriod?: number;
@@ -31,11 +32,21 @@ export type TimeSeriesChartProps = {
 
 type Row = { date: string } & Record<string, number | string>;
 
-export type ValueFormat = "percent" | "number";
+export type ValueFormat = "percent" | "number" | "amount";
 
 const FORMATTERS: Record<ValueFormat, (v: number) => string> = {
   percent: (v) => formatPercent(v),
   number: (v) => formatNumber(v, 2),
+  /* Token amounts: more decimals for small values */
+  amount: (v) => formatNumber(v, Math.abs(v) >= 1000 ? 2 : 4),
+};
+
+/** "date": points carry ISO dates. "month": points carry a month index ("0", "1", …). */
+export type XFormat = "date" | "month";
+
+const X_FORMATTERS: Record<XFormat, { tick: (x: string) => string; full: (x: string) => string }> = {
+  date: { tick: (x) => shortDate(x), full: (x) => formatDate(x) },
+  month: { tick: (x) => (x === "0" ? "Now" : `${x} mo`), full: (x) => (x === "0" ? "Today" : `Month ${x}`) },
 };
 
 const shortDate = (iso: string) =>
@@ -79,6 +90,7 @@ export function TimeSeriesChart({
   title,
   series,
   valueFormat,
+  xFormat = "date",
   periods = [30, 90, 365],
   defaultPeriod = 90,
   note,
@@ -87,10 +99,12 @@ export function TimeSeriesChart({
   const narrow = useNarrowScreen();
   const [chosenPeriod, setPeriod] = useState<number | null>(null);
   /* Long windows turn into noise at phone width, so phones start with the shortest one */
-  const period = chosenPeriod ?? (narrow ? periods[0] : defaultPeriod);
+  /* No period tabs: show every point */
+  const period = periods.length === 0 ? Infinity : (chosenPeriod ?? (narrow ? periods[0] : defaultPeriod));
   const [view, setView] = useState<"chart" | "table">("chart");
   const titleId = useId();
   const formatValue = FORMATTERS[valueFormat];
+  const formatX = X_FORMATTERS[xFormat];
 
   const rows = useMemo<Row[]>(() => {
     const length = series[0]?.points.length ?? 0;
@@ -107,6 +121,15 @@ export function TimeSeriesChart({
     const step = Math.max(1, Math.ceil(rows.length / 12));
     return rows.filter((_, i) => (rows.length - 1 - i) % step === 0).reverse();
   }, [rows]);
+
+  /* Month axis: ticks on round steps (3, 6 or 12 months) instead of wherever they fall */
+  const xTicks = useMemo(() => {
+    if (xFormat !== "month") return undefined;
+    const last = rows.length - 1;
+    const step = last <= 12 ? 3 : last <= 36 ? 6 : 12;
+    const ticks = rows.map((r) => r.date).filter((x) => Number(x) % step === 0);
+    return last % step === 0 ? ticks : [...ticks, String(last)];
+  }, [rows, xFormat]);
 
   const yTicks = useMemo(() => {
     const values = rows.flatMap((r) => series.map((s) => Number(r[s.id])));
@@ -130,15 +153,17 @@ export function TimeSeriesChart({
           )}
         </div>
         <div className="flex flex-wrap items-center gap-2">
-          <Tabs variant="segmented" value={String(period)} onValueChange={(v) => setPeriod(Number(v))}>
-            <TabsList aria-label="Period">
-              {periods.map((p) => (
-                <TabsTrigger key={p} value={String(p)}>
-                  {periodLabel(p)}
-                </TabsTrigger>
-              ))}
-            </TabsList>
-          </Tabs>
+          {periods.length > 1 && (
+            <Tabs variant="segmented" value={String(period)} onValueChange={(v) => setPeriod(Number(v))}>
+              <TabsList aria-label="Period">
+                {periods.map((p) => (
+                  <TabsTrigger key={p} value={String(p)}>
+                    {periodLabel(p)}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+            </Tabs>
+          )}
           <Tabs variant="segmented" value={view} onValueChange={(v) => setView(v as "chart" | "table")}>
             <TabsList aria-label="Display">
               <TabsTrigger value="chart">Chart</TabsTrigger>
@@ -162,11 +187,13 @@ export function TimeSeriesChart({
       {view === "chart" ? (
         <div className="mt-6 h-64 md:h-72" aria-hidden>
           <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={rows} margin={{ top: 8, right: single ? 56 : 8, bottom: 0, left: 0 }}>
+            <AreaChart data={rows} margin={{ top: 8, right: single ? 56 : 20, bottom: 0, left: 0 }}>
               <CartesianGrid vertical={false} stroke="var(--rule)" />
               <XAxis
                 dataKey="date"
-                tickFormatter={shortDate}
+                tickFormatter={formatX.tick}
+                ticks={xTicks}
+                interval={xTicks ? 0 : "preserveEnd"}
                 tickLine={false}
                 axisLine={{ stroke: "var(--rule)" }}
                 tick={{ fill: "var(--muted)", fontSize: 12 }}
@@ -183,7 +210,7 @@ export function TimeSeriesChart({
                 ticks={yTicks}
               />
               <Tooltip
-                content={<ChartTooltip series={series} formatValue={formatValue} />}
+                content={<ChartTooltip series={series} formatValue={formatValue} formatX={formatX.full} />}
                 cursor={{ stroke: "var(--rule-strong)", strokeWidth: 1 }}
                 isAnimationActive={false}
               />
@@ -232,7 +259,7 @@ export function TimeSeriesChart({
             <thead className="sticky top-0 bg-surface text-muted">
               <tr className="border-b border-rule">
                 <th scope="col" className="py-2 text-left font-normal">
-                  Date
+                  {xFormat === "date" ? "Date" : "Month"}
                 </th>
                 {series.map((s) => (
                   <th key={s.id} scope="col" className="py-2 text-right font-normal">
@@ -245,7 +272,7 @@ export function TimeSeriesChart({
               {tableRows.map((row) => (
                 <tr key={row.date} className="border-b border-rule last:border-0">
                   <th scope="row" className="py-2 text-left font-normal text-muted">
-                    {formatDate(row.date)}
+                    {formatX.full(row.date)}
                   </th>
                   {series.map((s) => (
                     <td key={s.id} className="py-2 text-right font-mono">
@@ -262,9 +289,9 @@ export function TimeSeriesChart({
       {/* Text alternative for the chart view */}
       {view === "chart" && last && (
         <p className="sr-only">
-          {title}, last {periodLabel(period)}.{" "}
-          {series.map((s) => `${s.label}: ${formatValue(Number(last[s.id]))} on ${formatDate(String(last.date))}.`).join(" ")}{" "}
-          Switch to the table view for daily values.
+          {title}.{" "}
+          {series.map((s) => `${s.label}: ${formatValue(Number(last[s.id]))} at ${formatX.full(String(last.date))}.`).join(" ")}{" "}
+          Switch to the table view for the values.
         </p>
       )}
       {note && <p className="mt-4 text-caption text-muted">{note}</p>}
@@ -278,11 +305,16 @@ function ChartTooltip({
   label,
   series,
   formatValue,
-}: Partial<TooltipContentProps<number, string>> & { series: Series[]; formatValue: (v: number) => string }) {
+  formatX,
+}: Partial<TooltipContentProps<number, string>> & {
+  series: Series[];
+  formatValue: (v: number) => string;
+  formatX: (x: string) => string;
+}) {
   if (!active || !payload?.length) return null;
   return (
     <div className="min-w-36 rounded-field border border-rule bg-surface px-3 py-2.5 text-small shadow-overlay">
-      <p className="text-caption text-muted">{formatDate(String(label))}</p>
+      <p className="text-caption text-muted">{formatX(String(label))}</p>
       <ul className="mt-1.5 flex flex-col gap-1">
         {series.map((s) => {
           const item = payload.find((p) => p.dataKey === s.id);

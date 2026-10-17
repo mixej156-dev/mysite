@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { SECTIONS } from "./_components/sections";
 import { AccordionSection, BadgeSection, CardSection, PaginationSection, ProgressSection, TableSection } from "./_sections/Display";
-import { ButtonSection, CheckboxSection, InputSection, SelectSection, TabsSection } from "./_sections/Forms";
+import { ButtonSection, CheckboxSection, InputSection, SelectSection, SliderSection, TabsSection } from "./_sections/Forms";
 import { ColorSection, MotionSection, SpaceSection, TypographySection } from "./_sections/Foundations";
 import { LayoutSection } from "./_sections/Layout";
 import { BlocksSection } from "./_sections/Blocks";
@@ -47,6 +47,7 @@ export default function StyleguidePage() {
           <InputSection />
           <SelectSection />
           <CheckboxSection />
+          <SliderSection />
           <TabsSection />
           <ModalSection />
           <DropdownSection />
