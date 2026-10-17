@@ -8,7 +8,7 @@ export default function SiteLayout({ children }: LayoutProps<"/">) {
     <>
       <SkipLink />
       <Header />
-      <ViewTransition default="none" update="page">
+      <ViewTransition default="none" update={{ nav: "page", default: "none" }}>
         <main id="main" tabIndex={-1} className="outline-none">
           {children}
         </main>

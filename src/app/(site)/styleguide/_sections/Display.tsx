@@ -113,7 +113,7 @@ export function CardSection() {
                 <div className="flex items-start justify-between gap-4">
                   <div>
                     <h3 className="text-h4 font-medium">
-                      <a href="#card" className="after:absolute after:inset-0 after:rounded-card focus-visible:outline-none">
+                      <a href="#card" className="stretched-link">
                         Ethereum
                       </a>
                     </h3>

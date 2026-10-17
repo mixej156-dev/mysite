@@ -1,24 +1,30 @@
 import type { Metadata } from "next";
-import Link from "next/link";
-import { buttonClasses } from "@/design-system";
+import { Calculator } from "@/components/home/Calculator";
+import { Closing, LatestPosts, Testimonials } from "@/components/home/Closing";
+import { Hero } from "@/components/home/Hero";
+import { HowItWorks } from "@/components/home/HowItWorks";
+import { Metrics } from "@/components/home/Metrics";
+import { Pools } from "@/components/home/Pools";
+import { Trust } from "@/components/home/Trust";
 
 export const metadata: Metadata = {
-  title: { absolute: "{BRAND_NAME}" },
+  title: { absolute: "{BRAND_NAME} — Staking, kept to account" },
+  description:
+    "Stake ETH, SOL, ATOM and more with validators held to published uptime targets. Rewards recorded per epoch and paid out daily. Demo prototype.",
 };
 
-/* Placeholder until the home page is built in Stage 4. */
 export default function HomePage() {
   return (
-    <div className="container-page flex min-h-[70dvh] flex-col justify-center gap-6 py-24">
-      <h1 className="max-w-[14ch] text-display">Staking, kept to account.</h1>
-      <p className="max-w-[52ch] font-serif text-lead text-muted">
-        Design prototype in progress. The home page arrives in Stage 4; the design system is ready to browse.
-      </p>
-      <div>
-        <Link href="/styleguide" className={buttonClasses({ size: "lg" })}>
-          Open design system
-        </Link>
-      </div>
-    </div>
+    <>
+      <Hero />
+      <Metrics />
+      <Pools />
+      <HowItWorks />
+      <Trust />
+      <Calculator />
+      <Testimonials />
+      <LatestPosts />
+      <Closing />
+    </>
   );
 }

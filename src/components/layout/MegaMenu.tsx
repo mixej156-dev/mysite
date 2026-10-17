@@ -2,7 +2,7 @@
 
 import * as Nav from "@radix-ui/react-navigation-menu";
 import { ChevronDown } from "lucide-react";
-import Link from "next/link";
+import { Link } from "@/components/Link";
 import { usePathname } from "next/navigation";
 import { featuredPools } from "@/data/pools";
 import { formatPercent, formatUnbondingShort } from "@/lib/format";

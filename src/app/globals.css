@@ -73,11 +73,17 @@
   --animate-fade-in: fade-in var(--duration-fast) var(--ds-ease-brand);
   --animate-accordion-down: accordion-down var(--duration-base) var(--ds-ease-brand);
   --animate-accordion-up: accordion-up var(--duration-base) var(--ds-ease-brand);
+  --animate-marquee: marquee 48s linear infinite;
 
   @keyframes pop-in {
     from {
       opacity: 0;
       transform: scale(0.97) translateY(-2px);
+    }
+  }
+  @keyframes marquee {
+    to {
+      transform: translateX(-100%);
     }
   }
   @keyframes fade-in {
@@ -144,6 +150,22 @@
   }
   @media (width >= 80rem) {
     padding-inline: 4rem;
+  }
+}
+/* Link whose hit area covers the nearest positioned ancestor (a card); focus ring follows the card */
+@utility stretched-link {
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: var(--ds-radius-card);
+  }
+  &:focus-visible {
+    outline: none;
+  }
+  &:focus-visible::after {
+    outline: 2px solid var(--accent-text);
+    outline-offset: 2px;
   }
 }
 /* Translucent tint of a semantic colour, for badges and subtle fills */

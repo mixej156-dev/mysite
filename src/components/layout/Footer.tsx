@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@/components/Link";
 import { Logo } from "./Logo";
 import { FOOTER_COLUMNS, SOCIAL_LINKS } from "./nav";
 
@@ -6,7 +6,7 @@ const linkClass = "rounded-sm text-small text-muted transition-colors duration-f
 
 export function Footer() {
   return (
-    <footer className="mt-24 border-t border-rule">
+    <footer className="border-t border-rule">
       <div className="container-page grid gap-12 py-16 lg:grid-cols-[minmax(0,1.3fr)_repeat(4,minmax(0,1fr))] lg:gap-8">
         <div className="flex max-w-xs flex-col gap-4">
           <Link href="/" aria-label="{BRAND_NAME} home" className="self-start rounded-sm">

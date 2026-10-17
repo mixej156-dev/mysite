@@ -3,7 +3,7 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ChevronDown, Menu, X } from "lucide-react";
-import Link from "next/link";
+import { Link } from "@/components/Link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { buttonClasses } from "@/design-system";

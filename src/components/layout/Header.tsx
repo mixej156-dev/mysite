@@ -1,7 +1,7 @@
 "use client";
 
 import * as Nav from "@radix-ui/react-navigation-menu";
-import Link from "next/link";
+import { Link } from "@/components/Link";
 import { useEffect, useState } from "react";
 import { buttonClasses } from "@/design-system";
 import { cn } from "@/lib/cn";

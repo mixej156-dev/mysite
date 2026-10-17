@@ -4,6 +4,7 @@ import { AccordionSection, BadgeSection, CardSection, PaginationSection, Progres
 import { ButtonSection, CheckboxSection, InputSection, SelectSection, TabsSection } from "./_sections/Forms";
 import { ColorSection, MotionSection, SpaceSection, TypographySection } from "./_sections/Foundations";
 import { LayoutSection } from "./_sections/Layout";
+import { BlocksSection } from "./_sections/Blocks";
 import { DropdownSection, ModalSection, ToastSection, TooltipSection } from "./_sections/Overlays";
 
 export const metadata: Metadata = {
@@ -58,6 +59,7 @@ export default function StyleguidePage() {
           <ToastSection />
           <PaginationSection />
           <LayoutSection />
+          <BlocksSection />
         </div>
     </div>
   );
