@@ -1,4 +1,4 @@
-# Design Direction — {BRAND_NAME}
+# Design Direction — LONAR ECO.
 
 Статус: **утверждено** — вариант A «Clearing House» + кольца роста из варианта C (только в калькуляторе и связанных с ним блоках).
 Отклонённые варианты (B «Validator Floor», C «Compound») — в истории git, коммит `a311e3c`.

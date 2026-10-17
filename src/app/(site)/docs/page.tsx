@@ -6,7 +6,7 @@ import { DOC_SECTIONS } from "@/data/docs";
 
 export const metadata: Metadata = {
   title: "Documentation",
-  description: "How staking on {BRAND_NAME} works: accounts, staking and unstaking, rewards, and security.",
+  description: "How staking on LONAR ECO. works: accounts, staking and unstaking, rewards, and security.",
 };
 
 export default function DocsPage() {

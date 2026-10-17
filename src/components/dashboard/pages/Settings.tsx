@@ -4,7 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/design-system";
 import { PageTitle } from "../PageTitle";
 import { AccountSettings } from "../settings/AccountSettings";
 import { ApiKeySettings } from "../settings/ApiKeySettings";
-import { AppearanceSettings, NotificationSettings } from "../settings/PreferenceSettings";
+import { NotificationSettings } from "../settings/PreferenceSettings";
 import { ProfileSettings } from "../settings/ProfileSettings";
 import { SecuritySettings } from "../settings/SecuritySettings";
 
@@ -12,7 +12,6 @@ const TABS = [
   { id: "profile", label: "Profile", content: <ProfileSettings /> },
   { id: "security", label: "Security", content: <SecuritySettings /> },
   { id: "notifications", label: "Notifications", content: <NotificationSettings /> },
-  { id: "appearance", label: "Appearance", content: <AppearanceSettings /> },
   { id: "api", label: "API keys", content: <ApiKeySettings /> },
   { id: "account", label: "Account", content: <AccountSettings /> },
 ];

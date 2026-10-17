@@ -8,7 +8,6 @@ import { Badge, buttonClasses } from "@/design-system";
 import { useAuth } from "@/lib/auth";
 import { AccountMenu } from "../layout/AccountMenu";
 import { Logo } from "../layout/Logo";
-import { ThemeToggle } from "../layout/ThemeToggle";
 import { Sidebar } from "./Sidebar";
 
 export function Topbar() {
@@ -54,7 +53,6 @@ export function Topbar() {
           <Plus aria-hidden />
           New stake
         </Link>
-        <ThemeToggle />
         {session && <AccountMenu session={session} onSignOut={signOut} />}
       </div>
     </header>

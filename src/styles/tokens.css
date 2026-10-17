@@ -40,9 +40,9 @@
 [data-theme="dark"] [data-tone="inverse"],
 :root:not([data-theme]) [data-tone="inverse"] {
   color-scheme: light;
-  --bg: #f2f3ef;
+  --bg: #ffffff;
   --surface: #ffffff;
-  --surface-2: #e8eae5;
+  --surface-2: #f1f3f6;
   --rule: #d5d8de;
   --rule-strong: #b7bcc5;
   --text: #0b1424;

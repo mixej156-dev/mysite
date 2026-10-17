@@ -10,7 +10,7 @@ import { BOUNTY_SEVERITIES, CUSTODY_PRACTICES, INCIDENT_STEPS, SECURITY_CONTROLS
 export const metadata: Metadata = {
   title: "Security",
   description:
-    "How {BRAND_NAME} protects validator keys, operates infrastructure, handles incidents and accepts vulnerability reports.",
+    "How LONAR ECO. protects validator keys, operates infrastructure, handles incidents and accepts vulnerability reports.",
 };
 
 const IN_SCOPE = ["This website and the staking dashboard", "Account, staking and withdrawal flows", "Public APIs"];

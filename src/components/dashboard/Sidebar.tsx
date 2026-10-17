@@ -12,7 +12,7 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
 
   return (
     <div className="flex h-full flex-col gap-8 px-4 py-5">
-      <Link href="/" aria-label="{BRAND_NAME} home" className="self-start rounded-sm px-2" onClick={onNavigate}>
+      <Link href="/" aria-label="LONAR ECO. home" className="self-start rounded-sm px-2" onClick={onNavigate}>
         <Logo />
       </Link>
       <nav aria-label="Dashboard">

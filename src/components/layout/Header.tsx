@@ -10,7 +10,6 @@ import { AccountMenu } from "./AccountMenu";
 import { Logo } from "./Logo";
 import { MegaMenu } from "./MegaMenu";
 import { MobileMenu } from "./MobileMenu";
-import { ThemeToggle } from "./ThemeToggle";
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -38,14 +37,13 @@ export function Header() {
           "data-scrolled:border-rule data-scrolled:bg-surface data-scrolled:shadow-float",
         )}
       >
-        <Link href="/" aria-label="{BRAND_NAME} home" className="mr-auto rounded-sm lg:mr-6">
+        <Link href="/" aria-label="LONAR ECO. home" className="mr-auto rounded-sm lg:mr-6">
           <Logo />
         </Link>
 
         <MegaMenu className="max-lg:hidden" />
 
         <div className="ml-auto flex items-center gap-1">
-          <ThemeToggle className="max-lg:hidden" />
           {status === "loading" && (
             /* Holds the space of the guest buttons so nothing jumps once the session is read */
             <span aria-hidden className="h-10 w-48 max-sm:hidden" />

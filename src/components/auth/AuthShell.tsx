@@ -1,7 +1,6 @@
 import type { ReactNode } from "react";
 import { Link } from "@/components/Link";
 import { Logo } from "../layout/Logo";
-import { ThemeToggle } from "../layout/ThemeToggle";
 
 const POINTS = [
   "Terms shown before you stake",
@@ -14,7 +13,7 @@ export function AuthShell({ children }: { children: ReactNode }) {
   return (
     <div className="grid min-h-dvh lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
       <aside data-tone="inverse" className="flex flex-col justify-between bg-bg p-8 text-text max-lg:hidden xl:p-12">
-        <Link href="/" aria-label="{BRAND_NAME} home" className="self-start rounded-sm">
+        <Link href="/" aria-label="LONAR ECO. home" className="self-start rounded-sm">
           <Logo />
         </Link>
         <div>
@@ -33,10 +32,9 @@ export function AuthShell({ children }: { children: ReactNode }) {
 
       <div className="flex flex-col">
         <div className="flex h-16 items-center justify-between px-6 sm:px-10">
-          <Link href="/" aria-label="{BRAND_NAME} home" className="rounded-sm lg:invisible">
+          <Link href="/" aria-label="LONAR ECO. home" className="rounded-sm lg:invisible">
             <Logo />
           </Link>
-          <ThemeToggle />
         </div>
         <main id="main" className="flex flex-1 items-center justify-center px-6 py-10 sm:px-10">
           <div className="w-full max-w-md">{children}</div>

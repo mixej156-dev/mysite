@@ -15,7 +15,7 @@ export function Logo({ className }: { className?: string }) {
   return (
     <span className={cn("inline-flex items-center gap-2 font-display text-body font-semibold tracking-tight", className)}>
       <LogoMark />
-      {"{BRAND_NAME}"}
+      LONAR ECO.
     </span>
   );
 }

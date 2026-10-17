@@ -4,7 +4,7 @@ import { LoginForm } from "@/components/auth/LoginForm";
 
 export const metadata: Metadata = {
   title: "Log in",
-  description: "Log in to the {BRAND_NAME} demo dashboard.",
+  description: "Log in to the LONAR ECO. demo dashboard.",
 };
 
 export default function LoginPage() {

@@ -4,7 +4,7 @@ import { BlogIndex } from "@/components/blog/BlogIndex";
 
 export const metadata: Metadata = {
   title: "Blog",
-  description: "Research, validator performance reports, product notes and staking guides from the {BRAND_NAME} team.",
+  description: "Research, validator performance reports, product notes and staking guides from the LONAR ECO. team.",
 };
 
 export default function BlogPage() {

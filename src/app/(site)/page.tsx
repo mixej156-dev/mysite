@@ -8,7 +8,7 @@ import { Pools } from "@/components/home/Pools";
 import { Trust } from "@/components/home/Trust";
 
 export const metadata: Metadata = {
-  title: { absolute: "{BRAND_NAME} — Staking, kept to account" },
+  title: { absolute: "LONAR ECO. — Staking, kept to account" },
   description:
     "Stake ETH, SOL, ATOM and more with validators held to published uptime targets. Rewards recorded per epoch and paid out daily. Demo prototype.",
 };

@@ -14,7 +14,6 @@ import { cn } from "@/lib/cn";
 import { formatPercent } from "@/lib/format";
 import { Logo } from "./Logo";
 import { NAV_SECTIONS, isSectionActive, type NavLink } from "./nav";
-import { ThemeToggle } from "./ThemeToggle";
 
 const iconButton =
   "grid size-10 place-items-center rounded-pill text-text transition-colors duration-fast hover:bg-surface-2";
@@ -55,7 +54,7 @@ export function MobileMenu() {
                 <Dialog.Title className="sr-only">Menu</Dialog.Title>
                 <div className="container-page flex h-[4.25rem] shrink-0 items-end">
                   <div className="-mx-3 flex h-14 flex-1 items-center justify-between pr-2 pl-3 sm:-mx-4 sm:pl-4">
-                    <Link href="/" onClick={close} aria-label="{BRAND_NAME} home" className="rounded-sm">
+                    <Link href="/" onClick={close} aria-label="LONAR ECO. home" className="rounded-sm">
                       <Logo />
                     </Link>
                     <Dialog.Close aria-label="Close menu" className={iconButton}>
@@ -121,10 +120,6 @@ export function MobileMenu() {
                 </nav>
 
                 <div className="container-page flex flex-col gap-3 pt-8 pb-8">
-                  <div className="flex items-center justify-between">
-                    <span className="text-small text-muted">Theme</span>
-                    <ThemeToggle />
-                  </div>
                   {status === "authed" && session ? (
                     <>
                       <p className="border-t border-rule pt-4 text-small">

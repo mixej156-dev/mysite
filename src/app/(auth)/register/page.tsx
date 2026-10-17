@@ -4,7 +4,7 @@ import { RegisterForm } from "@/components/auth/RegisterForm";
 
 export const metadata: Metadata = {
   title: "Create an account",
-  description: "Create a {BRAND_NAME} demo account.",
+  description: "Create a LONAR ECO. demo account.",
 };
 
 export default function RegisterPage() {

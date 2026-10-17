@@ -9,7 +9,7 @@ export function Footer() {
     <footer className="border-t border-rule">
       <div className="container-page grid gap-12 py-16 lg:grid-cols-[minmax(0,1.3fr)_repeat(4,minmax(0,1fr))] lg:gap-8">
         <div className="flex max-w-xs flex-col gap-4">
-          <Link href="/" aria-label="{BRAND_NAME} home" className="self-start rounded-sm">
+          <Link href="/" aria-label="LONAR ECO. home" className="self-start rounded-sm">
             <Logo />
           </Link>
           <p className="font-serif text-small text-muted">
@@ -55,7 +55,7 @@ export function Footer() {
                 </li>
               ))}
             </ul>
-            <span>© 2026 {"{BRAND_NAME}"}</span>
+            <span>© 2026 LONAR ECO.</span>
           </div>
         </div>
       </div>

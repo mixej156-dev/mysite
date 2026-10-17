@@ -1,7 +1,6 @@
 "use client";
 
 import { Logo, LogoMark } from "@/components/layout/Logo";
-import { ThemeToggle } from "@/components/layout/ThemeToggle";
 import { Example, Section } from "../_components/Section";
 import { ThemePair } from "../_components/ThemePair";
 
@@ -18,11 +17,6 @@ export function LayoutSection() {
               <div className="flex items-center gap-6">
                 <Logo />
                 <LogoMark className="size-10" />
-              </div>
-            </Example>
-            <Example label="Theme toggle">
-              <div>
-                <ThemeToggle />
               </div>
             </Example>
           </>

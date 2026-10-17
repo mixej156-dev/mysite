@@ -8,7 +8,7 @@ import { buttonClasses } from "@/design-system";
 
 export const metadata: Metadata = {
   title: "FAQ",
-  description: "Short answers about staking, rewards, withdrawals and account security on {BRAND_NAME}.",
+  description: "Short answers about staking, rewards, withdrawals and account security on LONAR ECO..",
 };
 
 export default function FaqPage() {

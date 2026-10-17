@@ -11,7 +11,7 @@ import { formatCompactCurrency } from "@/lib/format";
 
 export const metadata: Metadata = {
   title: "About",
-  description: "Who runs {BRAND_NAME}, what we value, and how the company got here. Demo prototype.",
+  description: "Who runs LONAR ECO., what we value, and how the company got here. Demo prototype.",
 };
 
 const tvl = metrics.find((m) => m.id === "tvl")?.value ?? 0;
@@ -28,7 +28,7 @@ export default function AboutPage() {
     <>
       <PageHeader
         title="We run validators and show our work."
-        lead="{BRAND_NAME} stakes on six networks for funds and individuals. Every yield, fee and reward is shown in a way you can check."
+        lead="LONAR ECO. stakes on six networks for funds and individuals. Every yield, fee and reward is shown in a way you can check."
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "About" }]}
       />
 
