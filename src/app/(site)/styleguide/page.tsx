@@ -5,12 +5,13 @@ import { ButtonSection, CheckboxSection, InputSection, SelectSection, SliderSect
 import { ColorSection, MotionSection, SpaceSection, TypographySection } from "./_sections/Foundations";
 import { LayoutSection } from "./_sections/Layout";
 import { BlocksSection } from "./_sections/Blocks";
+import { ContentSection } from "./_sections/Content";
 import { DashboardSection } from "./_sections/Dashboard";
 import { DropdownSection, ModalSection, ToastSection, TooltipSection } from "./_sections/Overlays";
 
 export const metadata: Metadata = {
   title: "Design system",
-  description: "Tokens and base components of the LONAR ECO. interface, in light and dark themes.",
+  description: "Tokens, base components and content blocks of the LONAR ECO. interface.",
 };
 
 export default function StyleguidePage() {
@@ -35,8 +36,8 @@ export default function StyleguidePage() {
           <div className="mb-14 max-w-[62ch]">
             <h1 className="text-h1">Design system</h1>
             <p className="mt-4 font-serif text-lead text-muted">
-              Tokens and base components, each shown in the light and dark theme. The theme switch in the header changes the
-              page theme; previews keep their own.
+              Tokens, base components and the blocks pages are built from. The site uses one light theme; dark
+              surfaces appear only inside inverse sections.
             </p>
           </div>
 
@@ -62,6 +63,7 @@ export default function StyleguidePage() {
           <PaginationSection />
           <LayoutSection />
           <BlocksSection />
+          <ContentSection />
           <DashboardSection />
         </div>
     </div>

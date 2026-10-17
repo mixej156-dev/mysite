@@ -16,7 +16,7 @@ import {
   Toggle,
 } from "@/design-system";
 import { Example, Section } from "../_components/Section";
-import { ThemePair } from "../_components/ThemePair";
+import { Preview } from "../_components/Preview";
 
 function ClaimButton() {
   const [loading, setLoading] = useState(false);
@@ -39,7 +39,7 @@ export function ButtonSection() {
       id="button"
       description="Primary is the one action that moves the user forward on a screen; there is never more than one. Secondary sits beside it, ghost is for tertiary and toolbar actions."
     >
-      <ThemePair>
+      <Preview>
         {() => (
           <>
             <Example label="Variants">
@@ -76,7 +76,7 @@ export function ButtonSection() {
             </Example>
           </>
         )}
-      </ThemePair>
+      </Preview>
     </Section>
   );
 }
@@ -87,7 +87,7 @@ export function InputSection() {
       id="input"
       description="Labels sit above the field and stay visible. Hints explain the rule before it is broken; errors say what is wrong and how to fix it. Amounts use monospace digits and show the asset as a suffix."
     >
-      <ThemePair className="sm:grid sm:grid-cols-2 sm:gap-x-6">
+      <Preview className="sm:grid sm:grid-cols-2 sm:gap-x-6">
         {() => (
           <>
             <Input label="Email" type="email" placeholder="you@company.com" prefix={<Mail aria-hidden />} />
@@ -122,7 +122,7 @@ export function InputSection() {
             />
           </>
         )}
-      </ThemePair>
+      </Preview>
     </Section>
   );
 }
@@ -138,9 +138,9 @@ export function SelectSection() {
   return (
     <Section
       id="select"
-      description="For choosing one option from a known list. The open list takes the panel's theme and can be operated with arrow keys and type-ahead."
+      description="For choosing one option from a known list. The open list can be operated with arrow keys and type-ahead."
     >
-      <ThemePair className="sm:grid sm:grid-cols-2 sm:gap-x-6">
+      <Preview className="sm:grid sm:grid-cols-2 sm:gap-x-6">
         {() => (
           <>
             <Select label="Pool" options={POOL_OPTIONS} placeholder="Choose a pool" />
@@ -149,7 +149,7 @@ export function SelectSection() {
             <Select label="Lock period" options={POOL_OPTIONS} disabled placeholder="Flexible only" />
           </>
         )}
-      </ThemePair>
+      </Preview>
     </Section>
   );
 }
@@ -160,7 +160,7 @@ export function CheckboxSection() {
       id="checkbox"
       description="Checkbox for agreeing or selecting several items; toggle for settings that apply immediately."
     >
-      <ThemePair className="sm:grid sm:grid-cols-2 sm:gap-x-8">
+      <Preview className="sm:grid sm:grid-cols-2 sm:gap-x-8">
         {() => (
           <>
             <Example label="Checkbox">
@@ -185,7 +185,7 @@ export function CheckboxSection() {
             </Example>
           </>
         )}
-      </ThemePair>
+      </Preview>
     </Section>
   );
 }
@@ -211,14 +211,14 @@ export function SliderSection() {
       id="slider"
       description="For choosing a value in a range where the exact number matters less than the feel of it. Pair it with a text field when people need to type an exact amount. Arrow keys step, Home and End jump to the ends."
     >
-      <ThemePair>
+      <Preview>
         {() => (
           <>
             <SliderDemo />
             <SliderDemo disabled />
           </>
         )}
-      </ThemePair>
+      </Preview>
     </Section>
   );
 }
@@ -229,7 +229,7 @@ export function TabsSection() {
       id="tabs"
       description="Underline tabs switch between views of the same subject. Segmented tabs switch a small range, such as a chart period."
     >
-      <ThemePair>
+      <Preview>
         {() => (
           <>
             <Example label="Underline">
@@ -266,7 +266,7 @@ export function TabsSection() {
             </Example>
           </>
         )}
-      </ThemePair>
+      </Preview>
     </Section>
   );
 }

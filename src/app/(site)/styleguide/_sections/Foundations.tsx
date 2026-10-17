@@ -6,12 +6,16 @@ import { Button } from "@/design-system";
 import { duration, ease } from "@/design-system/motion";
 import { cn } from "@/lib/cn";
 import { Example, Section } from "../_components/Section";
-import { ThemePair } from "../_components/ThemePair";
+import { Preview } from "../_components/Preview";
 
 const COLOR_GROUPS = [
   { label: "Surfaces", tokens: ["bg", "surface", "surface-2", "rule", "rule-strong"] },
   { label: "Text", tokens: ["text", "muted", "accent-text"] },
   { label: "Accent & status", tokens: ["accent", "accent-hover", "success", "warning", "danger"] },
+  {
+    label: "Topic palette (cover art only, never text or UI state)",
+    tokens: ["topic-blue", "topic-green", "topic-teal", "topic-orange", "topic-amber", "topic-violet", "topic-rose"],
+  },
 ] as const;
 
 function toHex(rgb: string): string {
@@ -55,9 +59,9 @@ export function ColorSection() {
   return (
     <Section
       id="colors"
-      description="One accent, used for actions, focus and the active line of a chart. Everything else is ink, paper and rules. Status colours appear only where a state needs naming."
+      description="One accent, used for actions, focus and the active line of a chart. Everything else is ink, paper and rules. Status colours appear only where a state needs naming. The topic palette colours generated cover art in ECO. LEARN and the home news, nothing else."
     >
-      <ThemePair>
+      <Preview>
         {() =>
           COLOR_GROUPS.map((group) => (
             <Example key={group.label} label={group.label}>
@@ -69,7 +73,7 @@ export function ColorSection() {
             </Example>
           ))
         }
-      </ThemePair>
+      </Preview>
     </Section>
   );
 }
@@ -148,7 +152,7 @@ export function SpaceSection() {
           ))}
         </div>
       </Example>
-      <ThemePair>
+      <Preview>
         {() => (
           <Example label="Shadows: float and overlay">
             <div className="flex flex-wrap gap-6 py-2">
@@ -161,7 +165,7 @@ export function SpaceSection() {
             </div>
           </Example>
         )}
-      </ThemePair>
+      </Preview>
     </Section>
   );
 }

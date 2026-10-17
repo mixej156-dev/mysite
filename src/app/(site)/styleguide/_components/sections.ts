@@ -21,6 +21,7 @@ export const SECTIONS = [
   { id: "pagination", title: "Pagination" },
   { id: "layout", title: "Layout" },
   { id: "blocks", title: "Blocks" },
+  { id: "content", title: "Covers & content" },
   { id: "dashboard", title: "Dashboard" },
 ] as const;
 

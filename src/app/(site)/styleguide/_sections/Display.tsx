@@ -20,7 +20,7 @@ import {
   type SortDirection,
 } from "@/design-system";
 import { Example, Section } from "../_components/Section";
-import { ThemePair } from "../_components/ThemePair";
+import { Preview } from "../_components/Preview";
 
 const FILTERS = [
   { id: "all", label: "All pools", count: 12 },
@@ -60,7 +60,7 @@ export function BadgeSection() {
       id="badge"
       description="Badges name a state and can't be clicked. Tags are filters: they toggle, show a count, or can be removed."
     >
-      <ThemePair>
+      <Preview>
         {() => (
           <>
             <Example label="Badge tones">
@@ -83,7 +83,7 @@ export function BadgeSection() {
             </Example>
           </>
         )}
-      </ThemePair>
+      </Preview>
     </Section>
   );
 }
@@ -94,7 +94,7 @@ export function CardSection() {
       id="card"
       description="Surface cards hold a unit of content. Outline cards group without adding weight. Inset cards sit inside another surface, like a summary inside a form."
     >
-      <ThemePair>
+      <Preview>
         {() => (
           <>
             <div className="grid gap-4 sm:grid-cols-3">
@@ -139,7 +139,7 @@ export function CardSection() {
             </Example>
           </>
         )}
-      </ThemePair>
+      </Preview>
     </Section>
   );
 }
@@ -221,7 +221,7 @@ export function TableSection() {
       id="table"
       description="Figures are monospace and right-aligned so decimals line up. Sortable columns say which way they sort. On narrow screens the table scrolls inside its own frame."
     >
-      <ThemePair stacked>
+      <Preview>
         {() => (
           <>
             <Example label="Sortable">
@@ -232,7 +232,7 @@ export function TableSection() {
             </Example>
           </>
         )}
-      </ThemePair>
+      </Preview>
     </Section>
   );
 }
@@ -258,7 +258,7 @@ const FAQ = [
 export function AccordionSection() {
   return (
     <Section id="accordion" description="For FAQs and long secondary detail. One panel open at a time by default.">
-      <ThemePair>{() => <Accordion items={FAQ} defaultOpen={["unbonding"]} />}</ThemePair>
+      <Preview>{() => <Accordion items={FAQ} defaultOpen={["unbonding"]} />}</Preview>
     </Section>
   );
 }
@@ -269,7 +269,7 @@ export function ProgressSection() {
       id="progress"
       description="Progress shows how far along a known process is, such as an unbonding period. Skeletons hold the shape of content while it loads."
     >
-      <ThemePair>
+      <Preview>
         {() => (
           <>
             <Example label="Progress">
@@ -297,7 +297,7 @@ export function ProgressSection() {
             </Example>
           </>
         )}
-      </ThemePair>
+      </Preview>
     </Section>
   );
 }
@@ -313,7 +313,7 @@ export function PaginationSection() {
       id="pagination"
       description="For long lists like transactions and blog posts. On phones the page numbers collapse into a counter between the arrows."
     >
-      <ThemePair>
+      <Preview>
         {() => (
           <>
             <Example label="5 pages">
@@ -324,7 +324,7 @@ export function PaginationSection() {
             </Example>
           </>
         )}
-      </ThemePair>
+      </Preview>
     </Section>
   );
 }

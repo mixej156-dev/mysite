@@ -8,7 +8,7 @@ import { StakePositionsTable } from "@/components/dashboard/StakePositionsTable"
 import { SEED_PORTFOLIO } from "@/data/portfolio";
 import { positionRewards } from "@/lib/portfolio";
 import { Example, Section } from "../_components/Section";
-import { ThemePair } from "../_components/ThemePair";
+import { Preview } from "../_components/Preview";
 
 const rewards = SEED_PORTFOLIO.positions.flatMap(positionRewards);
 const rows = SEED_PORTFOLIO.positions.slice(0, 2).map((p) => ({
@@ -22,7 +22,7 @@ export function DashboardSection() {
       id="dashboard"
       description="Blocks used in the signed-in dashboard, shown with the account’s seed data. The sidebar and top bar are visible on any /dashboard page."
     >
-      <ThemePair stacked>
+      <Preview>
         {() => (
           <>
             <Example label="BalanceCard">
@@ -57,7 +57,7 @@ export function DashboardSection() {
             </Example>
           </>
         )}
-      </ThemePair>
+      </Preview>
     </Section>
   );
 }

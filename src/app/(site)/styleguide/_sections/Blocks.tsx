@@ -10,7 +10,7 @@ import { pools } from "@/data/pools";
 import { posts } from "@/data/posts";
 import { projectBalances } from "@/lib/compound";
 import { Example, Section } from "../_components/Section";
-import { ThemePair } from "../_components/ThemePair";
+import { Preview } from "../_components/Preview";
 
 const ringScale = (1 + 0.142) ** 5 - 1;
 
@@ -18,9 +18,9 @@ export function BlocksSection() {
   return (
     <Section
       id="blocks"
-      description="Composite blocks built from the base components, first used on the home page. They take data as props and read the same tokens, so they work in either theme and inside inverse sections."
+      description="Composite blocks built from the base components, first used on the home page. They take data as props and read the same tokens, so they work on the page and inside inverse sections."
     >
-      <ThemePair>
+      <Preview>
         {() => (
           <>
             <Example label="StatCard">
@@ -53,7 +53,7 @@ export function BlocksSection() {
             </Example>
           </>
         )}
-      </ThemePair>
+      </Preview>
     </Section>
   );
 }

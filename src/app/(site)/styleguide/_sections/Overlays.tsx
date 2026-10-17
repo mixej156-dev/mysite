@@ -15,7 +15,7 @@ import {
   useToast,
 } from "@/design-system";
 import { Example, Section } from "../_components/Section";
-import { ThemePair } from "../_components/ThemePair";
+import { Preview } from "../_components/Preview";
 
 function ConfirmStakeModal() {
   const [open, setOpen] = useState(false);
@@ -72,7 +72,7 @@ export function ModalSection() {
       id="modal"
       description="For confirming a consequential action without leaving the page. Focus is trapped inside, Escape closes, and focus returns to the button that opened it."
     >
-      <ThemePair>
+      <Preview>
         {() => (
           <Example label="Confirmation with loading and success toast">
             <div>
@@ -80,7 +80,7 @@ export function ModalSection() {
             </div>
           </Example>
         )}
-      </ThemePair>
+      </Preview>
     </Section>
   );
 }
@@ -88,7 +88,7 @@ export function ModalSection() {
 export function DropdownSection() {
   return (
     <Section id="dropdown" description="A short list of actions behind one control, such as the account menu.">
-      <ThemePair>
+      <Preview>
         {() => (
           <Example label="Account menu">
             <div>
@@ -114,7 +114,7 @@ export function DropdownSection() {
             </div>
           </Example>
         )}
-      </ThemePair>
+      </Preview>
     </Section>
   );
 }
@@ -125,7 +125,7 @@ export function TooltipSection() {
       id="tooltip"
       description="Short definitions for terms and figures. Never the only place important information lives, since touch screens can't hover."
     >
-      <ThemePair>
+      <Preview>
         {() => (
           <Example label="Hover or focus the icon">
             <div className="flex items-center gap-2 text-small">
@@ -143,7 +143,7 @@ export function TooltipSection() {
             </div>
           </Example>
         )}
-      </ThemePair>
+      </Preview>
     </Section>
   );
 }
