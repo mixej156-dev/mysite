@@ -35,7 +35,7 @@ export function DashboardShell({ children }: { children: ReactNode }) {
             <main
               id="main"
               tabIndex={-1}
-              className="w-full max-w-[84rem] flex-1 px-4 py-8 outline-none sm:px-6 lg:px-7 lg:py-10"
+              className="w-full flex-1 px-4 py-8 outline-none sm:px-6 lg:px-7 lg:py-10"
             >
               {children}
             </main>

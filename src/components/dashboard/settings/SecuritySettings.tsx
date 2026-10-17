@@ -141,7 +141,7 @@ export function SecuritySettings() {
           onSubmit={changePassword}
           noValidate
           aria-label="Change password"
-          className="flex max-w-lg flex-col gap-5"
+          className="flex flex-col gap-5"
         >
           <PasswordInput
             label="Current password"

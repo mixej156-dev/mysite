@@ -21,7 +21,7 @@ export function Settings() {
     <>
       <PageTitle
         title="Settings"
-        lead="Profile, security, notifications and appearance. Changes stay in this browser."
+        lead="Profile, security, notifications, API keys and account."
       />
       <Tabs defaultValue="profile">
         <TabsList aria-label="Settings sections">

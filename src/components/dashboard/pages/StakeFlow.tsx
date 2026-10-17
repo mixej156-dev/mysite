@@ -85,7 +85,7 @@ export function StakeFlow() {
         <PageTitle title="Stake" />
         <div
           role="status"
-          className="flex max-w-xl flex-col items-start gap-5 rounded-card border border-rule bg-surface p-6 md:p-8"
+          className="flex flex-col items-start gap-5 rounded-card border border-rule bg-surface p-6 md:p-8"
         >
           <CircleCheck aria-hidden className="size-8 text-success" />
           <div>
