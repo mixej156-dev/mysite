@@ -4,7 +4,7 @@ import { Link } from "@/components/Link";
 import { useMemo, useState } from "react";
 import { Card, Input, Select, Tabs, TabsList, TabsTrigger } from "@/design-system";
 import { pools } from "@/data/pools";
-import { projectBalances } from "@/lib/compound";
+import { RING_YEARS, projectBalances } from "@/lib/compound";
 import { formatPercent, formatToken } from "@/lib/format";
 import { CalculatorRings } from "../tools/CalculatorRings";
 import { Section, SectionHeader } from "../blocks/Section";
@@ -99,6 +99,15 @@ export function Calculator() {
                     {year === 0 ? "Today" : `Year ${year}`}
                   </th>
                   <td className="py-2.5 text-right font-mono">{valid ? `${fmt(b)} ${pool.ticker}` : "—"}</td>
+                </tr>
+              ))}
+              {/* Invisible spacer rows keep the card the same height for every period */}
+              {Array.from({ length: RING_YEARS - years }, (_, i) => (
+                <tr key={`spacer-${i}`} aria-hidden className="invisible border-t border-rule">
+                  <th scope="row" className="py-2.5 text-left font-normal">
+                    Year
+                  </th>
+                  <td className="py-2.5 text-right font-mono">0</td>
                 </tr>
               ))}
             </tbody>

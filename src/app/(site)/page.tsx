@@ -4,7 +4,7 @@ import { Closing, LatestPosts, Testimonials } from "@/components/home/Closing";
 import { Hero } from "@/components/home/Hero";
 import { HowItWorks } from "@/components/home/HowItWorks";
 import { Metrics } from "@/components/home/Metrics";
-import { Pools } from "@/components/home/Pools";
+import { LatestNews } from "@/components/home/LatestNews";
 import { Trust } from "@/components/home/Trust";
 
 export const metadata: Metadata = {
@@ -18,7 +18,7 @@ export default function HomePage() {
     <>
       <Hero />
       <Metrics />
-      <Pools />
+      <LatestNews />
       <HowItWorks />
       <Trust />
       <Calculator />

@@ -2,7 +2,6 @@
 
 import { motion, useReducedMotion } from "framer-motion";
 import type { ReactNode } from "react";
-import { duration, ease } from "@/design-system/motion";
 
 const SIZE = 400;
 const CENTER = SIZE / 2;
@@ -37,7 +36,7 @@ export function GrowthRings({ balances, maxYears, scaleRatio, children }: Growth
     return R0 + SPAN * Math.sqrt(Math.min(1, ratio / scaleRatio));
   };
 
-  const transition = reduceMotion ? { duration: 0 } : { duration: duration.slow * 1.5, ease };
+  const transition = reduceMotion ? { duration: 0 } : { type: "spring" as const, stiffness: 70, damping: 20, mass: 1 };
 
   return (
     <div className="relative mx-auto aspect-square w-full max-w-[25rem]">
