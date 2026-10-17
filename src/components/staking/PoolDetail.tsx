@@ -182,8 +182,8 @@ export function PoolDetailSkeleton() {
           <Skeleton className="h-16 w-3/4" />
           <Skeleton className="h-6 w-2/3" />
           <div className="mt-3 flex gap-3">
-            <Skeleton className="h-12 w-36 rounded-pill" />
-            <Skeleton className="h-12 w-40 rounded-pill" />
+            <Skeleton className="h-12 w-36 rounded-field" />
+            <Skeleton className="h-12 w-40 rounded-field" />
           </div>
         </div>
         <Skeleton className="h-36 lg:col-span-5" />

@@ -67,7 +67,7 @@ export function Modal({ open, onOpenChange, title, description, trigger, footer,
                     </div>
                     <Dialog.Close
                       aria-label="Close"
-                      className="-mr-2 -mt-1 grid size-9 shrink-0 place-items-center rounded-pill text-muted transition-colors duration-fast hover:bg-surface-2 hover:text-text"
+                      className="-mr-2 -mt-1 grid size-9 shrink-0 place-items-center rounded-field text-muted transition-colors duration-fast hover:bg-surface-2 hover:text-text"
                     >
                       <X aria-hidden className="size-5" />
                     </Dialog.Close>

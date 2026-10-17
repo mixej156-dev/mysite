@@ -47,7 +47,7 @@ export function Converter() {
           type="button"
           onClick={swap}
           aria-label={`Swap: convert ${to} to ${from}`}
-          className="mx-auto grid size-11 place-items-center rounded-pill border border-rule text-muted transition-colors duration-fast hover:border-rule-strong hover:text-text md:mb-0"
+          className="mx-auto grid size-11 place-items-center rounded-field border border-rule text-muted transition-colors duration-fast hover:border-rule-strong hover:text-text md:mb-0"
         >
           <ArrowDownUp aria-hidden className="size-5 md:rotate-90" />
         </button>

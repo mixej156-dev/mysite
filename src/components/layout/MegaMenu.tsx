@@ -94,7 +94,7 @@ export function MegaMenu({ className }: { className?: string }) {
             <Nav.Trigger
               data-active={active || undefined}
               className={cn(
-                "group inline-flex h-9 items-center gap-1 rounded-pill px-3.5 text-small font-medium text-muted",
+                "group inline-flex h-9 items-center gap-1 rounded-field px-3.5 text-small font-medium text-muted",
                 "transition-colors duration-fast hover:text-text data-[state=open]:bg-surface-2 data-[state=open]:text-text",
                 "data-active:text-text",
               )}

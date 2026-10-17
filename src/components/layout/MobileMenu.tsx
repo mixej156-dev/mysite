@@ -16,7 +16,7 @@ import { Logo } from "./Logo";
 import { NAV_SECTIONS, isSectionActive, type NavLink } from "./nav";
 
 const iconButton =
-  "grid size-10 place-items-center rounded-pill text-text transition-colors duration-fast hover:bg-surface-2";
+  "grid size-10 place-items-center rounded-field text-text transition-colors duration-fast hover:bg-surface-2";
 
 export function MobileMenu() {
   const [open, setOpen] = useState(false);

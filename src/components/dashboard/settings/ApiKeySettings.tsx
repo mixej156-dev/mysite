@@ -115,7 +115,7 @@ export function ApiKeySettings() {
               type="button"
               onClick={() => copy(created)}
               aria-label="Copy key"
-              className="grid size-8 shrink-0 place-items-center rounded-pill text-muted hover:bg-surface hover:text-text"
+              className="grid size-8 shrink-0 place-items-center rounded-field text-muted hover:bg-surface hover:text-text"
             >
               <Copy aria-hidden className="size-4" />
             </button>

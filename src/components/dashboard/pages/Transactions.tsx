@@ -213,7 +213,7 @@ export function Transactions() {
                         type="button"
                         onClick={() => copy(t.hash)}
                         aria-label={`Copy hash ${shortHash(t.hash)}`}
-                        className="grid size-7 place-items-center rounded-pill transition-colors duration-fast hover:bg-surface-2 hover:text-text"
+                        className="grid size-7 place-items-center rounded-field transition-colors duration-fast hover:bg-surface-2 hover:text-text"
                       >
                         <Copy aria-hidden className="size-3.5" />
                       </button>

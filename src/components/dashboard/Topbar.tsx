@@ -19,7 +19,7 @@ export function Topbar() {
       <Dialog.Root open={open} onOpenChange={setOpen}>
         <Dialog.Trigger
           aria-label="Open navigation"
-          className="grid size-10 place-items-center rounded-pill text-text transition-colors duration-fast hover:bg-surface-2 lg:hidden"
+          className="grid size-10 place-items-center rounded-field text-text transition-colors duration-fast hover:bg-surface-2 lg:hidden"
         >
           <Menu aria-hidden className="size-5" />
         </Dialog.Trigger>
@@ -32,7 +32,7 @@ export function Topbar() {
             <Dialog.Title className="sr-only">Dashboard navigation</Dialog.Title>
             <Dialog.Close
               aria-label="Close navigation"
-              className="absolute top-4 right-3 grid size-9 place-items-center rounded-pill text-muted hover:bg-surface-2 hover:text-text"
+              className="absolute top-4 right-3 grid size-9 place-items-center rounded-field text-muted hover:bg-surface-2 hover:text-text"
             >
               <X aria-hidden className="size-5" />
             </Dialog.Close>

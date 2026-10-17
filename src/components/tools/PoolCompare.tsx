@@ -100,7 +100,7 @@ export function PoolCompare() {
                   type="button"
                   onClick={() => remove(slot.key)}
                   aria-label={`Remove ${pools.find((p) => p.id === slot.poolId)?.name}`}
-                  className="grid size-11 shrink-0 place-items-center rounded-pill text-muted transition-colors duration-fast hover:bg-surface-2 hover:text-text"
+                  className="grid size-11 shrink-0 place-items-center rounded-field text-muted transition-colors duration-fast hover:bg-surface-2 hover:text-text"
                 >
                   <X aria-hidden className="size-4" />
                 </button>

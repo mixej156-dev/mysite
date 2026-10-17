@@ -21,7 +21,7 @@ function pageItems(page: number, count: number): Array<number | "gap"> {
 }
 
 const item =
-  "grid h-9 min-w-9 place-items-center rounded-pill px-2 font-mono text-small transition-colors duration-fast";
+  "grid h-9 min-w-9 place-items-center rounded-field px-2 font-mono text-small transition-colors duration-fast";
 
 export function Pagination({ page, pageCount, onPageChange, className }: PaginationProps) {
   if (pageCount <= 1) return null;
