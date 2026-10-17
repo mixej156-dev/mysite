@@ -1,12 +1,14 @@
 # Stage 8 — audit progress
 
+# Status: all 5 parts done
+
 ## Part 1 — automated checks (done)
 - `npm run lint`, `tsc --noEmit`, `npm run build`: clean (57 static pages).
 - Hardcoded colors: none outside `tokens.css`/`globals.css` (`--color-white`). Only exception: QR placeholder in `SecuritySettings.tsx` uses `bg-white text-black` on purpose (QR needs fixed contrast).
 - Arbitrary sizes: only text-measure widths (`max-w-[NNch]`) and a few icon offsets; no arbitrary colors/spacing.
 - Internal links: every static and templated `href` resolves to an existing route. `href="#"` remains only for social placeholders (TeamCard, Footer), per spec.
 - Metadata: every `page.tsx` has `metadata`/`generateMetadata`.
-- **Found:** no `not-found.tsx` / `error.tsx` → fix in Part 5.
+- **Found:** no `not-found.tsx` / `error.tsx` → fixed in Part 5.
 
 ## Part 2 — public visual audit (done)
 - 20 public routes (+404) x 375/768/1440 x light/dark screenshotted with playwright-core; automated checks per shot: no horizontal scroll, no element overflowing the viewport outside a scroll container, exactly one h1, no console errors (only the expected 404 from `/nonexistent`).
@@ -29,4 +31,15 @@
 - Remaining axe hits are `/styleguide` only: a deliberately disabled (opacity-45) demo and repeated landmarks in side-by-side component previews.
 - Keyboard: tabbed 70 stops on /, /staking, /tools/calculator, /dashboard/stake, /faq; every stop shows a focus ring (stretched card links draw it on `::after`); Esc closes dialogs. Skip link present on public and dashboard layouts.
 - `prefers-reduced-motion: reduce`: no infinite animations running; Framer components use `useReducedMotion`; global CSS rules in `globals.css`/`tokens.css`.
-## Part 5 — consistency, 404, empty states (todo)
+## Part 5 — consistency, 404, empty states (done)
+- **404:** `src/app/not-found.tsx` (own header/footer, for unmatched URLs) and `src/app/(site)/not-found.tsx` (for `notFound()` on unknown pool/article/doc slugs, inside the site layout) share `NotFoundContent`. Checked: one header/footer/main/h1 on `/nonexistent`, `/staking/xyz`, `/blog/nope`, `/docs/zzz`, `/dashboard/zzz`.
+- **Error boundary:** `src/app/error.tsx` (Try again / Back to home). Not triggered in a browser — compiled and type-checked only.
+- **Empty states:** blog, staking, transactions and FAQ search with no matches all render the shared `EmptyState` with a "Clear filters" action.
+- **Consistency scan:** radii only `pill/card/field/sm` tokens; durations only `fast/base/slow`; icons all lucide at 3.5–8 sizes; section bottom padding uniform (`pb-24 md:pb-32`).
+- Final: lint, `tsc --noEmit`, `next build` clean.
+
+## Left / not done
+- `/staking/[asset]`, `/blog/[slug]`, `/docs/[slug]` unknown slugs return HTTP 200 with the 404 UI in dev (streaming with Cache Components); not verified against `next start`.
+- Social links (`href="#"`) remain placeholders by spec.
+- Text-measure `max-w-[NNch]` arbitrary values left as-is (not colors/spacing).
+- Stage 9 (animation polish, final screenshots) not started.
