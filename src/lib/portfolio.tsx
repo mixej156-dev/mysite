@@ -10,7 +10,7 @@ import {
   useSyncExternalStore,
   type ReactNode,
 } from "react";
-import { SEED_PORTFOLIO, type PortfolioState, type Position, type Prefs, type Tx } from "@/data/portfolio";
+import { SEED_PORTFOLIO, demoHash, type PortfolioState, type Position, type Prefs, type Tx } from "@/data/portfolio";
 import { getPool, pools } from "@/data/pools";
 import { USD_PRICES } from "@/data/prices";
 import { DEMO_TODAY, addDays, apyHistory, daysBetween } from "@/lib/series";
@@ -177,11 +177,7 @@ export function PortfolioProvider({ children }: { children: ReactNode }) {
         amount: r.amount,
         date: `${r.date}T00:05:00Z`,
         status: "completed",
-        hash: `0x${(r.positionId + r.date)
-          .split("")
-          .map((c) => c.charCodeAt(0).toString(16))
-          .join("")
-          .slice(0, 40)}`,
+        hash: demoHash(`${r.positionId}-${r.date}`),
         poolId: r.poolId,
       }));
     return [...settled, ...payouts].sort((a, b) => b.date.localeCompare(a.date));

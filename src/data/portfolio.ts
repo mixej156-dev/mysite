@@ -54,7 +54,8 @@ export type PortfolioState = {
   prefs: Prefs;
 };
 
-const h = (seed: string) => {
+/** Deterministic 32-byte-looking hex hash for demo transactions. Not a real hash function. */
+export const demoHash = (seed: string) => {
   let x = 2166136261;
   for (const c of seed) x = Math.imul(x ^ c.charCodeAt(0), 16777619);
   const hex = (n: number) => (n >>> 0).toString(16).padStart(8, "0");
@@ -68,7 +69,7 @@ const tx = (id: string, type: TxType, ticker: string, amount: number, date: stri
   amount,
   date,
   status: "completed",
-  hash: h(id),
+  hash: demoHash(id),
   ...extra,
 });
 
