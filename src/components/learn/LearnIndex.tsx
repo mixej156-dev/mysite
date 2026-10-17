@@ -1,6 +1,7 @@
 "use client";
 
 import { Search, SearchX } from "lucide-react";
+import { useReducedMotion } from "framer-motion";
 import { useRef, useState } from "react";
 import { Button, Input, Pagination, Tag } from "@/design-system";
 import { GUIDES, LEVELS, TOPICS, type LearnLevel, type LearnTopic } from "@/data/learn";
@@ -24,7 +25,11 @@ export function LearnIndex() {
   const [level, setLevel] = useState<LearnLevel | "All">("All");
   const [query, setQuery] = useState("");
   const [page, setPage] = useState(1);
+  /* Grid height from the previous page, so a shorter last page doesn't pull the footer up */
+  const [minHeight, setMinHeight] = useState<number>();
   const listTop = useRef<HTMLDivElement>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
+  const reduceMotion = useReducedMotion();
 
   const q = query.trim().toLowerCase();
   const filtered = MIXED.filter(
@@ -39,6 +44,17 @@ export function LearnIndex() {
   const update = (fn: () => void) => {
     fn();
     setPage(1);
+    setMinHeight(undefined);
+  };
+
+  /* Only the grid changes: keep its height, and bring its top into view only if it has scrolled away */
+  const changePage = (p: number) => {
+    const grid = gridRef.current;
+    setMinHeight(grid?.offsetHeight);
+    setPage(p);
+    if (grid && grid.getBoundingClientRect().top < 0) {
+      grid.scrollIntoView({ block: "start", behavior: reduceMotion ? "auto" : "smooth" });
+    }
   };
   const clear = () =>
     update(() => {
@@ -62,7 +78,7 @@ export function LearnIndex() {
                   type="button"
                   onClick={() => {
                     update(() => setTopic(t.name));
-                    listTop.current?.scrollIntoView({ block: "start" });
+                    listTop.current?.scrollIntoView({ block: "start", behavior: reduceMotion ? "auto" : "smooth" });
                   }}
                   className="group flex h-full w-full items-stretch overflow-hidden rounded-card border border-rule bg-surface text-left transition-colors duration-fast hover:border-rule-strong"
                 >
@@ -133,36 +149,30 @@ export function LearnIndex() {
           {filtered.length === 1 ? "1 guide" : `${filtered.length} guides`}
         </p>
 
-        {visible.length === 0 ? (
-          <EmptyState
-            icon={SearchX}
-            title="No guides match"
-            body="Try another word, topic or level."
-            action={
-              <Button variant="secondary" onClick={clear}>
-                Clear filters
-              </Button>
-            }
-          />
-        ) : (
-          <ul className="grid gap-x-8 gap-y-14 md:grid-cols-2 lg:grid-cols-3">
-            {visible.map((g) => (
-              <li key={g.slug}>
-                <LearnCard guide={g} />
-              </li>
-            ))}
-          </ul>
-        )}
+        <div ref={gridRef} className="scroll-mt-28" style={{ minHeight }}>
+          {visible.length === 0 ? (
+            <EmptyState
+              icon={SearchX}
+              title="No guides match"
+              body="Try another word, topic or level."
+              action={
+                <Button variant="secondary" onClick={clear}>
+                  Clear filters
+                </Button>
+              }
+            />
+          ) : (
+            <ul key={page} className="grid animate-fade-in gap-x-8 gap-y-14 md:grid-cols-2 lg:grid-cols-3">
+              {visible.map((g) => (
+                <li key={g.slug}>
+                  <LearnCard guide={g} />
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
 
-        <Pagination
-          page={page}
-          pageCount={pageCount}
-          onPageChange={(p) => {
-            setPage(p);
-            listTop.current?.scrollIntoView({ block: "start" });
-          }}
-          className="self-center"
-        />
+        <Pagination page={page} pageCount={pageCount} onPageChange={changePage} className="self-center" />
       </section>
     </div>
   );
