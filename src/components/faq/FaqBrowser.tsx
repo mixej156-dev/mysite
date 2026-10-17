@@ -9,6 +9,8 @@ import { EmptyState } from "../blocks/EmptyState";
 export function FaqBrowser() {
   const [category, setCategory] = useState<string>("all");
   const [query, setQuery] = useState("");
+  /** One answer open at a time across all groups */
+  const [open, setOpen] = useState("");
   const q = query.trim().toLowerCase();
 
   const groups = FAQ.filter((c) => category === "all" || c.id === category)
@@ -76,7 +78,8 @@ export function FaqBrowser() {
                 {g.title}
               </h2>
               <Accordion
-                multiple
+                value={open}
+                onValueChange={setOpen}
                 items={g.items.map((i) => ({ id: `${g.id}-${i.id}`, title: i.question, content: i.answer }))}
                 className="lg:col-span-8"
               />

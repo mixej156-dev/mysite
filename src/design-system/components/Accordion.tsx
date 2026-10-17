@@ -12,10 +12,13 @@ export type AccordionProps = {
   /** Allow several panels open at once. */
   multiple?: boolean;
   defaultOpen?: string[];
+  /** Controlled open panel for single mode, so several accordions can share one open item. */
+  value?: string;
+  onValueChange?: (value: string) => void;
   className?: string;
 };
 
-export function Accordion({ items, multiple = false, defaultOpen = [], className }: AccordionProps) {
+export function Accordion({ items, multiple = false, defaultOpen = [], value, onValueChange, className }: AccordionProps) {
   const rootClass = cn("border-t border-rule", className);
   const children = items.map((item) => (
     <RadixAccordion.Item key={item.id} value={item.id} className="border-b border-rule">
@@ -44,7 +47,12 @@ export function Accordion({ items, multiple = false, defaultOpen = [], className
       {children}
     </RadixAccordion.Root>
   ) : (
-    <RadixAccordion.Root type="single" collapsible defaultValue={defaultOpen[0]} className={rootClass}>
+    <RadixAccordion.Root
+      type="single"
+      collapsible
+      {...(onValueChange ? { value, onValueChange } : { defaultValue: defaultOpen[0] })}
+      className={rootClass}
+    >
       {children}
     </RadixAccordion.Root>
   );

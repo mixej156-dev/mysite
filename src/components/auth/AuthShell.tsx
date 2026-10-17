@@ -31,12 +31,12 @@ export function AuthShell({ children }: { children: ReactNode }) {
       </aside>
 
       <div className="flex flex-col">
-        <div className="flex h-16 items-center justify-between px-6 sm:px-10">
+        <div className="flex h-16 items-center justify-between px-6 sm:px-7">
           <Link href="/" aria-label="LONAR ECO. home" className="rounded-sm lg:invisible">
             <Logo />
           </Link>
         </div>
-        <main id="main" className="flex flex-1 items-center justify-center px-6 py-10 sm:px-10">
+        <main id="main" className="flex flex-1 items-center justify-center px-6 py-10 sm:px-7">
           <div className="w-full max-w-md">{children}</div>
         </main>
         <footer className="flex flex-wrap justify-center gap-x-5 gap-y-1 px-6 pb-6 text-caption text-muted">

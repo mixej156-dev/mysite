@@ -87,7 +87,7 @@
   --z-toast: 90;
   --z-tooltip: 100;
 
-  --container: 80rem;
+  --container: 83.5rem;
 }
 
 @media (prefers-reduced-motion: reduce) {

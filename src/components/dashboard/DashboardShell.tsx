@@ -35,11 +35,11 @@ export function DashboardShell({ children }: { children: ReactNode }) {
             <main
               id="main"
               tabIndex={-1}
-              className="w-full max-w-[80rem] flex-1 px-4 py-8 outline-none sm:px-6 lg:px-10 lg:py-10"
+              className="w-full max-w-[84rem] flex-1 px-4 py-8 outline-none sm:px-6 lg:px-7 lg:py-10"
             >
               {children}
             </main>
-            <footer className="border-t border-rule px-4 py-4 text-caption text-muted sm:px-6 lg:px-10">
+            <footer className="border-t border-rule px-4 py-4 text-caption text-muted sm:px-6 lg:px-7">
               <p>Demo data, not real balances. Nothing in this dashboard is sent to a network or a server.</p>
             </footer>
           </div>
