@@ -197,3 +197,47 @@
     }
   }
 }
+
+/* Page transitions (React <ViewTransition update="page"> in (site)/layout.tsx).
+   The header is anchored so only the content cross-fades. */
+::view-transition {
+  pointer-events: none;
+}
+::view-transition-group(site-header) {
+  animation: none;
+  z-index: 100;
+}
+::view-transition-old(site-header) {
+  display: none;
+}
+::view-transition-new(site-header) {
+  animation: none;
+}
+::view-transition-group(.page) {
+  animation-duration: var(--duration-base);
+  animation-timing-function: var(--ds-ease-brand);
+}
+::view-transition-old(.page) {
+  animation: var(--duration-fast) var(--ds-ease-brand) both vt-fade-out;
+}
+::view-transition-new(.page) {
+  animation: var(--duration-base) var(--ds-ease-brand) var(--duration-fast) both vt-fade-up;
+}
+@keyframes vt-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes vt-fade-up {
+  from {
+    opacity: 0;
+    translate: 0 8px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
