@@ -2,7 +2,7 @@
 
 import { Copy, UserPlus } from "lucide-react";
 import { Badge, Button, TBody, TD, TH, THead, TR, Table, useToast } from "@/design-system";
-import { REFERRALS, REFERRAL_MONTHS, REFERRAL_SHARE_PERCENT } from "@/data/referrals";
+import { REFERRALS, type Referral, REFERRAL_MONTHS, REFERRAL_SHARE_PERCENT } from "@/data/referrals";
 import { useAuth } from "@/lib/auth";
 import { formatCurrency, formatDate } from "@/lib/format";
 import { EmptyState } from "../../blocks/EmptyState";
@@ -11,6 +11,16 @@ import { PageTitle } from "../PageTitle";
 import { Panel } from "../Panel";
 
 /** Stable 4-character suffix from the email, so the code doesn't change between visits */
+function statusBadge(status: Referral["status"]) {
+  return status === "active" ? (
+    <Badge tone="success" dot>
+      Staking
+    </Badge>
+  ) : (
+    <Badge>Signed up</Badge>
+  );
+}
+
 function codeFor(name: string, email: string) {
   let h = 7;
   for (const c of email) h = (h * 31 + c.charCodeAt(0)) >>> 0;
@@ -110,24 +120,19 @@ export function Referrals() {
                 <tr>
                   <TH>Account</TH>
                   <TH className="max-sm:hidden">Joined</TH>
-                  <TH>Status</TH>
+                  <TH className="max-sm:hidden">Status</TH>
                   <TH numeric>You earned</TH>
                 </tr>
               </THead>
               <TBody>
                 {REFERRALS.map((r) => (
                   <TR key={r.id}>
-                    <TD className="font-mono text-small">{r.email}</TD>
-                    <TD className="text-muted max-sm:hidden">{formatDate(r.joined)}</TD>
-                    <TD>
-                      {r.status === "active" ? (
-                        <Badge tone="success" dot>
-                          Staking
-                        </Badge>
-                      ) : (
-                        <Badge>Signed up</Badge>
-                      )}
+                    <TD className="font-mono text-small">
+                      {r.email}
+                      <span className="mt-1 block font-sans sm:hidden">{statusBadge(r.status)}</span>
                     </TD>
+                    <TD className="text-muted max-sm:hidden">{formatDate(r.joined)}</TD>
+                    <TD className="max-sm:hidden">{statusBadge(r.status)}</TD>
                     <TD numeric>{formatCurrency(r.earned)}</TD>
                   </TR>
                 ))}

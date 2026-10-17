@@ -46,6 +46,13 @@ export function formatToken(value: number, ticker: string, digits = 4): string {
 }
 
 /** "2026-10-08" -> "Oct 8, 2026". Fixed locale and UTC so server and client agree. */
+/** Day and month only, for narrow table cells. */
+export function formatDateShort(iso: string): string {
+  return new Intl.DateTimeFormat("en-US", { day: "numeric", month: "short", timeZone: "UTC" }).format(
+    new Date(`${iso}T00:00:00Z`),
+  );
+}
+
 export function formatDate(iso: string): string {
   return new Intl.DateTimeFormat("en-US", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" }).format(
     new Date(`${iso}T00:00:00Z`),

@@ -6,7 +6,7 @@ import { Link } from "@/components/Link";
 import { Button, Pagination, Select, TBody, TD, TH, THead, TR, Table, buttonClasses } from "@/design-system";
 import { getPool } from "@/data/pools";
 import { downloadCsv } from "@/lib/csv";
-import { formatCurrency, formatDate } from "@/lib/format";
+import { formatCurrency, formatDate, formatDateShort } from "@/lib/format";
 import { priceOf, usePortfolio } from "@/lib/portfolio";
 import { rewardsUsd } from "@/lib/portfolioStats";
 import { DEMO_TODAY, addDays } from "@/lib/series";
@@ -175,7 +175,10 @@ export function Rewards() {
             <TBody>
               {visible.map((r) => (
                 <TR key={`${r.positionId}-${r.date}`}>
-                  <TD className="text-muted">{formatDate(r.date)}</TD>
+                  <TD className="text-muted">
+                    <span className="sm:hidden">{formatDateShort(r.date)}</span>
+                    <span className="max-sm:hidden">{formatDate(r.date)}</span>
+                  </TD>
                   <TD>{getPool(r.poolId)?.name}</TD>
                   <TD numeric className="text-success">
                     +{tokenAmount(r.amount, r.ticker)}
