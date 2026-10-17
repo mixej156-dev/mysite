@@ -18,7 +18,7 @@ export function NotificationSettings() {
 
   return (
     <SettingsSection title="Email notifications" body="Changes save as you make them.">
-      <div className="flex flex-col gap-5">
+      <div className="flex max-w-lg flex-col gap-5">
         {NOTIFICATIONS.map((n) => (
           <Toggle
             key={n.key}

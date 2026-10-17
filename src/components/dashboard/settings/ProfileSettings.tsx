@@ -38,7 +38,7 @@ export function ProfileSettings() {
 
   return (
     <SettingsSection title="Profile" body="Your name appears in the dashboard. The email is where notices would go.">
-      <form ref={formRef} onSubmit={save} noValidate aria-label="Profile" className="flex flex-col gap-5">
+      <form ref={formRef} onSubmit={save} noValidate aria-label="Profile" className="flex max-w-lg flex-col gap-5">
         <Input
           label="Full name"
           autoComplete="name"
