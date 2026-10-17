@@ -1,11 +1,13 @@
-import { Mail } from "lucide-react";
+import { ArrowRight, Mail } from "lucide-react";
 import type { Metadata } from "next";
 import { ControlsList } from "@/components/blocks/ControlsList";
 import { PageHeader } from "@/components/blocks/PageHeader";
 import { Section, SectionHeader } from "@/components/blocks/Section";
 import { StepsFlow } from "@/components/blocks/StepsFlow";
-import { Accordion, Badge, TBody, TD, TH, THead, TR, Table } from "@/design-system";
+import { Link } from "@/components/Link";
+import { Accordion, Badge, TBody, TD, TH, THead, TR, Table, buttonClasses } from "@/design-system";
 import { BOUNTY_SEVERITIES, CUSTODY_PRACTICES, INCIDENT_STEPS, SECURITY_CONTROLS } from "@/data/security";
+import { INCIDENTS, NETWORK_PERFORMANCE } from "@/data/validators";
 
 export const metadata: Metadata = {
   title: "Security",
@@ -30,8 +32,20 @@ const FAQ = [
   {
     id: "slashing",
     title: "What happens if a validator is slashed?",
-    content:
-      "The penalty reduces the balance of the affected pool. We publish an incident review explaining the cause and the impact on each staker.",
+    content: (
+      <>
+        The penalty reduces the balance of the affected pool. We publish an incident review explaining the cause and the
+        impact on each staker. Past reviews and live uptime are on the{" "}
+        <Link href="/validators" className="rounded-sm text-accent-text underline underline-offset-2">
+          validator performance
+        </Link>{" "}
+        page; penalties never carry a platform fee (see{" "}
+        <Link href="/fees" className="rounded-sm text-accent-text underline underline-offset-2">
+          fees
+        </Link>
+        ).
+      </>
+    ),
   },
   {
     id: "account",
@@ -84,6 +98,26 @@ export default function SecurityPage() {
           lead="Every incident follows the same four steps, and every one ends with a written review."
         />
         <StepsFlow steps={INCIDENT_STEPS} />
+        <div className="mt-12 flex flex-col gap-6 rounded-card border border-rule bg-surface p-6 md:flex-row md:items-center md:justify-between md:p-8">
+          <dl className="grid grid-cols-3 gap-6 md:gap-10">
+            {[
+              ["Incidents, 90 days", String(INCIDENTS.length)],
+              ["Longest", `${Math.max(...INCIDENTS.map((i) => i.durationMinutes))} min`],
+              ["Slashing events", String(NETWORK_PERFORMANCE.reduce((sum, n) => sum + n.slashingEvents, 0))],
+            ].map(([label, value]) => (
+              <div key={label}>
+                <dt className="text-caption text-muted">{label}</dt>
+                <dd className="mt-1 font-mono text-h3">{value}</dd>
+              </div>
+            ))}
+          </dl>
+          <div className="flex flex-wrap gap-3">
+            <Link href="/validators" className={buttonClasses({ variant: "secondary" })}>
+              Read the incident reviews
+              <ArrowRight aria-hidden />
+            </Link>
+          </div>
+        </div>
       </Section>
 
       <Section id="bug-bounty" tone="inverse" labelledBy="bounty-title" className="scroll-mt-20">

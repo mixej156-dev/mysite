@@ -1,13 +1,15 @@
-import { ShieldAlert } from "lucide-react";
+import { ArrowRight, ShieldAlert } from "lucide-react";
 import { Link } from "@/components/Link";
 import { Accordion, Badge, Skeleton, buttonClasses } from "@/design-system";
 import { POOL_RISKS, pools, type Pool } from "@/data/pools";
+import { NETWORK_PERFORMANCE, uptimeHistory } from "@/data/validators";
 import { formatCompactCurrency, formatPercent, formatUnbonding } from "@/lib/format";
 import { apyHistory } from "@/lib/series";
 import { PageHeader } from "../blocks/PageHeader";
 import { PoolCard } from "../blocks/PoolCard";
 import { Section, SectionHeader } from "../blocks/Section";
 import { TimeSeriesChart } from "../charts/TimeSeriesChart";
+import { StatusLegend, UptimeStrip } from "../validators/UptimeStrip";
 
 function poolFaq(pool: Pool) {
   return [
@@ -48,7 +50,11 @@ export function PoolDetail({ pool }: { pool: Pool }) {
     { label: "Reward asset", value: pool.ticker },
     { label: "Network", value: pool.network },
   ];
-  const others = pools.filter((p) => p.id !== pool.id).sort((a, b) => b.apy - a.apy).slice(0, 3);
+  const performance = NETWORK_PERFORMANCE.find((n) => n.poolId === pool.id);
+  const others = pools
+    .filter((p) => p.id !== pool.id)
+    .sort((a, b) => b.apy - a.apy)
+    .slice(0, 3);
 
   return (
     <>
@@ -63,7 +69,12 @@ export function PoolDetail({ pool }: { pool: Pool }) {
               {pool.unbondingDays === 0 && <Badge tone="success">No lock-up</Badge>}
             </div>
             <p className="font-mono text-display tracking-tight">{formatPercent(pool.apy)}</p>
-            <p className="text-caption text-muted">After the {pool.feePercent}% platform fee. Not a forecast.</p>
+            <p className="text-caption text-muted">
+              After the {pool.feePercent}% platform fee. Not a forecast.{" "}
+              <Link href="/fees" className="rounded-sm text-accent-text underline underline-offset-2">
+                Fee details
+              </Link>
+            </p>
           </div>
         }
       >
@@ -109,6 +120,41 @@ export function PoolDetail({ pool }: { pool: Pool }) {
           note="Daily estimate after fees. Past yield doesn’t predict future yield."
         />
       </section>
+
+      {performance && (
+        <section aria-labelledby={`${pool.id}-validators-title`} className="container-page mt-8">
+          <div className="grid gap-6 rounded-card border border-rule bg-surface p-5 md:p-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] lg:items-center lg:gap-10">
+            <div>
+              <h2 id={`${pool.id}-validators-title`} className="text-h4 font-medium">
+                Validator performance
+              </h2>
+              <dl className="mt-4 grid grid-cols-3 text-small">
+                {[
+                  ["Uptime, 30 days", `${performance.uptime30d.toFixed(2)}%`],
+                  ["Effectiveness", `${performance.effectiveness.toFixed(1)}%`],
+                  ["Slashing", String(performance.slashingEvents)],
+                ].map(([label, value], i) => (
+                  <div key={label} className={i > 0 ? "border-l border-rule pl-4" : "pr-4"}>
+                    <dt className="text-caption text-muted">{label}</dt>
+                    <dd className="mt-0.5 font-mono text-h4">{value}</dd>
+                  </div>
+                ))}
+              </dl>
+              <Link
+                href="/validators"
+                className="mt-4 inline-flex items-center gap-1 rounded-sm text-small font-medium text-accent-text hover:underline"
+              >
+                All networks and incidents
+                <ArrowRight aria-hidden className="size-4" />
+              </Link>
+            </div>
+            <div className="flex flex-col gap-3">
+              <UptimeStrip days={uptimeHistory(pool.id)} label={`${pool.name} validators`} />
+              <StatusLegend />
+            </div>
+          </div>
+        </section>
+      )}
 
       <Section labelledBy={`${pool.id}-about-pool-title`}>
         <div className="grid gap-16 lg:grid-cols-2 lg:gap-12">

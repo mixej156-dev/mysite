@@ -1,13 +1,12 @@
 import { DEMO_TODAY } from "@/lib/series";
 
-/* Validator performance for /validators. Fictional figures; incidents match the Q3 report in data/posts.ts. */
+/* Validator performance for /validators. Fictional figures; validator counts live on the pools in data/pools.ts, incidents match the Q3 report in data/posts.ts. */
 
 export type DayStatus = "operational" | "degraded" | "outage";
 
 export type NetworkPerformance = {
   poolId: string;
   network: string;
-  validators: number;
   /** Stake-weighted uptime over the last 30 days, % */
   uptime30d: number;
   /** Share of assigned duties performed on time over 30 days, % */
@@ -24,7 +23,6 @@ export const NETWORK_PERFORMANCE: NetworkPerformance[] = [
   {
     poolId: "eth",
     network: "Ethereum",
-    validators: 1240,
     uptime30d: 99.97,
     effectiveness: 98.6,
     missedLabel: "Missed attestations",
@@ -36,7 +34,6 @@ export const NETWORK_PERFORMANCE: NetworkPerformance[] = [
   {
     poolId: "sol",
     network: "Solana",
-    validators: 6,
     uptime30d: 99.95,
     effectiveness: 97.9,
     missedLabel: "Skipped slots",
@@ -48,7 +45,6 @@ export const NETWORK_PERFORMANCE: NetworkPerformance[] = [
   {
     poolId: "atom",
     network: "Cosmos Hub",
-    validators: 3,
     uptime30d: 99.99,
     effectiveness: 99.8,
     missedLabel: "Missed blocks",
@@ -60,7 +56,6 @@ export const NETWORK_PERFORMANCE: NetworkPerformance[] = [
   {
     poolId: "dot",
     network: "Polkadot",
-    validators: 8,
     uptime30d: 99.93,
     effectiveness: 98.9,
     missedLabel: "Missed blocks",
@@ -72,7 +67,6 @@ export const NETWORK_PERFORMANCE: NetworkPerformance[] = [
   {
     poolId: "avax",
     network: "Avalanche",
-    validators: 4,
     uptime30d: 99.98,
     effectiveness: 99.6,
     missedLabel: "Missed responses",
@@ -84,7 +78,6 @@ export const NETWORK_PERFORMANCE: NetworkPerformance[] = [
   {
     poolId: "ada",
     network: "Cardano",
-    validators: 5,
     uptime30d: 99.99,
     effectiveness: 99.7,
     missedLabel: "Missed block slots",
@@ -114,7 +107,7 @@ export const INCIDENTS: Incident[] = [
     title: "Slow resync after a runtime upgrade",
     severity: "degraded",
     durationMinutes: 12,
-    stakeShare: 0.25,
+    stakeShare: 2 / 16,
     impact: "Two validators missed block production while their databases caught up. Rewards for the day were about 0.01% lower.",
     fix: "Snapshots are now taken before every runtime upgrade so a node can restart from a recent state.",
   },

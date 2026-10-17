@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     "Uptime, duty effectiveness, missed duties, client mix and incidents for every network LONAR ECO. validates on.",
 };
 
-const totalValidators = NETWORK_PERFORMANCE.reduce((sum, n) => sum + n.validators, 0);
+const totalValidators = NETWORK_PERFORMANCE.reduce((sum, n) => sum + (getPool(n.poolId)?.validators ?? 0), 0);
 const averageUptime = NETWORK_PERFORMANCE.reduce((sum, n) => sum + n.uptime30d, 0) / NETWORK_PERFORMANCE.length;
 const slashing = NETWORK_PERFORMANCE.reduce((sum, n) => sum + n.slashingEvents, 0);
 
@@ -89,7 +89,7 @@ export default function ValidatorsPage() {
                         {n.network}
                       </h3>
                       <p className="mt-0.5 text-small text-muted">
-                        {formatNumber(n.validators)} {n.validators === 1 ? "validator" : "validators"},{" "}
+                        {pool && `${formatNumber(pool.validators)} ${pool.validators === 1 ? "validator" : "validators"}, `}
                         {n.regions.join(", ")}
                       </p>
                     </div>
