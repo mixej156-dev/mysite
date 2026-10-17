@@ -45,7 +45,7 @@ function StakingPanel({ section }: { section: NavSection }) {
             </li>
           ))}
         </ul>
-        <div className="mt-1 border-t border-rule pt-1">
+        <div className="mt-1 grid border-t border-rule pt-1 sm:grid-cols-3">
           {section.links.map((link) => (
             <MenuLink key={link.href} link={link} />
           ))}

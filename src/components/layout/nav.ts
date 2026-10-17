@@ -17,8 +17,12 @@ export const NAV_SECTIONS: NavSection[] = [
   {
     id: "staking",
     label: "Staking",
-    match: ["/staking"],
-    links: [{ label: "All pools", href: "/staking", description: "Compare yield, lock-up and minimums" }],
+    match: ["/staking", "/validators", "/fees"],
+    links: [
+      { label: "All pools", href: "/staking", description: "Compare yield, lock-up and minimums" },
+      { label: "Validator performance", href: "/validators", description: "Uptime, missed duties and incidents" },
+      { label: "Fees", href: "/fees", description: "One fee on rewards, nothing else" },
+    ],
   },
   {
     id: "tools",
@@ -59,6 +63,7 @@ export const FOOTER_COLUMNS: { title: string; links: NavLink[] }[] = [
     title: "Product",
     links: [
       { label: "Staking pools", href: "/staking" },
+      { label: "Fees", href: "/fees" },
       { label: "Rewards calculator", href: "/tools/calculator" },
       { label: "Compare pools", href: "/tools/compare" },
       { label: "Converter", href: "/tools/converter" },
@@ -71,6 +76,7 @@ export const FOOTER_COLUMNS: { title: string; links: NavLink[] }[] = [
       { label: "About", href: "/about" },
       { label: "Team & careers", href: "/team" },
       { label: "Security", href: "/security" },
+      { label: "Validator performance", href: "/validators" },
       { label: "Contact", href: "/contact" },
     ],
   },

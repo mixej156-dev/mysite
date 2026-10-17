@@ -1,5 +1,6 @@
 import { Link } from "@/components/Link";
 import { Logo } from "./Logo";
+import { CookieSettingsButton } from "./CookieNotice";
 import { FOOTER_COLUMNS, SOCIAL_LINKS } from "./nav";
 
 const linkClass = "rounded-sm text-small text-muted transition-colors duration-fast hover:text-text";
@@ -44,7 +45,7 @@ export function Footer() {
             </Link>
             .
           </p>
-          <div className="flex shrink-0 items-center gap-6 text-caption text-muted">
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-caption text-muted">
             <ul className="flex gap-4" aria-label="Social media (placeholders)">
               {SOCIAL_LINKS.map((name) => (
                 <li key={name}>
@@ -54,6 +55,7 @@ export function Footer() {
                 </li>
               ))}
             </ul>
+            <CookieSettingsButton className={linkClass} />
             <span>© 2026 LONAR ECO.</span>
           </div>
         </div>

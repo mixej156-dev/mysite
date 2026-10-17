@@ -67,6 +67,18 @@ export const LEGAL_DOCS: LegalDoc[] = [
         type: "p",
         text: "Service providers that help us run the platform, under contracts that limit how they use the data. We don’t sell personal data.",
       },
+      { type: "h2", text: "Cookies", id: "cookies" },
+      {
+        type: "list",
+        items: [
+          "Essential: keep you signed in, remember your cookie choice and protect forms. Always on.",
+          "Analytics: count visits and see which pages are used, without identifying you. Only with your consent.",
+        ],
+      },
+      {
+        type: "p",
+        text: "You can change your choice at any time from the Cookie settings link in the footer.",
+      },
       { type: "h2", text: "Your choices" },
       {
         type: "p",

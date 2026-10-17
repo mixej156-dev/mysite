@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ToastProvider } from "@/design-system";
 import { fontVariables } from "@/design-system/fonts";
+import { CookieNotice } from "@/components/layout/CookieNotice";
 import { AuthProvider } from "@/lib/auth";
 import { themeInitScript } from "@/design-system/theme-script";
 import "./globals.css";
@@ -22,6 +23,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-dvh">
         <ToastProvider>
           <AuthProvider>{children}</AuthProvider>
+          <CookieNotice />
         </ToastProvider>
       </body>
     </html>
