@@ -48,4 +48,4 @@
 - **Scroll reveal:** `RevealGroup` (used by `Section`) fades each direct child up once when it first scrolls into view. Blocks already on screen at load are not touched (no flash); under `prefers-reduced-motion` nothing is hidden. CSS lives next to the view-transition rules in `globals.css` and uses the motion tokens.
 - **Micro-interactions:** buttons press down 1px on `:active`; interactive cards lift 2px with the float shadow on hover. Both use existing tokens (`duration-fast`/`duration-base`, brand easing).
 - Already in place and left alone: page view-transitions, count-up stat cards, payout ledger, toast/modal/accordion motion, marquee.
-- **Final screenshots:** `docs/screenshots/` — 31 routes (public, auth, dashboard, 404) x 375/768/1440 x light/dark = 186 JPEGs (~28 MB). Script-checked: no horizontal scroll, one h1 per page.
+- **Final screenshots:** `docs/screenshots/` — retaken 2026-10-18 after the site went light-only: 34 routes (public incl. /learn and /tools/converter, auth, dashboard, 404) x 375/768/1440 = 102 JPEGs (~16 MB), named `<route>-<width>.jpg`. Script-checked: no horizontal scroll, one h1 per page.

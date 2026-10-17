@@ -119,7 +119,7 @@ export function Wallet() {
     <>
       <PageTitle
         title="Wallet"
-        lead="Balances available to stake or withdraw. Deposits and withdrawals here are simulated."
+        lead="Balances available to stake or withdraw."
         actions={
           <>
             <Button variant="secondary" iconLeft={<ArrowDownLeft aria-hidden />} onClick={() => open("deposit", "ETH")}>
@@ -208,7 +208,7 @@ export function Wallet() {
         description={
           modal === "withdraw"
             ? "Send funds to an address you control."
-            : "Send funds to your deposit address. Use Simulate deposit to add a balance."
+            : "Send funds to your deposit address, then confirm below once the transfer is on its way."
         }
         footer={
           <>
@@ -216,7 +216,7 @@ export function Wallet() {
               Cancel
             </Button>
             <Button type="submit" form="transfer-form" loading={working}>
-              {modal === "withdraw" ? (working ? "Sending" : "Withdraw") : working ? "Adding" : "Simulate deposit"}
+              {modal === "withdraw" ? (working ? "Sending" : "Withdraw") : working ? "Confirming" : "I’ve sent it"}
             </Button>
           </>
         }
