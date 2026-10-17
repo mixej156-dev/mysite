@@ -23,7 +23,8 @@ export function RequireAuth({ children, fallback }: { children: ReactNode; fallb
   return (
     <>
       {!authed && fallback}
-      <div hidden={!authed} className="contents">
+      {/* The key remounts the page once signed in, so state initialised from the session or stored data is fresh */}
+      <div key={authed ? "authed" : "pending"} hidden={!authed} className="contents">
         {children}
       </div>
     </>

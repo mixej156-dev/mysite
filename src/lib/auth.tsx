@@ -18,6 +18,7 @@ type AuthApi = {
   signIn: (email: string) => Promise<Session>;
   signUp: (name: string, email: string) => Promise<Session>;
   signOut: () => void;
+  updateProfile: (name: string, email: string) => Promise<Session>;
 };
 
 /* Server render (and the first client render) can't see localStorage */
@@ -102,7 +103,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signOut = useCallback(() => write(null), []);
 
-  const api = useMemo(() => ({ session, status, signIn, signUp, signOut }), [session, status, signIn, signUp, signOut]);
+  const updateProfile = useCallback(async (name: string, email: string) => {
+    await delay(600);
+    const current = parse(read());
+    const next = { name: name.trim(), email: email.trim(), createdAt: current?.createdAt ?? new Date().toISOString() };
+    write(next);
+    return next;
+  }, []);
+
+  const api = useMemo(
+    () => ({ session, status, signIn, signUp, signOut, updateProfile }),
+    [session, status, signIn, signUp, signOut, updateProfile],
+  );
   return <AuthContext.Provider value={api}>{children}</AuthContext.Provider>;
 }
 
