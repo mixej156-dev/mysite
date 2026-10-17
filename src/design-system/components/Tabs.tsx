@@ -1,7 +1,7 @@
 "use client";
 
 import * as RadixTabs from "@radix-ui/react-tabs";
-import { createContext, useContext, type ComponentPropsWithRef } from "react";
+import { createContext, useContext, useEffect, useRef, type ComponentPropsWithRef } from "react";
 import { cn } from "@/lib/cn";
 
 export type TabsVariant = "underline" | "segmented";
@@ -39,8 +39,18 @@ export function TabsList({ className, ...props }: ComponentPropsWithRef<typeof R
 
 export function TabsTrigger({ className, ...props }: ComponentPropsWithRef<typeof RadixTabs.Trigger>) {
   const variant = useContext(VariantContext);
+  const ref = useRef<HTMLButtonElement>(null);
+
+  // Radix always points aria-controls at a panel; segmented controls and inactive tabs have none mounted.
+  useEffect(() => {
+    const el = ref.current;
+    const id = el?.getAttribute("aria-controls");
+    if (el && id && !document.getElementById(id)) el.removeAttribute("aria-controls");
+  });
+
   return (
     <RadixTabs.Trigger
+      ref={ref}
       className={cn(triggerStyles[variant], "disabled:cursor-not-allowed disabled:opacity-45", className)}
       {...props}
     />

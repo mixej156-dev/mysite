@@ -27,7 +27,7 @@ export function DashboardShell({ children }: { children: ReactNode }) {
       <PortfolioProvider>
         <SkipLink />
         <div className="flex min-h-dvh">
-          <aside className="sticky top-0 h-dvh w-64 shrink-0 border-r border-rule bg-bg max-lg:hidden">
+          <aside aria-label="Sidebar" className="sticky top-0 h-dvh w-64 shrink-0 border-r border-rule bg-bg max-lg:hidden">
             <Sidebar />
           </aside>
           <div className="flex min-w-0 flex-1 flex-col">
@@ -39,9 +39,9 @@ export function DashboardShell({ children }: { children: ReactNode }) {
             >
               {children}
             </main>
-            <p className="border-t border-rule px-4 py-4 text-caption text-muted sm:px-6 lg:px-10">
-              Demo data, not real balances. Nothing in this dashboard is sent to a network or a server.
-            </p>
+            <footer className="border-t border-rule px-4 py-4 text-caption text-muted sm:px-6 lg:px-10">
+              <p>Demo data, not real balances. Nothing in this dashboard is sent to a network or a server.</p>
+            </footer>
           </div>
         </div>
       </PortfolioProvider>

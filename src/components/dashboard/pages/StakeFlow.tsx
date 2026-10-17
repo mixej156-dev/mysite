@@ -227,7 +227,7 @@ export function StakeFlow() {
           </div>
         </div>
 
-        <aside className="flex flex-col gap-5 self-start rounded-card border border-rule bg-surface p-5 md:p-6 xl:sticky xl:top-24">
+        <aside aria-label="Stake summary" className="flex flex-col gap-5 self-start rounded-card border border-rule bg-surface p-5 md:p-6 xl:sticky xl:top-24">
           <p className="text-body font-medium">Summary</p>
           <dl className="flex flex-col gap-3 text-small">
             {[

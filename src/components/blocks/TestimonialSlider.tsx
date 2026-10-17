@@ -31,7 +31,6 @@ export function TestimonialSlider({ items, label }: { items: Testimonial[]; labe
         <AnimatePresence mode="wait" initial={false} custom={direction}>
           <motion.figure
             key={item.id}
-            role="group"
             aria-roledescription="slide"
             aria-label={`${index + 1} of ${items.length}`}
             initial={reduceMotion ? { opacity: 0 } : { opacity: 0, x: 24 * direction }}

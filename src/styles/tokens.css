@@ -49,10 +49,10 @@
   --muted: #5b6472;
   --accent: #335cf0;
   --accent-hover: #2a4fd8;
-  --accent-text: #2f57e6;
+  --accent-text: #2b51d8;
   --on-accent: #ffffff;
   --success: #147550;
-  --warning: #855a07;
+  --warning: #7a5206;
   --danger: #b53030;
   --scrim: rgb(11 20 36 / 0.48);
   /* Chart series, fixed order (validated, all-pairs, light surface; slot 3 < 3:1 → charts ship a table view) */

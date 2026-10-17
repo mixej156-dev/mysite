@@ -49,15 +49,17 @@ export default function AboutPage() {
               </p>
             </div>
           </div>
-          <dl className="grid grid-cols-2 self-start border-t border-rule lg:col-span-5">
-            {FACTS.map((fact, i) => (
-              <div key={fact.label} className={`border-b border-rule py-6 ${i % 2 === 1 ? "border-l pl-6" : "pr-6"}`}>
-                <dt className="text-small text-muted">{fact.label}</dt>
-                <dd className="mt-1 font-mono text-h2">{fact.value}</dd>
-              </div>
-            ))}
-            <p className="col-span-2 pt-3 text-caption text-muted">Demo figures for the prototype.</p>
-          </dl>
+          <div className="self-start lg:col-span-5">
+            <dl className="grid grid-cols-2 border-t border-rule">
+              {FACTS.map((fact, i) => (
+                <div key={fact.label} className={`border-b border-rule py-6 ${i % 2 === 1 ? "border-l pl-6" : "pr-6"}`}>
+                  <dt className="text-small text-muted">{fact.label}</dt>
+                  <dd className="mt-1 font-mono text-h2">{fact.value}</dd>
+                </div>
+              ))}
+            </dl>
+            <p className="pt-3 text-caption text-muted">Demo figures for the prototype.</p>
+          </div>
         </div>
       </Section>
 

@@ -17,5 +17,16 @@
 - States exercised in a real browser: empty-submit login (inline errors, focus moves to first invalid field), stake form validation, confirm modal, deposit modal, position detail modal; Esc closes dialogs.
 - **Fixed:** at 375px the Rewards history table clipped the Amount column (15px over) → date shows without the year on mobile (`formatDateShort`); the Referrals table hid "You earned" off-screen (72px over) → Status badge moves under the email on mobile.
 - Remaining by design: `/tools/compare` table scrolls inside its labelled region on mobile (sticky first column).
-## Part 4 — interaction states & a11y (todo)
+## Part 4 — interaction states & a11y (done)
+- Ran axe-core (wcag2a/aa, 2.1aa, best-practice) on 30 routes x light/dark. Fixed:
+  - **color-contrast (light theme):** `--accent-text` #2f57e6 → #2b51d8 (4.29 → 4.76:1 on the 14% accent tint) and `--warning` #855a07 → #7a5206 (4.49 → 5.13:1 on the warning tint). Values only nudged within the same hue; flagged here because the design system was approved earlier.
+  - **aria-hidden-focus:** Recharts' keyboard layer made the (aria-hidden) chart focusable → `accessibilityLayer={false}`; the Table view stays the accessible alternative.
+  - **aria-valid-attr-value:** Radix tab triggers pointed `aria-controls` at panels that aren't mounted (segmented controls, inactive tabs) → `TabsTrigger` drops the attribute when no panel exists.
+  - **definition-list:** `<p>` inside `<dl>` on /staking and /about moved out.
+  - **heading-order:** visually hidden h2 before the pool list and the team directory.
+  - **region / landmark-unique:** dashboard footer note is now a `<footer>`; sidebar and stake-summary asides got labels.
+  - **aria-allowed-role:** redundant `role="group"` removed from testimonial slides.
+- Remaining axe hits are `/styleguide` only: a deliberately disabled (opacity-45) demo and repeated landmarks in side-by-side component previews.
+- Keyboard: tabbed 70 stops on /, /staking, /tools/calculator, /dashboard/stake, /faq; every stop shows a focus ring (stretched card links draw it on `::after`); Esc closes dialogs. Skip link present on public and dashboard layouts.
+- `prefers-reduced-motion: reduce`: no infinite animations running; Framer components use `useReducedMotion`; global CSS rules in `globals.css`/`tokens.css`.
 ## Part 5 — consistency, 404, empty states (todo)

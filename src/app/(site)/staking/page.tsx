@@ -26,18 +26,23 @@ export default function StakingPage() {
         lead="Every pool lists its estimated yield after fees, how long withdrawals take, and the minimum to start."
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Staking" }]}
         aside={
-          <dl className="grid grid-cols-3 border-y border-rule">
-            {summary.map((item, i) => (
-              <div key={item.label} className={i > 0 ? "border-l border-rule py-5 pl-4 sm:pl-6" : "py-5 pr-4"}>
-                <dt className="text-caption text-muted">{item.label}</dt>
-                <dd className="mt-1 font-mono text-h4 sm:text-h3">{item.value}</dd>
-              </div>
-            ))}
-            <p className="col-span-3 border-t border-rule py-2 text-caption text-muted">Demo data for the prototype.</p>
-          </dl>
+          <div className="border-y border-rule">
+            <dl className="grid grid-cols-3">
+              {summary.map((item, i) => (
+                <div key={item.label} className={i > 0 ? "border-l border-rule py-5 pl-4 sm:pl-6" : "py-5 pr-4"}>
+                  <dt className="text-caption text-muted">{item.label}</dt>
+                  <dd className="mt-1 font-mono text-h4 sm:text-h3">{item.value}</dd>
+                </div>
+              ))}
+            </dl>
+            <p className="border-t border-rule py-2 text-caption text-muted">Demo data for the prototype.</p>
+          </div>
         }
       />
-      <section aria-label="All pools" className="container-page pb-24 md:pb-32">
+      <section aria-labelledby="pools-title" className="container-page pb-24 md:pb-32">
+        <h2 id="pools-title" className="sr-only">
+          All pools
+        </h2>
         <PoolExplorer pools={pools} />
       </section>
     </>
