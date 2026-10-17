@@ -95,11 +95,11 @@ export function DropdownSection() {
               <Dropdown>
                 <DropdownTrigger asChild>
                   <Button variant="secondary" iconLeft={<UserRound aria-hidden />}>
-                    alex@demo.io
+                    alex@example.com
                   </Button>
                 </DropdownTrigger>
                 <DropdownContent>
-                  <DropdownLabel>Signed in as alex@demo.io</DropdownLabel>
+                  <DropdownLabel>Signed in as alex@example.com</DropdownLabel>
                   <DropdownItem icon={<Wallet aria-hidden />}>Wallet</DropdownItem>
                   <DropdownItem icon={<Settings aria-hidden />} shortcut="⌘,">
                     Settings

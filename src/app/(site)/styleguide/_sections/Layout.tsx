@@ -8,7 +8,7 @@ export function LayoutSection() {
   return (
     <Section
       id="layout"
-      description="The header and footer on this page are the live site layout. The header pill turns solid once the page scrolls or a menu opens; below 1024px navigation moves into a full-screen menu. The footer carries the demo-data notice on every public page."
+      description="The header and footer on this page are the live site layout. The header pill turns solid once the page scrolls or a menu opens; below 1024px navigation moves into a full-screen menu. The footer carries the risk notice on every public page."
     >
       <ThemePair>
         {() => (

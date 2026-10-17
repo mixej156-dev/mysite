@@ -10,7 +10,7 @@ export const metadata: Metadata = {
     template: "%s — LONAR ECO.",
     default: "LONAR ECO. — Staking, kept to account",
   },
-  description: "Design prototype of a staking platform. All figures are demo data.",
+  description: "Non-custodial-style staking with daily payouts, per-epoch reward records and terms stated up front.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

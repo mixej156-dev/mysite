@@ -15,14 +15,14 @@ export function AccountSettings() {
   return (
     <>
       <SettingsSection
-        title="Reset demo data"
-        body="Puts balances, positions, activity and settings back to how the demo started."
+        title="Reset account data"
+        body="Puts balances, positions, activity and settings back to their starting state."
       >
         <Button variant="secondary" onClick={() => setConfirmReset(true)}>
-          Reset demo data
+          Reset account data
         </Button>
       </SettingsSection>
-      <SettingsSection title="Log out" body="Clears the demo session from this browser. Your demo data stays.">
+      <SettingsSection title="Log out" body="Ends the session on this device. Your balances and settings stay.">
         <Button variant="secondary" onClick={signOut}>
           Log out
         </Button>
@@ -31,7 +31,7 @@ export function AccountSettings() {
       <Modal
         open={confirmReset}
         onOpenChange={setConfirmReset}
-        title="Reset demo data?"
+        title="Reset account data?"
         description="Stakes, deposits, withdrawals and setting changes you made will be removed."
         footer={
           <>
@@ -42,7 +42,7 @@ export function AccountSettings() {
               onClick={() => {
                 reset();
                 setConfirmReset(false);
-                toast({ tone: "success", title: "Demo data reset" });
+                toast({ tone: "success", title: "Account data reset" });
               }}
             >
               Reset

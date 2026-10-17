@@ -66,11 +66,11 @@ function parse(raw: string): Session | null {
   }
 }
 
-/** "alex.morgan@demo.io" -> "Alex Morgan" */
+/** "alex.morgan@example.com" -> "Alex Morgan" */
 export function nameFromEmail(email: string): string {
   const local = email.split("@")[0] ?? "";
   const words = local.split(/[._\-+0-9]+/).filter(Boolean);
-  if (words.length === 0) return "Demo user";
+  if (words.length === 0) return "New user";
   return words.map((w) => w[0].toUpperCase() + w.slice(1).toLowerCase()).join(" ");
 }
 

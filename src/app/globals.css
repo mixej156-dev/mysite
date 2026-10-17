@@ -76,7 +76,7 @@
   --animate-fade-in: fade-in var(--duration-fast) var(--ds-ease-brand);
   --animate-accordion-down: accordion-down var(--duration-base) var(--ds-ease-brand);
   --animate-accordion-up: accordion-up var(--duration-base) var(--ds-ease-brand);
-  --animate-marquee: marquee 48s linear infinite;
+  --animate-marquee: marquee 144s linear infinite;
 
   @keyframes pop-in {
     from {

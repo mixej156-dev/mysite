@@ -17,7 +17,7 @@ export function NotificationSettings() {
   const notifications = state.prefs.notifications;
 
   return (
-    <SettingsSection title="Email notifications" body="Changes save as you make them. Demo: no emails are sent.">
+    <SettingsSection title="Email notifications" body="Changes save as you make them.">
       <div className="flex max-w-lg flex-col gap-5">
         {NOTIFICATIONS.map((n) => (
           <Toggle

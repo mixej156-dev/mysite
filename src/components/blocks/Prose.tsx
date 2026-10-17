@@ -45,6 +45,36 @@ export function Prose({
                 ))}
               </ul>
             );
+          case "steps":
+            return (
+              <ol key={i} className="mt-5 flex list-decimal flex-col gap-2 pl-6 marker:font-mono marker:text-muted">
+                {block.items.map((item) => (
+                  <li key={item} className="pl-1">
+                    {item}
+                  </li>
+                ))}
+              </ol>
+            );
+          case "note":
+            return (
+              <aside key={i} className="mt-6 rounded-field border border-rule bg-surface-2 px-5 py-4 font-display text-small">
+                {block.title && <p className="font-medium text-text">{block.title}</p>}
+                <p className={cn("text-muted", block.title && "mt-1")}>{block.text}</p>
+              </aside>
+            );
+          case "code":
+            return (
+              <figure key={i} className="mt-6 overflow-hidden rounded-field border border-rule bg-surface">
+                {block.label && (
+                  <figcaption className="border-b border-rule px-4 py-2 font-mono text-caption text-muted">
+                    {block.label}
+                  </figcaption>
+                )}
+                <pre className="overflow-x-auto px-4 py-3 font-mono text-caption leading-relaxed text-text">
+                  <code>{block.code}</code>
+                </pre>
+              </figure>
+            );
           case "quote":
             return (
               <figure key={i} className="my-10 border-l-2 border-accent pl-6">

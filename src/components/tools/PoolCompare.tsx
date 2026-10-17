@@ -176,7 +176,7 @@ export function PoolCompare() {
         title="Estimated APY"
         series={series}
         valueFormat="percent"
-        note="Daily estimate after fees. Demo data; past yield doesn’t predict future yield."
+        note="Daily estimate after fees. Past yield doesn’t predict future yield."
       />
     </div>
   );

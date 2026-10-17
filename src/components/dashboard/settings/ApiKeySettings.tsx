@@ -12,7 +12,7 @@ import { SettingsSection } from "./SettingsSection";
 
 function newSecret() {
   const bytes = crypto.getRandomValues(new Uint8Array(24));
-  return `sk_demo_${[...bytes].map((b) => b.toString(16).padStart(2, "0")).join("")}`;
+  return `sk_lonar_${[...bytes].map((b) => b.toString(16).padStart(2, "0")).join("")}`;
 }
 
 export function ApiKeySettings() {
@@ -69,7 +69,7 @@ export function ApiKeySettings() {
                 <div className="min-w-0 flex-1">
                   <p className="text-small font-medium">{k.label}</p>
                   <p className="font-mono text-caption text-muted">
-                    sk_demo_••••{k.last4}, created {formatDate(k.createdAt)}
+                    sk_lonar_••••{k.last4}, created {formatDate(k.createdAt)}
                   </p>
                 </div>
                 <Button variant="ghost" size="sm" onClick={() => setRevoking(k)}>

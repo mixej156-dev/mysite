@@ -266,7 +266,6 @@ export function StakeFlow() {
           <Button type="submit" size="lg" disabled={balance === 0}>
             Review stake
           </Button>
-          <p className="text-caption text-muted">Demo: staking only changes balances stored in this browser.</p>
         </aside>
       </form>
 

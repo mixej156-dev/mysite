@@ -207,8 +207,8 @@ export function Wallet() {
         title={modal === "withdraw" ? "Withdraw" : "Deposit"}
         description={
           modal === "withdraw"
-            ? "Send funds to an address you control. Demo: nothing leaves this browser."
-            : "Send funds to your deposit address. Demo: use Simulate deposit to add a balance."
+            ? "Send funds to an address you control."
+            : "Send funds to your deposit address. Use Simulate deposit to add a balance."
         }
         footer={
           <>
@@ -239,7 +239,7 @@ export function Wallet() {
                   <Copy aria-hidden className="size-4" />
                 </button>
               </div>
-              <p className="text-caption text-muted">Demo address. Don’t send real funds to it.</p>
+              <p className="text-caption text-muted">Only send this asset on this network.</p>
             </div>
           )}
           <Input
@@ -284,7 +284,7 @@ export function Wallet() {
                 value={code}
                 onChange={(e) => setCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
                 error={errors.code}
-                hint="Demo: any 6 digits work."
+                hint="Enter the 6-digit code from your authenticator app."
                 autoComplete="one-time-code"
               />
             </>

@@ -6,7 +6,7 @@ import { formatCompactCurrency, formatPercent } from "@/lib/format";
 
 export const metadata: Metadata = {
   title: "Staking pools",
-  description: "Compare estimated yield, withdrawal periods and minimums across every staking pool. Demo data.",
+  description: "Compare estimated yield, withdrawal periods and minimums across every staking pool.",
 };
 
 const averageApy = pools.reduce((sum, p) => sum + p.apy, 0) / pools.length;
@@ -35,7 +35,6 @@ export default function StakingPage() {
                 </div>
               ))}
             </dl>
-            <p className="border-t border-rule py-2 text-caption text-muted">Demo data for the prototype.</p>
           </div>
         }
       />

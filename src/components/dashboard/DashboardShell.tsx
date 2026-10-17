@@ -40,7 +40,7 @@ export function DashboardShell({ children }: { children: ReactNode }) {
               {children}
             </main>
             <footer className="border-t border-rule px-4 py-4 text-caption text-muted sm:px-6 lg:px-7">
-              <p>Demo data, not real balances. Nothing in this dashboard is sent to a network or a server.</p>
+              <p>Staking involves risk, including loss of principal. Estimated APY is not guaranteed.</p>
             </footer>
           </div>
         </div>

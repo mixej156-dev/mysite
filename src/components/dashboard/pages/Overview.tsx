@@ -58,7 +58,7 @@ export function Overview() {
             title="Balance"
             series={[{ id: "value", label: "Balance", color: "var(--series-1)", points: history }]}
             valueFormat="usd"
-            note="Positions and today’s wallet balances at demo prices."
+            note="Positions and today’s wallet balances at reference prices."
             className="xl:col-span-2"
           />
           <Panel

@@ -225,7 +225,7 @@ export function Transactions() {
           </Table>
           <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
             <p className="text-caption text-muted">
-              {filtered.length.toLocaleString("en-US")} transactions. Demo hashes, not on any chain.
+              {filtered.length.toLocaleString("en-US")} transactions.
             </p>
             <Pagination page={current} pageCount={pageCount} onPageChange={setPage} />
           </div>

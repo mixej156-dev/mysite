@@ -27,7 +27,7 @@ export function AuthShell({ children }: { children: ReactNode }) {
             ))}
           </ul>
         </div>
-        <p className="text-caption text-muted">Demo prototype. Accounts and figures are not real.</p>
+        <p className="text-caption text-muted">Staking involves risk, including loss of principal.</p>
       </aside>
 
       <div className="flex flex-col">
@@ -53,9 +53,4 @@ export function AuthShell({ children }: { children: ReactNode }) {
       </div>
     </div>
   );
-}
-
-/** Notice at the top of every auth form, so the fake sign-in is never mistaken for a real one. */
-export function DemoNotice({ children }: { children: ReactNode }) {
-  return <p className="rounded-field bg-surface-2 px-4 py-3 text-small text-text">{children}</p>;
 }

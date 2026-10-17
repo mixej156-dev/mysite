@@ -38,8 +38,7 @@ export function Footer() {
       <div className="border-t border-rule">
         <div className="container-page flex flex-col gap-6 py-8 lg:flex-row lg:items-start lg:justify-between">
           <p className="max-w-[72ch] text-caption text-muted">
-            <span className="font-medium text-text">Demo prototype.</span> All figures on this site are demo data, not
-            an offer or a forecast. Staking involves risk, including loss of principal. Read the{" "}
+            Figures on this site are estimates, not an offer or a forecast. Staking involves risk, including loss of principal. Read the{" "}
             <Link href="/legal/risk-disclosure" className="text-accent-text underline underline-offset-2">
               risk disclosure
             </Link>

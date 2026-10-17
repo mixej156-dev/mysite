@@ -105,7 +105,7 @@ export function RewardsCalculator() {
             onChange={(e) => setAmountText(e.target.value)}
             suffix={pool.ticker}
             error={error}
-            hint={valid ? `≈ ${formatCurrency(amount * price)} at a demo price` : `Minimum ${pool.minStake} ${pool.ticker}`}
+            hint={valid ? `≈ ${formatCurrency(amount * price)} at a reference price` : `Minimum ${pool.minStake} ${pool.ticker}`}
           />
           <Slider
             label="Adjust amount"
@@ -183,7 +183,7 @@ export function RewardsCalculator() {
             <li>The APY stays at today’s estimate of {formatPercent(pool.apy)}; in practice it changes daily.</li>
             <li>The {pool.feePercent}% platform fee is already deducted from that APY.</li>
             <li>No slashing, no price change, and no network fees are included.</li>
-            <li>USD values use a fixed demo price of {formatCurrency(price)} per {pool.ticker}.</li>
+            <li>USD values use a fixed reference price of {formatCurrency(price)} per {pool.ticker}.</li>
           </ul>
         </div>
       </div>

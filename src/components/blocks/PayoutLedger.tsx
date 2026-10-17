@@ -47,11 +47,11 @@ export function PayoutLedger({ className }: { className?: string }) {
           <p className="font-mono text-caption text-muted">Epoch {formatNumber(rows[0].epoch)}</p>
         </div>
       <Badge tone="accent" dot>
-        Demo feed
+        Recent
       </Badge>
     </div>
     <div className="relative">
-      <ol aria-label="Recent reward payouts (demo data)" className="flex flex-col">
+      <ol aria-label="Recent reward payouts" className="flex flex-col">
           {rows.map((row) => (
             <motion.li
               key={row.id}

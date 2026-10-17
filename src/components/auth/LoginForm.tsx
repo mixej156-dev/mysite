@@ -5,7 +5,6 @@ import { Link } from "@/components/Link";
 import { Button, Checkbox, Input, useToast } from "@/design-system";
 import { useAuth } from "@/lib/auth";
 import { isEmail, useFocusFirstError } from "@/lib/forms";
-import { DemoNotice } from "./AuthShell";
 import { PasswordInput } from "./PasswordInput";
 import { useRedirectWhenAuthed } from "./useRedirectWhenAuthed";
 
@@ -49,7 +48,6 @@ export function LoginForm() {
           </Link>
         </p>
       </div>
-      <DemoNotice>Demo: any email and password will log you in. Nothing leaves this browser.</DemoNotice>
       <form ref={formRef} onSubmit={submit} noValidate aria-label="Log in" className="flex flex-col gap-5">
         <Input
           label="Email"
@@ -74,7 +72,7 @@ export function LoginForm() {
             Forgot password?
           </Link>
         </div>
-        <Checkbox label="Keep me logged in" description="In this demo the session always stays until you log out." />
+        <Checkbox label="Keep me logged in" description="Stay signed in on this device until you log out." />
         <Button type="submit" size="lg" loading={submitting || status === "authed"} className="mt-2">
           {submitting ? "Logging in" : "Log in"}
         </Button>

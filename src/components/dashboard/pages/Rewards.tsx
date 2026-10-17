@@ -60,7 +60,7 @@ export function Rewards() {
   const exportCsv = () =>
     downloadCsv(
       `rewards-${DEMO_TODAY}.csv`,
-      ["date", "pool", "asset", "amount", "usd_at_demo_price"],
+      ["date", "pool", "asset", "amount", "usd_value"],
       history.map((r) => [
         r.date,
         getPool(r.poolId)?.name ?? r.poolId,
@@ -98,7 +98,7 @@ export function Rewards() {
     <>
       <PageTitle
         title="Rewards"
-        lead="Recorded every epoch and paid out daily, after the platform fee. USD values use demo prices."
+        lead="Recorded every epoch and paid out daily, after the platform fee. USD values use reference prices."
         actions={
           <Button variant="secondary" iconLeft={<Download aria-hidden />} onClick={exportCsv}>
             Export CSV
@@ -122,7 +122,7 @@ export function Rewards() {
             series={[{ id: "rewards", label: "Rewards", color: "var(--series-3)", points: daily }]}
             valueFormat="usd"
             defaultPeriod={90}
-            note="Sum of all positions per day at demo prices."
+            note="Sum of all positions per day at reference prices."
             className="xl:col-span-2"
           />
           <Panel title="By pool, last 12 months">

@@ -8,7 +8,7 @@ import { OPEN_ROLES } from "@/data/team";
 
 export const metadata: Metadata = {
   title: "Team & careers",
-  description: "The people who run LONAR ECO.'s validators and the roles we're hiring for. Demo prototype.",
+  description: "The people who run LONAR ECO.'s validators and the roles we're hiring for.",
 };
 
 export default function TeamPage() {

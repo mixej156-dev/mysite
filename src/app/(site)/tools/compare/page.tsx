@@ -4,7 +4,7 @@ import { PoolCompare } from "@/components/tools/PoolCompare";
 
 export const metadata: Metadata = {
   title: "Compare pools",
-  description: "Compare yield, withdrawal period, fees and APY history across up to three staking pools. Demo data.",
+  description: "Compare yield, withdrawal period, fees and APY history across up to three staking pools.",
 };
 
 export default function ComparePage() {

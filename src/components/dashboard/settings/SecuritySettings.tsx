@@ -94,7 +94,7 @@ export function SecuritySettings() {
     await wait(700);
     setPwSaving(false);
     setPw({ current: "", next: "", confirm: "" });
-    toast({ tone: "success", title: "Password changed", description: "Demo: the new password isn’t stored anywhere." });
+    toast({ tone: "success", title: "Password changed", description: "Use it the next time you log in." });
   };
 
   return (
@@ -235,7 +235,7 @@ export function SecuritySettings() {
                 setCodeError(undefined);
               }}
               error={codeError}
-              hint="Demo: any 6 digits work."
+              hint="Enter the 6-digit code from your authenticator app."
             />
           </div>
         </div>

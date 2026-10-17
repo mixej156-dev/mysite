@@ -10,7 +10,7 @@ import { Trust } from "@/components/home/Trust";
 export const metadata: Metadata = {
   title: { absolute: "LONAR ECO. — Staking, kept to account" },
   description:
-    "Stake ETH, SOL, ATOM and more with validators held to published uptime targets. Rewards recorded per epoch and paid out daily. Demo prototype.",
+    "Stake ETH, SOL, ATOM and more with validators held to published uptime targets. Rewards recorded per epoch and paid out daily.",
 };
 
 export default function HomePage() {

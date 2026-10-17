@@ -108,7 +108,7 @@ export function Positions() {
         open={Boolean(selected)}
         onOpenChange={(o) => !o && close()}
         title={pool ? `${pool.name} position` : "Position"}
-        description={confirming ? "Check the unbonding period before you confirm." : "Demo position. Changes stay in this browser."}
+        description={confirming ? "Check the unbonding period before you confirm." : "Position details and unstake options."}
         footer={
           selected && pool ? (
             confirming ? (

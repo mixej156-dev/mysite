@@ -68,7 +68,7 @@ export function Converter() {
         <p className="font-mono">
           1 {from} = {formatNumber(rate, digitsFor(to, rate))} {to}
         </p>
-        <p className="text-caption">Demo rates, not a quote.</p>
+        <p className="text-caption">Reference rates, not a quote.</p>
       </div>
     </div>
   );

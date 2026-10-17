@@ -20,7 +20,7 @@ export function DashboardSection() {
   return (
     <Section
       id="dashboard"
-      description="Blocks used in the signed-in dashboard, shown with the demo account’s seed data. The sidebar and top bar are visible on any /dashboard page."
+      description="Blocks used in the signed-in dashboard, shown with the account’s seed data. The sidebar and top bar are visible on any /dashboard page."
     >
       <ThemePair stacked>
         {() => (

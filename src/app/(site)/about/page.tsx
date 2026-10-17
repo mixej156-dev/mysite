@@ -4,17 +4,21 @@ import { PageHeader } from "@/components/blocks/PageHeader";
 import { Section, SectionHeader } from "@/components/blocks/Section";
 import { Link } from "@/components/Link";
 import { buttonClasses } from "@/design-system";
+import { LeaderProfile } from "@/components/company/LeaderProfile";
 import { HISTORY, VALUES } from "@/data/history";
 import { metrics } from "@/data/metrics";
 import { pools } from "@/data/pools";
+import { CEO, TEAM } from "@/data/team";
 import { formatCompactCurrency } from "@/lib/format";
 
 export const metadata: Metadata = {
   title: "About",
-  description: "Who runs LONAR ECO., what we value, and how the company got here. Demo prototype.",
+  description: "Who runs LONAR ECO., what we value, and how the company got here.",
 };
 
 const tvl = metrics.find((m) => m.id === "tvl")?.value ?? 0;
+
+const ceo = TEAM.find((m) => m.id === CEO.memberId);
 
 const FACTS = [
   { label: "Founded", value: HISTORY[0].year },
@@ -58,7 +62,6 @@ export default function AboutPage() {
                 </div>
               ))}
             </dl>
-            <p className="pt-3 text-caption text-muted">Demo figures for the prototype.</p>
           </div>
         </div>
       </Section>
@@ -103,7 +106,13 @@ export default function AboutPage() {
         </ol>
       </Section>
 
-      <Section tone="inverse" labelledBy="about-cta-title">
+      {ceo && (
+        <Section tone="inverse" labelledBy="ceo-title">
+          <LeaderProfile member={ceo} profile={CEO} titleId="ceo-title" />
+        </Section>
+      )}
+
+      <Section labelledBy="about-cta-title">
         <CTASection
           id="about-cta-title"
           title="Meet the people behind the pools."

@@ -4,7 +4,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { Menu, Plus, X } from "lucide-react";
 import { useState } from "react";
 import { Link } from "@/components/Link";
-import { Badge, buttonClasses } from "@/design-system";
+import { buttonClasses } from "@/design-system";
 import { useAuth } from "@/lib/auth";
 import { AccountMenu } from "../layout/AccountMenu";
 import { Logo } from "../layout/Logo";
@@ -44,9 +44,6 @@ export function Topbar() {
       <Link href="/dashboard" aria-label="Dashboard home" className="rounded-sm lg:hidden">
         <Logo />
       </Link>
-      <Badge tone="warning" className="max-sm:hidden">
-        Demo data
-      </Badge>
 
       <div className="ml-auto flex items-center gap-1.5">
         <Link href="/dashboard/stake" className={buttonClasses({ size: "sm", className: "max-sm:hidden" })}>

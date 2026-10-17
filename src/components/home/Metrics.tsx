@@ -29,9 +29,6 @@ export function Metrics() {
           ))}
         </div>
       </div>
-      <div className="container-page mt-4 flex justify-end">
-        <p className="text-caption text-muted">Demo data for the prototype.</p>
-      </div>
       <div className="mt-16 flex flex-col gap-6 md:mt-20">
         <p className="container-page text-small text-muted">Infrastructure partners (placeholders)</p>
         <LogoMarquee partners={partners} label="Infrastructure partners" />

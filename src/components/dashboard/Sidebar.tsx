@@ -38,10 +38,6 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
           })}
         </ul>
       </nav>
-      <div className="mt-auto rounded-field border border-dashed border-rule-strong p-3 text-caption text-muted">
-        <p className="font-medium text-text">Demo account</p>
-        <p className="mt-1">Balances, rewards and activity are demo data stored in this browser.</p>
-      </div>
     </div>
   );
 }

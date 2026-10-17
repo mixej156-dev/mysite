@@ -5,7 +5,6 @@ import { Link } from "@/components/Link";
 import { Button, Checkbox, Input, Progress, useToast } from "@/design-system";
 import { useAuth } from "@/lib/auth";
 import { isEmail, useFocusFirstError } from "@/lib/forms";
-import { DemoNotice } from "./AuthShell";
 import { PasswordInput } from "./PasswordInput";
 import { useRedirectWhenAuthed } from "./useRedirectWhenAuthed";
 
@@ -72,7 +71,6 @@ export function RegisterForm() {
           </Link>
         </p>
       </div>
-      <DemoNotice>Demo: no real account is created. Your name and email stay in this browser.</DemoNotice>
       <form ref={formRef} onSubmit={submit} noValidate aria-label="Create an account" className="flex flex-col gap-5">
         <Input
           label="Full name"

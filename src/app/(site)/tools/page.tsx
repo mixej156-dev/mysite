@@ -9,7 +9,7 @@ import { Card } from "@/design-system";
 
 export const metadata: Metadata = {
   title: "Tools",
-  description: "Rewards calculator, pool comparison, asset converter and network fee estimates. Demo data.",
+  description: "Rewards calculator, pool comparison, asset converter and network fee estimates.",
 };
 
 const FEATURED = [
@@ -59,7 +59,7 @@ export default function ToolsPage() {
         <SectionHeader
           id="converter-title"
           title="Converter"
-          lead="Convert between the assets we support and US dollars, at demo rates."
+          lead="Convert between the assets we support and US dollars, at reference rates."
         />
         <Converter />
       </Section>

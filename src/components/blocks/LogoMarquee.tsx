@@ -18,6 +18,7 @@ function Glyph({ type }: { type: PartnerGlyph }) {
   );
 }
 
+/* Each row repeats the set three times so it's wider than the strip even on wide screens; otherwise a gap shows */
 function PartnerRow({ partners, hidden = false }: { partners: Partner[]; hidden?: boolean }) {
   return (
     <ul
@@ -29,8 +30,15 @@ function PartnerRow({ partners, hidden = false }: { partners: Partner[]; hidden?
         hidden && "motion-reduce:hidden",
       )}
     >
-      {partners.map((p) => (
-        <li key={p.name} className="flex items-center gap-2.5 text-body font-semibold whitespace-nowrap text-muted">
+      {[...partners, ...partners, ...partners].map((p, i) => (
+        <li
+          key={`${p.name}-${i}`}
+          aria-hidden={i >= partners.length || undefined}
+          className={cn(
+            "flex items-center gap-2.5 text-body font-semibold whitespace-nowrap text-muted",
+            i >= partners.length && "motion-reduce:hidden",
+          )}
+        >
           <Glyph type={p.glyph} />
           {p.name}
         </li>

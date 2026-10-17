@@ -5,7 +5,6 @@ import { useEffect, useRef, useState, type FormEvent } from "react";
 import { Link } from "@/components/Link";
 import { Button, Input, useToast } from "@/design-system";
 import { isEmail, useFocusFirstError } from "@/lib/forms";
-import { DemoNotice } from "./AuthShell";
 
 const RESEND_SECONDS = 30;
 
@@ -56,7 +55,6 @@ export function ForgotPasswordForm() {
             to reset the password is on its way. It works for 30 minutes.
           </p>
         </div>
-        <DemoNotice>Demo: no email is sent. Any email and password already log you in.</DemoNotice>
         <div className="flex flex-col gap-3 sm:flex-row">
           <Button
             variant="secondary"

@@ -3,7 +3,7 @@ import { ForgotPasswordForm } from "@/components/auth/ForgotPasswordForm";
 
 export const metadata: Metadata = {
   title: "Reset password",
-  description: "Request a password reset link for your LONAR ECO. demo account.",
+  description: "Request a password reset link for your LONAR ECO. account.",
 };
 
 export default function ForgotPasswordPage() {

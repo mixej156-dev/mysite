@@ -78,7 +78,7 @@ export function Referrals() {
               </div>
             ))}
           </div>
-          <p className="mt-4 text-caption text-muted">Demo programme: terms are illustrative and not an offer.</p>
+          <p className="mt-4 text-caption text-muted">Programme terms can change. Rewards are paid in the referred pool’s asset.</p>
         </section>
 
         <dl className="grid overflow-hidden rounded-card border border-rule bg-surface sm:grid-cols-3">

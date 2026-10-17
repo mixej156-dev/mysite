@@ -9,6 +9,7 @@ const CENTER = SIZE / 2;
 const R0 = 84;
 /** Radius available for reward rings */
 const SPAN = 108;
+const RING_EASE = [0.65, 0, 0.35, 1] as const;
 
 export type GrowthRingsProps = {
   /** Balance at year 0 (principal), year 1 … year N */
@@ -36,7 +37,9 @@ export function GrowthRings({ balances, maxYears, scaleRatio, children }: Growth
     return R0 + SPAN * Math.sqrt(Math.min(1, ratio / scaleRatio));
   };
 
-  const transition = reduceMotion ? { duration: 0 } : { type: "spring" as const, stiffness: 70, damping: 20, mass: 1 };
+  /* Ease-in-out rather than the brand ease-out: rings grow and shrink gently, inner ring a beat ahead */
+  const transitionFor = (year: number) =>
+    reduceMotion ? { duration: 0 } : { duration: 0.9, ease: RING_EASE, delay: (year - 1) * 0.04 };
 
   return (
     <div className="relative mx-auto aspect-square w-full max-w-[25rem]">
@@ -50,7 +53,7 @@ export function GrowthRings({ balances, maxYears, scaleRatio, children }: Growth
             cy={CENTER}
             initial={false}
             animate={{ r: radiusFor(year) }}
-            transition={transition}
+            transition={transitionFor(year)}
             fill={`color-mix(in oklab, var(--accent) ${30 + (year / maxYears) * 55}%, var(--bg))`}
             stroke="var(--bg)"
             strokeWidth={2}

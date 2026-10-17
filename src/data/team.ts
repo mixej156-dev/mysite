@@ -36,3 +36,31 @@ export const OPEN_ROLES: Role[] = [
   { id: "sec", title: "Detection Engineer", department: "Security", location: "Berlin", type: "Hybrid" },
   { id: "ops", title: "Client Operations Specialist", department: "Operations", location: "Singapore", type: "On-site" },
 ];
+
+export type LeaderProfile = {
+  memberId: string;
+  /** Path under /public. Without one, a drawn portrait placeholder is shown. */
+  photo?: string;
+  bio: string;
+  quote: string;
+  achievements: { value: string; label: string }[];
+  social: { network: string; href: string }[];
+};
+
+export const CEO: LeaderProfile = {
+  memberId: "lena",
+  bio: "Lena co-founded LONAR ECO. after a decade building payments and distributed-systems infrastructure. Before running the company, Lena ran its first validators and still reads every incident review.",
+  quote:
+    "Staking should feel like a ledger you can check, not a number you have to trust. If a reward can’t be traced to the epoch that earned it, we haven’t finished the job.",
+  achievements: [
+    { value: "14 yrs", label: "Building payments and distributed-systems infrastructure" },
+    { value: "6 networks", label: "Supported today, up from the first two public pools" },
+    { value: "40+ people", label: "On the team, grown from three founding engineers" },
+    { value: "2025", label: "Introduced public quarterly validator reports" },
+  ],
+  social: [
+    { network: "LinkedIn", href: "#" },
+    { network: "X", href: "#" },
+    { network: "GitHub", href: "#" },
+  ],
+};

@@ -125,7 +125,7 @@ export function ContactForm() {
         rows={6}
       />
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-caption text-muted">Demo form: nothing is sent.</p>
+        <p className="text-caption text-muted">We usually reply within two business days.</p>
         <Button type="submit" size="lg" loading={status === "sending"}>
           {status === "sending" ? "Sending" : "Send message"}
         </Button>

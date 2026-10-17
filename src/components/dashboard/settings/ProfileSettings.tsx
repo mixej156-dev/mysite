@@ -53,7 +53,7 @@ export function ProfileSettings() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           error={errors.email}
-          hint="Demo: no confirmation email is sent."
+          hint="We’ll ask you to confirm a new address."
         />
         <div>
           <Button type="submit" loading={saving} disabled={!changed && !saving}>

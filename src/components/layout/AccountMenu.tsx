@@ -55,7 +55,7 @@ export function AccountMenu({ session, onSignOut }: { session: Session; onSignOu
             toast({
               tone: "info",
               title: "Logged out",
-              description: "The demo session was cleared from this browser.",
+              description: "You’ve been logged out on this device.",
             });
           }}
         >

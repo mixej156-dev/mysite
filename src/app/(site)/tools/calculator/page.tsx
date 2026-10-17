@@ -4,7 +4,7 @@ import { RewardsCalculator } from "@/components/tools/RewardsCalculator";
 
 export const metadata: Metadata = {
   title: "Rewards calculator",
-  description: "Project staking rewards by pool, amount and period, with or without restaking. Demo data, not a forecast.",
+  description: "Project staking rewards by pool, amount and period, with or without restaking. Not a forecast.",
 };
 
 export default function CalculatorPage() {

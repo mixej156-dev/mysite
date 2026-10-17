@@ -86,7 +86,7 @@ export function GasEstimate() {
         </Table>
       </div>
       <p className="text-caption text-muted">
-        Network fees go to the network, not to us. Demo figures; real fees change with network load.
+        Network fees go to the network, not to us. Real fees change with network load.
       </p>
     </div>
   );

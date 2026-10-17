@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: PageProps<"/staking/[asset]">
   if (!pool) return { title: "Pool not found" };
   return {
     title: `${pool.name} staking`,
-    description: `Stake ${pool.ticker} on ${pool.network}: estimated ${formatPercent(pool.apy)} APY after fees, minimum ${pool.minStake} ${pool.ticker}, daily payouts. Demo data.`,
+    description: `Stake ${pool.ticker} on ${pool.network}: estimated ${formatPercent(pool.apy)} APY after fees, minimum ${pool.minStake} ${pool.ticker}, daily payouts.`,
   };
 }
 

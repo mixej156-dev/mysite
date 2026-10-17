@@ -63,7 +63,7 @@ export function PoolDetail({ pool }: { pool: Pool }) {
               {pool.unbondingDays === 0 && <Badge tone="success">No lock-up</Badge>}
             </div>
             <p className="font-mono text-display tracking-tight">{formatPercent(pool.apy)}</p>
-            <p className="text-caption text-muted">After the {pool.feePercent}% platform fee. Demo data, not a forecast.</p>
+            <p className="text-caption text-muted">After the {pool.feePercent}% platform fee. Not a forecast.</p>
           </div>
         }
       >
@@ -106,7 +106,7 @@ export function PoolDetail({ pool }: { pool: Pool }) {
           title="Estimated APY"
           series={[{ id: pool.id, label: pool.name, color: "var(--series-1)", points: apyHistory(pool) }]}
           valueFormat="percent"
-          note="Daily estimate after fees. Demo data; past yield doesn’t predict future yield."
+          note="Daily estimate after fees. Past yield doesn’t predict future yield."
         />
       </section>
 
