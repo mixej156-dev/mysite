@@ -248,6 +248,23 @@
 ::view-transition-new(.page) {
   animation: var(--duration-base) var(--ds-ease-brand) var(--duration-fast) both vt-fade-up;
 }
+/* The docs sidebar stays put between articles; it only fades with the page when entering or leaving /docs */
+::view-transition-group(docs-nav) {
+  animation: none;
+}
+::view-transition-old(docs-nav) {
+  display: none;
+}
+::view-transition-new(docs-nav) {
+  animation: none;
+}
+::view-transition-old(docs-nav):only-child {
+  display: block;
+  animation: var(--duration-fast) var(--ds-ease-brand) both vt-fade-out;
+}
+::view-transition-new(docs-nav):only-child {
+  animation: var(--duration-base) var(--ds-ease-brand) var(--duration-fast) both vt-fade-up;
+}
 @keyframes vt-fade-out {
   to {
     opacity: 0;

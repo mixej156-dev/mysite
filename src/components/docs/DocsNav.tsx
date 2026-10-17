@@ -49,7 +49,7 @@ export function DocsNav() {
   );
 
   return (
-    <nav aria-label="Documentation">
+    <nav aria-label="Documentation" className="[view-transition-name:docs-nav]">
       {/* Phones and tablets: collapsible */}
       <div className="lg:hidden">
         <button
