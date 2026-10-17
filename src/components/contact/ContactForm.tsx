@@ -1,8 +1,9 @@
 "use client";
 
 import { CircleCheck } from "lucide-react";
-import { useEffect, useRef, useState, type FormEvent } from "react";
+import { useRef, useState, type FormEvent } from "react";
 import { Button, Input, Select, Textarea, useToast } from "@/design-system";
+import { isEmail, useFocusFirstError } from "@/lib/forms";
 
 const TOPICS = [
   { value: "support", label: "Account or staking support" },
@@ -12,15 +13,13 @@ const TOPICS = [
   { value: "other", label: "Something else" },
 ];
 
-const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
 type Fields = { name: string; email: string; topic: string; message: string };
 type Errors = Partial<Record<keyof Fields, string>>;
 
 function validate(f: Fields): Errors {
   const errors: Errors = {};
   if (!f.name.trim()) errors.name = "Enter your name.";
-  if (!EMAIL.test(f.email.trim())) errors.email = "Enter an email address like name@example.com.";
+  if (!isEmail(f.email)) errors.email = "Enter an email address like name@example.com.";
   if (!f.topic) errors.topic = "Choose what your message is about.";
   if (f.message.trim().length < 20) errors.message = "Write at least 20 characters so we can help.";
   return errors;
@@ -37,11 +36,7 @@ export function ContactForm() {
   const formRef = useRef<HTMLFormElement>(null);
   const { toast } = useToast();
 
-  /* After a failed submit, move focus to the first field with an error */
-  useEffect(() => {
-    if (attempt === 0) return;
-    formRef.current?.querySelector<HTMLElement>("[aria-invalid='true']")?.focus();
-  }, [attempt]);
+  useFocusFirstError(formRef, attempt);
 
   const set = (key: keyof Fields) => (value: string) => {
     setFields((f) => ({ ...f, [key]: value }));

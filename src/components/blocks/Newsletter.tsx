@@ -3,8 +3,7 @@
 import { CircleCheck } from "lucide-react";
 import { useState, type FormEvent } from "react";
 import { Button, Input, useToast } from "@/design-system";
-
-const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+import { isEmail } from "@/lib/forms";
 
 /** Newsletter sign-up. Nothing is sent: submitting only simulates a request. */
 export function Newsletter() {
@@ -15,7 +14,7 @@ export function Newsletter() {
 
   const submit = (e: FormEvent) => {
     e.preventDefault();
-    if (!EMAIL.test(email.trim())) {
+    if (!isEmail(email)) {
       setError("Enter an email address like name@example.com.");
       return;
     }

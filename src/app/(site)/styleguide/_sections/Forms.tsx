@@ -172,6 +172,7 @@ export function CheckboxSection() {
                   defaultChecked
                 />
                 <Checkbox label="Select all positions" checked="indeterminate" />
+                <Checkbox label="I agree to the terms" error="Agree to the terms to create an account." />
                 <Checkbox label="Unavailable option" disabled />
               </div>
             </Example>

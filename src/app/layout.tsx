@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ToastProvider } from "@/design-system";
 import { fontVariables } from "@/design-system/fonts";
+import { AuthProvider } from "@/lib/auth";
 import { themeInitScript } from "@/design-system/theme-script";
 import "./globals.css";
 
@@ -19,7 +20,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
       <body className="min-h-dvh">
-        <ToastProvider>{children}</ToastProvider>
+        <ToastProvider>
+          <AuthProvider>{children}</AuthProvider>
+        </ToastProvider>
       </body>
     </html>
   );

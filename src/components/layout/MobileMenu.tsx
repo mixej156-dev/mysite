@@ -9,6 +9,7 @@ import { useState } from "react";
 import { buttonClasses } from "@/design-system";
 import { transition } from "@/design-system/motion";
 import { featuredPools } from "@/data/pools";
+import { useAuth } from "@/lib/auth";
 import { cn } from "@/lib/cn";
 import { formatPercent } from "@/lib/format";
 import { Logo } from "./Logo";
@@ -23,6 +24,7 @@ export function MobileMenu() {
   const [expanded, setExpanded] = useState<string | null>(null);
   const pathname = usePathname();
   const reduceMotion = useReducedMotion();
+  const { session, status, signOut } = useAuth();
 
   const close = () => setOpen(false);
 
@@ -123,12 +125,40 @@ export function MobileMenu() {
                     <span className="text-small text-muted">Theme</span>
                     <ThemeToggle />
                   </div>
-                  <Link href="/login" onClick={close} className={buttonClasses({ variant: "secondary", size: "lg" })}>
-                    Log in
-                  </Link>
-                  <Link href="/register" onClick={close} className={buttonClasses({ size: "lg" })}>
-                    Start staking
-                  </Link>
+                  {status === "authed" && session ? (
+                    <>
+                      <p className="border-t border-rule pt-4 text-small">
+                        <span className="block font-medium">{session.name}</span>
+                        <span className="block text-muted">{session.email}</span>
+                      </p>
+                      <Link href="/dashboard" onClick={close} className={buttonClasses({ size: "lg" })}>
+                        Dashboard
+                      </Link>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          signOut();
+                          close();
+                        }}
+                        className={buttonClasses({ variant: "secondary", size: "lg" })}
+                      >
+                        Log out
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <Link
+                        href="/login"
+                        onClick={close}
+                        className={buttonClasses({ variant: "secondary", size: "lg" })}
+                      >
+                        Log in
+                      </Link>
+                      <Link href="/register" onClick={close} className={buttonClasses({ size: "lg" })}>
+                        Start staking
+                      </Link>
+                    </>
+                  )}
                 </div>
               </motion.div>
             </Dialog.Content>

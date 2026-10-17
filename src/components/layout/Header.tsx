@@ -4,7 +4,9 @@ import * as Nav from "@radix-ui/react-navigation-menu";
 import { Link } from "@/components/Link";
 import { useEffect, useState } from "react";
 import { buttonClasses } from "@/design-system";
+import { useAuth } from "@/lib/auth";
 import { cn } from "@/lib/cn";
+import { AccountMenu } from "./AccountMenu";
 import { Logo } from "./Logo";
 import { MegaMenu } from "./MegaMenu";
 import { MobileMenu } from "./MobileMenu";
@@ -13,6 +15,7 @@ import { ThemeToggle } from "./ThemeToggle";
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const { session, status, signOut } = useAuth();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -43,12 +46,30 @@ export function Header() {
 
         <div className="ml-auto flex items-center gap-1">
           <ThemeToggle className="max-lg:hidden" />
-          <Link href="/login" className={buttonClasses({ variant: "ghost", className: "max-sm:hidden" })}>
-            Log in
-          </Link>
-          <Link href="/register" className={buttonClasses({ className: "max-sm:hidden" })}>
-            Start staking
-          </Link>
+          {status === "loading" && (
+            /* Holds the space of the guest buttons so nothing jumps once the session is read */
+            <span aria-hidden className="h-10 w-48 max-sm:hidden" />
+          )}
+          {status === "guest" && (
+            <>
+              <Link href="/login" className={buttonClasses({ variant: "ghost", className: "max-sm:hidden" })}>
+                Log in
+              </Link>
+              <Link href="/register" className={buttonClasses({ className: "max-sm:hidden" })}>
+                Start staking
+              </Link>
+            </>
+          )}
+          {status === "authed" && session && (
+            <>
+              <Link href="/dashboard" className={buttonClasses({ className: "max-sm:hidden" })}>
+                Dashboard
+              </Link>
+              <span className="max-lg:hidden">
+                <AccountMenu session={session} onSignOut={signOut} />
+              </span>
+            </>
+          )}
           <MobileMenu />
         </div>
 
