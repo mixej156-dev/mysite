@@ -2,6 +2,8 @@
 @import "../styles/tokens.css";
 
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+/* Desktop screens under ~1200px tall (1920×1080 and similar): the dashboard runs denser so the overview fits */
+@custom-variant short (@media (min-width: 80rem) and (max-height: 75rem));
 
 @theme inline {
   /* Reset Tailwind's default palette so only design tokens are available */
@@ -180,6 +182,12 @@
   html {
     background-color: var(--bg);
     -webkit-text-size-adjust: 100%;
+  }
+  /* One step smaller rem in the dashboard on short desktop screens; all sizes are rem, so the layout scales evenly */
+  @media (min-width: 80rem) and (max-height: 75rem) {
+    html:has([data-density="dashboard"]) {
+      font-size: 87.5%;
+    }
   }
   body {
     background-color: var(--bg);

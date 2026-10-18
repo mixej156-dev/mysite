@@ -41,7 +41,7 @@ export function Overview() {
         lead={`Here’s where your stake stands on ${formatDate(DEMO_TODAY)}.`}
       />
 
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-6 short:gap-5">
         <BalanceCard
           total={total}
           change={total - monthAgo}
@@ -53,7 +53,7 @@ export function Overview() {
           ]}
         />
 
-        <div className="grid gap-6 xl:grid-cols-3">
+        <div className="grid gap-6 xl:grid-cols-3 short:gap-5">
           <TimeSeriesChart
             title="Balance"
             series={[{ id: "value", label: "Balance", color: "var(--series-1)", points: history }]}
@@ -69,11 +69,14 @@ export function Overview() {
               </Link>
             }
           >
-            <RewardsFeed entries={rewards} days={3} />
+            {/* Short screens show two days so the row stays as tall as the chart */}
+            <div className="short:[&_ol>li:nth-child(3)]:hidden">
+              <RewardsFeed entries={rewards} days={3} />
+            </div>
           </Panel>
         </div>
 
-        <div className="grid gap-6 xl:grid-cols-3">
+        <div className="grid gap-6 xl:grid-cols-3 short:gap-5">
           <Panel
             title="Positions"
             className="xl:col-span-2"
@@ -106,7 +109,10 @@ export function Overview() {
               </Link>
             }
           >
-            <ActivityList items={activity} />
+            {/* Short screens show four items to match the positions table */}
+            <div className="short:[&_ul>li:nth-child(4)]:border-0 short:[&_ul>li:nth-child(5)]:hidden">
+              <ActivityList items={activity} />
+            </div>
           </Panel>
         </div>
       </div>

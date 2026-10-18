@@ -17,12 +17,12 @@ export function BalanceCard({ total, change, periodLabel, breakdown }: BalanceCa
   const Arrow = up ? ArrowUpRight : ArrowDownRight;
 
   return (
-    <section aria-labelledby="balance-title" className="rounded-card border border-rule bg-surface">
-      <div className="flex flex-col gap-3 p-6 md:p-8">
+    <section aria-labelledby="balance-title" className="rounded-card border border-rule bg-surface short:flex">
+      <div className="flex flex-col gap-3 p-6 md:p-8 short:shrink-0 short:justify-center short:py-5 short:pr-12">
         <h2 id="balance-title" className="text-small text-muted">
           Total balance
         </h2>
-        <p className="text-display font-semibold tracking-tight">{formatCurrency(total)}</p>
+        <p className="text-display font-semibold tracking-tight short:text-h1">{formatCurrency(total)}</p>
         <p className={cn("flex items-center gap-1.5 text-small", up ? "text-success" : "text-danger")}>
           <Arrow aria-hidden className="size-4" />
           <span className="font-mono">
@@ -33,11 +33,15 @@ export function BalanceCard({ total, change, periodLabel, breakdown }: BalanceCa
           <span className="text-muted">{periodLabel}</span>
         </p>
       </div>
-      <dl className="grid border-t border-rule sm:grid-cols-3">
+      {/* Short screens: the breakdown sits beside the total instead of below it */}
+      <dl className="grid border-t border-rule sm:grid-cols-3 short:flex-1 short:border-t-0 short:border-l">
         {breakdown.map((item, i) => (
           <div
             key={item.label}
-            className={cn("p-5 md:px-8", i > 0 && "border-t border-rule sm:border-t-0 sm:border-l")}
+            className={cn(
+              "p-5 md:px-8 short:flex short:flex-col short:justify-center short:py-4",
+              i > 0 && "border-t border-rule sm:border-t-0 sm:border-l",
+            )}
           >
             <dt className="text-small text-muted">{item.label}</dt>
             <dd className="mt-1 font-mono text-h4">{formatCurrency(item.value)}</dd>

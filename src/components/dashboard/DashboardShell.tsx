@@ -26,8 +26,11 @@ export function DashboardShell({ children }: { children: ReactNode }) {
     <RequireAuth fallback={<ShellSkeleton />}>
       <PortfolioProvider>
         <SkipLink />
-        <div className="flex min-h-dvh">
-          <aside aria-label="Sidebar" className="sticky top-0 h-dvh w-64 shrink-0 border-r border-rule bg-bg max-lg:hidden">
+        <div data-density="dashboard" className="flex min-h-dvh">
+          <aside
+            aria-label="Sidebar"
+            className="sticky top-0 h-dvh w-64 shrink-0 border-r border-rule bg-bg max-lg:hidden"
+          >
             <Sidebar />
           </aside>
           <div className="flex min-w-0 flex-1 flex-col">
@@ -35,7 +38,7 @@ export function DashboardShell({ children }: { children: ReactNode }) {
             <main
               id="main"
               tabIndex={-1}
-              className="w-full flex-1 px-4 py-8 outline-none sm:px-6 lg:px-7 lg:py-10"
+              className="w-full flex-1 px-4 py-8 outline-none sm:px-6 lg:px-7 lg:py-10 short:py-6"
             >
               {children}
             </main>

@@ -222,10 +222,14 @@ export function TimeSeriesChart({
       )}
 
       {view === "chart" ? (
-        <div ref={plotRef} className="mt-6 h-64 md:h-72" aria-hidden>
+        <div ref={plotRef} className="mt-6 h-64 md:h-72 short:mt-4 short:h-48" aria-hidden>
           {hasSize && (
             <ResponsiveContainer width="100%" height="100%">
-              <AreaChart accessibilityLayer={false} data={rows} margin={{ top: 8, right: single ? endLabelRoom : 20, bottom: 0, left: 0 }}>
+              <AreaChart
+                accessibilityLayer={false}
+                data={rows}
+                margin={{ top: 8, right: single ? endLabelRoom : 20, bottom: 0, left: 0 }}
+              >
                 <CartesianGrid vertical={false} stroke="var(--rule)" />
                 <XAxis
                   dataKey="date"
