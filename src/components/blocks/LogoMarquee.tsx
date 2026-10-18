@@ -1,62 +1,48 @@
-import type { Partner, PartnerGlyph } from "@/data/partners";
+import Image from "next/image";
 import { cn } from "@/lib/cn";
 
-function Glyph({ type }: { type: PartnerGlyph }) {
-  const common = { stroke: "currentColor", strokeWidth: 1.75, fill: "none" } as const;
-  return (
-    <svg viewBox="0 0 20 20" aria-hidden className="size-5 shrink-0">
-      {type === "ring" && <circle cx="10" cy="10" r="7" {...common} />}
-      {type === "square" && <rect x="3.5" y="3.5" width="13" height="13" rx="2" {...common} />}
-      {type === "triangle" && <path d="M10 3.5 17 16.5H3z" {...common} strokeLinejoin="round" />}
-      {type === "bars" && <path d="M4 16V9M8 16V5M12 16v-8M16 16V3" {...common} strokeLinecap="round" />}
-      {type === "arc" && <path d="M3 15a7 7 0 0 1 14 0" {...common} strokeLinecap="round" />}
-      {type === "diamond" && <path d="m10 2.5 7.5 7.5-7.5 7.5L2.5 10z" {...common} strokeLinejoin="round" />}
-      {type === "slash" && <path d="M5 17 15 3M10 17l5-7" {...common} strokeLinecap="round" />}
-      {type === "dot-grid" &&
-        [5, 10, 15].flatMap((x) => [5, 10, 15].map((y) => <circle key={`${x}-${y}`} cx={x} cy={y} r="1.5" fill="currentColor" />))}
-    </svg>
-  );
-}
+/** One entry in the strip: a brand name and its logo in the brand's own colours. */
+export type MarqueeItem = { name: string; logo: string };
 
 /* Each row repeats the set three times so it's wider than the strip even on wide screens; otherwise a gap shows */
-function PartnerRow({ partners, hidden = false }: { partners: Partner[]; hidden?: boolean }) {
+function MarqueeRow({ items, hidden = false }: { items: MarqueeItem[]; hidden?: boolean }) {
   return (
     <ul
       aria-hidden={hidden || undefined}
       className={cn(
-        "flex shrink-0 items-center gap-14 pr-14",
+        "flex shrink-0 items-center gap-12 pr-12 sm:gap-16 sm:pr-16",
         "animate-marquee group-hover:[animation-play-state:paused] group-focus-within:[animation-play-state:paused]",
         "motion-reduce:animate-none motion-reduce:flex-wrap motion-reduce:justify-center motion-reduce:gap-y-6 motion-reduce:pr-0",
         hidden && "motion-reduce:hidden",
       )}
     >
-      {[...partners, ...partners, ...partners].map((p, i) => (
+      {[...items, ...items, ...items].map((item, i) => (
         <li
-          key={`${p.name}-${i}`}
-          aria-hidden={i >= partners.length || undefined}
+          key={`${item.name}-${i}`}
+          aria-hidden={i >= items.length || undefined}
           className={cn(
-            "flex items-center gap-2.5 text-body font-semibold whitespace-nowrap text-muted",
-            i >= partners.length && "motion-reduce:hidden",
+            "flex items-center gap-2.5 text-body font-semibold whitespace-nowrap sm:gap-3 sm:text-h4",
+            i >= items.length && "motion-reduce:hidden",
           )}
         >
-          <Glyph type={p.glyph} />
-          {p.name}
+          <Image src={item.logo} alt="" width={32} height={32} unoptimized className="size-7 shrink-0 sm:size-8" />
+          {item.name}
         </li>
       ))}
     </ul>
   );
 }
 
-/** Endless strip of partner wordmarks. Pauses on hover; static and wrapped with reduced motion. */
-export function LogoMarquee({ partners, label }: { partners: Partner[]; label: string }) {
+/** Endless strip of brand logos. Pauses on hover; static and wrapped with reduced motion. */
+export function LogoMarquee({ items, label }: { items: MarqueeItem[]; label: string }) {
   return (
     <div
       role="region"
       aria-label={label}
       className="group flex overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)] motion-reduce:[mask-image:none]"
     >
-      <PartnerRow partners={partners} />
-      <PartnerRow partners={partners} hidden />
+      <MarqueeRow items={items} />
+      <MarqueeRow items={items} hidden />
     </div>
   );
 }

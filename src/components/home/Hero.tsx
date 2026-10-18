@@ -1,12 +1,12 @@
 import { Link } from "@/components/Link";
 import { buttonClasses } from "@/design-system";
-import { PayoutLedger } from "../blocks/PayoutLedger";
+import { HeroScreenshot } from "./HeroScreenshot";
 
 export function Hero() {
   return (
-    <section aria-labelledby="hero-title" className="container-page pt-8 pb-12 sm:pt-16 sm:pb-20 md:pt-24 md:pb-28">
-      <div className="grid items-center gap-10 sm:gap-14 lg:grid-cols-12 lg:gap-8">
-        <div className="lg:col-span-7">
+    <section aria-labelledby="hero-title" className="overflow-x-clip">
+      <div className="container-page grid items-center gap-10 pt-8 pb-12 sm:gap-14 sm:pt-16 sm:pb-20 md:pt-24 md:pb-28 lg:grid-cols-12 lg:gap-12">
+        <div className="lg:col-span-5">
           <h1 id="hero-title" className="max-w-[11ch] text-display">
             Staking, kept to account.
           </h1>
@@ -26,7 +26,7 @@ export function Hero() {
             From 0.1 ETH. Withdraw any time; funds release after the network’s unbonding period.
           </p>
         </div>
-        <PayoutLedger className="lg:col-span-5" />
+        <HeroScreenshot className="mx-auto w-full max-w-[20rem] sm:max-w-none lg:col-span-7 lg:w-[calc(100%+12rem)]" />
       </div>
     </section>
   );

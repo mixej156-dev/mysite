@@ -89,6 +89,11 @@
   --ds-radius-card: 16px;
   --ds-radius-pill: 999px;
 
+  /* Window controls on product screenshots (macOS-style frame), decorative only */
+  --chrome-close: #ff5f57;
+  --chrome-minimize: #febc2e;
+  --chrome-zoom: #28c840;
+
   --ds-ease-brand: cubic-bezier(0.22, 1, 0.36, 1);
   --duration-fast: 160ms;
   --duration-base: 280ms;

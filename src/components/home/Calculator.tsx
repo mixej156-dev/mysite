@@ -31,14 +31,20 @@ export function Calculator() {
   const valid = amountText.trim() !== "" && Number.isFinite(amount) && amount > 0;
   const belowMinimum = valid && amount < pool.minStake;
 
-  const balances = useMemo(() => projectBalances(valid ? amount : 0, pool.apy, years), [valid, amount, pool.apy, years]);
+  const balances = useMemo(
+    () => projectBalances(valid ? amount : 0, pool.apy, years),
+    [valid, amount, pool.apy, years],
+  );
   const digits = amountDigits(pool.ticker);
   const fmt = (n: number) => formatToken(n, "", digits).trim();
   const final = balances[balances.length - 1];
 
-  const error = amountText.trim() !== "" && !valid ? "Enter a number greater than 0." : belowMinimum
-    ? `The minimum stake for this pool is ${pool.minStake} ${pool.ticker}.`
-    : undefined;
+  const error =
+    amountText.trim() !== "" && !valid
+      ? "Enter a number greater than 0."
+      : belowMinimum
+        ? `The minimum stake for this pool is ${pool.minStake} ${pool.ticker}.`
+        : undefined;
 
   return (
     <Section labelledBy="calc-title">
