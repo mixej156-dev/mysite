@@ -1,6 +1,7 @@
 "use client";
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/design-system";
+import { useState } from "react";
+import { Select, Tabs, TabsContent, TabsList, TabsTrigger } from "@/design-system";
 import { PageTitle } from "../PageTitle";
 import { AccountSettings } from "../settings/AccountSettings";
 import { ApiKeySettings } from "../settings/ApiKeySettings";
@@ -17,14 +18,21 @@ const TABS = [
 ];
 
 export function Settings() {
+  const [tab, setTab] = useState("profile");
+
   return (
     <>
-      <PageTitle
-        title="Settings"
-        lead="Profile, security, notifications, API keys and account."
-      />
-      <Tabs defaultValue="profile">
-        <TabsList aria-label="Settings sections">
+      <PageTitle title="Settings" lead="Profile, security, notifications, API keys and account." />
+      <Tabs value={tab} onValueChange={setTab}>
+        {/* Phones: five tabs don't fit a row, so the section is picked from a list */}
+        <Select
+          label="Settings section"
+          value={tab}
+          onValueChange={setTab}
+          options={TABS.map((t) => ({ value: t.id, label: t.label }))}
+          className="sm:hidden [&>label]:sr-only"
+        />
+        <TabsList aria-label="Settings sections" className="max-sm:hidden">
           {TABS.map((t) => (
             <TabsTrigger key={t.id} value={t.id}>
               {t.label}

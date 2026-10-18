@@ -1,10 +1,22 @@
 "use client";
 
-import { ArrowDownLeft, ArrowUpRight, Copy } from "lucide-react";
-import { useSearchParams } from "next/navigation";
+import { ArrowDownLeft, ArrowUpRight, Copy, MoreHorizontal, PlusCircle } from "lucide-react";
+import Image from "next/image";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useRef, useState, type FormEvent } from "react";
 import { Link } from "@/components/Link";
-import { Button, Input, Modal, Select, buttonClasses, useToast } from "@/design-system";
+import {
+  Button,
+  Dropdown,
+  DropdownContent,
+  DropdownItem,
+  DropdownTrigger,
+  Input,
+  Modal,
+  Select,
+  buttonClasses,
+  useToast,
+} from "@/design-system";
 import { pools } from "@/data/pools";
 import { formatCurrency } from "@/lib/format";
 import { useFocusFirstError } from "@/lib/forms";
@@ -34,6 +46,7 @@ function parseAmount(text: string) {
 
 export function Wallet() {
   const params = useSearchParams();
+  const router = useRouter();
   const { state, transactions, deposit, withdraw } = usePortfolio();
   const { toast } = useToast();
   /* ?deposit=ETH or ?withdraw=ETH opens that form, e.g. from the overview's quick actions */
@@ -151,17 +164,58 @@ export function Wallet() {
               return (
                 <li
                   key={a.ticker}
-                  className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-4 gap-y-3 border-b border-rule px-5 py-4 last:border-0 md:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)_16rem] md:px-6"
+                  className="grid grid-cols-[minmax(0,1fr)_auto_auto] items-center gap-x-3 border-b border-rule py-3 pr-2 pl-5 last:border-0 md:grid-cols-[minmax(0,1.2fr)_minmax(0,1fr)_16rem] md:gap-x-4 md:px-6 md:py-4"
                 >
-                  <div className="min-w-0">
-                    <p className="font-medium">{a.ticker}</p>
-                    <p className="text-caption text-muted">{pool?.network}</p>
+                  <div className="flex min-w-0 items-center gap-3">
+                    {pool && (
+                      <Image
+                        src={`/logos/networks/${pool.id}.svg`}
+                        alt=""
+                        width={32}
+                        height={32}
+                        unoptimized
+                        className="size-8 shrink-0"
+                      />
+                    )}
+                    <div className="min-w-0">
+                      <p className="font-medium">{a.ticker}</p>
+                      <p className="truncate text-caption text-muted">{pool?.network}</p>
+                    </div>
                   </div>
                   <div className="text-right md:text-left">
                     <p className="font-mono text-small">{tokenAmount(a.amount, a.ticker)}</p>
                     <p className="font-mono text-caption text-muted">{formatCurrency(a.usd)}</p>
                   </div>
-                  <div className="col-span-2 flex flex-wrap gap-2 md:col-span-1 md:justify-end">
+                  {/* Phones: the three actions fold into a menu so each asset takes one line */}
+                  <Dropdown>
+                    <DropdownTrigger
+                      aria-label={`${a.ticker} actions`}
+                      className="grid size-10 place-items-center rounded-field text-muted [-webkit-tap-highlight-color:transparent] hover:bg-surface-2 hover:text-text active:bg-accent active:text-on-accent data-[state=open]:bg-surface-2 data-[state=open]:text-text md:hidden"
+                    >
+                      <MoreHorizontal aria-hidden className="size-5" />
+                    </DropdownTrigger>
+                    <DropdownContent align="end">
+                      <DropdownItem icon={<ArrowDownLeft aria-hidden />} onSelect={() => open("deposit", a.ticker)}>
+                        Deposit
+                      </DropdownItem>
+                      <DropdownItem
+                        icon={<ArrowUpRight aria-hidden />}
+                        disabled={a.amount === 0}
+                        onSelect={() => open("withdraw", a.ticker)}
+                      >
+                        Withdraw
+                      </DropdownItem>
+                      {pool && a.amount >= pool.minStake && (
+                        <DropdownItem
+                          icon={<PlusCircle aria-hidden />}
+                          onSelect={() => router.push(`/dashboard/stake?pool=${pool.id}`)}
+                        >
+                          Stake
+                        </DropdownItem>
+                      )}
+                    </DropdownContent>
+                  </Dropdown>
+                  <div className="flex flex-wrap justify-end gap-2 max-md:hidden">
                     <Button size="sm" variant="ghost" onClick={() => open("deposit", a.ticker)}>
                       Deposit
                     </Button>
