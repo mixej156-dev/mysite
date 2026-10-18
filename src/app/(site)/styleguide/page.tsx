@@ -12,6 +12,7 @@ import { DropdownSection, ModalSection, ToastSection, TooltipSection } from "./_
 export const metadata: Metadata = {
   title: "Design system",
   description: "Tokens, base components and content blocks of the LONAR ECO. interface.",
+  robots: { index: false },
 };
 
 export default function StyleguidePage() {

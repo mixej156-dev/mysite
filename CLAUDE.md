@@ -115,7 +115,7 @@
 - `/dashboard/notifications` — уведомления (выплаты, анбондинг, кошелёк, безопасность, инциденты сетей, новости); колокольчик со счётчиком в Topbar; прочитанность — в `localStorage`.
 - `/dashboard/settings` — Профиль, безопасность (2FA-UI), уведомления, API-ключи (фейковые), аккаунт.
 - Контент дашборда растянут на всю ширину рядом с сайдбаром, кроме Stake, Positions и Settings (ограничены `ContainedPage`, 84rem).
-- На телефонах и планшетах (< lg) — нижняя панель вкладок `MobileTabBar` (Overview, Positions, Stake, Rewards, Wallet), остальное — в меню-шторке; в карточке баланса быстрые действия Stake / Deposit / Withdraw (`/dashboard/wallet?deposit=ETH|?withdraw=ETH`). Тосты и баннер cookies поднимаются над панелью через `--bottom-bar`.
+- На телефонах и планшетах (< lg) — нижняя панель вкладок `MobileTabBar` (Overview, Positions, Stake, Rewards, Wallet), остальное — в меню-шторке; в Settings разделы выбираются списком (< sm), в Wallet действия по активу — в меню «⋯» (< md); в карточке баланса быстрые действия Stake / Deposit / Withdraw (`/dashboard/wallet?deposit=ETH|?withdraw=ETH`). Тосты и баннер cookies поднимаются над панелью через `--bottom-bar`.
 - На десктопах ниже ~1200px (1920×1080) дашборд плотнее: вариант `short:` и `font-size: 87.5%` у корня.
 
 ## 7. Фейковая авторизация и данные
@@ -150,6 +150,8 @@
 - Единый стиль кода, TypeScript без `any`, компоненты переиспользуемые, без дублирования стилей.
 - Производительность: `next/image`, ленивая загрузка тяжёлых блоков, без лишних зависимостей.
 - Заполнить `<title>`/meta для каждой страницы.
+- Превью ссылок: `opengraph-image.tsx` (общее в `src/app`, свои — для пулов, статей, гайдов) на общем рендере `src/app/_og/card.tsx` со шрифтами из `src/app/_og/fonts` (значения токенов продублированы там — держать в синхроне с `tokens.css`). `sitemap.ts` и `robots.ts` — только публичные страницы; дашборд, вход и `/styleguide` закрыты от индексации.
+- Абсолютный адрес сайта — `NEXT_PUBLIC_SITE_URL` при сборке и запуске (`src/lib/site.ts`; на Vercel берётся сам). Для туннеля: `NEXT_PUBLIC_SITE_URL=https://<туннель> npm run build && … npm run start`.
 
 ## 10. Структура проекта
 
