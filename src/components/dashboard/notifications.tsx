@@ -36,10 +36,13 @@ export function NotificationRow({
   item,
   unread,
   compact = false,
+  dot = true,
 }: {
   item: AppNotification;
   unread: boolean;
   compact?: boolean;
+  /** Off when the parent shows the unread dot itself */
+  dot?: boolean;
 }) {
   const Icon = CATEGORY_ICONS[item.category];
   return (
@@ -59,7 +62,7 @@ export function NotificationRow({
           <span className={cn("text-small", unread ? "font-semibold text-text" : "font-medium text-text")}>
             {item.title}
           </span>
-          {unread && (
+          {unread && dot && (
             <>
               <span aria-hidden className="mt-1.5 size-2 shrink-0 rounded-pill bg-accent" />
               <span className="sr-only">Unread</span>

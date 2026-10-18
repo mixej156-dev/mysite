@@ -4,6 +4,7 @@ import { ArrowRight, BellOff } from "lucide-react";
 import { useState } from "react";
 import { Link } from "@/components/Link";
 import { Button, Tag } from "@/design-system";
+import { cn } from "@/lib/cn";
 import { CATEGORY_LABELS, type NotificationCategory } from "@/lib/notifications";
 import { DEMO_TODAY, addDays } from "@/lib/series";
 import { EmptyState } from "../../blocks/EmptyState";
@@ -93,28 +94,39 @@ export function Notifications() {
                       className="flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between sm:gap-6 md:p-5"
                     >
                       <div className="min-w-0 flex-1">
-                        <NotificationRow item={n} unread={isUnread} />
+                        <NotificationRow item={n} unread={isUnread} dot={false} />
                       </div>
+                      {/* Fixed columns so the dot, "Mark as read" and the link line up from row to row */}
                       <div className="flex shrink-0 items-center gap-4 pl-13 sm:pl-0">
-                        {isUnread && (
-                          <button
-                            type="button"
-                            onClick={() => markRead(n.id)}
-                            className="rounded-sm text-small text-muted transition-colors duration-fast hover:text-text"
-                          >
-                            Mark as read
-                          </button>
-                        )}
-                        {n.href && (
-                          <Link
-                            href={n.href}
-                            onClick={() => markRead(n.id)}
-                            className="inline-flex items-center gap-1 rounded-sm text-small font-medium text-accent-text hover:underline"
-                          >
-                            {n.cta ?? "Open"}
-                            <ArrowRight aria-hidden className="size-4" />
-                          </Link>
-                        )}
+                        <span
+                          aria-hidden
+                          className={cn("size-2 shrink-0 rounded-pill", isUnread ? "bg-accent" : "bg-transparent")}
+                        />
+                        {isUnread && <span className="sr-only">Unread</span>}
+                        <button
+                          type="button"
+                          onClick={() => markRead(n.id)}
+                          disabled={!isUnread}
+                          aria-hidden={!isUnread}
+                          className={cn(
+                            "rounded-sm text-small leading-5 whitespace-nowrap text-muted transition-colors duration-fast hover:text-text",
+                            !isUnread && "invisible",
+                          )}
+                        >
+                          Mark as read
+                        </button>
+                        <span className="sm:w-36">
+                          {n.href && (
+                            <Link
+                              href={n.href}
+                              onClick={() => markRead(n.id)}
+                              className="inline-flex items-center gap-1 rounded-sm text-small leading-5 font-medium text-accent-text hover:underline"
+                            >
+                              {n.cta ?? "Open"}
+                              <ArrowRight aria-hidden className="size-4" />
+                            </Link>
+                          )}
+                        </span>
                       </div>
                     </li>
                   );
