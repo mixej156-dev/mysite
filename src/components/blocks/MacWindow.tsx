@@ -21,7 +21,7 @@ export function MacWindow({
         <span className="size-2.5 rounded-pill bg-chrome-close sm:size-3" />
         <span className="size-2.5 rounded-pill bg-chrome-minimize sm:size-3" />
         <span className="size-2.5 rounded-pill bg-chrome-zoom sm:size-3" />
-        <span className="absolute inset-x-0 mx-auto flex h-5 w-fit max-w-[60%] items-center gap-1.5 rounded-sm bg-bg px-3 text-caption text-muted sm:h-6 sm:px-4">
+        <span className="absolute inset-x-0 mx-auto flex h-5 w-fit max-w-[calc(100%-6.5rem)] items-center gap-1.5 rounded-sm bg-bg px-3 text-caption text-muted sm:h-6 sm:max-w-[calc(100%-8rem)] sm:px-4">
           <Lock className="size-3 shrink-0" />
           <span className="truncate">{address}</span>
         </span>

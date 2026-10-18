@@ -16,6 +16,7 @@ const COLOR_GROUPS = [
     label: "Topic palette (cover art only, never text or UI state)",
     tokens: ["topic-blue", "topic-green", "topic-teal", "topic-orange", "topic-amber", "topic-violet", "topic-rose"],
   },
+  { label: "Window controls (screenshot frames only)", tokens: ["chrome-close", "chrome-minimize", "chrome-zoom"] },
 ] as const;
 
 function toHex(rgb: string): string {

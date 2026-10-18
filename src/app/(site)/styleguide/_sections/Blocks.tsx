@@ -1,10 +1,14 @@
 "use client";
 
+import Image from "next/image";
 import { BlogCard } from "@/components/blocks/BlogCard";
 import { GrowthRings } from "@/components/blocks/GrowthRings";
+import { MacWindow } from "@/components/blocks/MacWindow";
 import { Newsletter } from "@/components/blocks/Newsletter";
 import { PoolCard } from "@/components/blocks/PoolCard";
 import { StatCard } from "@/components/blocks/StatCard";
+import { StakeSteps } from "@/components/home/HowItWorks";
+import { MetricsPanel, NetworksMarquee } from "@/components/home/Metrics";
 import { metrics } from "@/data/metrics";
 import { pools } from "@/data/pools";
 import type { PostSummary } from "@/data/posts-meta";
@@ -40,6 +44,39 @@ export function BlocksSection() {
                   <StatCard key={m.id} label={m.label} value={m.value} format={m.format} caption={m.caption} />
                 ))}
               </div>
+            </Example>
+            <Example label="MetricsPanel: one panel, short hairline separators (2×2 on phones)">
+              <MetricsPanel />
+            </Example>
+            <Example label="LogoMarquee: networks we validate on, real logos in brand colours; pauses on hover">
+              <NetworksMarquee />
+            </Example>
+            <Example label="MacWindow: product screenshot frame (home hero), desktop and phone shots">
+              <div className="flex flex-wrap items-start gap-6">
+                <MacWindow address="lonar.eco/dashboard" className="w-full max-w-xl">
+                  <Image
+                    src="/screens/dashboard-desktop.webp"
+                    alt="The dashboard on desktop"
+                    width={2560}
+                    height={1600}
+                    unoptimized
+                    className="block h-auto w-full"
+                  />
+                </MacWindow>
+                <MacWindow address="lonar.eco/dashboard" className="w-full max-w-[14rem]">
+                  <Image
+                    src="/screens/dashboard-mobile.webp"
+                    alt="The dashboard on a phone"
+                    width={1170}
+                    height={2280}
+                    unoptimized
+                    className="block h-auto w-full"
+                  />
+                </MacWindow>
+              </div>
+            </Example>
+            <Example label="StakeSteps: illustrated steps (StakeStoryCover), one story from coin to wallet">
+              <StakeSteps />
             </Example>
             <Example label="PoolCard: with unbonding and with no lock-up">
               <div className="grid max-w-sm gap-4">
