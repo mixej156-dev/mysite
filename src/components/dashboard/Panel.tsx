@@ -17,9 +17,9 @@ export function Panel({
   return (
     <section
       aria-labelledby={id}
-      className={cn("min-w-0 rounded-card border border-rule bg-surface p-5 md:p-6", className)}
+      className={cn("min-w-0 rounded-card border border-rule bg-surface p-4 sm:p-5 md:p-6", className)}
     >
-      <div className="mb-4 flex items-center justify-between gap-4">
+      <div className="mb-3 flex items-center justify-between gap-4 sm:mb-4">
         <h2 id={id} className="text-body font-medium">
           {title}
         </h2>

@@ -46,12 +46,12 @@ export function PayoutLedger({ className }: { className?: string }) {
           <p className="text-small font-medium">Reward payouts</p>
           <p className="font-mono text-caption text-muted">Epoch {formatNumber(rows[0].epoch)}</p>
         </div>
-      <Badge tone="accent" dot>
-        Recent
-      </Badge>
-    </div>
-    <div className="relative">
-      <ol aria-label="Recent reward payouts" className="flex flex-col">
+        <Badge tone="accent" dot>
+          Recent
+        </Badge>
+      </div>
+      <div className="relative">
+        <ol aria-label="Recent reward payouts" className="flex flex-col">
           {rows.map((row) => (
             <motion.li
               key={row.id}
@@ -59,17 +59,20 @@ export function PayoutLedger({ className }: { className?: string }) {
               initial={newest > START ? { opacity: 0, y: -12 } : false}
               animate={{ opacity: 1, y: 0 }}
               transition={transition.slow}
-              className="grid grid-cols-[3.25rem_1fr_auto] items-center gap-3 border-b border-rule px-5 py-3.5 font-mono text-small last:border-0 sm:grid-cols-[3.25rem_1fr_auto_6.5rem]"
+              className="grid grid-cols-[3.25rem_1fr_auto] items-center gap-3 border-b border-rule px-5 py-2.5 font-mono text-small last:border-0 max-sm:nth-[n+6]:hidden sm:py-3.5 sm:grid-cols-[3.25rem_1fr_auto_6.5rem]"
             >
-                <span className="text-muted">{row.ticker}</span>
-                <span className="text-success">+{formatToken(row.amount, "", row.ticker === "ETH" ? 5 : 3).trim()}</span>
-                <span className="text-right text-caption text-muted sm:order-last">{row.address}</span>
-                <span className="hidden text-right text-caption text-muted sm:block">#{formatNumber(row.epoch)}</span>
-              </motion.li>
-            ))}
+              <span className="text-muted">{row.ticker}</span>
+              <span className="text-success">+{formatToken(row.amount, "", row.ticker === "ETH" ? 5 : 3).trim()}</span>
+              <span className="text-right text-caption text-muted sm:order-last">{row.address}</span>
+              <span className="hidden text-right text-caption text-muted sm:block">#{formatNumber(row.epoch)}</span>
+            </motion.li>
+          ))}
         </ol>
         {/* Fade the oldest row into the card */}
-        <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-linear-to-t from-surface to-transparent" />
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-linear-to-t from-surface to-transparent"
+        />
       </div>
     </div>
   );

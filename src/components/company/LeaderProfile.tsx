@@ -17,7 +17,7 @@ function PortraitPlaceholder() {
 /** Leader feature: portrait, bio, quote, key achievements and profile links. */
 export function LeaderProfile({ member, profile, titleId }: { member: TeamMember; profile: Profile; titleId: string }) {
   return (
-    <div className="grid gap-10 lg:grid-cols-12 lg:gap-8">
+    <div className="grid gap-8 sm:gap-10 lg:grid-cols-12 lg:gap-8">
       <div className="lg:col-span-5">
         <div className="relative aspect-[4/5] w-full max-w-md overflow-hidden rounded-card border border-rule bg-surface">
           {profile.photo ? (
@@ -41,14 +41,14 @@ export function LeaderProfile({ member, profile, titleId }: { member: TeamMember
         </h2>
         <p className="mt-5 max-w-[60ch] font-serif text-body text-muted">{profile.bio}</p>
 
-        <figure className="mt-10 border-l-2 border-accent pl-6">
+        <figure className="mt-8 sm:mt-10 border-l-2 border-accent pl-6">
           <blockquote className="max-w-[52ch] font-serif text-lead text-text">“{profile.quote}”</blockquote>
           <figcaption className="mt-3 text-small text-muted">
             {member.name}, {member.role}
           </figcaption>
         </figure>
 
-        <dl className="mt-12 grid border-t border-rule sm:grid-cols-2">
+        <dl className="mt-8 sm:mt-12 grid border-t border-rule sm:grid-cols-2">
           {profile.achievements.map((a, i) => (
             <div
               key={a.label}

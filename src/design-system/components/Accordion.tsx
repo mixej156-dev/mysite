@@ -18,14 +18,21 @@ export type AccordionProps = {
   className?: string;
 };
 
-export function Accordion({ items, multiple = false, defaultOpen = [], value, onValueChange, className }: AccordionProps) {
+export function Accordion({
+  items,
+  multiple = false,
+  defaultOpen = [],
+  value,
+  onValueChange,
+  className,
+}: AccordionProps) {
   const rootClass = cn("border-t border-rule", className);
   const children = items.map((item) => (
     <RadixAccordion.Item key={item.id} value={item.id} className="border-b border-rule">
       <RadixAccordion.Header>
         <RadixAccordion.Trigger
           className={cn(
-            "group flex w-full items-center justify-between gap-6 py-5 text-left text-h4 font-medium text-text",
+            "group flex w-full items-center justify-between gap-4 py-4 text-left text-body font-medium text-text sm:gap-6 sm:py-5 sm:text-h4",
             "transition-colors duration-fast hover:text-accent-text",
           )}
         >
@@ -37,7 +44,7 @@ export function Accordion({ items, multiple = false, defaultOpen = [], value, on
         </RadixAccordion.Trigger>
       </RadixAccordion.Header>
       <RadixAccordion.Content className="overflow-hidden data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
-        <div className="max-w-[68ch] pb-6 font-serif text-body text-muted">{item.content}</div>
+        <div className="max-w-[68ch] pb-5 font-serif text-body text-muted sm:pb-6">{item.content}</div>
       </RadixAccordion.Content>
     </RadixAccordion.Item>
   ));

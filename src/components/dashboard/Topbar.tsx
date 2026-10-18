@@ -16,7 +16,7 @@ export function Topbar() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-header flex h-16 items-center gap-3 border-b border-rule bg-bg/90 px-4 backdrop-blur-md sm:px-6 lg:px-7">
+    <header className="sticky top-0 z-header flex h-14 items-center gap-2 border-b border-rule bg-bg/90 pr-4 pl-1.5 backdrop-blur-md sm:h-16 sm:gap-3 sm:px-6 lg:px-7">
       <Dialog.Root open={open} onOpenChange={setOpen}>
         <Dialog.Trigger
           aria-label="Open navigation"

@@ -36,8 +36,8 @@ export default function AboutPage() {
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "About" }]}
       />
 
-      <Section labelledBy="why-title" className="pt-0 md:pt-0">
-        <div className="grid gap-12 border-t border-rule pt-16 lg:grid-cols-12 lg:gap-8">
+      <Section labelledBy="why-title" className="pt-0 sm:pt-0 md:pt-0">
+        <div className="grid gap-8 sm:gap-12 border-t border-rule pt-10 sm:pt-16 lg:grid-cols-12 lg:gap-8">
           <div className="lg:col-span-7">
             <h2 id="why-title" className="text-h2">
               Why we started
@@ -68,7 +68,7 @@ export default function AboutPage() {
 
       <Section tone="inverse" labelledBy="values-title">
         <SectionHeader id="values-title" title="What we hold to" />
-        <ul className="grid gap-x-8 gap-y-12 md:grid-cols-2">
+        <ul className="grid gap-x-8 gap-y-8 sm:gap-y-12 md:grid-cols-2">
           {VALUES.map((value) => (
             <li key={value.title} className="border-t border-rule pt-6">
               <h3 className="text-h3">{value.title}</h3>

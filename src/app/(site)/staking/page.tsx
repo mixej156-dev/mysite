@@ -38,7 +38,7 @@ export default function StakingPage() {
           </div>
         }
       />
-      <section aria-labelledby="pools-title" className="container-page pb-24 md:pb-32">
+      <section aria-labelledby="pools-title" className="container-page pb-14 sm:pb-24 md:pb-32">
         <h2 id="pools-title" className="sr-only">
           All pools
         </h2>

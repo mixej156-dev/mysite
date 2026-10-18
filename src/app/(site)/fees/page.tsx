@@ -102,13 +102,14 @@ export default function FeesPage() {
         }
       />
 
-      <section aria-labelledby="platform-title" className="container-page pb-24 md:pb-32">
+      <section aria-labelledby="platform-title" className="container-page pb-14 sm:pb-24 md:pb-32">
         <div className="border-t border-rule pt-10">
           <h2 id="platform-title" className="text-h2">
             Platform fee by pool
           </h2>
           <p className="mt-3 max-w-[60ch] font-serif text-body text-muted">
-            The fee is a fixed share of each reward, deducted before payout. APY figures are estimates; the one on pool pages is already net of the fee.
+            The fee is a fixed share of each reward, deducted before payout. APY figures are estimates; the one on pool
+            pages is already net of the fee.
           </p>
         </div>
         <div className="mt-8 rounded-card border border-rule bg-surface p-2 sm:p-4">
@@ -149,7 +150,7 @@ export default function FeesPage() {
           </Table>
         </div>
 
-        <div className="mt-16 grid gap-6 lg:grid-cols-12">
+        <div className="mt-10 sm:mt-16 grid gap-6 lg:grid-cols-12">
           <figure className="self-start rounded-card border border-rule bg-surface p-6 md:p-8 lg:col-span-5">
             <figcaption className="text-small font-medium">
               Example: {example.amount} {example.pool.ticker} for one year
@@ -206,9 +207,7 @@ export default function FeesPage() {
             <tr>
               <TH>Network</TH>
               <TH numeric>Withdrawal fee</TH>
-              <TH numeric>
-                Confirmation
-              </TH>
+              <TH numeric>Confirmation</TH>
             </tr>
           </THead>
           <TBody>
@@ -224,7 +223,9 @@ export default function FeesPage() {
                     <span className="block text-caption text-muted">≈ {usd(native)}</span>
                   </TD>
                   <TD numeric>
-                    {network.finalityMinutes < 1 ? "under a minute" : `about ${Math.round(network.finalityMinutes)} min`}
+                    {network.finalityMinutes < 1
+                      ? "under a minute"
+                      : `about ${Math.round(network.finalityMinutes)} min`}
                   </TD>
                 </TR>
               );
@@ -241,7 +242,7 @@ export default function FeesPage() {
       </Section>
 
       <Section labelledBy="fees-faq-title">
-        <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
+        <div className="grid gap-8 sm:gap-12 lg:grid-cols-12 lg:gap-8">
           <h2 id="fees-faq-title" className="text-h1 lg:col-span-4">
             Questions about fees
           </h2>

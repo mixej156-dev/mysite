@@ -171,13 +171,17 @@ export function TimeSeriesChart({
   const last = rows[rows.length - 1];
   /* Room for the end-of-line label: ~7.5px per monospace character at 12px, plus the dot and gap */
   const endLabelRoom = last && single ? formatValue(Number(last[series[0].id])).length * 7.5 + 18 : 20;
+  /* Phones skip the end label (the figure is in the subtitle) so the plot keeps its width */
+  const endLabel = single && !narrow;
+  /* Y-axis wide enough for its longest tick label, so labels like $202.5K are never clipped */
+  const yAxisWidth = Math.max(...yTicks.map((v) => formatValue(v).length)) * 7.5 + 10;
 
   return (
     <figure
       aria-labelledby={titleId}
-      className={cn("rounded-card border border-rule bg-surface p-5 md:p-6", className)}
+      className={cn("rounded-card border border-rule bg-surface p-4 sm:p-5 md:p-6", className)}
     >
-      <div className="flex flex-wrap items-start justify-between gap-4">
+      <div className="flex flex-wrap items-start justify-between gap-3 sm:gap-4">
         <div>
           <figcaption id={titleId} className="text-body font-medium">
             {title}
@@ -222,13 +226,13 @@ export function TimeSeriesChart({
       )}
 
       {view === "chart" ? (
-        <div ref={plotRef} className="mt-6 h-64 md:h-72 short:mt-4 short:h-48" aria-hidden>
+        <div ref={plotRef} className="mt-4 h-52 sm:mt-6 sm:h-64 md:h-72 short:mt-4 short:h-48" aria-hidden>
           {hasSize && (
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart
                 accessibilityLayer={false}
                 data={rows}
-                margin={{ top: 8, right: single ? endLabelRoom : 20, bottom: 0, left: 0 }}
+                margin={{ top: 8, right: endLabel ? endLabelRoom : 12, bottom: 0, left: 0 }}
               >
                 <CartesianGrid vertical={false} stroke="var(--rule)" />
                 <XAxis
@@ -247,7 +251,7 @@ export function TimeSeriesChart({
                   tickLine={false}
                   axisLine={false}
                   tick={{ fill: "var(--muted)", fontSize: 12, fontFamily: "var(--ds-font-mono)" }}
-                  width={56}
+                  width={yAxisWidth}
                   domain={[yTicks[0], yTicks[yTicks.length - 1]]}
                   ticks={yTicks}
                 />
@@ -270,7 +274,7 @@ export function TimeSeriesChart({
                     activeDot={{ r: 4, fill: s.color, stroke: "var(--surface)", strokeWidth: 2 }}
                     isAnimationActive={false}
                     label={
-                      single
+                      endLabel
                         ? ({ x, y, index }: { x?: number | string; y?: number | string; index?: number }) =>
                             index === rows.length - 1 ? (
                               <g key="end">

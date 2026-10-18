@@ -157,7 +157,7 @@ export function PoolDetail({ pool }: { pool: Pool }) {
       )}
 
       <Section labelledBy={`${pool.id}-about-pool-title`}>
-        <div className="grid gap-16 lg:grid-cols-2 lg:gap-12">
+        <div className="grid gap-10 sm:gap-16 lg:grid-cols-2 lg:gap-12">
           <div>
             <h2 id={`${pool.id}-about-pool-title`} className="text-h2">
               About this pool
@@ -188,7 +188,7 @@ export function PoolDetail({ pool }: { pool: Pool }) {
       </Section>
 
       <Section tone="inverse" labelledBy={`${pool.id}-pool-faq-title`}>
-        <div className="grid gap-10 lg:grid-cols-12 lg:gap-8">
+        <div className="grid gap-8 sm:gap-10 lg:grid-cols-12 lg:gap-8">
           <h2 id={`${pool.id}-pool-faq-title`} className="text-h2 lg:col-span-4">
             Questions about {pool.name}
           </h2>
@@ -221,9 +221,9 @@ export function PoolDetail({ pool }: { pool: Pool }) {
 /** Shape of the pool header and terms while the page streams in. */
 export function PoolDetailSkeleton() {
   return (
-    <div aria-busy="true" aria-label="Loading pool" className="container-page pt-12 pb-24 md:pt-16">
+    <div aria-busy="true" aria-label="Loading pool" className="container-page pt-6 pb-14 sm:pt-12 sm:pb-24 md:pt-16">
       <Skeleton className="h-4 w-48" />
-      <div className="mt-8 grid gap-10 lg:grid-cols-12 lg:items-end lg:gap-8">
+      <div className="mt-8 grid gap-8 sm:gap-10 lg:grid-cols-12 lg:items-end lg:gap-8">
         <div className="flex flex-col gap-5 lg:col-span-7">
           <Skeleton className="h-16 w-3/4" />
           <Skeleton className="h-6 w-2/3" />
@@ -234,7 +234,7 @@ export function PoolDetailSkeleton() {
         </div>
         <Skeleton className="h-36 lg:col-span-5" />
       </div>
-      <Skeleton className="mt-16 h-48 rounded-card" />
+      <Skeleton className="mt-10 sm:mt-16 h-48 rounded-card" />
       <Skeleton className="mt-8 h-80 rounded-card" />
     </div>
   );

@@ -8,7 +8,8 @@ import { buttonClasses } from "@/design-system";
 
 export const metadata: Metadata = {
   title: "FAQ",
-  description: "Short answers about staking, rewards, fees, withdrawals, validator performance and account security on LONAR ECO.",
+  description:
+    "Short answers about staking, rewards, fees, withdrawals, validator performance and account security on LONAR ECO.",
 };
 
 export default function FaqPage() {
@@ -19,7 +20,7 @@ export default function FaqPage() {
         lead="Short answers about staking, rewards, fees, withdrawals, our validators and keeping your account safe."
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "FAQ" }]}
       />
-      <section aria-label="Questions" className="container-page pb-24 md:pb-32">
+      <section aria-label="Questions" className="container-page pb-14 sm:pb-24 md:pb-32">
         <FaqBrowser />
       </section>
       <Section tone="inverse" labelledBy="faq-cta-title">

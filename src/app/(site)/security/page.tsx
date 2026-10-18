@@ -70,7 +70,7 @@ export default function SecurityPage() {
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Security" }]}
       />
 
-      <Section labelledBy="controls-title" className="pt-0 md:pt-0">
+      <Section labelledBy="controls-title" className="pt-0 sm:pt-0 md:pt-0">
         <SectionHeader
           id="controls-title"
           title="Five controls, in order"
@@ -81,7 +81,7 @@ export default function SecurityPage() {
 
       <Section tone="inverse" labelledBy="custody-title">
         <SectionHeader id="custody-title" title="Keys and access" />
-        <ul className="grid gap-x-8 gap-y-10 md:grid-cols-3">
+        <ul className="grid gap-x-8 gap-y-8 sm:gap-y-10 md:grid-cols-3">
           {CUSTODY_PRACTICES.map((item) => (
             <li key={item.title} className="border-t border-rule pt-6">
               <h3 className="text-h3">{item.title}</h3>
@@ -98,7 +98,7 @@ export default function SecurityPage() {
           lead="Every incident follows the same four steps, and every one ends with a written review."
         />
         <StepsFlow steps={INCIDENT_STEPS} />
-        <div className="mt-12 flex flex-col gap-6 rounded-card border border-rule bg-surface p-6 md:flex-row md:items-center md:justify-between md:p-8">
+        <div className="mt-8 sm:mt-12 flex flex-col gap-6 rounded-card border border-rule bg-surface p-6 md:flex-row md:items-center md:justify-between md:p-8">
           <dl className="grid grid-cols-3 gap-6 md:gap-10">
             {[
               ["Incidents, 90 days", String(INCIDENTS.length)],
@@ -121,7 +121,7 @@ export default function SecurityPage() {
       </Section>
 
       <Section id="bug-bounty" tone="inverse" labelledBy="bounty-title" className="scroll-mt-20">
-        <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
+        <div className="grid gap-8 sm:gap-12 lg:grid-cols-12 lg:gap-8">
           <div className="lg:col-span-5">
             <Badge tone="accent">Launching soon</Badge>
             <h2 id="bounty-title" className="mt-4 text-h2">
@@ -188,7 +188,7 @@ export default function SecurityPage() {
       </Section>
 
       <Section labelledBy="report-title">
-        <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
+        <div className="grid gap-8 sm:gap-12 lg:grid-cols-12 lg:gap-8">
           <div className="lg:col-span-5">
             <h2 id="report-title" className="text-h2">
               Report a vulnerability
@@ -223,7 +223,7 @@ export default function SecurityPage() {
       </Section>
 
       <Section tone="inverse" labelledBy="security-faq-title">
-        <div className="grid gap-10 lg:grid-cols-12 lg:gap-8">
+        <div className="grid gap-8 sm:gap-10 lg:grid-cols-12 lg:gap-8">
           <h2 id="security-faq-title" className="text-h2 lg:col-span-4">
             Security questions
           </h2>

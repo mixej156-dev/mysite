@@ -7,14 +7,11 @@ export function PoolCard({ pool }: { pool: Pool }) {
   const flexible = pool.unbondingDays === 0;
 
   return (
-    <Card interactive padding="lg" className="flex h-full flex-col gap-10">
+    <Card interactive padding="lg" className="flex h-full flex-col gap-6 sm:gap-10">
       <div className="flex items-start justify-between gap-4">
         <div>
           <h3 className="text-h4 font-medium">
-            <Link
-              href={`/staking/${pool.id}`}
-              className="stretched-link"
-            >
+            <Link href={`/staking/${pool.id}`} className="stretched-link">
               {pool.name}
             </Link>
           </h3>

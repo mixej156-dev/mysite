@@ -39,7 +39,7 @@ export default function LearnPage() {
         <p className="text-small text-muted">Educational content, not financial advice.</p>
       </PageHeader>
 
-      <div className="container-page pt-8 pb-24 md:pb-32">
+      <div className="container-page pt-8 pb-14 sm:pb-24 md:pb-32">
         <LearnIndex guides={GUIDES.map(toSummary)} />
       </div>
 

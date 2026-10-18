@@ -1,6 +1,6 @@
 "use client";
 
-import { Layers } from "lucide-react";
+import { ArrowDownLeft, ArrowUpRight, Layers, Plus } from "lucide-react";
 import { useMemo } from "react";
 import { Link } from "@/components/Link";
 import { buttonClasses } from "@/design-system";
@@ -49,8 +49,30 @@ export function Overview() {
           breakdown={[
             { label: "Staked", value: staked, note: `${state.positions.length} positions` },
             { label: "In wallet", value: wallet, note: "Available to stake or withdraw" },
-            { label: "Rewards, 30 days", value: rewardsUsd(rewards, 30), note: "Paid out daily" },
+            { label: "30-day rewards", value: rewardsUsd(rewards, 30), note: "Paid out daily" },
           ]}
+          actions={
+            <>
+              <Link href="/dashboard/stake" className={buttonClasses({ className: "gap-1.5 px-1" })}>
+                <Plus aria-hidden />
+                Stake
+              </Link>
+              <Link
+                href="/dashboard/wallet?deposit=ETH"
+                className={buttonClasses({ variant: "secondary", className: "gap-1.5 px-1" })}
+              >
+                <ArrowDownLeft aria-hidden />
+                Deposit
+              </Link>
+              <Link
+                href="/dashboard/wallet?withdraw=ETH"
+                className={buttonClasses({ variant: "secondary", className: "gap-1.5 px-1" })}
+              >
+                <ArrowUpRight aria-hidden />
+                Withdraw
+              </Link>
+            </>
+          }
         />
 
         <div className="grid gap-6 xl:grid-cols-3 short:gap-5">
@@ -69,8 +91,8 @@ export function Overview() {
               </Link>
             }
           >
-            {/* Short screens show two days so the row stays as tall as the chart */}
-            <div className="short:[&_ol>li:nth-child(3)]:hidden">
+            {/* Phones and short screens show two days so the page stays short */}
+            <div className="max-sm:[&_ol>li:nth-child(3)]:hidden short:[&_ol>li:nth-child(3)]:hidden">
               <RewardsFeed entries={rewards} days={3} />
             </div>
           </Panel>

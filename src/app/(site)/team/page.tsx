@@ -22,7 +22,7 @@ export default function TeamPage() {
         <p className="text-small text-muted">People and roles shown are fictional, for the prototype.</p>
       </PageHeader>
 
-      <section aria-labelledby="people-title" className="container-page pb-24 md:pb-32">
+      <section aria-labelledby="people-title" className="container-page pb-14 sm:pb-24 md:pb-32">
         <h2 id="people-title" className="sr-only">
           People
         </h2>

@@ -70,12 +70,12 @@ export function LearnIndex({ guides }: { guides: GuideSummary[] }) {
     });
 
   return (
-    <div className="flex flex-col gap-24 md:gap-32">
+    <div className="flex flex-col gap-14 sm:gap-24 md:gap-32">
       <section aria-labelledby="topics-title">
         <h2 id="topics-title" className="text-h1">
           Browse by topic
         </h2>
-        <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <ul className="mt-8 sm:mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {TOPICS.map((t) => {
             const count = guides.filter((g) => g.topic === t.name).length;
             return (
@@ -107,7 +107,7 @@ export function LearnIndex({ guides }: { guides: GuideSummary[] }) {
         </ul>
       </section>
 
-      <section ref={listTop} aria-labelledby="guides-title" className="flex scroll-mt-24 flex-col gap-10">
+      <section ref={listTop} aria-labelledby="guides-title" className="flex scroll-mt-24 flex-col gap-8 sm:gap-10">
         <div className="flex flex-col gap-6">
           <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <h2 id="guides-title" className="text-h1">
@@ -168,7 +168,7 @@ export function LearnIndex({ guides }: { guides: GuideSummary[] }) {
               }
             />
           ) : (
-            <ul key={page} className="grid animate-fade-in gap-x-8 gap-y-14 md:grid-cols-2 lg:grid-cols-3">
+            <ul key={page} className="grid animate-fade-in gap-x-8 gap-y-6 sm:gap-y-14 md:grid-cols-2 lg:grid-cols-3">
               {visible.map((g) => (
                 <li key={g.slug}>
                   <LearnCard guide={g} />

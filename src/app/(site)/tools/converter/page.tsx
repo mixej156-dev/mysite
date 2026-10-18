@@ -16,7 +16,7 @@ export default function ConverterPage() {
         lead="See what you’d receive after every fee, on the network you choose, and how long it takes to arrive."
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Tools", href: "/tools" }, { label: "Converter" }]}
       />
-      <section aria-label="Converter" className="container-page pb-24 md:pb-32">
+      <section aria-label="Converter" className="container-page pb-14 sm:pb-24 md:pb-32">
         <Converter />
       </section>
     </>

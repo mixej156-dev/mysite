@@ -5,7 +5,7 @@ import { StatCard } from "../blocks/StatCard";
 
 export function Metrics() {
   return (
-    <section aria-labelledby="metrics-title" className="pb-24 md:pb-32">
+    <section aria-labelledby="metrics-title" className="pb-14 sm:pb-24 md:pb-32">
       <h2 id="metrics-title" className="sr-only">
         Platform figures
       </h2>
@@ -29,7 +29,7 @@ export function Metrics() {
           ))}
         </div>
       </div>
-      <div className="mt-16 flex flex-col gap-6 md:mt-20">
+      <div className="mt-10 sm:mt-16 flex flex-col gap-6 md:mt-20">
         <p className="container-page text-small text-muted">Infrastructure partners (placeholders)</p>
         <LogoMarquee partners={partners} label="Infrastructure partners" />
       </div>

@@ -67,14 +67,14 @@ export default function ValidatorsPage() {
         <p className="text-small text-muted">Updated {formatDate(DEMO_TODAY)}. Uptime is weighted by stake.</p>
       </PageHeader>
 
-      <section aria-labelledby="networks-title" className="container-page pb-24 md:pb-32">
+      <section aria-labelledby="networks-title" className="container-page pb-14 sm:pb-24 md:pb-32">
         <div className="flex flex-col gap-4 border-t border-rule pt-10 sm:flex-row sm:items-end sm:justify-between">
           <h2 id="networks-title" className="text-h2">
             By network
           </h2>
           <StatusLegend />
         </div>
-        <ul className="mt-10 grid gap-6 lg:grid-cols-2">
+        <ul className="mt-8 sm:mt-10 grid gap-6 lg:grid-cols-2">
           {NETWORK_PERFORMANCE.map((n) => {
             const pool = getPool(n.poolId);
             return (
@@ -89,7 +89,8 @@ export default function ValidatorsPage() {
                         {n.network}
                       </h3>
                       <p className="mt-0.5 text-small text-muted">
-                        {pool && `${formatNumber(pool.validators)} ${pool.validators === 1 ? "validator" : "validators"}, `}
+                        {pool &&
+                          `${formatNumber(pool.validators)} ${pool.validators === 1 ? "validator" : "validators"}, `}
                         {n.regions.join(", ")}
                       </p>
                     </div>
@@ -178,7 +179,7 @@ export default function ValidatorsPage() {
       </Section>
 
       <Section labelledBy="method-title">
-        <div className="grid gap-12 lg:grid-cols-12 lg:gap-8">
+        <div className="grid gap-8 sm:gap-12 lg:grid-cols-12 lg:gap-8">
           <div className="lg:col-span-5">
             <h2 id="method-title" className="text-h1">
               How we measure

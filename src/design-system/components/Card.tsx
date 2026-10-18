@@ -13,8 +13,8 @@ const variants: Record<CardVariant, string> = {
 const paddings: Record<CardPadding, string> = {
   none: "",
   sm: "p-4",
-  md: "p-6",
-  lg: "p-6 md:p-8",
+  md: "p-5 sm:p-6",
+  lg: "p-5 sm:p-6 md:p-8",
 };
 
 export type CardProps = ComponentPropsWithRef<"div"> & {
@@ -31,7 +31,8 @@ export function Card({ variant = "surface", padding = "md", interactive = false,
         "relative rounded-card text-text",
         variants[variant],
         paddings[padding],
-        interactive && "transition-[border-color,translate,box-shadow] duration-base hover:-translate-y-0.5 hover:border-rule-strong hover:shadow-float focus-within:border-rule-strong",
+        interactive &&
+          "transition-[border-color,translate,box-shadow] duration-base hover:-translate-y-0.5 hover:border-rule-strong hover:shadow-float focus-within:border-rule-strong",
         className,
       )}
       {...props}

@@ -6,7 +6,7 @@ export type ButtonVariant = "primary" | "secondary" | "ghost";
 export type ButtonSize = "sm" | "md" | "lg";
 
 const base =
-  "inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-field font-display font-medium " +
+  "inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-field font-display font-medium [&_svg]:shrink-0 " +
   "transition-[background-color,border-color,color,translate] duration-fast select-none enabled:active:translate-y-px " +
   "disabled:cursor-not-allowed disabled:opacity-45 aria-busy:cursor-progress";
 

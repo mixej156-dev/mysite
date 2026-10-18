@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { ToastProvider } from "@/design-system";
 import { fontVariables } from "@/design-system/fonts";
 import { CookieNotice } from "@/components/layout/CookieNotice";
@@ -11,8 +11,12 @@ export const metadata: Metadata = {
     template: "%s — LONAR ECO.",
     default: "LONAR ECO. — Staking, kept to account",
   },
-  description: "Staking on six proof-of-stake networks with daily payouts, per-epoch reward records and every fee stated up front.",
+  description:
+    "Staking on six proof-of-stake networks with daily payouts, per-epoch reward records and every fee stated up front.",
 };
+
+/* Lets fixed bars use the safe-area insets (home indicator) on phones */
+export const viewport: Viewport = { viewportFit: "cover" };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (

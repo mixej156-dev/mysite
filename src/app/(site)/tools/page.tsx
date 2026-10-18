@@ -38,7 +38,7 @@ export default function ToolsPage() {
         lead="Work out what a stake could earn and what it costs before you commit."
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Tools" }]}
       />
-      <section aria-label="Planning tools" className="container-page pb-24 md:pb-32">
+      <section aria-label="Planning tools" className="container-page pb-14 sm:pb-24 md:pb-32">
         <ul className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {FEATURED.map(({ href, icon: Icon, title, body }) => (
             <li key={href}>
@@ -57,7 +57,6 @@ export default function ToolsPage() {
           ))}
         </ul>
       </section>
-
     </>
   );
 }

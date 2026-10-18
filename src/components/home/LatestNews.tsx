@@ -10,7 +10,6 @@ import { formatDate } from "@/lib/format";
 import { PostCover } from "../blocks/PostCover";
 import { Section, SectionHeader } from "../blocks/Section";
 
-
 /*
  * Three fixed slots inside one fixed-size frame: the open story fills the large slot, the other two
  * sit in the small ones. A story that changes slot animates its own left/top/width/height, so the
@@ -62,7 +61,7 @@ export function LatestNews({ stories }: { stories: PostSummary[] }) {
           </Link>
         }
       />
-      <div className="relative h-[46rem] sm:h-[48rem] lg:h-[34rem]">
+      <div className="relative h-[40rem] sm:h-[48rem] lg:h-[34rem]">
         {stories.map((post, index) => {
           const slot = slotOf[index];
           const expanded = slot === 0;
@@ -118,7 +117,9 @@ export function LatestNews({ stories }: { stories: PostSummary[] }) {
                 <div className="flex min-h-0 flex-1 flex-col justify-between gap-2 p-4 sm:p-5">
                   <div className="flex flex-col gap-2">
                     <Meta post={post} />
-                    <h3 className="line-clamp-3 text-small font-medium text-pretty sm:text-body lg:text-h4">{post.title}</h3>
+                    <h3 className="line-clamp-3 text-small font-medium text-pretty sm:text-body lg:text-h4">
+                      {post.title}
+                    </h3>
                   </div>
                   <Plus aria-hidden className="size-5 self-end text-muted" />
                 </div>

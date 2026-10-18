@@ -7,7 +7,11 @@ import { LearnCover } from "./LearnCover";
 export function TopicLabel({ topic, className }: { topic: LearnTopic; className?: string }) {
   return (
     <span className={cn("inline-flex items-center gap-1.5 font-medium text-text", className)}>
-      <span aria-hidden className="size-2 rounded-pill" style={{ background: `var(--topic-${getTopic(topic).color})` }} />
+      <span
+        aria-hidden
+        className="size-2 rounded-pill"
+        style={{ background: `var(--topic-${getTopic(topic).color})` }}
+      />
       {topic}
     </span>
   );
@@ -15,8 +19,9 @@ export function TopicLabel({ topic, className }: { topic: LearnTopic; className?
 
 export function LearnCard({ guide }: { guide: GuideSummary }) {
   return (
-    <article className="group relative flex h-full flex-col gap-5">
-      <div className="aspect-[16/10] overflow-hidden rounded-card border border-rule">
+    /* Phones: small square cover beside the text, so a list of guides stays short */
+    <article className="group relative grid h-full grid-cols-[6.5rem_minmax(0,1fr)] content-start gap-x-4 gap-y-1.5 sm:flex sm:flex-col sm:gap-5">
+      <div className="row-span-3 aspect-square overflow-hidden rounded-card border border-rule sm:aspect-[16/10]">
         <div className="size-full transition-transform duration-slow group-hover:scale-[1.03] motion-reduce:transition-none">
           <LearnCover slug={guide.slug} topic={guide.topic} />
         </div>
@@ -26,7 +31,7 @@ export function LearnCard({ guide }: { guide: GuideSummary }) {
         <span>{guide.level}</span>
         <span>{guide.minutes} min</span>
       </div>
-      <h3 className="text-h4 font-medium">
+      <h3 className="text-body font-medium sm:text-h4">
         <Link
           href={`/learn/${guide.slug}`}
           className="stretched-link transition-colors duration-fast group-hover:text-accent-text"
@@ -34,7 +39,9 @@ export function LearnCard({ guide }: { guide: GuideSummary }) {
           {guide.title}
         </Link>
       </h3>
-      <p className="-mt-2 font-serif text-body text-muted">{guide.excerpt}</p>
+      <p className="line-clamp-2 font-serif text-small text-muted sm:-mt-2 sm:line-clamp-none sm:text-body">
+        {guide.excerpt}
+      </p>
     </article>
   );
 }

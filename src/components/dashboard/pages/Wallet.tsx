@@ -36,9 +36,11 @@ export function Wallet() {
   const params = useSearchParams();
   const { state, transactions, deposit, withdraw } = usePortfolio();
   const { toast } = useToast();
-  const requested = params.get("deposit");
+  /* ?deposit=ETH or ?withdraw=ETH opens that form, e.g. from the overview's quick actions */
+  const requestedMode = params.has("withdraw") ? "withdraw" : "deposit";
+  const requested = params.get(requestedMode);
   const [modal, setModal] = useState<"deposit" | "withdraw" | null>(
-    requested && PORTFOLIO_TICKERS.includes(requested) ? "deposit" : null,
+    requested && PORTFOLIO_TICKERS.includes(requested) ? requestedMode : null,
   );
   const [ticker, setTicker] = useState(requested && PORTFOLIO_TICKERS.includes(requested) ? requested : "ETH");
   const [amountText, setAmountText] = useState("");

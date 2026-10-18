@@ -15,7 +15,7 @@ export default function ComparePage() {
         lead="Put up to three pools side by side before you choose where to stake."
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Tools", href: "/tools" }, { label: "Compare" }]}
       />
-      <section aria-label="Comparison" className="container-page pb-24 md:pb-32">
+      <section aria-label="Comparison" className="container-page pb-14 sm:pb-24 md:pb-32">
         <PoolCompare />
       </section>
     </>

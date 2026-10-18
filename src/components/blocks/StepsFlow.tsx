@@ -9,7 +9,10 @@ export function StepsFlow({ steps, className }: { steps: Step[]; className?: str
   return (
     <ol className={cn("grid gap-0 lg:gap-8", COLUMNS[steps.length] ?? "lg:grid-cols-4", className)}>
       {steps.map((step, i) => (
-        <li key={step.title} className="relative flex gap-6 pb-12 last:pb-0 lg:flex-col lg:gap-0 lg:pb-0">
+        <li
+          key={step.title}
+          className="relative flex gap-5 pb-7 last:pb-0 sm:gap-6 sm:pb-12 lg:flex-col lg:gap-0 lg:pb-0"
+        >
           {/* Connector: vertical on mobile, horizontal on desktop */}
           <span
             aria-hidden
@@ -26,8 +29,8 @@ export function StepsFlow({ steps, className }: { steps: Step[]; className?: str
           </span>
           <div className="lg:mt-8">
             <p className="font-mono text-caption text-muted">{String(i + 1).padStart(2, "0")}</p>
-            <h3 className="mt-2 text-h3">{step.title}</h3>
-            <p className="mt-3 max-w-[34ch] font-serif text-body text-muted">{step.body}</p>
+            <h3 className="mt-1 text-h4 sm:mt-2 sm:text-h3">{step.title}</h3>
+            <p className="mt-2 max-w-[34ch] font-serif text-body text-muted sm:mt-3">{step.body}</p>
           </div>
         </li>
       ))}

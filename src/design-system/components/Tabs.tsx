@@ -28,7 +28,7 @@ const triggerStyles: Record<TabsVariant, string> = {
     "relative -mb-px whitespace-nowrap border-b-2 border-transparent pt-1 pb-3 text-small font-medium text-muted " +
     "transition-colors duration-fast hover:text-text data-[state=active]:border-accent data-[state=active]:text-text",
   segmented:
-    "h-8 whitespace-nowrap rounded-pill px-4 text-small font-medium text-muted transition-colors duration-fast " +
+    "h-8 whitespace-nowrap rounded-pill px-3 text-small sm:px-4 font-medium text-muted transition-colors duration-fast " +
     "hover:text-text data-[state=active]:bg-surface data-[state=active]:text-text data-[state=active]:shadow-float",
 };
 

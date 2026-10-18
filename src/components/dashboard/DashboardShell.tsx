@@ -5,6 +5,7 @@ import { Skeleton } from "@/design-system";
 import { PortfolioProvider } from "@/lib/portfolio";
 import { RequireAuth } from "../auth/RequireAuth";
 import { SkipLink } from "../layout/SkipLink";
+import { MobileTabBar } from "./MobileTabBar";
 import { Sidebar } from "./Sidebar";
 import { Topbar } from "./Topbar";
 
@@ -12,7 +13,7 @@ function ShellSkeleton() {
   return (
     <div aria-busy="true" aria-label="Loading dashboard" className="flex min-h-dvh">
       <div className="w-64 border-r border-rule max-lg:hidden" />
-      <div className="flex flex-1 flex-col gap-6 p-6 lg:p-10">
+      <div className="flex flex-1 flex-col gap-6 p-4 sm:p-6 lg:p-10">
         <Skeleton className="h-10 w-64" />
         <Skeleton className="h-40 w-full rounded-card" />
         <Skeleton className="h-72 w-full rounded-card" />
@@ -33,12 +34,12 @@ export function DashboardShell({ children }: { children: ReactNode }) {
           >
             <Sidebar />
           </aside>
-          <div className="flex min-w-0 flex-1 flex-col">
+          <div className="flex min-w-0 flex-1 flex-col max-lg:pb-[calc(4rem+env(safe-area-inset-bottom))]">
             <Topbar />
             <main
               id="main"
               tabIndex={-1}
-              className="w-full flex-1 px-4 py-8 outline-none sm:px-6 lg:px-7 lg:py-10 short:py-6"
+              className="w-full flex-1 px-4 py-5 outline-none sm:px-6 sm:py-8 lg:px-7 lg:py-10 short:py-6"
             >
               {children}
             </main>
@@ -47,6 +48,7 @@ export function DashboardShell({ children }: { children: ReactNode }) {
             </footer>
           </div>
         </div>
+        <MobileTabBar />
       </PortfolioProvider>
     </RequireAuth>
   );

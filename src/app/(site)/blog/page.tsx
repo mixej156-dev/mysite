@@ -16,7 +16,7 @@ export default function BlogPage() {
         lead="Research, validator reports, product notes and plain-language guides to staking."
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Blog" }]}
       />
-      <section aria-label="Articles" className="container-page pb-24 md:pb-32">
+      <section aria-label="Articles" className="container-page pb-14 sm:pb-24 md:pb-32">
         <BlogIndex posts={sortedPosts.map(toPostSummary)} />
       </section>
     </>

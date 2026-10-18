@@ -29,7 +29,7 @@ export function Article({ post }: { post: Post }) {
           <Breadcrumbs
             items={[{ label: "Home", href: "/" }, { label: "Blog", href: "/blog" }, { label: post.category }]}
           />
-          <div className="mt-10 max-w-[52rem]">
+          <div className="mt-8 sm:mt-10 max-w-[52rem]">
             <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-small text-muted">
               <span className="font-medium text-accent-text">{post.category}</span>
               <time dateTime={post.date}>{formatDate(post.date)}</time>
@@ -48,7 +48,7 @@ export function Article({ post }: { post: Post }) {
           </div>
         </div>
 
-        <div className="container-page grid gap-10 pt-12 pb-24 md:pb-32 lg:grid-cols-12 lg:gap-8 lg:pt-16">
+        <div className="container-page grid gap-8 pt-6 pb-14 sm:gap-10 sm:pt-12 sm:pb-24 md:pb-32 lg:grid-cols-12 lg:gap-8 lg:pt-16">
           <div className="flex flex-col gap-6 lg:col-span-3">
             <div className="flex items-center gap-3 lg:sticky lg:top-24">
               <span
@@ -68,7 +68,7 @@ export function Article({ post }: { post: Post }) {
           </div>
           <div className="min-w-0 lg:col-span-7">
             <Prose blocks={post.body} idPrefix={`${post.slug}-`} />
-            <div className="mt-16 border-t border-rule pt-8">
+            <div className="mt-10 sm:mt-16 border-t border-rule pt-8">
               <Link href="/blog" className={buttonClasses({ variant: "secondary" })}>
                 All articles
               </Link>
@@ -79,7 +79,7 @@ export function Article({ post }: { post: Post }) {
 
       <Section tone="inverse" labelledBy={`related-title-${post.slug}`}>
         <SectionHeader id={`related-title-${post.slug}`} title="Keep reading" />
-        <ul className="grid gap-x-8 gap-y-14 md:grid-cols-3">
+        <ul className="grid gap-x-8 gap-y-6 sm:gap-y-14 md:grid-cols-3">
           {related.map((p) => (
             <li key={p.slug}>
               <BlogCard post={p} />
@@ -100,15 +100,15 @@ export function Article({ post }: { post: Post }) {
 
 export function ArticleSkeleton() {
   return (
-    <div aria-busy="true" aria-label="Loading article" className="container-page pt-12 pb-24 md:pt-16">
+    <div aria-busy="true" aria-label="Loading article" className="container-page pt-6 pb-14 sm:pt-12 sm:pb-24 md:pt-16">
       <Skeleton className="h-4 w-40" />
-      <div className="mt-10 flex max-w-[52rem] flex-col gap-4">
+      <div className="mt-8 sm:mt-10 flex max-w-[52rem] flex-col gap-4">
         <Skeleton className="h-4 w-56" />
         <Skeleton className="h-12 w-full" />
         <Skeleton className="h-12 w-2/3" />
         <Skeleton className="mt-2 h-6 w-1/2" />
       </div>
-      <Skeleton className="mt-12 aspect-[21/9] rounded-card" />
+      <Skeleton className="mt-8 sm:mt-12 aspect-[21/9] rounded-card" />
     </div>
   );
 }

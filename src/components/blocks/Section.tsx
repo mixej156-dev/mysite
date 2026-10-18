@@ -18,7 +18,7 @@ export function Section({ id, tone = "base", labelledBy, className, children }: 
       id={id}
       aria-labelledby={labelledBy}
       data-tone={tone === "inverse" ? "inverse" : undefined}
-      className={cn("bg-bg py-24 text-text md:py-32", className)}
+      className={cn("bg-bg py-14 text-text sm:py-24 md:py-32", className)}
     >
       <RevealGroup className="container-page">{children}</RevealGroup>
     </section>
@@ -36,12 +36,17 @@ export type SectionHeaderProps = {
 
 export function SectionHeader({ id, title, lead, action, className }: SectionHeaderProps) {
   return (
-    <div className={cn("mb-12 flex flex-col gap-6 md:mb-16 lg:flex-row lg:items-end lg:justify-between", className)}>
+    <div
+      className={cn(
+        "mb-8 flex flex-col gap-5 sm:mb-12 sm:gap-6 md:mb-16 lg:flex-row lg:items-end lg:justify-between",
+        className,
+      )}
+    >
       <div className="max-w-[40rem]">
         <h2 id={id} className="text-h1">
           {title}
         </h2>
-        {lead && <p className="mt-5 font-serif text-lead text-muted">{lead}</p>}
+        {lead && <p className="mt-3 font-serif text-lead text-muted sm:mt-5">{lead}</p>}
       </div>
       {action && <div className="shrink-0">{action}</div>}
     </div>

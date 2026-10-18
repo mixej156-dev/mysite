@@ -44,10 +44,10 @@ export function BlogIndex({ posts: sortedPosts }: { posts: PostSummary[] }) {
   };
 
   return (
-    <div className="flex flex-col gap-16">
+    <div className="flex flex-col gap-10 sm:gap-16">
       {showFeatured && <FeaturedPostCard post={featured} />}
 
-      <div ref={listTop} className="flex scroll-mt-24 flex-col gap-10">
+      <div ref={listTop} className="flex scroll-mt-24 flex-col gap-8 sm:gap-10">
         <div className="flex flex-col gap-4 border-t border-rule pt-10 md:flex-row md:items-center md:justify-between">
           <div role="group" aria-label="Category" className="flex flex-wrap gap-2">
             <Tag selected={category === "All"} onClick={() => changeCategory("All")} count={sortedPosts.length}>
@@ -96,7 +96,7 @@ export function BlogIndex({ posts: sortedPosts }: { posts: PostSummary[] }) {
             }
           />
         ) : (
-          <ul className="grid gap-x-8 gap-y-14 md:grid-cols-2 lg:grid-cols-3">
+          <ul className="grid gap-x-8 gap-y-6 sm:gap-y-14 md:grid-cols-2 lg:grid-cols-3">
             {visible.map((post) => (
               <li key={post.slug}>
                 <BlogCard post={post} />

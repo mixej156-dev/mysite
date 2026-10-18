@@ -10,8 +10,8 @@ import { TestimonialSlider } from "../blocks/TestimonialSlider";
 
 export function Testimonials() {
   return (
-    <Section labelledBy="quotes-title" className="pt-0 md:pt-0">
-      <div className="grid gap-10 border-t border-rule pt-24 md:pt-32 lg:grid-cols-12 lg:gap-8">
+    <Section labelledBy="quotes-title" className="pt-0 sm:pt-0 md:pt-0">
+      <div className="grid gap-8 border-t border-rule pt-14 sm:gap-10 sm:pt-24 md:pt-32 lg:grid-cols-12 lg:gap-8">
         <div className="lg:col-span-4">
           <h2 id="quotes-title" className="text-h2">
             What early users say
@@ -38,7 +38,7 @@ export function LatestPosts() {
           </Link>
         }
       />
-      <ul className="grid gap-12 md:grid-cols-3 md:gap-8">
+      <ul className="grid gap-6 sm:gap-12 md:grid-cols-3 md:gap-8">
         {latestPosts(3).map((post) => (
           <li key={post.slug}>
             <BlogCard post={post} />
@@ -67,7 +67,7 @@ export function Closing() {
           </>
         }
       />
-      <div className="mt-20 border-t border-rule pt-12 md:mt-28">
+      <div className="mt-12 sm:mt-20 border-t border-rule pt-12 md:mt-28">
         <Newsletter />
       </div>
     </Section>

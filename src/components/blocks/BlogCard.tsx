@@ -5,8 +5,9 @@ import { PostCover } from "./PostCover";
 
 export function BlogCard({ post, showExcerpt = true }: { post: PostSummary; showExcerpt?: boolean }) {
   return (
-    <article className="group relative flex flex-col gap-5">
-      <div className="aspect-[16/10] overflow-hidden rounded-card border border-rule">
+    /* Phones: small square cover beside the text, so a list of posts stays short */
+    <article className="group relative grid grid-cols-[6.5rem_minmax(0,1fr)] content-start gap-x-4 gap-y-1.5 sm:flex sm:flex-col sm:gap-5">
+      <div className="row-span-3 aspect-square overflow-hidden rounded-card border border-rule sm:aspect-[16/10]">
         <div className="size-full transition-transform duration-slow group-hover:scale-[1.03] motion-reduce:transition-none">
           <PostCover slug={post.slug} category={post.category} />
         </div>
@@ -16,7 +17,7 @@ export function BlogCard({ post, showExcerpt = true }: { post: PostSummary; show
         <time dateTime={post.date}>{formatDate(post.date)}</time>
         <span>{post.readingMinutes} min read</span>
       </div>
-      <h3 className="text-h3">
+      <h3 className="text-body font-medium sm:text-h3 sm:font-normal">
         <Link
           href={`/blog/${post.slug}`}
           className="stretched-link transition-colors duration-fast group-hover:text-accent-text"
@@ -24,7 +25,11 @@ export function BlogCard({ post, showExcerpt = true }: { post: PostSummary; show
           {post.title}
         </Link>
       </h3>
-      {showExcerpt && <p className="-mt-2 font-serif text-body text-muted">{post.excerpt}</p>}
+      {showExcerpt && (
+        <p className="line-clamp-2 font-serif text-small text-muted sm:-mt-2 sm:line-clamp-none sm:text-body">
+          {post.excerpt}
+        </p>
+      )}
     </article>
   );
 }
@@ -32,7 +37,7 @@ export function BlogCard({ post, showExcerpt = true }: { post: PostSummary; show
 /** Wide card for the newest post at the top of the blog. */
 export function FeaturedPostCard({ post }: { post: PostSummary }) {
   return (
-    <article className="group relative grid gap-8 md:grid-cols-2 md:items-center md:gap-12">
+    <article className="group relative grid gap-5 sm:gap-8 md:grid-cols-2 md:items-center md:gap-12">
       <div className="aspect-[16/10] overflow-hidden rounded-card border border-rule">
         <div className="size-full transition-transform duration-slow group-hover:scale-[1.03] motion-reduce:transition-none">
           <PostCover slug={post.slug} category={post.category} />
@@ -44,7 +49,7 @@ export function FeaturedPostCard({ post }: { post: PostSummary }) {
           <time dateTime={post.date}>{formatDate(post.date)}</time>
           <span>{post.readingMinutes} min read</span>
         </div>
-        <h2 className="mt-4 text-h2">
+        <h2 className="mt-3 text-h2 sm:mt-4">
           <Link
             href={`/blog/${post.slug}`}
             className="stretched-link transition-colors duration-fast group-hover:text-accent-text"
@@ -52,8 +57,8 @@ export function FeaturedPostCard({ post }: { post: PostSummary }) {
             {post.title}
           </Link>
         </h2>
-        <p className="mt-4 max-w-[48ch] font-serif text-lead text-muted">{post.excerpt}</p>
-        <p className="mt-6 text-small text-muted">By {post.author}</p>
+        <p className="mt-3 max-w-[48ch] font-serif text-lead text-muted sm:mt-4">{post.excerpt}</p>
+        <p className="mt-4 text-small text-muted sm:mt-6">By {post.author}</p>
       </div>
     </article>
   );

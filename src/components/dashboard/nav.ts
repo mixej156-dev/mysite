@@ -25,6 +25,15 @@ export const DASHBOARD_NAV: DashboardNavItem[] = [
   { href: "/dashboard/settings", label: "Settings", icon: Settings },
 ];
 
+/** Bottom tab bar on small screens */
+export const MOBILE_TABS: DashboardNavItem[] = [
+  "/dashboard",
+  "/dashboard/positions",
+  "/dashboard/stake",
+  "/dashboard/rewards",
+  "/dashboard/wallet",
+].map((href) => DASHBOARD_NAV.find((item) => item.href === href)!);
+
 export function isNavActive(href: string, pathname: string) {
   return href === "/dashboard" ? pathname === href : pathname === href || pathname.startsWith(`${href}/`);
 }

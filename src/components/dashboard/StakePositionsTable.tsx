@@ -75,45 +75,46 @@ export function StakePositionsTable({
 
   return (
     <>
-      {/* Phones: one card per position */}
-      <ul aria-label={label} className="flex flex-col gap-3 md:hidden">
+      {/* Phones: one dense row per position, figures on the right */}
+      <ul aria-label={label} className="flex flex-col md:hidden">
         {sorted.map((r) => {
           const pool = getPool(r.poolId);
           if (!pool) return null;
           return (
-            <li key={r.id} className="rounded-field border border-rule p-4">
-              <div className="flex items-center justify-between gap-3">
-                {onSelect ? (
-                  <button
-                    type="button"
-                    onClick={() => onSelect(r.id)}
-                    className="rounded-sm text-left font-medium hover:text-accent-text hover:underline"
-                  >
-                    {pool.name}
-                  </button>
-                ) : (
-                  <span className="font-medium">{pool.name}</span>
-                )}
-                <StatusBadge position={r} />
+            <li
+              key={r.id}
+              className="flex items-start justify-between gap-3 border-b border-rule py-3 first:pt-0 last:border-0 last:pb-0"
+            >
+              <div className="min-w-0">
+                <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                  {onSelect ? (
+                    <button
+                      type="button"
+                      onClick={() => onSelect(r.id)}
+                      className="rounded-sm text-left font-medium hover:text-accent-text hover:underline"
+                    >
+                      {pool.name}
+                    </button>
+                  ) : (
+                    <span className="font-medium">{pool.name}</span>
+                  )}
+                  <StatusBadge position={r} />
+                </div>
+                <p className="mt-1 font-mono text-caption text-muted">
+                  <span className="sr-only">Staked </span>
+                  {tokenAmount(r.amount, pool.ticker)} · {formatPercent(pool.apy)}
+                  <span className="sr-only"> estimated APY</span>
+                </p>
               </div>
-              <dl className="mt-3 grid grid-cols-2 gap-x-4 gap-y-2 text-small">
-                <div>
-                  <dt className="text-caption text-muted">Staked</dt>
-                  <dd className="font-mono">{tokenAmount(r.amount, pool.ticker)}</dd>
-                </div>
-                <div>
-                  <dt className="text-caption text-muted">Value</dt>
-                  <dd className="font-mono">{formatCurrency(value(r))}</dd>
-                </div>
-                <div>
-                  <dt className="text-caption text-muted">Rewards earned</dt>
-                  <dd className="font-mono text-success">+{tokenAmount(r.earned, pool.ticker)}</dd>
-                </div>
-                <div>
-                  <dt className="text-caption text-muted">Est. APY</dt>
-                  <dd className="font-mono">{formatPercent(pool.apy)}</dd>
-                </div>
-              </dl>
+              <div className="shrink-0 text-right">
+                <p className="font-mono text-small">
+                  <span className="sr-only">Value </span>
+                  {formatCurrency(value(r))}
+                </p>
+                <p className="mt-1 font-mono text-caption text-success">
+                  <span className="sr-only">Rewards earned </span>+{tokenAmount(r.earned, pool.ticker)}
+                </p>
+              </div>
             </li>
           );
         })}

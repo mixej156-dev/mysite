@@ -8,7 +8,7 @@ const linkClass = "rounded-sm text-small text-muted transition-colors duration-f
 export function Footer() {
   return (
     <footer className="border-t border-rule">
-      <div className="container-page grid gap-12 py-16 lg:grid-cols-[minmax(0,1.3fr)_repeat(4,minmax(0,1fr))] lg:gap-8">
+      <div className="container-page grid gap-8 sm:gap-12 py-12 sm:py-16 lg:grid-cols-[minmax(0,1.3fr)_repeat(4,minmax(0,1fr))] lg:gap-8">
         <div className="flex max-w-xs flex-col gap-4">
           <Link href="/" aria-label="LONAR ECO. home" className="self-start rounded-sm">
             <Logo />
@@ -18,7 +18,7 @@ export function Footer() {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-4 lg:contents">
+        <div className="grid grid-cols-2 gap-x-6 gap-y-8 sm:gap-y-10 sm:grid-cols-4 lg:contents">
           {FOOTER_COLUMNS.map((column) => (
             <nav key={column.title} aria-label={column.title} className="flex flex-col gap-3">
               <h2 className="text-small font-medium text-text">{column.title}</h2>
@@ -39,7 +39,8 @@ export function Footer() {
       <div className="border-t border-rule">
         <div className="container-page flex flex-col gap-6 py-8 lg:flex-row lg:items-start lg:justify-between">
           <p className="max-w-[72ch] text-caption text-muted">
-            Figures on this site are estimates, not an offer or a forecast. Staking involves risk, including loss of principal. Read the{" "}
+            Figures on this site are estimates, not an offer or a forecast. Staking involves risk, including loss of
+            principal. Read the{" "}
             <Link href="/legal/risk-disclosure" className="text-accent-text underline underline-offset-2">
               risk disclosure
             </Link>

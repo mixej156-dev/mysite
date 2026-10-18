@@ -19,7 +19,7 @@ export function GuideArticle({ guide }: { guide: Guide }) {
           <Breadcrumbs
             items={[{ label: "Home", href: "/" }, { label: "ECO. LEARN", href: "/learn" }, { label: guide.topic }]}
           />
-          <div className="mt-10 max-w-[52rem]">
+          <div className="mt-8 sm:mt-10 max-w-[52rem]">
             <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-small text-muted">
               <TopicLabel topic={guide.topic} />
               <span>{guide.level}</span>
@@ -39,7 +39,7 @@ export function GuideArticle({ guide }: { guide: Guide }) {
           </div>
         </div>
 
-        <div className="container-page grid gap-10 pt-12 pb-24 md:pb-32 lg:grid-cols-12 lg:gap-8 lg:pt-16">
+        <div className="container-page grid gap-8 pt-6 pb-14 sm:gap-10 sm:pt-12 sm:pb-24 md:pb-32 lg:grid-cols-12 lg:gap-8 lg:pt-16">
           <div className="lg:col-span-3">
             <dl className="grid grid-cols-3 gap-4 text-small lg:sticky lg:top-24 lg:grid-cols-1">
               {[
@@ -58,7 +58,7 @@ export function GuideArticle({ guide }: { guide: Guide }) {
           <div className="min-w-0 lg:col-span-7">
             <section
               aria-labelledby={`${guide.slug}-outcomes`}
-              className="mb-12 rounded-card border border-rule bg-surface p-6"
+              className="mb-8 sm:mb-12 rounded-card border border-rule bg-surface p-6"
             >
               <h2 id={`${guide.slug}-outcomes`} className="text-small font-medium">
                 What you’ll learn
@@ -75,7 +75,10 @@ export function GuideArticle({ guide }: { guide: Guide }) {
 
             <Prose blocks={guide.body} idPrefix={`${guide.slug}-`} />
 
-            <section aria-labelledby={`${guide.slug}-takeaways`} className="mt-14 border-t-2 border-accent pt-6">
+            <section
+              aria-labelledby={`${guide.slug}-takeaways`}
+              className="mt-10 sm:mt-14 border-t-2 border-accent pt-6"
+            >
               <h2 id={`${guide.slug}-takeaways`} className="text-h4 font-medium">
                 Key takeaways
               </h2>
@@ -89,11 +92,11 @@ export function GuideArticle({ guide }: { guide: Guide }) {
               </ol>
             </section>
 
-            <p className="mt-10 text-caption text-muted">
+            <p className="mt-8 sm:mt-10 text-caption text-muted">
               Educational content, not financial advice. Examples use illustrative numbers.
             </p>
 
-            <div className="mt-10 border-t border-rule pt-8">
+            <div className="mt-8 sm:mt-10 border-t border-rule pt-8">
               <Link href="/learn" className={buttonClasses({ variant: "secondary" })}>
                 All guides
               </Link>
@@ -104,7 +107,7 @@ export function GuideArticle({ guide }: { guide: Guide }) {
 
       <Section tone="inverse" labelledBy={`related-${guide.slug}`}>
         <SectionHeader id={`related-${guide.slug}`} title="Keep learning" />
-        <ul className="grid gap-x-8 gap-y-14 md:grid-cols-3">
+        <ul className="grid gap-x-8 gap-y-6 sm:gap-y-14 md:grid-cols-3">
           {related.map((g) => (
             <li key={g.slug}>
               <LearnCard guide={g} />
@@ -118,14 +121,14 @@ export function GuideArticle({ guide }: { guide: Guide }) {
 
 export function GuideSkeleton() {
   return (
-    <div aria-busy="true" aria-label="Loading guide" className="container-page pt-12 pb-24 md:pt-16">
+    <div aria-busy="true" aria-label="Loading guide" className="container-page pt-6 pb-14 sm:pt-12 sm:pb-24 md:pt-16">
       <Skeleton className="h-4 w-40" />
-      <div className="mt-10 flex max-w-[52rem] flex-col gap-4">
+      <div className="mt-8 sm:mt-10 flex max-w-[52rem] flex-col gap-4">
         <Skeleton className="h-4 w-56" />
         <Skeleton className="h-12 w-full" />
         <Skeleton className="mt-2 h-6 w-1/2" />
       </div>
-      <Skeleton className="mt-12 aspect-[21/9] rounded-card" />
+      <Skeleton className="mt-8 sm:mt-12 aspect-[21/9] rounded-card" />
     </div>
   );
 }

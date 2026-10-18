@@ -17,7 +17,7 @@ export default function DocsPage() {
       <p className="mt-5 max-w-[56ch] font-serif text-lead text-muted">
         How the platform works, from your first stake to reading the rewards ledger. Short articles, one task each.
       </p>
-      <div className="mt-12 grid gap-4 md:grid-cols-2">
+      <div className="mt-8 sm:mt-12 grid gap-4 md:grid-cols-2">
         {DOC_SECTIONS.map((section) => (
           <Card key={section.title} padding="lg" className="flex flex-col gap-4">
             <h2 className="text-h4 font-medium">{section.title}</h2>
@@ -37,7 +37,7 @@ export default function DocsPage() {
           </Card>
         ))}
       </div>
-      <p className="mt-10 text-small text-muted">
+      <p className="mt-8 sm:mt-10 text-small text-muted">
         Can’t find what you need?{" "}
         <Link href="/contact" className="rounded-sm font-medium text-accent-text hover:underline">
           Contact support

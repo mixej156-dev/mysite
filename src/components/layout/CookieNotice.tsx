@@ -52,7 +52,7 @@ export function CookieNotice() {
   return (
     <section
       aria-labelledby="cookie-title"
-      className="fixed inset-x-4 bottom-4 z-sticky animate-pop-in rounded-card border border-rule bg-surface p-5 text-text shadow-overlay sm:right-auto sm:bottom-6 sm:left-6 sm:max-w-sm"
+      className="fixed inset-x-4 bottom-[calc(1rem+var(--bottom-bar,0px))] z-sticky animate-pop-in rounded-card border border-rule bg-surface p-5 text-text shadow-overlay sm:right-auto sm:bottom-[calc(1.5rem+var(--bottom-bar,0px))] sm:left-6 sm:max-w-sm"
     >
       <div className="flex items-start gap-3">
         <Cookie aria-hidden className="mt-0.5 size-5 shrink-0 text-accent-text" />
@@ -63,7 +63,10 @@ export function CookieNotice() {
           <p className="mt-1 text-small text-muted">
             Essential cookies keep you signed in and remember your settings. With your consent we also use analytics
             cookies to see which pages help.{" "}
-            <Link href="/legal/privacy#privacy-cookies" className="rounded-sm text-accent-text underline underline-offset-2">
+            <Link
+              href="/legal/privacy#privacy-cookies"
+              className="rounded-sm text-accent-text underline underline-offset-2"
+            >
               Privacy policy
             </Link>
           </p>

@@ -26,7 +26,9 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
                   onClick={onNavigate}
                   aria-current={active ? "page" : undefined}
                   className={cn(
-                    "flex h-10 items-center gap-3 rounded-field px-3 text-small font-medium transition-colors duration-fast",
+                    "flex h-11 items-center gap-3 rounded-field px-3 text-small font-medium transition-colors duration-fast lg:h-10",
+                    /* Touch: pressing flashes the brand blue, like the site menu */
+                    "[-webkit-tap-highlight-color:transparent] active:bg-accent active:text-on-accent",
                     active ? "bg-surface-2 text-text" : "text-muted hover:bg-surface-2/60 hover:text-text",
                   )}
                 >

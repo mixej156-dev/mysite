@@ -11,7 +11,7 @@ const SUGGESTIONS = [
 
 export function NotFoundContent() {
   return (
-    <section className="container-page pt-16 pb-24 md:pt-24 md:pb-32">
+    <section className="container-page pt-10 pb-14 sm:pt-16 sm:pb-24 md:pt-24 md:pb-32">
       <p className="font-mono text-h3 text-accent-text" aria-hidden>
         404
       </p>
@@ -27,7 +27,7 @@ export function NotFoundContent() {
           See pools
         </Link>
       </div>
-      <nav aria-label="Popular pages" className="mt-16 max-w-[40rem] border-t border-rule">
+      <nav aria-label="Popular pages" className="mt-10 sm:mt-16 max-w-[40rem] border-t border-rule">
         <ul>
           {SUGGESTIONS.map((s) => (
             <li key={s.href} className="border-b border-rule">

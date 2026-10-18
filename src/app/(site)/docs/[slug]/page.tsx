@@ -28,17 +28,20 @@ async function DocContent({ params }: { params: PageProps<"/docs/[slug]">["param
   const next = DOC_ARTICLES[index + 1];
 
   return (
-    <article aria-labelledby={`doc-title-${slug}`} className="grid gap-10 xl:grid-cols-[minmax(0,1fr)_12rem] xl:gap-12">
+    <article
+      aria-labelledby={`doc-title-${slug}`}
+      className="grid gap-8 sm:gap-10 xl:grid-cols-[minmax(0,1fr)_12rem] xl:gap-12"
+    >
       <div className="min-w-0">
         <Breadcrumbs items={[{ label: "Docs", href: "/docs" }, { label: doc.section }, { label: doc.title }]} />
         <h1 id={`doc-title-${slug}`} className="mt-8 text-h1">
           {doc.title}
         </h1>
         <p className="mt-4 max-w-[56ch] font-serif text-lead text-muted">{doc.description}</p>
-        <Prose blocks={doc.body} lead={false} idPrefix={`${slug}-`} className="mt-10" />
+        <Prose blocks={doc.body} lead={false} idPrefix={`${slug}-`} className="mt-8 sm:mt-10" />
         <nav
           aria-label="Previous and next article"
-          className="mt-16 grid gap-4 border-t border-rule pt-8 sm:grid-cols-2"
+          className="mt-10 sm:mt-16 grid gap-4 border-t border-rule pt-8 sm:grid-cols-2"
         >
           {prev ? (
             <Link

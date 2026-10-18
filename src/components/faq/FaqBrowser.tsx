@@ -137,15 +137,16 @@ export function FaqBrowser() {
   };
 
   return (
-    <div className="flex flex-col gap-16">
+    <div className="flex flex-col gap-10 sm:gap-16">
       {!filtering && (
         <section aria-labelledby="faq-popular">
           <h2 id="faq-popular" className="text-h3">
             Popular questions
           </h2>
-          <ul className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {/* Phones: one swipeable row instead of six stacked cards */}
+          <ul className="-mx-4 mt-4 flex snap-x scroll-px-4 gap-3 overflow-x-auto px-4 pb-2 sm:mx-0 sm:mt-6 sm:grid sm:grid-cols-2 sm:overflow-visible sm:p-0 lg:grid-cols-3">
             {POPULAR.map((p) => (
-              <li key={p.uid}>
+              <li key={p.uid} className="w-64 shrink-0 snap-start sm:w-auto">
                 <button
                   type="button"
                   onClick={() => openPopular(p.uid)}
@@ -169,8 +170,8 @@ export function FaqBrowser() {
         </section>
       )}
 
-      <div className="flex flex-col gap-10">
-        <div className="flex flex-col gap-4 border-t border-rule pt-10 md:flex-row md:items-center md:justify-between">
+      <div className="flex flex-col gap-8 sm:gap-10">
+        <div className="flex flex-col gap-4 border-t border-rule pt-8 sm:pt-10 md:flex-row md:items-center md:justify-between">
           <div role="group" aria-label="Topic" className="flex flex-wrap gap-2">
             <Tag selected={category === "all"} onClick={() => setCategory("all")} count={FAQ_COUNT}>
               All
@@ -213,7 +214,7 @@ export function FaqBrowser() {
             }
           />
         ) : (
-          <div className="flex flex-col gap-16">
+          <div className="flex flex-col gap-10 sm:gap-16">
             {groups.map((g) => (
               <section key={g.id} aria-labelledby={`faq-${g.id}`} className="grid gap-6 lg:grid-cols-12 lg:gap-8">
                 <div className="lg:col-span-4">

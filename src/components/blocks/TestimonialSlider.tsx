@@ -6,7 +6,6 @@ import { useState, type KeyboardEvent } from "react";
 import type { Testimonial } from "@/data/testimonials";
 import { transition } from "@/design-system/motion";
 
-
 const navButton =
   "grid size-11 place-items-center rounded-field border border-rule text-text transition-colors duration-fast hover:border-rule-strong hover:bg-surface-2";
 
@@ -31,8 +30,10 @@ export function TestimonialSlider({ items, label }: { items: Testimonial[]; labe
       <div className="grid items-start">
         {/* Invisible copies of every quote share this cell, so the block is always as tall as the longest one */}
         {items.map((it) => (
-          <div key={it.id} aria-hidden className="invisible col-start-1 row-start-1 flex flex-col gap-10">
-            <p className="max-w-[38ch] font-serif text-h2 leading-[1.3] font-normal tracking-[-0.01em] text-pretty">“{it.quote}”</p>
+          <div key={it.id} aria-hidden className="invisible col-start-1 row-start-1 flex flex-col gap-8 sm:gap-10">
+            <p className="max-w-[38ch] font-serif text-h3 sm:text-h2 leading-[1.3] font-normal tracking-[-0.01em] text-pretty">
+              “{it.quote}”
+            </p>
             <p className="flex flex-col gap-0.5 text-small">
               <span className="font-medium">{it.name}</span>
               <span>
@@ -50,9 +51,9 @@ export function TestimonialSlider({ items, label }: { items: Testimonial[]; labe
             animate={{ opacity: 1, x: 0 }}
             exit={reduceMotion ? { opacity: 0 } : { opacity: 0, x: -24 * direction }}
             transition={transition.base}
-            className="col-start-1 row-start-1 flex flex-col gap-10"
+            className="col-start-1 row-start-1 flex flex-col gap-8 sm:gap-10"
           >
-            <blockquote className="max-w-[38ch] font-serif text-h2 leading-[1.3] font-normal tracking-[-0.01em] text-pretty">
+            <blockquote className="max-w-[38ch] font-serif text-h3 sm:text-h2 leading-[1.3] font-normal tracking-[-0.01em] text-pretty">
               “{item.quote}”
             </blockquote>
             <figcaption className="flex flex-col gap-0.5 text-small">
@@ -64,7 +65,7 @@ export function TestimonialSlider({ items, label }: { items: Testimonial[]; labe
           </motion.figure>
         </AnimatePresence>
       </div>
-      <div className="mt-12 flex items-center gap-3">
+      <div className="mt-8 sm:mt-12 flex items-center gap-3">
         <button type="button" onClick={() => go(-1)} aria-label="Previous quote" className={navButton}>
           <ChevronLeft aria-hidden className="size-5" />
         </button>

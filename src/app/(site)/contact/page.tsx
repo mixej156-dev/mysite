@@ -71,7 +71,7 @@ export default function ContactPage() {
         </ul>
       </section>
 
-      <div className="container-page grid gap-10 pb-24 md:pb-32 lg:grid-cols-12 lg:gap-8">
+      <div className="container-page grid gap-8 sm:gap-10 pb-14 sm:pb-24 md:pb-32 lg:grid-cols-12 lg:gap-8">
         <section aria-label="Send a message" className="min-w-0 lg:col-span-7">
           <ContactForm />
         </section>
@@ -119,7 +119,7 @@ export default function ContactPage() {
           title="Where we work"
           lead="Most of the team is remote within a few time zones. These are the offices people meet in."
         />
-        <div className="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-8">
+        <div className="grid gap-8 sm:gap-10 lg:grid-cols-12 lg:items-center lg:gap-8">
           <div className="lg:col-span-7">
             <OfficesMap offices={OFFICES} />
           </div>

@@ -15,7 +15,7 @@ export default function CalculatorPage() {
         lead="See how a stake could grow month by month, and what restaking adds."
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Tools", href: "/tools" }, { label: "Calculator" }]}
       />
-      <section aria-label="Calculator" className="container-page pb-24 md:pb-32">
+      <section aria-label="Calculator" className="container-page pb-14 sm:pb-24 md:pb-32">
         <RewardsCalculator />
       </section>
     </>

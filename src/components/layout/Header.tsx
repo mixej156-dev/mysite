@@ -32,7 +32,7 @@ export function Header() {
         data-scrolled={scrolled || menuOpen || undefined}
         className={cn(
           // Negative margin = left padding, so the logo lines up with the page content edge
-          "relative -mx-3 flex h-14 items-center gap-2 rounded-card border border-transparent pr-2 pl-3 sm:-mx-4 sm:pl-4",
+          "relative -mx-3 flex h-14 items-center gap-2 rounded-card border border-transparent pr-0.5 pl-3 sm:-mx-4 sm:pr-1.5 sm:pl-4 lg:pr-2",
           "transition-[background-color,border-color,box-shadow] duration-base",
           "data-scrolled:border-rule data-scrolled:bg-surface data-scrolled:shadow-float",
         )}
