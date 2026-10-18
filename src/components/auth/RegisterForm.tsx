@@ -2,33 +2,20 @@
 
 import { useRef, useState, type FormEvent } from "react";
 import { Link } from "@/components/Link";
-import { Button, Checkbox, Input, Progress, useToast } from "@/design-system";
+import { useRouter } from "next/navigation";
+import { Button, Checkbox, Input } from "@/design-system";
 import { useAuth } from "@/lib/auth";
 import { isEmail, useFocusFirstError } from "@/lib/forms";
 import { PasswordInput } from "./PasswordInput";
+import { MIN_PASSWORD_LENGTH as MIN_LENGTH, PasswordStrength } from "./PasswordStrength";
+import { setPendingSignup } from "./pendingSignup";
 import { useRedirectWhenAuthed } from "./useRedirectWhenAuthed";
-
-const MIN_LENGTH = 8;
-const STRENGTH = [
-  { label: "Too short", tone: "warning" },
-  { label: "Weak", tone: "warning" },
-  { label: "Fair", tone: "warning" },
-  { label: "Good", tone: "accent" },
-  { label: "Strong", tone: "success" },
-] as const;
-
-/** 0–4: length first, then variety of character types. Advisory only, beyond the minimum length. */
-function strength(password: string): number {
-  if (password.length < MIN_LENGTH) return 0;
-  const kinds = [/[a-z]/, /[A-Z]/, /\d/, /[^A-Za-z0-9]/].filter((r) => r.test(password)).length;
-  return Math.min(4, Math.max(1, kinds - (password.length >= 12 ? 0 : 1)));
-}
 
 type Errors = { name?: string; email?: string; password?: string; consent?: string };
 
 export function RegisterForm() {
-  const { signUp, status } = useAuth();
-  const { toast } = useToast();
+  const { status } = useAuth();
+  const router = useRouter();
   useRedirectWhenAuthed();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -39,8 +26,6 @@ export function RegisterForm() {
   const [attempt, setAttempt] = useState(0);
   const formRef = useRef<HTMLFormElement>(null);
   useFocusFirstError(formRef, attempt);
-
-  const score = strength(password);
 
   const submit = async (e: FormEvent) => {
     e.preventDefault();
@@ -56,8 +41,10 @@ export function RegisterForm() {
       return;
     }
     setSubmitting(true);
-    const session = await signUp(name, email);
-    toast({ tone: "success", title: "Account created", description: `Welcome, ${session.name.split(" ")[0]}.` });
+    /* The account is created once the email is confirmed on the next screen */
+    await new Promise((res) => setTimeout(res, 700));
+    setPendingSignup({ name: name.trim(), email: email.trim() });
+    router.push("/verify-email");
   };
 
   return (
@@ -96,14 +83,7 @@ export function RegisterForm() {
             error={errors.password}
             hint={`At least ${MIN_LENGTH} characters. Longer is stronger.`}
           />
-          {password && (
-            <Progress
-              label="Password strength"
-              value={password.length < MIN_LENGTH ? (password.length / MIN_LENGTH) * 20 : score * 25}
-              valueLabel={STRENGTH[score].label}
-              tone={STRENGTH[score].tone}
-            />
-          )}
+          <PasswordStrength password={password} />
         </div>
         <Checkbox
           label={

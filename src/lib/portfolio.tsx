@@ -51,6 +51,11 @@ function snapshot(): PortfolioState {
   return state;
 }
 
+/** Whether two-factor is turned on in Settings. Read by the login screen, outside the dashboard provider. */
+export function isTwoFactorEnabled(): boolean {
+  return snapshot().prefs.twoFactor;
+}
+
 function save(next: PortfolioState | null) {
   try {
     if (next) localStorage.setItem(PORTFOLIO_KEY, JSON.stringify(next));

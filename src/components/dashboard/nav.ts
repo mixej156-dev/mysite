@@ -1,5 +1,6 @@
 import {
   ArrowLeftRight,
+  Bell,
   Coins,
   Layers,
   LayoutDashboard,
@@ -20,6 +21,7 @@ export const DASHBOARD_NAV: DashboardNavItem[] = [
   { href: "/dashboard/transactions", label: "Transactions", icon: ArrowLeftRight },
   { href: "/dashboard/wallet", label: "Wallet", icon: Wallet },
   { href: "/dashboard/referrals", label: "Referrals", icon: Users },
+  { href: "/dashboard/notifications", label: "Notifications", icon: Bell },
   { href: "/dashboard/settings", label: "Settings", icon: Settings },
 ];
 

@@ -3,12 +3,12 @@
 import { MailCheck } from "lucide-react";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { Link } from "@/components/Link";
-import { Button, Input, useToast } from "@/design-system";
+import { Button, Input, buttonClasses, useToast } from "@/design-system";
 import { isEmail, useFocusFirstError } from "@/lib/forms";
 
 const RESEND_SECONDS = 30;
 
-/** Simulates a reset email. Nothing is sent. */
+/** First step of a password reset: asks for the email, then points to the code screen. Nothing is sent. */
 export function ForgotPasswordForm() {
   const [email, setEmail] = useState("");
   const [error, setError] = useState<string>();
@@ -51,10 +51,16 @@ export function ForgotPasswordForm() {
         <div>
           <h1 className="text-h2">Check your inbox</h1>
           <p className="mt-3 font-serif text-body text-muted">
-            If an account exists for <span className="font-display font-medium text-text">{email.trim()}</span>, a link
-            to reset the password is on its way. It works for 30 minutes.
+            If an account exists for <span className="font-display font-medium text-text">{email.trim()}</span>, an
+            email with a reset link and a 6-digit code is on its way. Both work for 30 minutes.
           </p>
         </div>
+        <Link
+          href={`/reset-password?email=${encodeURIComponent(email.trim())}`}
+          className={buttonClasses({ size: "lg", className: "self-stretch sm:self-start" })}
+        >
+          Enter the code
+        </Link>
         <div className="flex flex-col gap-3 sm:flex-row">
           <Button
             variant="secondary"

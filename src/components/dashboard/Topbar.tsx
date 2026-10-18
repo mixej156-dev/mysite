@@ -8,6 +8,7 @@ import { buttonClasses } from "@/design-system";
 import { useAuth } from "@/lib/auth";
 import { AccountMenu } from "../layout/AccountMenu";
 import { Logo } from "../layout/Logo";
+import { NotificationsMenu } from "./notifications";
 import { Sidebar } from "./Sidebar";
 
 export function Topbar() {
@@ -50,6 +51,7 @@ export function Topbar() {
           <Plus aria-hidden />
           New stake
         </Link>
+        <NotificationsMenu />
         {session && <AccountMenu session={session} onSignOut={signOut} />}
       </div>
     </header>
