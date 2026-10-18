@@ -4,8 +4,8 @@ import { RevealGroup } from "./RevealGroup";
 
 export type SectionProps = {
   id?: string;
-  /** "inverse" flips to the opposite theme palette for light/dark alternation */
-  tone?: "base" | "inverse";
+  /** "inverse" flips to the opposite theme palette for light/dark alternation; "subtle" is a light grey band */
+  tone?: "base" | "subtle" | "inverse";
   /** id of the heading that names this section */
   labelledBy?: string;
   className?: string;
@@ -18,7 +18,7 @@ export function Section({ id, tone = "base", labelledBy, className, children }: 
       id={id}
       aria-labelledby={labelledBy}
       data-tone={tone === "inverse" ? "inverse" : undefined}
-      className={cn("bg-bg py-14 text-text sm:py-24 md:py-32", className)}
+      className={cn(tone === "subtle" ? "bg-surface-2" : "bg-bg", "py-14 text-text sm:py-24 md:py-32", className)}
     >
       <RevealGroup className="container-page">{children}</RevealGroup>
     </section>

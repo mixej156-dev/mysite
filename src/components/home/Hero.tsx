@@ -4,7 +4,7 @@ import { HeroScreenshot } from "./HeroScreenshot";
 
 export function Hero() {
   return (
-    <section aria-labelledby="hero-title" className="overflow-x-clip">
+    <section aria-labelledby="hero-title">
       <div className="container-page grid items-center gap-10 pt-8 pb-12 sm:gap-14 sm:pt-16 sm:pb-20 md:pt-24 md:pb-28 lg:grid-cols-12 lg:gap-12">
         <div className="lg:col-span-5">
           <h1 id="hero-title" className="max-w-[11ch] text-display">
@@ -26,7 +26,7 @@ export function Hero() {
             From 0.1 ETH. Withdraw any time; funds release after the network’s unbonding period.
           </p>
         </div>
-        <HeroScreenshot className="mx-auto w-full max-w-[20rem] sm:max-w-none lg:col-span-7 lg:w-[calc(100%+12rem)]" />
+        <HeroScreenshot className="mx-auto w-full max-w-[18rem] sm:max-w-none lg:col-span-7" />
       </div>
     </section>
   );

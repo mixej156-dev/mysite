@@ -6,7 +6,7 @@ import { Section, SectionHeader } from "../blocks/Section";
 
 export function Trust() {
   return (
-    <Section tone="inverse" labelledBy="trust-title">
+    <Section tone="subtle" labelledBy="trust-title">
       <SectionHeader
         id="trust-title"
         title="Accounted for at every step"
