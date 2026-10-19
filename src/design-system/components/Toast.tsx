@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, m, useReducedMotion } from "framer-motion";
 import { CircleAlert, CircleCheck, Info, X } from "lucide-react";
 import { createContext, useCallback, useContext, useMemo, useRef, useState, type ReactNode } from "react";
 import { cn } from "@/lib/cn";
@@ -58,7 +58,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
           {toasts.map(({ id, title, description, tone = "info" }) => {
             const Icon = icons[tone];
             return (
-              <motion.li
+              <m.li
                 key={id}
                 layout={!reduceMotion}
                 role={tone === "error" ? "alert" : "status"}
@@ -81,7 +81,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
                 >
                   <X aria-hidden className="size-4" />
                 </button>
-              </motion.li>
+              </m.li>
             );
           })}
         </AnimatePresence>

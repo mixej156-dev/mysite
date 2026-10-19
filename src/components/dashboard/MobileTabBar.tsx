@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { Link } from "@/components/Link";
 import { transition } from "@/design-system/motion";
@@ -37,7 +37,7 @@ export function MobileTabBar() {
               >
                 {/* Tinted pill behind the active tab, gliding between tabs */}
                 {active && (
-                  <motion.span
+                  <m.span
                     layoutId="tab-active"
                     transition={transition.base}
                     aria-hidden

@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { ToastProvider } from "@/design-system/components/Toast";
+import { MotionProvider } from "@/design-system/MotionProvider";
 import { fontVariables } from "@/design-system/fonts";
 import { CookieNotice } from "@/components/layout/CookieNotice";
 import { AuthProvider } from "@/lib/auth";
@@ -31,10 +32,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
       <body className="min-h-dvh">
-        <ToastProvider>
-          <AuthProvider>{children}</AuthProvider>
-          <CookieNotice />
-        </ToastProvider>
+        <MotionProvider>
+          <ToastProvider>
+            <AuthProvider>{children}</AuthProvider>
+            <CookieNotice />
+          </ToastProvider>
+        </MotionProvider>
       </body>
     </html>
   );

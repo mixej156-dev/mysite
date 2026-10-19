@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { m, useReducedMotion } from "framer-motion";
 import type { ReactNode } from "react";
 
 const SIZE = 400;
@@ -47,7 +47,7 @@ export function GrowthRings({ balances, maxYears, scaleRatio, children }: Growth
         {/* Scale reference: the largest projection any pool can reach */}
         <circle cx={CENTER} cy={CENTER} r={R0 + SPAN} fill="none" stroke="var(--rule-strong)" strokeDasharray="2 6" />
         {Array.from({ length: maxYears }, (_, i) => maxYears - i).map((year) => (
-          <motion.circle
+          <m.circle
             key={year}
             cx={CENTER}
             cy={CENTER}

@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { m, useReducedMotion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Badge } from "@/design-system";
 import { transition } from "@/design-system/motion";
@@ -53,7 +53,7 @@ export function PayoutLedger({ className }: { className?: string }) {
       <div className="relative">
         <ol aria-label="Recent reward payouts" className="flex flex-col">
           {rows.map((row) => (
-            <motion.li
+            <m.li
               key={row.id}
               layout={reduceMotion ? false : "position"}
               initial={newest > START ? { opacity: 0, y: -12 } : false}
@@ -65,7 +65,7 @@ export function PayoutLedger({ className }: { className?: string }) {
               <span className="text-success">+{formatToken(row.amount, "", row.ticker === "ETH" ? 5 : 3).trim()}</span>
               <span className="text-right text-caption text-muted sm:order-last">{row.address}</span>
               <span className="hidden text-right text-caption text-muted sm:block">#{formatNumber(row.epoch)}</span>
-            </motion.li>
+            </m.li>
           ))}
         </ol>
         {/* Fade the oldest row into the card */}

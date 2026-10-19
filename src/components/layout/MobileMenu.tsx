@@ -1,7 +1,7 @@
 "use client";
 
 import * as Dialog from "@radix-ui/react-dialog";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, m, useReducedMotion } from "framer-motion";
 import { ChevronDown, Menu, X } from "lucide-react";
 import { Link } from "@/components/Link";
 import { usePathname } from "next/navigation";
@@ -56,7 +56,7 @@ export function MobileMenu() {
             {/* Overlay carries Radix's body scroll lock; the panel itself covers it */}
             <Dialog.Overlay forceMount className="fixed inset-0 z-modal lg:hidden" />
             <Dialog.Content asChild forceMount aria-describedby={undefined}>
-              <motion.div
+              <m.div
                 className="fixed inset-0 z-modal flex flex-col overflow-y-auto overscroll-contain bg-bg text-text lg:hidden"
                 initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: -8 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -192,7 +192,7 @@ export function MobileMenu() {
                     </>
                   )}
                 </div>
-              </motion.div>
+              </m.div>
             </Dialog.Content>
           </Dialog.Portal>
         )}

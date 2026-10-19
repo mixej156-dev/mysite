@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { m, useReducedMotion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/design-system";
 import { duration, ease } from "@/design-system/motion";
@@ -194,7 +194,7 @@ export function MotionSection() {
               <p className="text-caption text-muted">{d.use}</p>
             </div>
             <div className="relative h-8 rounded-pill bg-surface-2">
-              <motion.div
+              <m.div
                 key={run}
                 className="absolute top-1 left-1 size-6 rounded-pill bg-accent"
                 // Same initial on server and client; reduced motion only changes the duration

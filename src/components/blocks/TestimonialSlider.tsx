@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, m, useReducedMotion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useState, type KeyboardEvent } from "react";
 import type { Testimonial } from "@/data/testimonials";
@@ -43,7 +43,7 @@ export function TestimonialSlider({ items, label }: { items: Testimonial[]; labe
           </div>
         ))}
         <AnimatePresence mode="wait" initial={false} custom={direction}>
-          <motion.figure
+          <m.figure
             key={item.id}
             aria-roledescription="slide"
             aria-label={`${index + 1} of ${items.length}`}
@@ -62,7 +62,7 @@ export function TestimonialSlider({ items, label }: { items: Testimonial[]; labe
                 {item.role}, {item.company}
               </span>
             </figcaption>
-          </motion.figure>
+          </m.figure>
         </AnimatePresence>
       </div>
       <div className="mt-8 sm:mt-12 flex items-center gap-3">

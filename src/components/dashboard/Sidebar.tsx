@@ -1,6 +1,6 @@
 "use client";
 
-import { LayoutGroup, motion } from "framer-motion";
+import { LayoutGroup, m } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { useId } from "react";
 import { Link } from "@/components/Link";
@@ -40,7 +40,7 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
                   >
                     {/* Highlight glides to the new section; brand-tinted with an accent edge */}
                     {active && (
-                      <motion.span
+                      <m.span
                         layoutId="nav-active"
                         transition={transition.base}
                         aria-hidden

@@ -1,7 +1,7 @@
 "use client";
 
 import * as Dialog from "@radix-ui/react-dialog";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, m, useReducedMotion } from "framer-motion";
 import { X } from "lucide-react";
 import type { ReactNode } from "react";
 import { cn } from "@/lib/cn";
@@ -34,7 +34,7 @@ export function Modal({ open, onOpenChange, title, description, trigger, footer,
         {open && (
           <Dialog.Portal forceMount>
             <Dialog.Overlay asChild forceMount>
-              <motion.div
+              <m.div
                 data-theme={scopedTheme}
                 className="fixed inset-0 z-overlay bg-scrim"
                 initial={{ opacity: 0 }}
@@ -45,7 +45,7 @@ export function Modal({ open, onOpenChange, title, description, trigger, footer,
             </Dialog.Overlay>
             <div data-theme={scopedTheme} className="pointer-events-none fixed inset-0 z-modal grid place-items-center p-4">
               <Dialog.Content asChild forceMount>
-                <motion.div
+                <m.div
                   className={cn(
                     "pointer-events-auto flex max-h-[calc(100dvh-2rem)] w-full flex-col overflow-hidden",
                     "rounded-card border border-rule bg-surface text-text shadow-overlay outline-none",
@@ -79,7 +79,7 @@ export function Modal({ open, onOpenChange, title, description, trigger, footer,
                     </div>
                   )}
                   {!footer && <div className="pb-6" />}
-                </motion.div>
+                </m.div>
               </Dialog.Content>
             </div>
           </Dialog.Portal>
