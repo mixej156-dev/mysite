@@ -1,23 +1,56 @@
 "use client";
 
 import * as Nav from "@radix-ui/react-navigation-menu";
-import { ChevronDown } from "lucide-react";
+import { Calculator, ChevronDown, type LucideIcon } from "lucide-react";
+import Image from "next/image";
 import { Link } from "@/components/Link";
 import { usePathname } from "next/navigation";
 import { featuredPools } from "@/data/pools";
 import { formatPercent, formatUnbondingShort } from "@/lib/format";
 import { cn } from "@/lib/cn";
-import { NAV_SECTIONS, isSectionActive, type NavLink, type NavSection } from "./nav";
+import { NAV_SECTIONS, isSectionActive, type NavLink, type NavSection, type NavTone } from "./nav";
 
 const panelLink =
   "group/link block rounded-field p-3 outline-offset-0 transition-colors duration-fast hover:bg-surface-2 focus-visible:bg-surface-2";
 
+/* Grey chip at rest; on hover or keyboard focus of the link it takes the link's hue */
+const TONE_ON_HOVER: Record<NavTone, string> = {
+  blue: "group-hover/link:tint-topic-blue group-hover/link:text-topic-blue group-focus-visible/link:tint-topic-blue group-focus-visible/link:text-topic-blue",
+  green:
+    "group-hover/link:tint-topic-green group-hover/link:text-topic-green group-focus-visible/link:tint-topic-green group-focus-visible/link:text-topic-green",
+  teal: "group-hover/link:tint-topic-teal group-hover/link:text-topic-teal group-focus-visible/link:tint-topic-teal group-focus-visible/link:text-topic-teal",
+  orange:
+    "group-hover/link:tint-topic-orange group-hover/link:text-topic-orange group-focus-visible/link:tint-topic-orange group-focus-visible/link:text-topic-orange",
+  amber:
+    "group-hover/link:tint-topic-amber group-hover/link:text-topic-amber group-focus-visible/link:tint-topic-amber group-focus-visible/link:text-topic-amber",
+  violet:
+    "group-hover/link:tint-topic-violet group-hover/link:text-topic-violet group-focus-visible/link:tint-topic-violet group-focus-visible/link:text-topic-violet",
+  rose: "group-hover/link:tint-topic-rose group-hover/link:text-topic-rose group-focus-visible/link:tint-topic-rose group-focus-visible/link:text-topic-rose",
+};
+
+function MenuIcon({ icon: Icon, tone }: { icon: LucideIcon; tone: NavTone }) {
+  return (
+    <span
+      aria-hidden
+      className={cn(
+        "grid size-9 shrink-0 place-items-center rounded-field bg-surface-2 text-muted transition-colors duration-base",
+        TONE_ON_HOVER[tone],
+      )}
+    >
+      <Icon className="size-[1.125rem]" />
+    </span>
+  );
+}
+
 function MenuLink({ link }: { link: NavLink }) {
   return (
     <Nav.Link asChild>
-      <Link href={link.href} className={panelLink}>
-        <span className="block text-small font-medium text-text">{link.label}</span>
-        {link.description && <span className="mt-0.5 block text-small text-muted">{link.description}</span>}
+      <Link href={link.href} className={cn(panelLink, "flex items-start gap-3")}>
+        {link.icon && <MenuIcon icon={link.icon} tone={link.tone ?? "blue"} />}
+        <span className="min-w-0">
+          <span className="block text-small font-medium text-text">{link.label}</span>
+          {link.description && <span className="mt-0.5 block text-small text-muted">{link.description}</span>}
+        </span>
       </Link>
     </Nav.Link>
   );
@@ -32,14 +65,23 @@ function StakingPanel({ section }: { section: NavSection }) {
           {featuredPools.map((pool) => (
             <li key={pool.id}>
               <Nav.Link asChild>
-                <Link href={`/staking/${pool.id}`} className={cn(panelLink, "flex items-baseline justify-between gap-4")}>
-                  <span>
+                <Link href={`/staking/${pool.id}`} className={cn(panelLink, "flex items-center gap-3")}>
+                  {/* Network logo: greyed out at rest, in its own colours on hover */}
+                  <Image
+                    src={`/logos/networks/${pool.id}.svg`}
+                    alt=""
+                    width={36}
+                    height={36}
+                    unoptimized
+                    className="size-9 shrink-0 opacity-60 grayscale transition-[filter,opacity] duration-base group-hover/link:opacity-100 group-hover/link:grayscale-0 group-focus-visible/link:opacity-100 group-focus-visible/link:grayscale-0"
+                  />
+                  <span className="min-w-0 flex-1">
                     <span className="block text-small font-medium text-text">{pool.name}</span>
                     <span className="mt-0.5 block text-small text-muted">
                       {pool.ticker}, {formatUnbondingShort(pool.unbondingDays)}
                     </span>
                   </span>
-                  <span className="font-mono text-small text-text">{formatPercent(pool.apy)}</span>
+                  <span className="self-start pt-0.5 font-mono text-small text-text">{formatPercent(pool.apy)}</span>
                 </Link>
               </Nav.Link>
             </li>
@@ -54,9 +96,18 @@ function StakingPanel({ section }: { section: NavSection }) {
       <Nav.Link asChild>
         <Link
           href="/tools/calculator"
-          className="flex flex-col justify-between gap-6 rounded-field bg-surface-2 p-5 transition-colors duration-fast hover:bg-rule"
+          className="group/link flex flex-col justify-between gap-6 rounded-field bg-surface-2 p-5 transition-colors duration-fast hover:bg-rule"
         >
           <span>
+            <span
+              aria-hidden
+              className={cn(
+                "mb-4 grid size-10 place-items-center rounded-field bg-surface text-muted transition-colors duration-base",
+                TONE_ON_HOVER.violet,
+              )}
+            >
+              <Calculator className="size-5" />
+            </span>
             <span className="block text-body font-medium text-text">Estimate your rewards</span>
             <span className="mt-1.5 block font-serif text-small text-muted">
               Pick a pool and an amount to see projected earnings by month and year.
