@@ -125,11 +125,6 @@
   --chrome-minimize: #febc2e;
   --chrome-zoom: #28c840;
 
-  /* Phone mockup (iPhone 17 Pro Max, Deep Blue aluminium), decorative only */
-  --device-frame: #34425d;
-  --device-frame-light: #6a7a98;
-  --device-frame-dark: #1a2232;
-  --device-bezel: #050507;
 
   --ds-ease-brand: cubic-bezier(0.22, 1, 0.36, 1);
   --duration-fast: 160ms;
