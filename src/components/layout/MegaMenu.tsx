@@ -8,6 +8,7 @@ import { usePathname } from "next/navigation";
 import { featuredPools } from "@/data/pools";
 import { formatPercent, formatUnbondingShort } from "@/lib/format";
 import { cn } from "@/lib/cn";
+import { POOL_TONES } from "../dashboard/tones";
 import { NAV_SECTIONS, isSectionActive, type NavLink, type NavSection, type NavTone } from "./nav";
 
 const panelLink =
@@ -66,15 +67,23 @@ function StakingPanel({ section }: { section: NavSection }) {
             <li key={pool.id}>
               <Nav.Link asChild>
                 <Link href={`/staking/${pool.id}`} className={cn(panelLink, "flex items-center gap-3")}>
-                  {/* Network logo: greyed out at rest, in its own colours on hover */}
-                  <Image
-                    src={`/logos/networks/${pool.id}.svg`}
-                    alt=""
-                    width={36}
-                    height={36}
-                    unoptimized
-                    className="size-9 shrink-0 opacity-60 grayscale transition-[filter,opacity] duration-base group-hover/link:opacity-100 group-hover/link:grayscale-0 group-focus-visible/link:opacity-100 group-focus-visible/link:grayscale-0"
-                  />
+                  {/* Network logo in the same square chip as the other icons: grey at rest, its colours on hover */}
+                  <span
+                    aria-hidden
+                    className={cn(
+                      "grid size-9 shrink-0 place-items-center rounded-field bg-surface-2 transition-colors duration-base",
+                      TONE_ON_HOVER[POOL_TONES[pool.id] ?? "blue"],
+                    )}
+                  >
+                    <Image
+                      src={`/logos/networks/${pool.id}.svg`}
+                      alt=""
+                      width={20}
+                      height={20}
+                      unoptimized
+                      className="size-5 opacity-60 grayscale transition-[filter,opacity] duration-base group-hover/link:opacity-100 group-hover/link:grayscale-0 group-focus-visible/link:opacity-100 group-focus-visible/link:grayscale-0"
+                    />
+                  </span>
                   <span className="min-w-0 flex-1">
                     <span className="block text-small font-medium text-text">{pool.name}</span>
                     <span className="mt-0.5 block text-small text-muted">
