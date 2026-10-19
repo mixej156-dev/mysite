@@ -59,3 +59,6 @@
 - Reduced motion: FAQ jump-to-answer now respects `prefers-reduced-motion`.
 - Bundle: guide, doc and blog bodies were shipped to the browser through client components (LearnIndex, DocsNav, BlogIndex, LatestNews). Split `learn-meta.ts` / `posts-meta.ts`; server pages pass summaries. Verified: no article text left in `.next/static`.
 - Content: site meta description no longer claims "non-custodial" staking.
+
+# Screenshots retaken 2026-10-19
+- `docs/screenshots/` retaken after the mobile pass, the new home page (dashboard shot in a macOS window, metrics panel, network logos, illustrated steps, light Trust section), compact mobile Settings/Wallet and the styleguide additions: same 38 routes x 375/768/1440 = 114 JPEGs (~19 MB). 375 now uses mobile emulation (touch, isMobile). Script-checked: no horizontal scroll, one h1 per page.
