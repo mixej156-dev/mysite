@@ -13,6 +13,7 @@ import { useAuth } from "@/lib/auth";
 import { cn } from "@/lib/cn";
 import { formatPercent } from "@/lib/format";
 import { Logo } from "./Logo";
+import { MenuIcon, PoolMenuIcon } from "./MenuIcon";
 import { NAV_SECTIONS, isSectionActive, type NavLink } from "./nav";
 
 const iconButton =
@@ -79,13 +80,14 @@ export function MobileMenu() {
                     {NAV_SECTIONS.map((section) => {
                       const isOpen = expanded === section.id;
                       /* Only pool rows carry a figure (APY); other links are labels alone */
-                      const links: (NavLink & { figure?: string })[] =
+                      const links: (NavLink & { figure?: string; poolId?: string })[] =
                         section.id === "staking"
                           ? [
                               ...featuredPools.map((pool) => ({
                                 label: pool.name,
                                 href: `/staking/${pool.id}`,
                                 figure: `${formatPercent(pool.apy)} APY`,
+                                poolId: pool.id,
                               })),
                               ...section.links,
                             ]
@@ -111,7 +113,13 @@ export function MobileMenu() {
                               )}
                             />
                           </button>
-                          <ul id={`mobile-${section.id}`} hidden={!isOpen} className="flex flex-col pb-3">
+                          {/* Icons act out their meaning each time the section opens (no hover on touch screens) */}
+                          <ul
+                            id={`mobile-${section.id}`}
+                            hidden={!isOpen}
+                            data-menu-play
+                            className="flex flex-col pb-3"
+                          >
                             {links.map((link) => (
                               <li key={link.href}>
                                 <Link
@@ -119,11 +127,16 @@ export function MobileMenu() {
                                   onClick={close}
                                   aria-current={pathname === link.href ? "page" : undefined}
                                   className={cn(
-                                    "flex min-h-11 items-center justify-between gap-4 py-2.5 text-body text-muted hover:text-text aria-[current=page]:font-medium aria-[current=page]:text-text",
+                                    "group/link flex min-h-11 items-center gap-3 py-2 text-body text-muted hover:text-text aria-[current=page]:font-medium aria-[current=page]:text-text",
                                     pressable,
                                   )}
                                 >
-                                  {link.label}
+                                  {link.poolId ? (
+                                    <PoolMenuIcon poolId={link.poolId} />
+                                  ) : (
+                                    link.icon && <MenuIcon icon={link.icon} tone={link.tone ?? "blue"} />
+                                  )}
+                                  <span className="min-w-0 flex-1">{link.label}</span>
                                   {link.figure && <span className="font-mono text-small">{link.figure}</span>}
                                 </Link>
                               </li>

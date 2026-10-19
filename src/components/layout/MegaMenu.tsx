@@ -1,48 +1,17 @@
 "use client";
 
 import * as Nav from "@radix-ui/react-navigation-menu";
-import { Calculator, ChevronDown, type LucideIcon } from "lucide-react";
-import Image from "next/image";
+import { Calculator, ChevronDown } from "lucide-react";
 import { Link } from "@/components/Link";
 import { usePathname } from "next/navigation";
 import { featuredPools } from "@/data/pools";
 import { formatPercent, formatUnbondingShort } from "@/lib/format";
 import { cn } from "@/lib/cn";
-import { POOL_TONES } from "../dashboard/tones";
-import { NAV_SECTIONS, isSectionActive, type NavLink, type NavSection, type NavTone } from "./nav";
+import { MenuIcon, PoolMenuIcon } from "./MenuIcon";
+import { NAV_SECTIONS, isSectionActive, type NavLink, type NavSection } from "./nav";
 
 const panelLink =
   "group/link block rounded-field p-3 outline-offset-0 transition-colors duration-fast hover:bg-surface-2 focus-visible:bg-surface-2";
-
-/* Grey chip at rest; on hover or keyboard focus of the link it takes the link's hue */
-const TONE_ON_HOVER: Record<NavTone, string> = {
-  blue: "group-hover/link:tint-topic-blue group-hover/link:text-topic-blue group-focus-visible/link:tint-topic-blue group-focus-visible/link:text-topic-blue",
-  green:
-    "group-hover/link:tint-topic-green group-hover/link:text-topic-green group-focus-visible/link:tint-topic-green group-focus-visible/link:text-topic-green",
-  teal: "group-hover/link:tint-topic-teal group-hover/link:text-topic-teal group-focus-visible/link:tint-topic-teal group-focus-visible/link:text-topic-teal",
-  orange:
-    "group-hover/link:tint-topic-orange group-hover/link:text-topic-orange group-focus-visible/link:tint-topic-orange group-focus-visible/link:text-topic-orange",
-  amber:
-    "group-hover/link:tint-topic-amber group-hover/link:text-topic-amber group-focus-visible/link:tint-topic-amber group-focus-visible/link:text-topic-amber",
-  violet:
-    "group-hover/link:tint-topic-violet group-hover/link:text-topic-violet group-focus-visible/link:tint-topic-violet group-focus-visible/link:text-topic-violet",
-  rose: "group-hover/link:tint-topic-rose group-hover/link:text-topic-rose group-focus-visible/link:tint-topic-rose group-focus-visible/link:text-topic-rose",
-};
-
-function MenuIcon({ icon: Icon, tone }: { icon: LucideIcon; tone: NavTone }) {
-  return (
-    <span
-      aria-hidden
-      data-menu-icon
-      className={cn(
-        "grid size-9 shrink-0 place-items-center rounded-field bg-surface-2 text-muted transition-colors duration-base",
-        TONE_ON_HOVER[tone],
-      )}
-    >
-      <Icon className="size-[1.125rem]" />
-    </span>
-  );
-}
 
 function MenuLink({ link }: { link: NavLink }) {
   return (
@@ -68,24 +37,7 @@ function StakingPanel({ section }: { section: NavSection }) {
             <li key={pool.id}>
               <Nav.Link asChild>
                 <Link href={`/staking/${pool.id}`} className={cn(panelLink, "flex items-center gap-3")}>
-                  {/* Network logo in the same square chip as the other icons: grey at rest, its colours on hover */}
-                  <span
-                    aria-hidden
-                    data-menu-icon
-                    className={cn(
-                      "grid size-9 shrink-0 place-items-center rounded-field bg-surface-2 transition-colors duration-base",
-                      TONE_ON_HOVER[POOL_TONES[pool.id] ?? "blue"],
-                    )}
-                  >
-                    <Image
-                      src={`/logos/networks/${pool.id}.svg`}
-                      alt=""
-                      width={20}
-                      height={20}
-                      unoptimized
-                      className="size-5 opacity-60 grayscale transition-[filter,opacity] duration-base group-hover/link:opacity-100 group-hover/link:grayscale-0 group-focus-visible/link:opacity-100 group-focus-visible/link:grayscale-0"
-                    />
-                  </span>
+                  <PoolMenuIcon poolId={pool.id} />
                   <span className="min-w-0 flex-1">
                     <span className="block text-small font-medium text-text">{pool.name}</span>
                     <span className="mt-0.5 block text-small text-muted">
@@ -110,16 +62,7 @@ function StakingPanel({ section }: { section: NavSection }) {
           className="group/link flex flex-col justify-between gap-6 rounded-field bg-surface-2 p-5 transition-colors duration-fast hover:bg-rule"
         >
           <span>
-            <span
-              aria-hidden
-              data-menu-icon
-              className={cn(
-                "mb-4 grid size-10 place-items-center rounded-field bg-surface text-muted transition-colors duration-base",
-                TONE_ON_HOVER.violet,
-              )}
-            >
-              <Calculator className="size-5" />
-            </span>
+            <MenuIcon icon={Calculator} tone="violet" className="mb-4 size-10 bg-surface" />
             <span className="block text-body font-medium text-text">Estimate your rewards</span>
             <span className="mt-1.5 block font-serif text-small text-muted">
               Pick a pool and an amount to see projected earnings by month and year.

@@ -374,13 +374,14 @@
   }
 }
 
-/* Mega-menu icons: each one acts out its meaning once when its link is hovered or focused (MegaMenu.tsx).
+/* Menu icons: each one acts out its meaning once when its link is hovered or focused (MenuIcon.tsx).
    Parts are addressed by Lucide's class names and child order; 500–700 ms, brand easing. */
 :where([data-menu-icon]) svg * {
   transform-box: fill-box;
   transform-origin: center;
 }
-.group\/link:is(:hover, :focus-visible) [data-menu-icon] {
+/* Plays on hover or focus (mega-menu), and when a mobile menu section opens ([data-menu-play] goes from hidden to shown) */
+:is(.group\/link:is(:hover, :focus-visible), [data-menu-play]) [data-menu-icon] {
   /* Layers: the sheets lift one after another */
   & .lucide-layers > :nth-child(1) {
     animation: icon-lift 600ms var(--ds-ease-brand);
@@ -391,10 +392,10 @@
   & .lucide-layers > :nth-child(3) {
     animation: icon-lift 600ms var(--ds-ease-brand) 140ms;
   }
-  /* Activity: the pulse line is traced again */
+  /* Activity: the pulse line is traced again, slowly like a monitor sweep */
   & .lucide-activity > * {
     stroke-dasharray: 64;
-    animation: icon-draw-64 700ms var(--ds-ease-brand);
+    animation: icon-draw-64 1600ms ease-in-out;
   }
   /* Receipt: the dollar sign flips like a coin */
   & .lucide-receipt > :nth-child(-n + 2) {
