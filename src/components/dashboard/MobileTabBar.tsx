@@ -1,7 +1,9 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { Link } from "@/components/Link";
+import { transition } from "@/design-system/motion";
 import { cn } from "@/lib/cn";
 import { MOBILE_TABS, isNavActive } from "./nav";
 
@@ -15,6 +17,7 @@ export function MobileTabBar() {
   return (
     <nav
       aria-label="Dashboard shortcuts"
+      data-enter-scope="tabs"
       className="fixed inset-x-0 bottom-0 z-sticky border-t border-rule bg-bg/95 pb-[env(safe-area-inset-bottom)] backdrop-blur-md lg:hidden"
     >
       <ul className="mx-auto grid h-16 max-w-xl grid-cols-5 px-2">
@@ -26,14 +29,23 @@ export function MobileTabBar() {
                 href={href}
                 aria-current={active ? "page" : undefined}
                 className={cn(
-                  "my-1.5 flex flex-1 flex-col items-center justify-center gap-1 rounded-field text-caption font-medium",
+                  "relative my-1.5 flex flex-1 flex-col items-center justify-center gap-1 rounded-field text-caption font-medium",
                   "transition-colors duration-fast [-webkit-tap-highlight-color:transparent]",
                   "active:bg-accent active:text-on-accent",
                   active ? "text-accent-text" : "text-muted",
                 )}
               >
-                <Icon aria-hidden className="size-5" />
-                {label}
+                {/* Tinted pill behind the active tab, gliding between tabs */}
+                {active && (
+                  <motion.span
+                    layoutId="tab-active"
+                    transition={transition.base}
+                    aria-hidden
+                    className="absolute inset-x-1 inset-y-0 rounded-field tint-accent"
+                  />
+                )}
+                <Icon aria-hidden className="relative size-5" />
+                <span className="relative">{label}</span>
               </Link>
             </li>
           );

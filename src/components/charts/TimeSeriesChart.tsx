@@ -1,5 +1,6 @@
 "use client";
 
+import { useReducedMotion } from "framer-motion";
 import { useEffect, useId, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import {
   Area,
@@ -36,6 +37,8 @@ export type TimeSeriesChartProps = {
   defaultPeriod?: number;
   /** Small print under the chart, e.g. "Demo data" */
   note?: string;
+  /** Dashboard look: lines draw in on mount and on period change, areas fade into a gradient */
+  animate?: boolean;
   className?: string;
 };
 
@@ -124,8 +127,11 @@ export function TimeSeriesChart({
   periods = [30, 90, 365],
   defaultPeriod = 90,
   note,
+  animate = false,
   className,
 }: TimeSeriesChartProps) {
+  const reduceMotion = useReducedMotion();
+  const drawIn = animate && !reduceMotion;
   const narrow = useNarrowScreen();
   const [chosenPeriod, setPeriod] = useState<number | null>(null);
   /* Long windows turn into noise at phone width, so phones start with the shortest one */
@@ -133,6 +139,7 @@ export function TimeSeriesChart({
   const period = periods.length === 0 ? Infinity : (chosenPeriod ?? (narrow ? periods[0] : defaultPeriod));
   const [view, setView] = useState<"chart" | "table">("chart");
   const titleId = useId();
+  const gradientId = `fill${titleId.replace(/[^a-zA-Z0-9]/g, "")}`;
   const { ref: plotRef, hasSize } = useHasSize<HTMLDivElement>();
   const formatValue = FORMATTERS[valueFormat];
   const formatX = X_FORMATTERS[xFormat];
@@ -179,6 +186,7 @@ export function TimeSeriesChart({
   return (
     <figure
       aria-labelledby={titleId}
+      data-enter
       className={cn("rounded-card border border-rule bg-surface p-4 sm:p-5 md:p-6", className)}
     >
       <div className="flex flex-wrap items-start justify-between gap-3 sm:gap-4">
@@ -234,6 +242,16 @@ export function TimeSeriesChart({
                 data={rows}
                 margin={{ top: 8, right: endLabel ? endLabelRoom : 12, bottom: 0, left: 0 }}
               >
+                {animate && (
+                  <defs>
+                    {series.map((s) => (
+                      <linearGradient key={s.id} id={`${gradientId}-${s.id}`} x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor={s.color} stopOpacity={single ? 0.28 : 0.12} />
+                        <stop offset="100%" stopColor={s.color} stopOpacity={0} />
+                      </linearGradient>
+                    ))}
+                  </defs>
+                )}
                 <CartesianGrid vertical={false} stroke="var(--rule)" />
                 <XAxis
                   dataKey="date"
@@ -268,11 +286,14 @@ export function TimeSeriesChart({
                     name={s.label}
                     stroke={s.color}
                     strokeWidth={2}
-                    fill={s.color}
-                    fillOpacity={single ? 0.1 : 0.04}
+                    fill={animate ? `url(#${gradientId}-${s.id})` : s.color}
+                    fillOpacity={animate ? 1 : single ? 0.1 : 0.04}
                     dot={false}
                     activeDot={{ r: 4, fill: s.color, stroke: "var(--surface)", strokeWidth: 2 }}
-                    isAnimationActive={false}
+                    isAnimationActive={drawIn}
+                    animationBegin={150}
+                    animationDuration={900}
+                    animationEasing="ease-out"
                     label={
                       endLabel
                         ? ({ x, y, index }: { x?: number | string; y?: number | string; index?: number }) =>

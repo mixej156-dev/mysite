@@ -14,12 +14,20 @@ import {
   type NotificationCategory,
 } from "@/lib/notifications";
 import { usePortfolio } from "@/lib/portfolio";
+import { TONE_CHIP, type Tone } from "./tones";
 
 export const CATEGORY_ICONS: Record<NotificationCategory, LucideIcon> = {
   rewards: Coins,
   activity: ArrowLeftRight,
   security: ShieldCheck,
   network: Activity,
+};
+
+const CATEGORY_TONES: Record<NotificationCategory, Tone> = {
+  rewards: "amber",
+  activity: "blue",
+  security: "rose",
+  network: "teal",
 };
 
 /** Notifications for the signed-in account with read state. Must render inside PortfolioProvider. */
@@ -52,7 +60,9 @@ export function NotificationRow({
         className={cn(
           "grid shrink-0 place-items-center rounded-pill",
           compact ? "size-8" : "size-10",
-          item.category === "security" && unread ? "tint-warning text-warning" : "bg-surface-2 text-muted",
+          item.category === "security" && unread
+            ? "tint-warning text-warning"
+            : TONE_CHIP[CATEGORY_TONES[item.category]],
         )}
       >
         <Icon className="size-4" />

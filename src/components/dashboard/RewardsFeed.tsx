@@ -1,6 +1,7 @@
 import type { RewardEntry } from "@/lib/portfolio";
 import { getPool } from "@/data/pools";
 import { formatDate } from "@/lib/format";
+import { AssetIcon } from "./AssetIcon";
 import { tokenAmount } from "./txMeta";
 
 /** Latest daily payouts grouped by day. */
@@ -25,8 +26,11 @@ export function RewardsFeed({ entries, days = 4 }: { entries: RewardEntry[]; day
           </p>
           <ul className="mt-2 flex flex-col gap-1.5">
             {list.map((e) => (
-              <li key={e.positionId} className="flex items-baseline justify-between gap-4 text-small">
-                <span>{getPool(e.poolId)?.name}</span>
+              <li key={e.positionId} className="flex items-center justify-between gap-4 text-small">
+                <span className="flex min-w-0 items-center gap-2">
+                  <AssetIcon poolId={e.poolId} className="size-4" />
+                  <span className="truncate">{getPool(e.poolId)?.name}</span>
+                </span>
                 <span className="font-mono text-success">+{tokenAmount(e.amount, e.ticker)}</span>
               </li>
             ))}

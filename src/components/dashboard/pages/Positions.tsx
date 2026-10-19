@@ -68,7 +68,7 @@ export function Positions() {
         }
       />
 
-      <div role="group" aria-label="Status" className="mb-6 flex flex-wrap gap-2">
+      <div role="group" aria-label="Status" data-enter className="mb-6 flex flex-wrap gap-2">
         {(["all", "active", "unbonding"] as const).map((f) => (
           <Tag key={f} selected={filter === f} onClick={() => setFilter(f)} count={counts[f]}>
             {f === "all" ? "All" : f === "active" ? "Earning" : "Unbonding"}
@@ -76,7 +76,7 @@ export function Positions() {
         ))}
       </div>
 
-      <div className="md:rounded-card md:border md:border-rule md:bg-surface md:p-6">
+      <div data-enter className="md:rounded-card md:border md:border-rule md:bg-surface md:p-6">
         {visible.length === 0 ? (
           <EmptyState
             icon={Layers}
@@ -108,7 +108,9 @@ export function Positions() {
         open={Boolean(selected)}
         onOpenChange={(o) => !o && close()}
         title={pool ? `${pool.name} position` : "Position"}
-        description={confirming ? "Check the unbonding period before you confirm." : "Position details and unstake options."}
+        description={
+          confirming ? "Check the unbonding period before you confirm." : "Position details and unstake options."
+        }
         footer={
           selected && pool ? (
             confirming ? (

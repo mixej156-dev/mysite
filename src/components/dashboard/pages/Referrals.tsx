@@ -1,6 +1,6 @@
 "use client";
 
-import { Copy, UserPlus } from "lucide-react";
+import { Coins, Copy, Footprints, Layers, UserPlus, Users } from "lucide-react";
 import { Badge, Button, TBody, TD, TH, THead, TR, Table, useToast } from "@/design-system";
 import { REFERRALS, type Referral, REFERRAL_MONTHS, REFERRAL_SHARE_PERCENT } from "@/data/referrals";
 import { useAuth } from "@/lib/auth";
@@ -9,6 +9,9 @@ import { EmptyState } from "../../blocks/EmptyState";
 import { StepsFlow } from "../../blocks/StepsFlow";
 import { PageTitle } from "../PageTitle";
 import { Panel } from "../Panel";
+import { StatStrip } from "../StatStrip";
+
+const count = (v: number) => String(Math.round(v));
 
 /** Stable 4-character suffix from the email, so the code doesn't change between visits */
 function statusBadge(status: Referral["status"]) {
@@ -53,7 +56,11 @@ export function Referrals() {
       />
 
       <div className="flex flex-col gap-6">
-        <section aria-labelledby="ref-link-title" className="rounded-card border border-rule bg-surface p-5 md:p-6">
+        <section
+          aria-labelledby="ref-link-title"
+          data-enter
+          className="rounded-card border border-rule bg-surface p-5 md:p-6"
+        >
           <h2 id="ref-link-title" className="text-body font-medium">
             Your invite
           </h2>
@@ -78,23 +85,20 @@ export function Referrals() {
               </div>
             ))}
           </div>
-          <p className="mt-4 text-caption text-muted">Programme terms can change. Rewards are paid in the referred pool’s asset.</p>
+          <p className="mt-4 text-caption text-muted">
+            Programme terms can change. Rewards are paid in the referred pool’s asset.
+          </p>
         </section>
 
-        <dl className="grid overflow-hidden rounded-card border border-rule bg-surface sm:grid-cols-3">
-          {[
-            { label: "Invited", value: String(REFERRALS.length) },
-            { label: "Staking now", value: String(active) },
-            { label: "Earned so far", value: formatCurrency(earned) },
-          ].map((s, i) => (
-            <div key={s.label} className={i > 0 ? "border-t border-rule p-5 sm:border-t-0 sm:border-l" : "p-5"}>
-              <dt className="text-small text-muted">{s.label}</dt>
-              <dd className="mt-1 font-mono text-h3">{s.value}</dd>
-            </div>
-          ))}
-        </dl>
+        <StatStrip
+          stats={[
+            { label: "Invited", value: REFERRALS.length, format: count, icon: Users, tone: "violet" },
+            { label: "Staking now", value: active, format: count, icon: Layers, tone: "blue" },
+            { label: "Earned so far", value: earned, format: formatCurrency, icon: Coins, tone: "amber" },
+          ]}
+        />
 
-        <Panel title="How it works">
+        <Panel title="How it works" icon={Footprints} tone="teal">
           <StepsFlow
             steps={[
               { title: "Share", body: "Send your link or code to someone you know." },
@@ -107,7 +111,7 @@ export function Referrals() {
           />
         </Panel>
 
-        <Panel title="People you’ve invited">
+        <Panel title="People you’ve invited" icon={UserPlus} tone="violet">
           {REFERRALS.length === 0 ? (
             <EmptyState
               icon={UserPlus}

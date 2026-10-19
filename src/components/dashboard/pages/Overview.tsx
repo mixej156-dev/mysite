@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowDownLeft, ArrowUpRight, Layers, Plus } from "lucide-react";
+import { ArrowDownLeft, ArrowLeftRight, ArrowUpRight, Coins, Layers, Plus } from "lucide-react";
 import { useMemo } from "react";
 import { Link } from "@/components/Link";
 import { buttonClasses } from "@/design-system";
@@ -47,9 +47,15 @@ export function Overview() {
           change={total - monthAgo}
           periodLabel="past 30 days"
           breakdown={[
-            { label: "Staked", value: staked, note: `${state.positions.length} positions` },
-            { label: "In wallet", value: wallet, note: "Available to stake or withdraw" },
-            { label: "30-day rewards", value: rewardsUsd(rewards, 30), note: "Paid out daily" },
+            {
+              label: "Staked",
+              value: staked,
+              note: `${state.positions.length} positions`,
+              tone: "blue",
+              inTotal: true,
+            },
+            { label: "In wallet", value: wallet, note: "Available to stake or withdraw", tone: "teal", inTotal: true },
+            { label: "30-day rewards", value: rewardsUsd(rewards, 30), note: "Paid out daily", tone: "amber" },
           ]}
           actions={
             <>
@@ -81,10 +87,13 @@ export function Overview() {
             series={[{ id: "value", label: "Balance", color: "var(--series-1)", points: history }]}
             valueFormat="usd"
             note="Positions and today’s wallet balances at reference prices."
+            animate
             className="xl:col-span-2"
           />
           <Panel
             title="Latest rewards"
+            icon={Coins}
+            tone="amber"
             action={
               <Link href="/dashboard/rewards" className={viewAll}>
                 All rewards
@@ -101,6 +110,7 @@ export function Overview() {
         <div className="grid gap-6 xl:grid-cols-3 short:gap-5">
           <Panel
             title="Positions"
+            icon={Layers}
             className="xl:col-span-2"
             action={
               <Link href="/dashboard/positions" className={viewAll}>
@@ -125,6 +135,8 @@ export function Overview() {
           </Panel>
           <Panel
             title="Recent activity"
+            icon={ArrowLeftRight}
+            tone="violet"
             action={
               <Link href="/dashboard/transactions" className={viewAll}>
                 All activity

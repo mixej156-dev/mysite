@@ -57,7 +57,7 @@ export function Notifications() {
         }
       />
 
-      <div role="group" aria-label="Filter notifications" className="mb-8 flex flex-wrap gap-2">
+      <div role="group" aria-label="Filter notifications" data-enter className="mb-8 flex flex-wrap gap-2">
         {filters.map((f) => (
           <Tag key={f.id} selected={filter === f.id} onClick={() => setFilter(f.id)} count={f.count}>
             {f.label}
@@ -81,7 +81,7 @@ export function Notifications() {
       ) : (
         <div className="flex flex-col gap-8">
           {groups.map((g) => (
-            <section key={g.label} aria-labelledby={`notif-${g.label}`}>
+            <section key={g.label} aria-labelledby={`notif-${g.label}`} data-enter>
               <h2 id={`notif-${g.label}`} className="mb-3 text-caption font-medium text-muted">
                 {g.label}
               </h2>

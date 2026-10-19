@@ -1,17 +1,9 @@
-import { ArrowDownLeft, ArrowUpRight, Coins, Layers, LogOut } from "lucide-react";
-import type { Tx, TxType } from "@/data/portfolio";
+import type { Tx } from "@/data/portfolio";
 import { Badge } from "@/design-system";
 import { cn } from "@/lib/cn";
 import { formatDate } from "@/lib/format";
-import { TX_LABELS, amountTone, signedAmount } from "./txMeta";
-
-const ICONS: Record<TxType, typeof Coins> = {
-  deposit: ArrowDownLeft,
-  withdraw: ArrowUpRight,
-  stake: Layers,
-  unstake: LogOut,
-  reward: Coins,
-};
+import { IconChip } from "./tones";
+import { TX_ICONS, TX_LABELS, TX_TONES, amountTone, signedAmount } from "./txMeta";
 
 /** Compact list of account activity: icon, what happened, when, amount. */
 export function ActivityList({ items, empty = "No activity yet." }: { items: Tx[]; empty?: string }) {
@@ -19,12 +11,9 @@ export function ActivityList({ items, empty = "No activity yet." }: { items: Tx[
   return (
     <ul className="flex flex-col">
       {items.map((tx) => {
-        const Icon = ICONS[tx.type];
         return (
           <li key={tx.id} className="flex items-center gap-3 border-b border-rule py-3 last:border-0">
-            <span aria-hidden className="grid size-9 shrink-0 place-items-center rounded-pill bg-surface-2 text-muted">
-              <Icon className="size-4" />
-            </span>
+            <IconChip icon={TX_ICONS[tx.type]} tone={TX_TONES[tx.type]} />
             <div className="min-w-0 flex-1">
               <p className="truncate text-small font-medium">
                 {TX_LABELS[tx.type]} {tx.ticker}

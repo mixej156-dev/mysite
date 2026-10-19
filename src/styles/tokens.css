@@ -3,14 +3,12 @@
  * Raw values live only in this file. Components use the Tailwind utilities
  * mapped in globals.css (@theme inline), never hex values.
  *
- * Themes: data-theme="dark" | "light" on <html>.
- * Inverse sections: data-tone="inverse" on any container flips to the opposite palette.
- * Inverse resolves against the page theme on <html>; a nested data-theme panel
- * should set its own data-theme instead of using data-tone.
+ * Themes: data-theme="light" on <html> for the site; the dashboard can switch <html> to "dark".
+ * Inverse sections: data-tone="inverse" on a container in a light page turns it navy.
+ * Dark is the dashboard's own near-black palette, separate from the navy inverse sections.
  */
 
 :root,
-[data-theme="dark"],
 [data-theme="light"] [data-tone="inverse"] {
   color-scheme: dark;
   --bg: #0b1424;
@@ -42,6 +40,39 @@
   --topic-rose: #ec6f86;
   --ds-shadow-float: 0 1px 0 rgb(255 255 255 / 0.04) inset, 0 12px 32px -12px rgb(0 0 0 / 0.6);
   --ds-shadow-overlay: 0 1px 0 rgb(255 255 255 / 0.05) inset, 0 32px 64px -24px rgb(0 0 0 / 0.75);
+}
+
+/* Dashboard dark theme: near-black neutrals with no blue cast; brand accent unchanged */
+[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #09090b;
+  --surface: #111113;
+  --surface-2: #1a1a1d;
+  --rule: #26262a;
+  --rule-strong: #38383e;
+  --text: #f2f2f4;
+  --muted: #8f9099;
+  --accent: #335cf0;
+  --accent-hover: #4a6ef5;
+  --accent-text: #8ea8ff;
+  --on-accent: #ffffff;
+  --success: #3fc28e;
+  --warning: #e0a93a;
+  --danger: #f07070;
+  --scrim: rgb(0 0 0 / 0.72);
+  /* Chart series (validated, all-pairs, near-black surface) */
+  --series-1: #4a6ef5;
+  --series-2: #d95926;
+  --series-3: #199e70;
+  --topic-blue: #5b7cfa;
+  --topic-green: #3fc28e;
+  --topic-teal: #3ab7c9;
+  --topic-orange: #f07a45;
+  --topic-amber: #e8b43f;
+  --topic-violet: #9a7cf5;
+  --topic-rose: #ec6f86;
+  --ds-shadow-float: 0 1px 0 rgb(255 255 255 / 0.04) inset, 0 12px 32px -12px rgb(0 0 0 / 0.8);
+  --ds-shadow-overlay: 0 1px 0 rgb(255 255 255 / 0.06) inset, 0 32px 64px -24px rgb(0 0 0 / 0.9);
 }
 
 [data-theme="light"],

@@ -1,10 +1,11 @@
 "use client";
 
-import { Coins, Download } from "lucide-react";
+import { CalendarDays, Coins, Download, History, Layers, PieChart, type LucideIcon } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Link } from "@/components/Link";
 import { Button, Pagination, Select, TBody, TD, TH, THead, TR, Table, buttonClasses } from "@/design-system";
 import { getPool } from "@/data/pools";
+import { cn } from "@/lib/cn";
 import { downloadCsv } from "@/lib/csv";
 import { formatCurrency, formatDate, formatDateShort } from "@/lib/format";
 import { priceOf, usePortfolio } from "@/lib/portfolio";
@@ -12,8 +13,12 @@ import { rewardsUsd } from "@/lib/portfolioStats";
 import { DEMO_TODAY, addDays } from "@/lib/series";
 import { EmptyState } from "../../blocks/EmptyState";
 import { TimeSeriesChart } from "../../charts/TimeSeriesChart";
+import { AnimatedNumber } from "../AnimatedNumber";
+import { AssetIcon } from "../AssetIcon";
 import { PageTitle } from "../PageTitle";
 import { Panel } from "../Panel";
+import { StatStrip } from "../StatStrip";
+import { TONE_FILL, poolTone, type Tone } from "../tones";
 import { tokenAmount } from "../txMeta";
 
 const PAGE_SIZE = 10;
@@ -88,10 +93,16 @@ export function Rewards() {
     );
   }
 
-  const stats = [
-    { label: "Last 30 days", value: formatCurrency(rewardsUsd(rewards, 30)) },
-    { label: "Last 12 months", value: formatCurrency(totalUsd) },
-    { label: "Earning positions", value: String(state.positions.filter((p) => p.status === "active").length) },
+  const stats: { label: string; value: number; format: (v: number) => string; icon: LucideIcon; tone: Tone }[] = [
+    { label: "Last 30 days", value: rewardsUsd(rewards, 30), format: formatCurrency, icon: Coins, tone: "amber" },
+    { label: "Last 12 months", value: totalUsd, format: formatCurrency, icon: CalendarDays, tone: "green" },
+    {
+      label: "Earning positions",
+      value: state.positions.filter((p) => p.status === "active").length,
+      format: (v) => String(Math.round(v)),
+      icon: Layers,
+      tone: "blue",
+    },
   ];
 
   return (
@@ -107,14 +118,7 @@ export function Rewards() {
       />
 
       <div className="flex flex-col gap-6">
-        <dl className="grid overflow-hidden rounded-card border border-rule bg-surface sm:grid-cols-3">
-          {stats.map((s, i) => (
-            <div key={s.label} className={i > 0 ? "border-t border-rule p-5 sm:border-t-0 sm:border-l" : "p-5"}>
-              <dt className="text-small text-muted">{s.label}</dt>
-              <dd className="mt-1 font-mono text-h3">{s.value}</dd>
-            </div>
-          ))}
-        </dl>
+        <StatStrip stats={stats} />
 
         <div className="grid gap-6 xl:grid-cols-3">
           <TimeSeriesChart
@@ -123,18 +127,27 @@ export function Rewards() {
             valueFormat="usd"
             defaultPeriod={90}
             note="Sum of all positions per day at reference prices."
+            animate
             className="xl:col-span-2"
           />
-          <Panel title="By pool, last 12 months">
+          <Panel title="By pool, last 12 months" icon={PieChart} tone="teal">
             <ul className="flex flex-col gap-4">
               {byPool.map(({ pool, amount, usd }) => (
                 <li key={pool.id}>
-                  <div className="flex items-baseline justify-between gap-4 text-small">
-                    <span className="font-medium">{pool.name}</span>
-                    <span className="font-mono">{formatCurrency(usd)}</span>
+                  <div className="flex items-center justify-between gap-4 text-small">
+                    <span className="flex min-w-0 items-center gap-2 font-medium">
+                      <AssetIcon poolId={pool.id} />
+                      <span className="truncate">{pool.name}</span>
+                    </span>
+                    <span className="font-mono">
+                      <AnimatedNumber value={usd} format={formatCurrency} />
+                    </span>
                   </div>
-                  <div className="mt-1.5 h-1.5 overflow-hidden rounded-pill bg-surface-2">
-                    <div className="h-full rounded-pill bg-series-3" style={{ width: `${(usd / totalUsd) * 100}%` }} />
+                  <div className="mt-2 h-1.5 overflow-hidden rounded-pill bg-surface-2">
+                    <div
+                      className={cn("h-full origin-left animate-grow-x rounded-pill", TONE_FILL[poolTone(pool.id)])}
+                      style={{ width: `${(usd / totalUsd) * 100}%` }}
+                    />
                   </div>
                   <p className="mt-1 font-mono text-caption text-muted">+{tokenAmount(amount, pool.ticker)}</p>
                 </li>
@@ -145,6 +158,8 @@ export function Rewards() {
 
         <Panel
           title="History"
+          icon={History}
+          tone="violet"
           action={
             <Select
               label="Pool"
@@ -179,7 +194,12 @@ export function Rewards() {
                     <span className="sm:hidden">{formatDateShort(r.date)}</span>
                     <span className="max-sm:hidden">{formatDate(r.date)}</span>
                   </TD>
-                  <TD>{getPool(r.poolId)?.name}</TD>
+                  <TD>
+                    <span className="flex items-center gap-2">
+                      <AssetIcon poolId={r.poolId} className="size-4" />
+                      {getPool(r.poolId)?.name}
+                    </span>
+                  </TD>
                   <TD numeric className="text-success">
                     +{tokenAmount(r.amount, r.ticker)}
                   </TD>

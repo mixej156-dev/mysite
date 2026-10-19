@@ -25,7 +25,8 @@ import { PORTFOLIO_TICKERS, shortHash, usePortfolio } from "@/lib/portfolio";
 import { DEMO_TODAY } from "@/lib/series";
 import { EmptyState } from "../../blocks/EmptyState";
 import { PageTitle } from "../PageTitle";
-import { TX_LABELS, amountTone, signedAmount } from "../txMeta";
+import { IconChip } from "../tones";
+import { TX_ICONS, TX_LABELS, TX_TONES, amountTone, signedAmount } from "../txMeta";
 
 const PAGE_SIZE = 10;
 const TYPES: (TxType | "all")[] = ["all", "deposit", "withdraw", "stake", "unstake", "reward"];
@@ -112,7 +113,7 @@ export function Transactions() {
         }
       />
 
-      <div className="mb-6 flex flex-col gap-4">
+      <div data-enter className="mb-6 flex flex-col gap-4">
         <div role="group" aria-label="Type" className="flex flex-wrap gap-2">
           {TYPES.map((t) => (
             <Tag
@@ -171,7 +172,7 @@ export function Transactions() {
           }
         />
       ) : (
-        <div className="rounded-card border border-rule bg-surface p-5 md:p-6">
+        <div data-enter className="rounded-card border border-rule bg-surface p-5 md:p-6">
           <Table label="Transactions">
             <THead>
               <tr>
@@ -188,7 +189,12 @@ export function Transactions() {
                   <TD className="text-muted">
                     <time dateTime={t.date}>{formatDate(t.date.slice(0, 10))}</time>
                   </TD>
-                  <TD>{TX_LABELS[t.type]}</TD>
+                  <TD>
+                    <span className="flex items-center gap-2.5">
+                      <IconChip icon={TX_ICONS[t.type]} tone={TX_TONES[t.type]} size="sm" className="max-sm:hidden" />
+                      {TX_LABELS[t.type]}
+                    </span>
+                  </TD>
                   <TD numeric className={cn(amountTone(t))}>
                     {signedAmount(t)}
                     {t.status === "pending" && (
@@ -224,9 +230,7 @@ export function Transactions() {
             </TBody>
           </Table>
           <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
-            <p className="text-caption text-muted">
-              {filtered.length.toLocaleString("en-US")} transactions.
-            </p>
+            <p className="text-caption text-muted">{filtered.length.toLocaleString("en-US")} transactions.</p>
             <Pagination page={current} pageCount={pageCount} onPageChange={setPage} />
           </div>
         </div>

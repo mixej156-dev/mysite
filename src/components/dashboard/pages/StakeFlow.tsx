@@ -11,8 +11,21 @@ import { formatCurrency, formatDate, formatPercent, formatUnbonding } from "@/li
 import { useFocusFirstError } from "@/lib/forms";
 import { priceOf, usePortfolio } from "@/lib/portfolio";
 import { DEMO_TODAY, addDays } from "@/lib/series";
+import { AssetIcon } from "../AssetIcon";
 import { PageTitle } from "../PageTitle";
 import { tokenAmount } from "../txMeta";
+
+/** Numbered card heading; the number sits in a brand-tinted circle */
+function StepHeading({ n, children }: { n: number; children: string }) {
+  return (
+    <p aria-hidden className="mb-4 flex items-center gap-2.5 text-body font-medium">
+      <span className="grid size-7 place-items-center rounded-pill tint-accent font-mono text-small text-accent-text">
+        {n}
+      </span>
+      {children}
+    </p>
+  );
+}
 
 export function StakeFlow() {
   const params = useSearchParams();
@@ -85,6 +98,7 @@ export function StakeFlow() {
         <PageTitle title="Stake" />
         <div
           role="status"
+          data-enter
           className="flex max-w-xl flex-col items-start gap-5 rounded-card border border-rule bg-surface p-6 md:p-8"
         >
           <CircleCheck aria-hidden className="size-8 text-success" />
@@ -120,11 +134,9 @@ export function StakeFlow() {
         className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_22rem]"
       >
         <div className="flex min-w-0 flex-col gap-6">
-          <fieldset className="rounded-card border border-rule bg-surface p-5 md:p-6">
+          <fieldset data-enter className="rounded-card border border-rule bg-surface p-5 md:p-6">
             <legend className="sr-only">Pool</legend>
-            <p aria-hidden className="mb-4 text-body font-medium">
-              1. Pool
-            </p>
+            <StepHeading n={1}>Pool</StepHeading>
             <div className="grid grid-cols-2 gap-3 lg:grid-cols-3">
               {pools.map((p) => {
                 const selected = p.id === poolId;
@@ -146,10 +158,13 @@ export function StakeFlow() {
                       className="sr-only"
                     />
                     <span className="flex items-start justify-between gap-2">
-                      <span>
-                        <span className="block text-small font-medium">{p.name}</span>
-                        <span className="block text-caption text-muted">
-                          {tokenAmount(state.wallet[p.ticker] ?? 0, p.ticker)} available
+                      <span className="flex min-w-0 items-start gap-2.5 max-sm:flex-col max-sm:gap-2">
+                        <AssetIcon poolId={p.id} className="mt-0.5 size-6" />
+                        <span className="min-w-0">
+                          <span className="block text-small font-medium">{p.name}</span>
+                          <span className="block text-caption text-muted">
+                            {tokenAmount(state.wallet[p.ticker] ?? 0, p.ticker)} available
+                          </span>
                         </span>
                       </span>
                       <span
@@ -172,10 +187,8 @@ export function StakeFlow() {
             </div>
           </fieldset>
 
-          <div className="rounded-card border border-rule bg-surface p-5 md:p-6">
-            <p aria-hidden className="mb-4 text-body font-medium">
-              2. Amount
-            </p>
+          <div data-enter className="rounded-card border border-rule bg-surface p-5 md:p-6">
+            <StepHeading n={2}>Amount</StepHeading>
             {balance === 0 ? (
               <div className="flex flex-col items-start gap-3 rounded-field bg-surface-2 p-4 text-small">
                 <p className="flex items-start gap-2">
@@ -227,7 +240,11 @@ export function StakeFlow() {
           </div>
         </div>
 
-        <aside aria-label="Stake summary" className="flex flex-col gap-5 self-start rounded-card border border-rule bg-surface p-5 md:p-6 xl:sticky xl:top-24">
+        <aside
+          aria-label="Stake summary"
+          data-enter
+          className="flex flex-col gap-5 self-start rounded-card border border-rule bg-surface p-5 md:p-6 xl:sticky xl:top-24"
+        >
           <p className="text-body font-medium">Summary</p>
           <dl className="flex flex-col gap-3 text-small">
             {[

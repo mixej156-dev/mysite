@@ -14,6 +14,7 @@ export type EmptyStateProps = {
 export function EmptyState({ icon: Icon, title, body, action, className }: EmptyStateProps) {
   return (
     <div
+      data-enter
       className={cn(
         "flex flex-col items-center gap-3 rounded-card border border-dashed border-rule-strong px-6 py-12 sm:py-16 text-center",
         className,

@@ -32,6 +32,14 @@
   --color-series-1: var(--series-1);
   --color-series-2: var(--series-2);
   --color-series-3: var(--series-3);
+  /* Decorative palette: cover art, and in the dashboard icon chips and asset markers (never text or UI state) */
+  --color-topic-blue: var(--topic-blue);
+  --color-topic-green: var(--topic-green);
+  --color-topic-teal: var(--topic-teal);
+  --color-topic-orange: var(--topic-orange);
+  --color-topic-amber: var(--topic-amber);
+  --color-topic-violet: var(--topic-violet);
+  --color-topic-rose: var(--topic-rose);
 
   --font-*: initial;
   --font-display: var(--ds-font-display);
@@ -83,6 +91,7 @@
   --animate-accordion-down: accordion-down var(--duration-base) var(--ds-ease-brand);
   --animate-accordion-up: accordion-up var(--duration-base) var(--ds-ease-brand);
   --animate-marquee: marquee 144s linear infinite;
+  --animate-grow-x: grow-x 900ms var(--ds-ease-brand) 200ms backwards;
 
   @keyframes pop-in {
     from {
@@ -93,6 +102,11 @@
   @keyframes marquee {
     to {
       transform: translateX(-100%);
+    }
+  }
+  @keyframes grow-x {
+    from {
+      scale: 0 1;
     }
   }
   @keyframes fade-in {
@@ -311,6 +325,32 @@
   ::view-transition-group(*),
   ::view-transition-old(*),
   ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
+/* Dashboard entrance: on first load and on each section, panels rise in and list rows follow in order.
+   useEnterSequence (components/dashboard) numbers the items per [data-enter-scope] as they mount; the
+   fill mode is backwards only, so hover transforms work once the entrance is over. */
+@keyframes enter {
+  from {
+    opacity: 0;
+    translate: var(--enter-x, 0) var(--enter-y, 0.875rem);
+  }
+}
+[data-enter-scope] :is([data-enter], tbody > tr, :is(ul, ol) > li) {
+  animation: enter var(--duration-slow) var(--ds-ease-brand) backwards;
+  animation-delay: calc(var(--enter-i, 0) * 45ms);
+}
+[data-enter-scope] :is(tbody > tr, :is(ul, ol) > li) {
+  --enter-y: 0.375rem;
+}
+[data-enter-scope="nav"] li {
+  --enter-x: -0.5rem;
+  --enter-y: 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-enter-scope] :is([data-enter], tbody > tr, :is(ul, ol) > li) {
     animation: none !important;
   }
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowDownLeft, ArrowUpRight, Copy, MoreHorizontal, PlusCircle } from "lucide-react";
+import { ArrowDownLeft, ArrowLeftRight, ArrowUpRight, Copy, MoreHorizontal, PlusCircle } from "lucide-react";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useRef, useState, type FormEvent } from "react";
@@ -22,9 +22,12 @@ import { formatCurrency } from "@/lib/format";
 import { useFocusFirstError } from "@/lib/forms";
 import { PORTFOLIO_TICKERS, priceOf, usePortfolio } from "@/lib/portfolio";
 import { walletUsd } from "@/lib/portfolioStats";
+import { cn } from "@/lib/cn";
 import { ActivityList } from "../ActivityList";
+import { AnimatedNumber } from "../AnimatedNumber";
 import { PageTitle } from "../PageTitle";
 import { Panel } from "../Panel";
+import { TONE_FILL, poolTone } from "../tones";
 import { tokenAmount } from "../txMeta";
 
 /* Demo deposit addresses: shaped like each network's addresses, not real */
@@ -71,6 +74,10 @@ export function Wallet() {
     amount: state.wallet[t] ?? 0,
     usd: (state.wallet[t] ?? 0) * priceOf(t),
   })).sort((a, b) => b.usd - a.usd);
+  /* Assets with a balance, largest first, for the composition bar */
+  const held = assets
+    .filter((a) => a.usd > 0)
+    .map((a) => ({ ...a, poolId: pools.find((p) => p.ticker === a.ticker)?.id ?? "" }));
   const transfers = transactions.filter((t) => t.type === "deposit" || t.type === "withdraw").slice(0, 6);
   const balance = state.wallet[ticker] ?? 0;
 
@@ -150,13 +157,42 @@ export function Wallet() {
       <div className="grid gap-6 xl:grid-cols-3">
         <section
           aria-labelledby="assets-title"
+          data-enter
           className="min-w-0 rounded-card border border-rule bg-surface xl:col-span-2"
         >
           <div className="border-b border-rule p-5 md:p-6">
             <h2 id="assets-title" className="text-small text-muted">
               Available balance
             </h2>
-            <p className="mt-1 text-h1 font-semibold tracking-tight">{formatCurrency(total)}</p>
+            <p className="mt-1 text-h1 font-semibold tracking-tight">
+              <AnimatedNumber value={total} format={formatCurrency} />
+            </p>
+            {/* What the balance is made of: one segment per asset, in the network's colour */}
+            {total > 0 && (
+              <>
+                <div aria-hidden className="mt-4 flex h-1.5 gap-0.5">
+                  {held.map((a) => (
+                    <span
+                      key={a.ticker}
+                      className={cn("h-full origin-left animate-grow-x rounded-pill", TONE_FILL[poolTone(a.poolId)])}
+                      style={{ width: `${(a.usd / total) * 100}%` }}
+                    />
+                  ))}
+                </div>
+                <ul
+                  aria-label="Share of balance"
+                  className="mt-3 flex flex-wrap gap-x-4 gap-y-1.5 text-caption text-muted"
+                >
+                  {held.map((a) => (
+                    <li key={a.ticker} className="flex items-center gap-1.5">
+                      <span aria-hidden className={cn("size-2 rounded-pill", TONE_FILL[poolTone(a.poolId)])} />
+                      {a.ticker}
+                      <span className="font-mono text-text">{((a.usd / total) * 100).toFixed(1)}%</span>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
           </div>
           <ul>
             {assets.map((a) => {
@@ -244,6 +280,8 @@ export function Wallet() {
 
         <Panel
           title="Recent transfers"
+          icon={ArrowLeftRight}
+          tone="violet"
           action={
             <Link
               href="/dashboard/transactions"

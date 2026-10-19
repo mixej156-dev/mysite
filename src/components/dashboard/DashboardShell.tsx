@@ -1,13 +1,14 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { Skeleton } from "@/design-system";
+import { Skeleton, useApplyDashboardTheme, useDashboardTheme } from "@/design-system";
 import { PortfolioProvider } from "@/lib/portfolio";
 import { RequireAuth } from "../auth/RequireAuth";
 import { SkipLink } from "../layout/SkipLink";
 import { MobileTabBar } from "./MobileTabBar";
 import { Sidebar } from "./Sidebar";
 import { Topbar } from "./Topbar";
+import { useEnterSequence } from "./useEnterSequence";
 
 function ShellSkeleton() {
   return (
@@ -23,6 +24,10 @@ function ShellSkeleton() {
 }
 
 export function DashboardShell({ children }: { children: ReactNode }) {
+  const { theme } = useDashboardTheme();
+  useApplyDashboardTheme(theme);
+  useEnterSequence();
+
   return (
     <RequireAuth fallback={<ShellSkeleton />}>
       <PortfolioProvider>
@@ -30,6 +35,7 @@ export function DashboardShell({ children }: { children: ReactNode }) {
         <div data-density="dashboard" className="flex min-h-dvh">
           <aside
             aria-label="Sidebar"
+            data-enter-scope="nav"
             className="sticky top-0 h-dvh w-64 shrink-0 border-r border-rule bg-bg max-lg:hidden"
           >
             <Sidebar />
@@ -38,6 +44,7 @@ export function DashboardShell({ children }: { children: ReactNode }) {
             <Topbar />
             <main
               id="main"
+              data-enter-scope="page"
               tabIndex={-1}
               className="w-full flex-1 px-4 py-5 outline-none sm:px-6 sm:py-8 lg:px-7 lg:py-10 short:py-6"
             >

@@ -6,6 +6,7 @@ import type { Position } from "@/data/portfolio";
 import { getPool } from "@/data/pools";
 import { formatCurrency, formatDate, formatPercent } from "@/lib/format";
 import { priceOf } from "@/lib/portfolio";
+import { AssetIcon } from "./AssetIcon";
 import { tokenAmount } from "./txMeta";
 
 export type PositionRow = Position & { earned: number };
@@ -85,26 +86,29 @@ export function StakePositionsTable({
               key={r.id}
               className="flex items-start justify-between gap-3 border-b border-rule py-3 first:pt-0 last:border-0 last:pb-0"
             >
-              <div className="min-w-0">
-                <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
-                  {onSelect ? (
-                    <button
-                      type="button"
-                      onClick={() => onSelect(r.id)}
-                      className="rounded-sm text-left font-medium hover:text-accent-text hover:underline"
-                    >
-                      {pool.name}
-                    </button>
-                  ) : (
-                    <span className="font-medium">{pool.name}</span>
-                  )}
-                  <StatusBadge position={r} />
+              <div className="flex min-w-0 gap-3">
+                <AssetIcon poolId={pool.id} className="mt-0.5 size-6" />
+                <div className="min-w-0">
+                  <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                    {onSelect ? (
+                      <button
+                        type="button"
+                        onClick={() => onSelect(r.id)}
+                        className="rounded-sm text-left font-medium hover:text-accent-text hover:underline"
+                      >
+                        {pool.name}
+                      </button>
+                    ) : (
+                      <span className="font-medium">{pool.name}</span>
+                    )}
+                    <StatusBadge position={r} />
+                  </div>
+                  <p className="mt-1 font-mono text-caption text-muted">
+                    <span className="sr-only">Staked </span>
+                    {tokenAmount(r.amount, pool.ticker)} · {formatPercent(pool.apy)}
+                    <span className="sr-only"> estimated APY</span>
+                  </p>
                 </div>
-                <p className="mt-1 font-mono text-caption text-muted">
-                  <span className="sr-only">Staked </span>
-                  {tokenAmount(r.amount, pool.ticker)} · {formatPercent(pool.apy)}
-                  <span className="sr-only"> estimated APY</span>
-                </p>
               </div>
               <div className="shrink-0 text-right">
                 <p className="font-mono text-small">
@@ -139,17 +143,20 @@ export function StakePositionsTable({
               return (
                 <TR key={r.id}>
                   <TD className="font-medium">
-                    {onSelect ? (
-                      <button
-                        type="button"
-                        onClick={() => onSelect(r.id)}
-                        className="rounded-sm text-left hover:text-accent-text hover:underline"
-                      >
-                        {pool.name}
-                      </button>
-                    ) : (
-                      pool.name
-                    )}
+                    <span className="flex items-center gap-2.5">
+                      <AssetIcon poolId={pool.id} />
+                      {onSelect ? (
+                        <button
+                          type="button"
+                          onClick={() => onSelect(r.id)}
+                          className="rounded-sm text-left hover:text-accent-text hover:underline"
+                        >
+                          {pool.name}
+                        </button>
+                      ) : (
+                        pool.name
+                      )}
+                    </span>
                   </TD>
                   <TD numeric>{tokenAmount(r.amount, pool.ticker)}</TD>
                   <TD numeric>{formatCurrency(value(r))}</TD>
