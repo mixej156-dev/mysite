@@ -1,12 +1,16 @@
 import type { Metadata } from "next";
 import { Calculator } from "@/components/home/Calculator";
-import { Closing, LatestPosts, Testimonials } from "@/components/home/Closing";
 import { Hero } from "@/components/home/Hero";
+import { HomeFaq } from "@/components/home/HomeFaq";
+import { HomePools } from "@/components/home/HomePools";
 import { HowItWorks } from "@/components/home/HowItWorks";
-import { Metrics } from "@/components/home/Metrics";
 import { LatestNews } from "@/components/home/LatestNews";
-import { latestPosts, toPostSummary } from "@/data/posts";
+import { Metrics } from "@/components/home/Metrics";
+import { StakeComparison } from "@/components/home/StakeComparison";
+import { StartCta } from "@/components/home/StartCta";
+import { Testimonials } from "@/components/home/Testimonials";
 import { Trust } from "@/components/home/Trust";
+import { latestPosts, toPostSummary } from "@/data/posts";
 
 export const metadata: Metadata = {
   title: { absolute: "LONAR ECO. — Staking, kept to account" },
@@ -17,15 +21,19 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <>
+      {/* What it is → what you get → how it works → why it's different → your numbers → why trust it → people →
+          news → act → remaining questions */}
       <Hero />
       <Metrics />
-      <LatestNews stories={latestPosts(3).map(toPostSummary)} />
+      <HomePools />
       <HowItWorks />
-      <Trust />
+      <StakeComparison />
       <Calculator />
+      <Trust />
       <Testimonials />
-      <LatestPosts />
-      <Closing />
+      <LatestNews stories={latestPosts(3).map(toPostSummary)} />
+      <StartCta />
+      <HomeFaq />
     </>
   );
 }

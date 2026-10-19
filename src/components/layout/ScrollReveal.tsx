@@ -9,12 +9,25 @@ const SCOPE = "[data-reveal-scope]";
 /* Blocks that enter the viewport together rise one after another */
 const STAGGER_MS = 80;
 const MAX_STAGGER = 5;
+/* Mirrors the "rise" keyframes and the brand easing in globals.css / tokens.css */
+const RISE: Keyframe[] = [
+  { opacity: 0, translate: "0 2.5rem" },
+  { opacity: 1, translate: "0 0" },
+];
+const RISE_TIMING = { duration: 800, easing: "cubic-bezier(0.22, 1, 0.36, 1)", fill: "backwards" } as const;
 
-/** Innermost candidates only: a block whose children are blocks themselves lets them rise on their own */
+/**
+ * Innermost candidates only: a block whose children are blocks themselves lets them rise on their own.
+ * A [data-reveal-item] rises as one piece, so nothing inside it is a candidate.
+ */
 function leaves(root: Element): HTMLElement[] {
   const found = new Set<Element>(root.querySelectorAll(`${SCOPE} :is(${CANDIDATES})`));
   if (root.matches(`${SCOPE} :is(${CANDIDATES})`)) found.add(root);
   for (const el of [...found]) {
+    if (el.parentElement?.closest("[data-reveal-item]")) found.delete(el);
+  }
+  for (const el of [...found]) {
+    if (!found.has(el)) continue;
     for (let p = el.parentElement; p && !p.matches(SCOPE); p = p.parentElement) found.delete(p);
   }
   return [...found].filter(
@@ -22,21 +35,27 @@ function leaves(root: Element): HTMLElement[] {
       el instanceof HTMLElement &&
       /* Intro items have their own load animation */
       !el.parentElement?.hasAttribute("data-intro") &&
-      !el.closest("[data-no-reveal], .sr-only") &&
-      el.dataset.reveal !== "shown",
+      !el.closest("[data-no-reveal], .sr-only"),
   );
 }
 
 /**
- * Site-wide scroll reveal: every block below the fold waits, then rises into place as it scrolls into view
- * (the "rise" keyframes in globals.css). Content already on screen is left alone so nothing flickers on load;
- * headers have their own CSS intro instead. Runs again for content added later (route changes, streamed sections).
+ * Site-wide scroll reveal: every block below the fold waits, then rises into place as it scrolls into view.
+ * Content already on screen is left alone so nothing flickers on load; headers have their own CSS intro instead.
+ * Runs again for content added later (route changes, streamed sections).
+ *
+ * The waiting state is a held Web Animation, not an attribute or class: React never sees a DOM change, so
+ * blocks can be armed before hydration has reached them.
  */
 export function ScrollReveal() {
   const pathname = usePathname();
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    /* Blocks waiting below the fold, with the animation holding them invisible */
+    const waiting = new Map<HTMLElement, Animation>();
+    const done = new WeakSet<Element>();
 
     const show = (entering: HTMLElement[]) => {
       entering.sort((a, b) => {
@@ -45,9 +64,11 @@ export function ScrollReveal() {
         return Math.round(ra.top - rb.top) || ra.left - rb.left;
       });
       entering.forEach((el, i) => {
-        el.style.setProperty("--reveal-delay", `${Math.min(i, MAX_STAGGER) * STAGGER_MS}ms`);
-        el.dataset.reveal = "shown";
+        waiting.get(el)?.cancel();
+        waiting.delete(el);
+        done.add(el);
         io.unobserve(el);
+        el.animate(RISE, { ...RISE_TIMING, delay: Math.min(i, MAX_STAGGER) * STAGGER_MS });
       });
     };
 
@@ -56,27 +77,26 @@ export function ScrollReveal() {
       { rootMargin: "0px 0px -8% 0px" },
     );
 
-    /* The last lines of a page never cross the trigger line: at the very bottom, show whatever is left */
-    const onScroll = () => {
-      if (window.innerHeight + window.scrollY < document.documentElement.scrollHeight - 2) return;
-      show([...document.querySelectorAll<HTMLElement>('[data-reveal="hidden"]')]);
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-
     const arm = (root: Element) => {
       const fold = window.innerHeight * 0.92;
       for (const el of leaves(root)) {
-        /* Armed by a previous run (before a route change): keep waiting under the new observer */
-        if (el.dataset.reveal === "hidden") {
-          io.observe(el);
+        if (done.has(el) || waiting.has(el)) continue;
+        const rect = el.getBoundingClientRect();
+        if (rect.height === 0 || rect.top < fold) {
+          done.add(el);
           continue;
         }
-        const rect = el.getBoundingClientRect();
-        if (rect.height === 0 || rect.top < fold) continue;
-        el.dataset.reveal = "hidden";
+        waiting.set(el, el.animate([{ opacity: 0 }, { opacity: 0 }], { duration: 1, fill: "forwards" }));
         io.observe(el);
       }
     };
+
+    /* The last lines of a page never cross the trigger line: at the very bottom, show whatever is left */
+    const onScroll = () => {
+      if (window.innerHeight + window.scrollY < document.documentElement.scrollHeight - 2) return;
+      show([...waiting.keys()]);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
 
     for (const scope of document.querySelectorAll(SCOPE)) arm(scope);
 
@@ -93,6 +113,8 @@ export function ScrollReveal() {
       window.removeEventListener("scroll", onScroll);
       io.disconnect();
       mo.disconnect();
+      /* Leaving the page (or route change): release anything still held, so nothing stays invisible */
+      for (const hold of waiting.values()) hold.cancel();
     };
   }, [pathname]);
 
