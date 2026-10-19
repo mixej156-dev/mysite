@@ -1,6 +1,6 @@
 "use client";
 
-import { Copy, KeyRound } from "lucide-react";
+import { Copy } from "lucide-react";
 import { useState } from "react";
 import { Button, Input, Modal, useToast } from "@/design-system";
 import type { ApiKey } from "@/data/portfolio";
@@ -61,7 +61,7 @@ export function ApiKeySettings() {
     <SettingsSection title="API keys" body="Read-only keys for reporting and accounting tools. Keys can’t move funds.">
       <div className="flex flex-col gap-4">
         {keys.length === 0 ? (
-          <EmptyState icon={KeyRound} title="No API keys" body="Create a key to connect a reporting tool." />
+          <EmptyState art="keys" title="No API keys" body="Create a key to connect a reporting tool." />
         ) : (
           <ul className="flex flex-col divide-y divide-rule rounded-field border border-rule">
             {keys.map((k) => (

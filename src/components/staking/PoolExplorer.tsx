@@ -1,6 +1,6 @@
 "use client";
 
-import { Search, SearchX } from "lucide-react";
+import { Search } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Link } from "@/components/Link";
 import {
@@ -127,7 +127,7 @@ export function PoolExplorer({ pools }: { pools: Pool[] }) {
 
       {visible.length === 0 ? (
         <EmptyState
-          icon={SearchX}
+          art="search"
           title="No pools match"
           body="Try another asset name, or clear the search and filters."
           action={

@@ -20,9 +20,9 @@ const COUNT_MS = duration.slow * 1000 * 3;
  * Counts up once when scrolled into view. Renders the final value on the server,
  * and when it is already visible on load, so nothing flickers.
  */
-function useCountUp(target: number) {
+export function useCountUp<T extends Element = HTMLDivElement>(target: number) {
   const reduceMotion = useReducedMotion();
-  const { ref, inView, startedVisible } = useInViewOnce<HTMLDivElement>();
+  const { ref, inView, startedVisible } = useInViewOnce<T>();
   const [value, setValue] = useState(target);
 
   // Below the fold: hold at zero until it scrolls in

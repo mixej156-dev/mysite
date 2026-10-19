@@ -1,7 +1,14 @@
+import type { LucideIcon } from "lucide-react";
+import type { NavTone } from "../layout/nav";
+import { MenuIcon } from "../layout/MenuIcon";
+import { PlayOnView } from "../layout/PlayOnView";
+
 export type Control = { title: string; body: string };
+/** Optional icon per row, in order; it acts out its meaning as the row comes into view */
+export type ControlIcon = { icon: LucideIcon; tone: NavTone };
 
 /** Numbered rows for an ordered sequence: number, title, explanation. */
-export function ControlsList({ items }: { items: Control[] }) {
+export function ControlsList({ items, icons }: { items: Control[]; icons?: ControlIcon[] }) {
   return (
     <ol className="border-b border-rule">
       {items.map((item, i) => (
@@ -12,7 +19,14 @@ export function ControlsList({ items }: { items: Control[] }) {
           <span className="font-mono text-small leading-7 text-muted sm:leading-5">
             {String(i + 1).padStart(2, "0")}
           </span>
-          <h3 className="text-h4 sm:text-h3">{item.title}</h3>
+          <h3 className="flex items-center gap-3 text-h4 sm:text-h3">
+            {icons?.[i] && (
+              <PlayOnView>
+                <MenuIcon icon={icons[i].icon} tone={icons[i].tone} colored className="size-9 sm:size-10" />
+              </PlayOnView>
+            )}
+            {item.title}
+          </h3>
           <p className="col-start-2 max-w-[56ch] font-serif text-body text-muted sm:col-start-auto">{item.body}</p>
         </li>
       ))}

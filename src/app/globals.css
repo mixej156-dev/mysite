@@ -380,8 +380,10 @@
   transform-box: fill-box;
   transform-origin: center;
 }
-/* Plays on hover or focus (mega-menu), and when a mobile menu section opens ([data-menu-play] goes from hidden to shown) */
-:is(.group\/link:is(:hover, :focus-visible), [data-menu-play]) [data-menu-icon] {
+/* Plays on hover or focus (mega-menu), when a mobile menu section opens ([data-menu-play] goes from hidden to
+   shown), and once on content pages when the block comes into view or a choice is made ([data-icon-play]) */
+:is(.group\/link:is(:hover, :focus-visible), [data-menu-play], [data-icon-play]) [data-menu-icon],
+[data-menu-icon][data-icon-play] {
   /* Layers: the sheets lift one after another */
   & .lucide-layers > :nth-child(1) {
     animation: icon-lift 600ms var(--ds-ease-brand);
@@ -487,6 +489,60 @@
     transform-box: view-box;
     animation: icon-wiggle 600ms var(--ds-ease-brand);
   }
+  /* Key: turns in the lock */
+  & .lucide-key-round {
+    animation: icon-turn 700ms var(--ds-ease-brand);
+  }
+  /* Server: the status lights blink in turn */
+  & .lucide-server > :nth-child(3) {
+    animation: icon-blink 600ms var(--ds-ease-brand);
+  }
+  & .lucide-server > :nth-child(4) {
+    animation: icon-blink 600ms var(--ds-ease-brand) 150ms;
+  }
+  /* Withdraw: the arrow steps out */
+  & .lucide-log-out > :nth-child(-n + 2) {
+    animation: icon-nudge-right 600ms var(--ds-ease-brand);
+  }
+  /* Lock: the shackle lifts and clicks shut */
+  & .lucide-lock > :nth-child(2) {
+    animation: icon-lift 600ms var(--ds-ease-brand);
+  }
+  /* Access: the tick is drawn next to the person */
+  & .lucide-user-round-check > :nth-child(3) {
+    stroke-dasharray: 12;
+    animation: icon-draw-12 500ms var(--ds-ease-brand) 100ms backwards;
+  }
+  /* Change management: each branch point lights up */
+  & .lucide-git-branch > :nth-child(3) {
+    animation: icon-pop-big 500ms var(--ds-ease-brand);
+  }
+  & .lucide-git-branch > :nth-child(2) {
+    animation: icon-pop-big 500ms var(--ds-ease-brand) 150ms;
+  }
+  /* Detect: the lens sweeps around */
+  & .lucide-search {
+    animation: icon-sweep 800ms var(--ds-ease-brand);
+  }
+  /* Review: the report is written line by line */
+  & .lucide-file-text > :nth-child(n + 3) {
+    stroke-dasharray: 10;
+    animation: icon-draw-10 400ms var(--ds-ease-brand) backwards;
+  }
+  & .lucide-file-text > :nth-child(4) {
+    animation-delay: 120ms;
+  }
+  & .lucide-file-text > :nth-child(5) {
+    animation-delay: 240ms;
+  }
+  /* Support: the life ring turns a quarter */
+  & .lucide-life-buoy {
+    animation: icon-quarter 700ms var(--ds-ease-brand);
+  }
+  /* Partnerships: the briefcase is picked up */
+  & .lucide-briefcase {
+    animation: icon-lift 600ms var(--ds-ease-brand);
+  }
   /* Network logos spin like a coin */
   & img {
     animation: icon-coin 700ms var(--ds-ease-brand);
@@ -587,11 +643,76 @@
     scale: 1.12 0.96;
   }
 }
+@keyframes icon-turn {
+  35% {
+    rotate: -28deg;
+  }
+  70% {
+    rotate: 8deg;
+  }
+}
+@keyframes icon-pop-big {
+  40% {
+    scale: 1.35;
+  }
+}
+@keyframes icon-sweep {
+  25% {
+    translate: -1.5px -1.5px;
+  }
+  50% {
+    translate: 1.5px -1.5px;
+  }
+  75% {
+    translate: 1.5px 1.5px;
+  }
+}
+@keyframes icon-quarter {
+  to {
+    rotate: 90deg;
+  }
+}
 @keyframes icon-coin {
   from {
     transform: perspective(60px) rotateY(0deg);
   }
   to {
     transform: perspective(60px) rotateY(360deg);
+  }
+}
+
+/* Validator uptime strips (UptimeStrip.tsx): days grow in from the left once the strip is in view, then the
+   degraded and outage days flash so they catch the eye. Phones show the last 30 days, so their wave is slower. */
+.uptime-cell {
+  transform-origin: bottom;
+}
+[data-filling="wait"] .uptime-cell {
+  scale: 1 0;
+}
+[data-filling="run"] .uptime-cell {
+  animation: cell-grow 450ms var(--ds-ease-brand) calc(var(--i) * 10ms) backwards;
+}
+[data-filling="run"] .uptime-cell[data-incident] {
+  animation:
+    cell-grow 450ms var(--ds-ease-brand) calc(var(--i) * 10ms) backwards,
+    cell-flash 500ms var(--ds-ease-brand) 1250ms 2;
+}
+@media (width < 40rem) {
+  [data-filling="run"] .uptime-cell {
+    animation-delay: calc((var(--i) - var(--o)) * 28ms);
+  }
+  [data-filling="run"] .uptime-cell[data-incident] {
+    animation-delay: calc((var(--i) - var(--o)) * 28ms), 1250ms;
+  }
+}
+@keyframes cell-grow {
+  from {
+    scale: 1 0;
+  }
+}
+@keyframes cell-flash {
+  50% {
+    scale: 1 1.3;
+    filter: brightness(1.2);
   }
 }

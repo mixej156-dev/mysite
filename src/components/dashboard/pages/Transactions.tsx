@@ -1,6 +1,6 @@
 "use client";
 
-import { Copy, Download, Search, SearchX } from "lucide-react";
+import { Copy, Download, Search } from "lucide-react";
 import { useMemo, useState } from "react";
 import {
   Badge,
@@ -162,7 +162,7 @@ export function Transactions() {
 
       {filtered.length === 0 ? (
         <EmptyState
-          icon={SearchX}
+          art="search"
           title="No transactions match"
           body="Try another type or asset, or clear the search."
           action={

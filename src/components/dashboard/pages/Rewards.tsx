@@ -80,7 +80,7 @@ export function Rewards() {
       <>
         <PageTitle title="Rewards" />
         <EmptyState
-          icon={Coins}
+          art="rewards"
           title="No rewards yet"
           body="Rewards are recorded the day after you stake and paid out daily."
           action={

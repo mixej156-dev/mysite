@@ -1,13 +1,50 @@
-import { ArrowRight, Mail } from "lucide-react";
+import {
+  Activity,
+  ArrowRight,
+  FileText,
+  GitBranch,
+  KeyRound,
+  Lock,
+  LogOut,
+  Mail,
+  MessageCircle,
+  Receipt,
+  Search,
+  Server,
+  ShieldCheck,
+  UserRoundCheck,
+} from "lucide-react";
 import type { Metadata } from "next";
-import { ControlsList } from "@/components/blocks/ControlsList";
+import { ControlsList, type ControlIcon } from "@/components/blocks/ControlsList";
 import { PageHeader } from "@/components/blocks/PageHeader";
 import { Section, SectionHeader } from "@/components/blocks/Section";
-import { StepsFlow } from "@/components/blocks/StepsFlow";
+import { MenuIcon } from "@/components/layout/MenuIcon";
+import { PlayOnView } from "@/components/layout/PlayOnView";
+import { StepsFlow, type StepIcon } from "@/components/blocks/StepsFlow";
 import { Link } from "@/components/Link";
 import { Accordion, Badge, TBody, TD, TH, THead, TR, Table, buttonClasses } from "@/design-system";
 import { BOUNTY_SEVERITIES, CUSTODY_PRACTICES, INCIDENT_STEPS, SECURITY_CONTROLS } from "@/data/security";
 import { INCIDENTS, NETWORK_PERFORMANCE } from "@/data/validators";
+
+/* Icons for the controls, custody practices and incident steps, in the order of the data */
+const CONTROL_ICONS: ControlIcon[] = [
+  { icon: KeyRound, tone: "amber" },
+  { icon: Server, tone: "blue" },
+  { icon: Activity, tone: "green" },
+  { icon: Receipt, tone: "violet" },
+  { icon: LogOut, tone: "orange" },
+];
+const CUSTODY_ICONS: ControlIcon[] = [
+  { icon: Lock, tone: "teal" },
+  { icon: UserRoundCheck, tone: "green" },
+  { icon: GitBranch, tone: "violet" },
+];
+const INCIDENT_ICONS: StepIcon[] = [
+  { icon: Search, tone: "blue" },
+  { icon: ShieldCheck, tone: "green" },
+  { icon: MessageCircle, tone: "teal" },
+  { icon: FileText, tone: "amber" },
+];
 
 export const metadata: Metadata = {
   title: "Security",
@@ -76,14 +113,17 @@ export default function SecurityPage() {
           title="Five controls, in order"
           lead="Each one covers a stage in the life of a stake, from the moment keys are created to the moment funds are withdrawn."
         />
-        <ControlsList items={SECURITY_CONTROLS} />
+        <ControlsList items={SECURITY_CONTROLS} icons={CONTROL_ICONS} />
       </Section>
 
       <Section tone="inverse" labelledBy="custody-title">
         <SectionHeader id="custody-title" title="Keys and access" />
         <ul className="grid gap-x-8 gap-y-8 sm:gap-y-10 md:grid-cols-3">
-          {CUSTODY_PRACTICES.map((item) => (
+          {CUSTODY_PRACTICES.map((item, i) => (
             <li key={item.title} className="border-t border-rule pt-6">
+              <PlayOnView className="mb-5">
+                <MenuIcon icon={CUSTODY_ICONS[i].icon} tone={CUSTODY_ICONS[i].tone} colored className="size-10" />
+              </PlayOnView>
               <h3 className="text-h3">{item.title}</h3>
               <p className="mt-3 font-serif text-body text-muted">{item.body}</p>
             </li>
@@ -97,7 +137,7 @@ export default function SecurityPage() {
           title="When something goes wrong"
           lead="Every incident follows the same four steps, and every one ends with a written review."
         />
-        <StepsFlow steps={INCIDENT_STEPS} />
+        <StepsFlow steps={INCIDENT_STEPS} icons={INCIDENT_ICONS} />
         <div className="mt-8 sm:mt-12 flex flex-col gap-6 rounded-card border border-rule bg-surface p-6 md:flex-row md:items-center md:justify-between md:p-8">
           <dl className="grid grid-cols-3 gap-6 md:gap-10">
             {[

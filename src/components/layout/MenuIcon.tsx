@@ -1,7 +1,7 @@
 import type { LucideIcon } from "lucide-react";
 import Image from "next/image";
 import { cn } from "@/lib/cn";
-import { POOL_TONES } from "../dashboard/tones";
+import { POOL_TONES, TONE_CHIP } from "../dashboard/tones";
 import type { NavTone } from "./nav";
 
 /*
@@ -27,19 +27,35 @@ const LOGO_IN_COLOUR =
 
 const chip = "grid shrink-0 place-items-center rounded-field transition-colors duration-base";
 
-/** A link's icon in a square chip */
+/**
+ * An icon in a square chip. By default grey until its link (`group/link`) is hovered, focused, pressed or current;
+ * `colored` keeps it in its hue (content pages), with `className` setting size and resting background.
+ */
 export function MenuIcon({
   icon: Icon,
   tone,
-  className = "size-9 bg-surface-2",
+  colored = false,
+  className,
+  iconClassName = "size-[1.125rem]",
 }: {
   icon: LucideIcon;
   tone: NavTone;
+  colored?: boolean;
   className?: string;
+  iconClassName?: string;
 }) {
   return (
-    <span aria-hidden data-menu-icon className={cn(chip, "text-muted", className, TONES[tone])}>
-      <Icon className="size-[1.125rem]" />
+    <span
+      aria-hidden
+      data-menu-icon
+      className={cn(
+        chip,
+        colored
+          ? cn(TONE_CHIP[tone], className ?? "size-9")
+          : cn("text-muted", className ?? "size-9 bg-surface-2", TONES[tone]),
+      )}
+    >
+      <Icon className={iconClassName} />
     </span>
   );
 }

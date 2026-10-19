@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowRight, BellOff } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { useState } from "react";
 import { Link } from "@/components/Link";
 import { Button, Tag } from "@/design-system";
@@ -67,7 +67,7 @@ export function Notifications() {
 
       {shown.length === 0 ? (
         <EmptyState
-          icon={BellOff}
+          art="notifications"
           title={filter === "unread" ? "You’re all caught up" : "Nothing here yet"}
           body={
             filter === "unread" ? "New notifications will appear here." : "Notifications of this kind will appear here."

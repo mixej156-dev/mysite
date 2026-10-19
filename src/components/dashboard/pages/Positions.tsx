@@ -1,6 +1,5 @@
 "use client";
 
-import { Layers } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Link } from "@/components/Link";
 import { Button, Modal, Progress, Tag, Toggle, buttonClasses, useToast } from "@/design-system";
@@ -79,7 +78,7 @@ export function Positions() {
       <div data-enter className="md:rounded-card md:border md:border-rule md:bg-surface md:p-6">
         {visible.length === 0 ? (
           <EmptyState
-            icon={Layers}
+            art={rows.length === 0 ? "positions" : "search"}
             title={rows.length === 0 ? "No positions yet" : "Nothing here"}
             body={
               rows.length === 0

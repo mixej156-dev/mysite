@@ -9,6 +9,8 @@ import { pools } from "@/data/pools";
 import { OPEN_ROLES } from "@/data/team";
 import { cn } from "@/lib/cn";
 import { isEmail, useFocusFirstError } from "@/lib/forms";
+import { MenuIcon } from "../layout/MenuIcon";
+import { TOPIC_ICONS, TOPIC_SELECTED } from "./topics";
 
 const SUPPORT_AREAS = [
   { value: "staking", label: "Staking or unstaking" },
@@ -169,30 +171,40 @@ export function ContactForm({
       <fieldset>
         <legend className="text-small font-medium">What is it about?</legend>
         <div className="mt-3 grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
-          {CONTACT_TOPICS.map((t) => (
-            <label
-              key={t.id}
-              className={cn(
-                "flex cursor-pointer flex-col gap-0.5 rounded-field border p-3 transition-colors duration-fast",
-                "focus-within:ring-3 focus-within:ring-accent-text/25",
-                topic === t.id ? "border-accent tint-accent" : "border-rule hover:border-rule-strong",
-              )}
-            >
-              <input
-                type="radio"
-                name="topic"
-                value={t.id}
-                checked={topic === t.id}
-                onChange={() => {
-                  setTopic(t.id);
-                  setErrors({});
-                }}
-                className="sr-only"
-              />
-              <span className="text-small font-medium">{t.label}</span>
-              <span className="text-caption text-muted">{t.hint}</span>
-            </label>
-          ))}
+          {CONTACT_TOPICS.map((t) => {
+            const { icon, tone } = TOPIC_ICONS[t.id];
+            const chosen = topic === t.id;
+            return (
+              <label
+                key={t.id}
+                className={cn(
+                  "group/link flex cursor-pointer items-start gap-3 rounded-field border p-3 transition-colors duration-fast",
+                  "focus-within:ring-3 focus-within:ring-accent-text/25",
+                  chosen ? TOPIC_SELECTED[tone] : "border-rule hover:border-rule-strong",
+                )}
+              >
+                <input
+                  type="radio"
+                  name="topic"
+                  value={t.id}
+                  checked={topic === t.id}
+                  onChange={() => {
+                    setTopic(t.id);
+                    setErrors({});
+                  }}
+                  className="sr-only"
+                />
+                {/* The chosen topic's icon is in colour and acts out its meaning once (remounted by the key) */}
+                <span key={chosen ? "on" : "off"} data-icon-play={chosen || undefined} className="flex">
+                  <MenuIcon icon={icon} tone={tone} colored={chosen} />
+                </span>
+                <span className="flex min-w-0 flex-col gap-0.5">
+                  <span className="text-small font-medium">{t.label}</span>
+                  <span className="text-caption text-muted">{t.hint}</span>
+                </span>
+              </label>
+            );
+          })}
         </div>
       </fieldset>
 

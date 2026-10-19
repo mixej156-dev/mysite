@@ -120,7 +120,7 @@ export function Overview() {
           >
             {rows.length === 0 ? (
               <EmptyState
-                icon={Layers}
+                art="positions"
                 title="No positions yet"
                 body="Stake from your wallet balance and rewards start the next day."
                 action={

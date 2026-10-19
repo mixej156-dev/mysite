@@ -114,7 +114,7 @@ export function Referrals() {
         <Panel title="People you’ve invited" icon={UserPlus} tone="violet">
           {REFERRALS.length === 0 ? (
             <EmptyState
-              icon={UserPlus}
+              art="invites"
               title="No invites yet"
               body="Share your link and people who sign up appear here."
             />

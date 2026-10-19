@@ -1,20 +1,14 @@
-import {
-  Activity,
-  ArrowRight,
-  BookOpen,
-  Briefcase,
-  CircleHelp,
-  LifeBuoy,
-  Newspaper,
-  Receipt,
-  ShieldCheck,
-} from "lucide-react";
+import { Activity, ArrowRight, BookOpen, CircleHelp, Receipt, ShieldCheck, type LucideIcon } from "lucide-react";
 import type { Metadata } from "next";
 import { PageHeader } from "@/components/blocks/PageHeader";
 import { Section, SectionHeader } from "@/components/blocks/Section";
 import { Suspense } from "react";
 import { ContactForm, ContactFormFromQuery } from "@/components/contact/ContactForm";
 import { OfficesMap } from "@/components/contact/OfficesMap";
+import { TOPIC_ICONS } from "@/components/contact/topics";
+import { MenuIcon } from "@/components/layout/MenuIcon";
+import type { NavTone } from "@/components/layout/nav";
+import { PlayOnView } from "@/components/layout/PlayOnView";
 import { Link } from "@/components/Link";
 import { CHANNELS, OFFICES } from "@/data/contact";
 
@@ -23,19 +17,37 @@ export const metadata: Metadata = {
   description: "Get help with your account, ask about partnerships, press or careers, or report a security issue.",
 };
 
-const SELF_SERVE = [
-  { icon: CircleHelp, title: "FAQ", body: "Short answers on staking, fees and withdrawals.", href: "/faq" },
-  { icon: BookOpen, title: "Docs", body: "Step-by-step guides for every task in the dashboard.", href: "/docs" },
+/* Same icons and hues as these pages have in the navigation menu */
+const SELF_SERVE: { icon: LucideIcon; tone: NavTone; title: string; body: string; href: string }[] = [
+  {
+    icon: CircleHelp,
+    tone: "teal",
+    title: "FAQ",
+    body: "Short answers on staking, fees and withdrawals.",
+    href: "/faq",
+  },
+  {
+    icon: BookOpen,
+    tone: "blue",
+    title: "Docs",
+    body: "Step-by-step guides for every task in the dashboard.",
+    href: "/docs",
+  },
   {
     icon: Activity,
+    tone: "green",
     title: "Validator performance",
     body: "Rewards look low today? Check live uptime and incidents.",
     href: "/validators",
   },
-  { icon: Receipt, title: "Fees", body: "Every fee in one table, with a worked example.", href: "/fees" },
+  {
+    icon: Receipt,
+    tone: "amber",
+    title: "Fees",
+    body: "Every fee in one table, with a worked example.",
+    href: "/fees",
+  },
 ];
-
-const CHANNEL_ICONS = { support: LifeBuoy, partnerships: Briefcase, press: Newspaper } as const;
 
 export default function ContactPage() {
   return (
@@ -51,13 +63,13 @@ export default function ContactPage() {
           Before you write
         </h2>
         <ul className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          {SELF_SERVE.map(({ icon: Icon, title, body, href }) => (
+          {SELF_SERVE.map(({ icon, tone, title, body, href }) => (
             <li key={href}>
               <Link
                 href={href}
-                className="group flex h-full flex-col gap-3 rounded-card border border-rule bg-surface p-5 transition-colors duration-fast hover:border-rule-strong"
+                className="group group/link flex h-full flex-col gap-3 rounded-card border border-rule bg-surface p-5 transition-colors duration-fast hover:border-rule-strong"
               >
-                <Icon aria-hidden className="size-5 text-accent-text" />
+                <MenuIcon icon={icon} tone={tone} />
                 <span className="flex items-center gap-1 text-body font-medium transition-colors duration-fast group-hover:text-accent-text">
                   {title}
                   <ArrowRight
@@ -81,10 +93,12 @@ export default function ContactPage() {
         </section>
         <aside aria-label="Other ways to reach us" className="flex flex-col gap-4 lg:col-span-5">
           {CHANNELS.map(({ id, title, email, note }) => {
-            const Icon = CHANNEL_ICONS[id];
+            const { icon, tone } = TOPIC_ICONS[id];
             return (
               <div key={id} className="flex gap-4 rounded-card border border-rule p-5">
-                <Icon aria-hidden className="mt-0.5 size-5 shrink-0 text-accent-text" />
+                <PlayOnView>
+                  <MenuIcon icon={icon} tone={tone} colored />
+                </PlayOnView>
                 <div>
                   <h2 className="text-body font-medium">{title}</h2>
                   <p className="mt-0.5 text-small text-muted">{note}</p>
@@ -99,7 +113,9 @@ export default function ContactPage() {
             );
           })}
           <div className="flex gap-4 rounded-card bg-surface-2 p-5">
-            <ShieldCheck aria-hidden className="mt-0.5 size-5 shrink-0 text-accent-text" />
+            <PlayOnView>
+              <MenuIcon icon={ShieldCheck} tone="green" colored />
+            </PlayOnView>
             <div>
               <h2 className="text-body font-medium">Security issue?</h2>
               <p className="mt-0.5 text-small text-muted">

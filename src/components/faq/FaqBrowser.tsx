@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowRight, Search, SearchX, ThumbsDown, ThumbsUp } from "lucide-react";
+import { ArrowRight, Search, ThumbsDown, ThumbsUp } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link } from "@/components/Link";
 import { Accordion, Button, Input, Tag } from "@/design-system";
@@ -198,7 +198,7 @@ export function FaqBrowser() {
 
         {groups.length === 0 ? (
           <EmptyState
-            icon={SearchX}
+            art="search"
             title="No questions match"
             body="Try a shorter search, or ask us directly."
             action={

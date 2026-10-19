@@ -1,6 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useReducedMotion } from "framer-motion";
+import { useState, type CSSProperties } from "react";
+import { useInViewOnce } from "../blocks/useInViewOnce";
 import type { DayStatus, UptimeDay } from "@/data/validators";
 import { cn } from "@/lib/cn";
 import { formatDate } from "@/lib/format";
@@ -31,6 +33,10 @@ export function StatusLegend({ className }: { className?: string }) {
  */
 export function UptimeStrip({ days, label }: { days: UptimeDay[]; label: string }) {
   const [active, setActive] = useState<number | null>(null);
+  /* Below the fold the days fill in left to right once the strip scrolls into view; on screen at load, as they are */
+  const reduceMotion = useReducedMotion();
+  const { ref, inView, startedVisible } = useInViewOnce<HTMLDivElement>("0px 0px -10% 0px");
+  const armed = startedVisible === false && !reduceMotion;
   const day = active === null ? null : days[active];
   const nonOperational = days.filter((d) => d.status !== "operational").length;
   const average = days.reduce((sum, d) => sum + d.uptime, 0) / days.length;
@@ -39,7 +45,9 @@ export function UptimeStrip({ days, label }: { days: UptimeDay[]; label: string 
     <figure className="flex flex-col gap-2">
       <figcaption className="flex items-baseline justify-between gap-4 text-caption text-muted">
         <span aria-hidden className="font-mono">
-          {day ? `${formatDate(day.date)} · ${day.uptime.toFixed(2)}% · ${STATUS_META[day.status].label}` : (
+          {day ? (
+            `${formatDate(day.date)} · ${day.uptime.toFixed(2)}% · ${STATUS_META[day.status].label}`
+          ) : (
             <>
               <span className="sm:hidden">Last 30 days</span>
               <span className="max-sm:hidden">Last {days.length} days</span>
@@ -48,16 +56,29 @@ export function UptimeStrip({ days, label }: { days: UptimeDay[]; label: string 
         </span>
         <span className="sr-only">
           {label}: {average.toFixed(2)}% average uptime over {days.length} days,{" "}
-          {nonOperational === 0 ? "no degraded days" : `${nonOperational} degraded ${nonOperational === 1 ? "day" : "days"}`}.
+          {nonOperational === 0
+            ? "no degraded days"
+            : `${nonOperational} degraded ${nonOperational === 1 ? "day" : "days"}`}
+          .
         </span>
       </figcaption>
-      <div aria-hidden className="flex h-8 gap-0.5" onMouseLeave={() => setActive(null)}>
+      <div
+        ref={ref}
+        aria-hidden
+        data-filling={armed ? (inView ? "run" : "wait") : undefined}
+        className="flex h-8 gap-0.5"
+        onMouseLeave={() => setActive(null)}
+        /* --o: days hidden on phones, so the wave there starts at the first visible day */
+        style={{ "--o": days.length - 30 } as CSSProperties}
+      >
         {days.map((d, i) => (
           <span
             key={d.date}
             onMouseEnter={() => setActive(i)}
+            data-incident={d.status !== "operational" || undefined}
+            style={{ "--i": i } as CSSProperties}
             className={cn(
-              "min-w-0 flex-1 rounded-sm transition-opacity duration-fast",
+              "uptime-cell min-w-0 flex-1 rounded-sm transition-opacity duration-fast",
               STATUS_META[d.status].className,
               active !== null && active !== i && "opacity-40",
               i < days.length - 30 && "max-sm:hidden",

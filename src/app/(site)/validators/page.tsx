@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { PageHeader } from "@/components/blocks/PageHeader";
 import { Section, SectionHeader } from "@/components/blocks/Section";
 import { Link } from "@/components/Link";
+import { CountUp } from "@/components/blocks/CountUp";
 import { StatusLegend, UptimeStrip } from "@/components/validators/UptimeStrip";
 import { Badge, buttonClasses } from "@/design-system";
 import { getPool } from "@/data/pools";
@@ -95,7 +96,9 @@ export default function ValidatorsPage() {
                       </p>
                     </div>
                     <div className="text-right">
-                      <p className="font-mono text-h3">{n.uptime30d.toFixed(2)}%</p>
+                      <p className="font-mono text-h3">
+                        <CountUp value={n.uptime30d} decimals={2} suffix="%" />
+                      </p>
                       <p className="text-caption text-muted">uptime, 30 days</p>
                     </div>
                   </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import { Search, SearchX } from "lucide-react";
+import { Search } from "lucide-react";
 import { useRef, useState } from "react";
 import { Button, Input, Pagination, Tag } from "@/design-system";
 import { POST_CATEGORIES, type PostCategory, type PostSummary } from "@/data/posts-meta";
@@ -80,7 +80,7 @@ export function BlogIndex({ posts: sortedPosts }: { posts: PostSummary[] }) {
 
         {visible.length === 0 ? (
           <EmptyState
-            icon={SearchX}
+            art="search"
             title="No articles match"
             body="Try another word, or show every category."
             action={

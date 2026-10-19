@@ -1,6 +1,6 @@
 "use client";
 
-import { Search, SearchX } from "lucide-react";
+import { Search } from "lucide-react";
 import { useReducedMotion } from "framer-motion";
 import { useMemo, useRef, useState } from "react";
 import { Button, Input, Pagination, Tag } from "@/design-system";
@@ -158,7 +158,7 @@ export function LearnIndex({ guides }: { guides: GuideSummary[] }) {
         <div ref={gridRef} className="scroll-mt-28" style={{ minHeight }}>
           {visible.length === 0 ? (
             <EmptyState
-              icon={SearchX}
+              art="search"
               title="No guides match"
               body="Try another word, topic or level."
               action={

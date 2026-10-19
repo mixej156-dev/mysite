@@ -1,9 +1,12 @@
 import type { LucideIcon } from "lucide-react";
 import type { ReactNode } from "react";
 import { cn } from "@/lib/cn";
+import { EmptyArt, type EmptyArtKind } from "./EmptyArt";
 
 export type EmptyStateProps = {
-  icon: LucideIcon;
+  /** A small cover-style picture; preferred over `icon` */
+  art?: EmptyArtKind;
+  icon?: LucideIcon;
   title: string;
   body?: string;
   /** Usually one Button that resolves the empty state */
@@ -11,7 +14,7 @@ export type EmptyStateProps = {
   className?: string;
 };
 
-export function EmptyState({ icon: Icon, title, body, action, className }: EmptyStateProps) {
+export function EmptyState({ art, icon: Icon, title, body, action, className }: EmptyStateProps) {
   return (
     <div
       data-enter
@@ -20,7 +23,13 @@ export function EmptyState({ icon: Icon, title, body, action, className }: Empty
         className,
       )}
     >
-      <Icon aria-hidden className="size-6 text-muted" />
+      {art ? (
+        <div className="mb-2">
+          <EmptyArt kind={art} />
+        </div>
+      ) : (
+        Icon && <Icon aria-hidden className="size-6 text-muted" />
+      )}
       <p className="text-body font-medium">{title}</p>
       {body && <p className="max-w-[40ch] text-small text-muted">{body}</p>}
       {action && <div className="mt-2">{action}</div>}
