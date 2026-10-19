@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { ToastProvider } from "@/design-system";
+import { ToastProvider } from "@/design-system/components/Toast";
 import { fontVariables } from "@/design-system/fonts";
 import { CookieNotice } from "@/components/layout/CookieNotice";
 import { AuthProvider } from "@/lib/auth";

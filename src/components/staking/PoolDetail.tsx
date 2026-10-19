@@ -5,6 +5,7 @@ import { POOL_RISKS, pools, type Pool } from "@/data/pools";
 import { NETWORK_PERFORMANCE, uptimeHistory } from "@/data/validators";
 import { formatCompactCurrency, formatPercent, formatUnbonding } from "@/lib/format";
 import { apyHistory } from "@/lib/series";
+import { PoolCover } from "./PoolCover";
 import { PageHeader } from "../blocks/PageHeader";
 import { PoolCard } from "../blocks/PoolCard";
 import { Section, SectionHeader } from "../blocks/Section";
@@ -87,6 +88,13 @@ export function PoolDetail({ pool }: { pool: Pool }) {
           </Link>
         </div>
       </PageHeader>
+
+      {/* Cover in the network's colour, as on article and guide pages */}
+      <div className="container-page mb-8">
+        <div className="aspect-[5/2] overflow-hidden rounded-card border border-rule sm:aspect-[3/1]">
+          <PoolCover pool={pool} />
+        </div>
+      </div>
 
       <section aria-labelledby={`${pool.id}-params-title`} className="container-page">
         <h2 id={`${pool.id}-params-title`} className="sr-only">

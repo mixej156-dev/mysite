@@ -6,7 +6,7 @@ import { ChevronDown, Menu, X } from "lucide-react";
 import { Link } from "@/components/Link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { buttonClasses } from "@/design-system";
+import { buttonClasses } from "@/design-system/components/Button";
 import { transition } from "@/design-system/motion";
 import { featuredPools } from "@/data/pools";
 import { useAuth } from "@/lib/auth";

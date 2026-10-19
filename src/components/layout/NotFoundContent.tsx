@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { buttonClasses } from "@/design-system";
+import { buttonClasses } from "@/design-system/components/Button";
 import { pools } from "@/data/pools";
 
 const mix = (color: string, pct: number) => `color-mix(in oklab, var(--topic-${color}) ${pct}%, var(--surface-2))`;

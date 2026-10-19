@@ -3,7 +3,7 @@
 import { Cookie } from "lucide-react";
 import { useSyncExternalStore } from "react";
 import { Link } from "@/components/Link";
-import { Button } from "@/design-system";
+import { Button } from "@/design-system/components/Button";
 
 /* Consent choice in localStorage. "unset" means the notice still needs an answer. */
 const CONSENT_KEY = "cookie_consent";

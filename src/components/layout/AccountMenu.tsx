@@ -2,6 +2,7 @@
 
 import { LayoutDashboard, LogOut, Settings } from "lucide-react";
 import { useRouter } from "next/navigation";
+/* Direct imports: this ships with the site header, so it must not pull in the whole design system */
 import {
   Dropdown,
   DropdownContent,
@@ -9,8 +10,8 @@ import {
   DropdownLabel,
   DropdownSeparator,
   DropdownTrigger,
-  useToast,
-} from "@/design-system";
+} from "@/design-system/components/Dropdown";
+import { useToast } from "@/design-system/components/Toast";
 import type { Session } from "@/lib/auth";
 
 export function initials(name: string) {

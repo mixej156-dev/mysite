@@ -3,7 +3,7 @@
 import * as Nav from "@radix-ui/react-navigation-menu";
 import { Link } from "@/components/Link";
 import { useEffect, useState } from "react";
-import { buttonClasses } from "@/design-system";
+import { buttonClasses } from "@/design-system/components/Button";
 import { useAuth } from "@/lib/auth";
 import { cn } from "@/lib/cn";
 import { AccountMenu } from "./AccountMenu";
