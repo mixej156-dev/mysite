@@ -395,7 +395,7 @@
   /* Activity: the pulse line is traced again, slowly like a monitor sweep */
   & .lucide-activity > * {
     stroke-dasharray: 64;
-    animation: icon-draw-64 1600ms ease-in-out;
+    animation: icon-draw-64 1150ms ease-in-out;
   }
   /* Receipt: the dollar sign flips like a coin */
   & .lucide-receipt > :nth-child(-n + 2) {
