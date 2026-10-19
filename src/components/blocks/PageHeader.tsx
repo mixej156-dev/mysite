@@ -15,7 +15,7 @@ export type PageHeaderProps = {
 
 export function PageHeader({ title, lead, breadcrumbs, children, aside, className }: PageHeaderProps) {
   return (
-    <header className={cn("container-page pt-6 pb-10 sm:pt-12 sm:pb-16 md:pt-16 md:pb-20", className)}>
+    <header data-intro className={cn("container-page pt-6 pb-10 sm:pt-12 sm:pb-16 md:pt-16 md:pb-20", className)}>
       {breadcrumbs && <Breadcrumbs items={breadcrumbs} />}
       <div className={cn("grid gap-8 sm:gap-10 lg:grid-cols-12 lg:items-end lg:gap-8", breadcrumbs && "mt-5 sm:mt-8")}>
         <div className={aside ? "lg:col-span-7" : "lg:col-span-9"}>

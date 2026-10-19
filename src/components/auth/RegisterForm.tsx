@@ -3,9 +3,10 @@
 import { useRef, useState, type FormEvent } from "react";
 import { Link } from "@/components/Link";
 import { useRouter } from "next/navigation";
-import { Button, Checkbox, Input } from "@/design-system";
+import { Button, Checkbox, Input, useToast } from "@/design-system";
 import { useAuth } from "@/lib/auth";
 import { isEmail, useFocusFirstError } from "@/lib/forms";
+import { GOOGLE_DEMO_ACCOUNT, GoogleSignIn } from "./GoogleSignIn";
 import { PasswordInput } from "./PasswordInput";
 import { MIN_PASSWORD_LENGTH as MIN_LENGTH, PasswordStrength } from "./PasswordStrength";
 import { setPendingSignup } from "./pendingSignup";
@@ -14,7 +15,8 @@ import { useRedirectWhenAuthed } from "./useRedirectWhenAuthed";
 type Errors = { name?: string; email?: string; password?: string; consent?: string };
 
 export function RegisterForm() {
-  const { status } = useAuth();
+  const { status, signUp } = useAuth();
+  const { toast } = useToast();
   const router = useRouter();
   useRedirectWhenAuthed();
   const [name, setName] = useState("");
@@ -58,7 +60,34 @@ export function RegisterForm() {
           </Link>
         </p>
       </div>
-      <form ref={formRef} onSubmit={submit} noValidate aria-label="Create an account" className="flex flex-col gap-5">
+      <GoogleSignIn
+        disabled={submitting || status === "authed"}
+        onContinue={async () => {
+          /* Google has already confirmed the address, so there is no verification step */
+          await signUp(GOOGLE_DEMO_ACCOUNT.name, GOOGLE_DEMO_ACCOUNT.email);
+          toast({ tone: "success", title: "Account created", description: "Signed up with your Google account." });
+        }}
+        note={
+          <>
+            By continuing with Google you agree to the{" "}
+            <Link href="/legal/terms" className="rounded-sm text-accent-text underline underline-offset-2">
+              terms
+            </Link>{" "}
+            and the{" "}
+            <Link href="/legal/risk-disclosure" className="rounded-sm text-accent-text underline underline-offset-2">
+              risk disclosure
+            </Link>
+            .
+          </>
+        }
+      />
+      <form
+        ref={formRef}
+        onSubmit={submit}
+        noValidate
+        aria-label="Create an account"
+        className="-mt-2 flex flex-col gap-5"
+      >
         <Input
           label="Full name"
           autoComplete="name"

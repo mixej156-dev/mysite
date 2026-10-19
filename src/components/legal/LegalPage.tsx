@@ -19,7 +19,7 @@ export function LegalPage({ slug }: { slug: string }) {
       className="container-page pt-6 pb-14 sm:pt-12 sm:pb-24 md:pt-16 md:pb-32"
     >
       <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Legal" }, { label: doc.title }]} />
-      <header className="mt-8 max-w-[52rem]">
+      <header data-intro className="mt-8 max-w-[52rem]">
         <h1 id={`legal-title-${slug}`} className="text-h1">
           {doc.title}
         </h1>

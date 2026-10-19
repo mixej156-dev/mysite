@@ -15,7 +15,7 @@ export function GuideArticle({ guide }: { guide: Guide }) {
   return (
     <>
       <article aria-labelledby={titleId}>
-        <header className="container-page pt-12 pb-12 md:pt-16">
+        <header data-intro className="container-page pt-12 pb-12 md:pt-16">
           <Breadcrumbs
             items={[{ label: "Home", href: "/" }, { label: "ECO. LEARN", href: "/learn" }, { label: guide.topic }]}
           />

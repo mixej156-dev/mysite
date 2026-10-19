@@ -11,7 +11,7 @@ const SUGGESTIONS = [
 
 export function NotFoundContent() {
   return (
-    <section className="container-page pt-10 pb-14 sm:pt-16 sm:pb-24 md:pt-24 md:pb-32">
+    <section data-intro className="container-page pt-10 pb-14 sm:pt-16 sm:pb-24 md:pt-24 md:pb-32">
       <p className="font-mono text-h3 text-accent-text" aria-hidden>
         404
       </p>

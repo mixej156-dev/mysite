@@ -308,18 +308,43 @@
     translate: 0 8px;
   }
 }
-[data-reveal] {
-  transition:
-    opacity var(--duration-slow) var(--ds-ease-brand),
-    translate var(--duration-slow) var(--ds-ease-brand);
+/* One entrance across the site: content rises into place as it fades in.
+   Scroll: ScrollReveal (components/layout) marks blocks below the fold "hidden", then "shown" as they come into
+   view, staggered through --reveal-delay. Load: [data-intro] children (page headers, the home hero) rise in
+   order with pure CSS, so server-rendered content never flashes. The dashboard uses the same curve, shorter. */
+@keyframes rise {
+  from {
+    opacity: 0;
+    translate: 0 var(--rise-distance, 2.5rem);
+  }
 }
 [data-reveal="hidden"] {
   opacity: 0;
-  translate: 0 1rem;
 }
 [data-reveal="shown"] {
-  opacity: 1;
-  translate: none;
+  animation: rise 800ms var(--ds-ease-brand) var(--reveal-delay, 0ms) backwards;
+}
+[data-intro] > * {
+  animation: rise 900ms var(--ds-ease-brand) calc(var(--intro-start, 0ms) + var(--intro-i, 0) * 90ms) backwards;
+}
+[data-intro] > :nth-child(2) {
+  --intro-i: 1;
+}
+[data-intro] > :nth-child(3) {
+  --intro-i: 2;
+}
+[data-intro] > :nth-child(4) {
+  --intro-i: 3;
+}
+[data-intro] > :nth-child(n + 5) {
+  --intro-i: 4;
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal],
+  [data-intro] > * {
+    opacity: 1 !important;
+    animation: none !important;
+  }
 }
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-group(*),

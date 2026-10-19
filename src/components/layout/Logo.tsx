@@ -13,7 +13,8 @@ export function LogoMark({ className }: { className?: string }) {
 
 export function Logo({ className }: { className?: string }) {
   return (
-    <span className={cn("inline-flex items-center gap-2 font-display text-body font-semibold tracking-tight", className)}>
+    /* Block-level flex: as an inline box it sat on a line box whose descender space pushed it above centre */
+    <span className={cn("flex items-center gap-2 font-display text-body font-semibold tracking-tight", className)}>
       <LogoMark />
       LONAR ECO.
     </span>

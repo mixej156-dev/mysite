@@ -8,6 +8,7 @@ import { useAuth } from "@/lib/auth";
 import { isTwoFactorEnabled } from "@/lib/portfolio";
 import { isEmail, useFocusFirstError } from "@/lib/forms";
 import { CodeInput, isRecoveryCode, isSixDigits } from "./CodeInput";
+import { GOOGLE_DEMO_ACCOUNT, GoogleSignIn } from "./GoogleSignIn";
 import { PasswordInput } from "./PasswordInput";
 import { useRedirectWhenAuthed } from "./useRedirectWhenAuthed";
 
@@ -28,9 +29,12 @@ export function LoginForm() {
   const formRef = useRef<HTMLFormElement>(null);
   useFocusFirstError(formRef, attempt);
 
+  /* Set when signing in with Google, so the two-factor step finishes as that account */
+  const [googleEmail, setGoogleEmail] = useState<string>();
+
   const finish = async () => {
     setSubmitting(true);
-    const session = await signIn(email);
+    const session = await signIn(googleEmail ?? email);
     toast({ tone: "success", title: `Welcome back, ${session.name.split(" ")[0]}` });
     // useRedirectWhenAuthed moves on to `next` now that the session exists
   };
@@ -129,6 +133,7 @@ export function LoginForm() {
               setStep("credentials");
               setCode("");
               setUseRecovery(false);
+              setGoogleEmail(undefined);
             }}
             className="rounded-sm font-medium text-accent-text hover:underline"
           >
@@ -157,7 +162,20 @@ export function LoginForm() {
           </Link>
         </p>
       </div>
-      <form ref={formRef} onSubmit={submit} noValidate aria-label="Log in" className="flex flex-col gap-5">
+      <GoogleSignIn
+        disabled={submitting || status === "authed"}
+        onContinue={async () => {
+          /* Google vouches for the password; the platform's own two-factor still applies */
+          if (isTwoFactorEnabled()) {
+            setGoogleEmail(GOOGLE_DEMO_ACCOUNT.email);
+            setStep("code");
+            return;
+          }
+          const session = await signIn(GOOGLE_DEMO_ACCOUNT.email);
+          toast({ tone: "success", title: `Welcome back, ${session.name.split(" ")[0]}` });
+        }}
+      />
+      <form ref={formRef} onSubmit={submit} noValidate aria-label="Log in" className="-mt-2 flex flex-col gap-5">
         <Input
           label="Email"
           type="email"

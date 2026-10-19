@@ -5,6 +5,7 @@ import { BlogCard } from "@/components/blocks/BlogCard";
 import { GrowthRings } from "@/components/blocks/GrowthRings";
 import { MacWindow } from "@/components/blocks/MacWindow";
 import { Newsletter } from "@/components/blocks/Newsletter";
+import { PhoneMockup } from "@/components/blocks/PhoneMockup";
 import { PoolCard } from "@/components/blocks/PoolCard";
 import { StatCard } from "@/components/blocks/StatCard";
 import { StakeSteps } from "@/components/home/HowItWorks";
@@ -73,6 +74,20 @@ export function BlocksSection() {
                     className="block h-auto w-full"
                   />
                 </MacWindow>
+              </div>
+            </Example>
+            <Example label="PhoneMockup: iPhone 17 Pro Max in 3D, leaning back and turned right (home hero on desktop)">
+              <div className="flex justify-center py-6">
+                <PhoneMockup className="[--pw:14rem]">
+                  <Image
+                    src="/screens/dashboard-phone.webp"
+                    alt="The dashboard on a phone"
+                    width={1320}
+                    height={2580}
+                    unoptimized
+                    className="block h-full w-full object-cover object-top"
+                  />
+                </PhoneMockup>
               </div>
             </Example>
             <Example label="StakeSteps: illustrated steps (StakeStoryCover), one story from coin to wallet">

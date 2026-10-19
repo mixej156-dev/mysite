@@ -25,7 +25,7 @@ export function Article({ post }: { post: Post }) {
   return (
     <>
       <article aria-labelledby={`article-title-${post.slug}`}>
-        <header className="container-page pt-12 pb-12 md:pt-16">
+        <header data-intro className="container-page pt-12 pb-12 md:pt-16">
           <Breadcrumbs
             items={[{ label: "Home", href: "/" }, { label: "Blog", href: "/blog" }, { label: post.category }]}
           />
