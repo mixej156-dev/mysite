@@ -1,15 +1,18 @@
 import type { Metadata } from "next";
+import { LeaderCard } from "@/components/blocks/TeamCard";
 import { PageHeader } from "@/components/blocks/PageHeader";
 import { Section, SectionHeader } from "@/components/blocks/Section";
+import { OpenRoles } from "@/components/company/OpenRoles";
 import { TeamDirectory } from "@/components/company/TeamDirectory";
 import { Link } from "@/components/Link";
-import { Badge } from "@/design-system";
-import { OPEN_ROLES } from "@/data/team";
+import { TEAM } from "@/data/team";
 
 export const metadata: Metadata = {
   title: "Team & careers",
   description: "The people who run LONAR ECO.'s validators and the roles we're hiring for.",
 };
+
+const LEADERS = TEAM.filter((m) => m.department === "Leadership");
 
 export default function TeamPage() {
   return (
@@ -18,13 +21,24 @@ export default function TeamPage() {
         title="The team"
         lead="Engineers, operators and security people who run the validators behind every pool."
         breadcrumbs={[{ label: "Home", href: "/" }, { label: "Team & careers" }]}
-      >
-        <p className="text-small text-muted">People and roles shown are fictional, for the prototype.</p>
-      </PageHeader>
+      />
+
+      <section aria-labelledby="leadership-title" className="container-page pb-14 sm:pb-24 md:pb-28">
+        <h2 id="leadership-title" className="mb-6 text-h2 sm:mb-10">
+          Leadership
+        </h2>
+        <ul className="grid gap-8 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 lg:grid-cols-3 lg:gap-x-8">
+          {LEADERS.map((member) => (
+            <li key={member.id}>
+              <LeaderCard member={member} />
+            </li>
+          ))}
+        </ul>
+      </section>
 
       <section aria-labelledby="people-title" className="container-page pb-14 sm:pb-24 md:pb-32">
-        <h2 id="people-title" className="sr-only">
-          People
+        <h2 id="people-title" className="mb-6 text-h2 sm:mb-8">
+          The people running the pools
         </h2>
         <TeamDirectory />
       </section>
@@ -35,29 +49,11 @@ export default function TeamPage() {
           title="Open roles"
           lead="Small teams, written decisions and on-call shared fairly. Most roles are remote within a few time zones."
         />
-        <ul className="border-t border-rule">
-          {OPEN_ROLES.map((role) => (
-            <li
-              key={role.id}
-              className="relative grid gap-2 border-b border-rule py-6 transition-colors duration-fast hover:bg-surface-2/40 md:grid-cols-[minmax(0,2fr)_minmax(0,1fr)_minmax(0,1fr)_auto] md:items-center md:gap-6"
-            >
-              <h3 className="text-h4 font-medium">
-                <Link href="/contact" className="stretched-link">
-                  {role.title}
-                </Link>
-              </h3>
-              <p className="text-small text-muted">{role.department}</p>
-              <p className="text-small text-muted">{role.location}</p>
-              <Badge tone={role.type === "Remote" ? "accent" : "neutral"} className="justify-self-start">
-                {role.type}
-              </Badge>
-            </li>
-          ))}
-        </ul>
+        <OpenRoles />
         <p className="mt-8 font-serif text-body text-muted">
           Don’t see your role?{" "}
           <Link
-            href="/contact"
+            href="/contact?topic=careers&role=open#write"
             className="rounded-sm font-display text-small font-medium text-accent-text hover:underline"
           >
             Write to us

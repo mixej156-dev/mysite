@@ -12,7 +12,8 @@ import {
 import type { Metadata } from "next";
 import { PageHeader } from "@/components/blocks/PageHeader";
 import { Section, SectionHeader } from "@/components/blocks/Section";
-import { ContactForm } from "@/components/contact/ContactForm";
+import { Suspense } from "react";
+import { ContactForm, ContactFormFromQuery } from "@/components/contact/ContactForm";
 import { OfficesMap } from "@/components/contact/OfficesMap";
 import { Link } from "@/components/Link";
 import { CHANNELS, OFFICES } from "@/data/contact";
@@ -72,8 +73,11 @@ export default function ContactPage() {
       </section>
 
       <div className="container-page grid gap-8 sm:gap-10 pb-14 sm:pb-24 md:pb-32 lg:grid-cols-12 lg:gap-8">
-        <section aria-label="Send a message" className="min-w-0 lg:col-span-7">
-          <ContactForm />
+        <section id="write" aria-label="Send a message" className="min-w-0 scroll-mt-24 lg:col-span-7">
+          {/* The plain form is prerendered; the query (?topic=careers&role=…) is read on the client */}
+          <Suspense fallback={<ContactForm />}>
+            <ContactFormFromQuery />
+          </Suspense>
         </section>
         <aside aria-label="Other ways to reach us" className="flex flex-col gap-4 lg:col-span-5">
           {CHANNELS.map(({ id, title, email, note }) => {

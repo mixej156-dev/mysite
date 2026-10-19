@@ -1,6 +1,7 @@
 "use client";
 
 import { CircleCheck, Clock } from "lucide-react";
+import { useSearchParams } from "next/navigation";
 import { useRef, useState, type FormEvent } from "react";
 import { Button, Input, Select, Textarea, useToast } from "@/design-system";
 import { CONTACT_TOPICS, type ContactTopic } from "@/data/contact";
@@ -89,9 +90,15 @@ function validate(topic: ContactTopic, f: Fields): Errors {
 }
 
 /** Contact form. The topic picks the extra fields and the reply time. Nothing is sent: submitting simulates a request. */
-export function ContactForm() {
-  const [topic, setTopic] = useState<ContactTopic>("support");
-  const [fields, setFields] = useState<Fields>(EMPTY);
+export function ContactForm({
+  initialTopic = "support",
+  initialRole = "",
+}: {
+  initialTopic?: ContactTopic;
+  initialRole?: string;
+}) {
+  const [topic, setTopic] = useState<ContactTopic>(initialTopic);
+  const [fields, setFields] = useState<Fields>({ ...EMPTY, role: initialRole });
   const [errors, setErrors] = useState<Errors>({});
   const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
   const [attempt, setAttempt] = useState(0);
@@ -288,4 +295,13 @@ export function ContactForm() {
       </div>
     </form>
   );
+}
+
+/** The form, opened on ?topic= (and ?role= for careers), e.g. from an Apply link on /team */
+export function ContactFormFromQuery() {
+  const params = useSearchParams();
+  const topic = CONTACT_TOPICS.find((t) => t.id === params.get("topic"))?.id;
+  const role = params.get("role");
+  const knownRole = ROLE_OPTIONS.some((o) => o.value === role) ? (role ?? "") : "";
+  return <ContactForm key={`${topic}-${knownRole}`} initialTopic={topic} initialRole={knownRole} />;
 }

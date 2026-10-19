@@ -1,18 +1,7 @@
 import { ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import type { LeaderProfile as Profile, TeamMember } from "@/data/team";
-
-/** Head-and-shoulders silhouette on an accent wash, used until a real photo is added. */
-function PortraitPlaceholder() {
-  return (
-    <svg viewBox="0 0 400 500" aria-hidden className="size-full" preserveAspectRatio="xMidYMid slice">
-      <rect width="400" height="500" fill="color-mix(in oklab, var(--accent) 22%, var(--surface))" />
-      <circle cx="200" cy="200" r="150" fill="color-mix(in oklab, var(--accent) 34%, var(--surface))" />
-      <circle cx="200" cy="190" r="72" fill="var(--surface-2)" />
-      <path d="M60 500c0-96 63-170 140-170s140 74 140 170z" fill="var(--surface-2)" />
-    </svg>
-  );
-}
+import { TeamAvatar } from "./TeamAvatar";
 
 /** Leader feature: portrait, bio, quote, key achievements and profile links. */
 export function LeaderProfile({ member, profile, titleId }: { member: TeamMember; profile: Profile; titleId: string }) {
@@ -29,7 +18,7 @@ export function LeaderProfile({ member, profile, titleId }: { member: TeamMember
               className="object-cover"
             />
           ) : (
-            <PortraitPlaceholder />
+            <TeamAvatar member={member} />
           )}
         </div>
       </div>
