@@ -33,6 +33,7 @@ function MenuIcon({ icon: Icon, tone }: { icon: LucideIcon; tone: NavTone }) {
   return (
     <span
       aria-hidden
+      data-menu-icon
       className={cn(
         "grid size-9 shrink-0 place-items-center rounded-field bg-surface-2 text-muted transition-colors duration-base",
         TONE_ON_HOVER[tone],
@@ -70,6 +71,7 @@ function StakingPanel({ section }: { section: NavSection }) {
                   {/* Network logo in the same square chip as the other icons: grey at rest, its colours on hover */}
                   <span
                     aria-hidden
+                    data-menu-icon
                     className={cn(
                       "grid size-9 shrink-0 place-items-center rounded-field bg-surface-2 transition-colors duration-base",
                       TONE_ON_HOVER[POOL_TONES[pool.id] ?? "blue"],
@@ -110,6 +112,7 @@ function StakingPanel({ section }: { section: NavSection }) {
           <span>
             <span
               aria-hidden
+              data-menu-icon
               className={cn(
                 "mb-4 grid size-10 place-items-center rounded-field bg-surface text-muted transition-colors duration-base",
                 TONE_ON_HOVER.violet,

@@ -373,3 +373,224 @@
     animation: none !important;
   }
 }
+
+/* Mega-menu icons: each one acts out its meaning once when its link is hovered or focused (MegaMenu.tsx).
+   Parts are addressed by Lucide's class names and child order; 500–700 ms, brand easing. */
+:where([data-menu-icon]) svg * {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.group\/link:is(:hover, :focus-visible) [data-menu-icon] {
+  /* Layers: the sheets lift one after another */
+  & .lucide-layers > :nth-child(1) {
+    animation: icon-lift 600ms var(--ds-ease-brand);
+  }
+  & .lucide-layers > :nth-child(2) {
+    animation: icon-lift 600ms var(--ds-ease-brand) 70ms;
+  }
+  & .lucide-layers > :nth-child(3) {
+    animation: icon-lift 600ms var(--ds-ease-brand) 140ms;
+  }
+  /* Activity: the pulse line is traced again */
+  & .lucide-activity > * {
+    stroke-dasharray: 64;
+    animation: icon-draw-64 700ms var(--ds-ease-brand);
+  }
+  /* Receipt: the dollar sign flips like a coin */
+  & .lucide-receipt > :nth-child(-n + 2) {
+    transform-origin: 12px 12px;
+    transform-box: view-box;
+    animation: icon-flip 600ms var(--ds-ease-brand);
+  }
+  /* Calculator: the keys light up in typing order */
+  & .lucide-calculator > :nth-child(n + 3) {
+    animation: icon-key 500ms var(--ds-ease-brand) backwards;
+  }
+  & .lucide-calculator > :nth-child(5),
+  & .lucide-calculator > :nth-child(8) {
+    animation-delay: 60ms;
+  }
+  & .lucide-calculator > :nth-child(4),
+  & .lucide-calculator > :nth-child(7),
+  & .lucide-calculator > :nth-child(10) {
+    animation-delay: 120ms;
+  }
+  & .lucide-calculator > :nth-child(9) {
+    animation-delay: 180ms;
+  }
+  /* Compare: the divider slides across and settles */
+  & .lucide-columns-2 > :nth-child(2) {
+    animation: icon-slide 600ms var(--ds-ease-brand);
+  }
+  /* Converter: the arrows swap directions */
+  & .lucide-arrow-left-right > :nth-child(-n + 2) {
+    animation: icon-nudge-left 600ms var(--ds-ease-brand);
+  }
+  & .lucide-arrow-left-right > :nth-child(n + 3) {
+    animation: icon-nudge-right 600ms var(--ds-ease-brand);
+  }
+  /* About: the windows switch on, the door opens */
+  & .lucide-building-2 > :nth-child(2) {
+    animation: icon-blink 600ms var(--ds-ease-brand);
+  }
+  & .lucide-building-2 > :nth-child(1) {
+    animation: icon-blink 600ms var(--ds-ease-brand) 120ms;
+  }
+  & .lucide-building-2 > :nth-child(3) {
+    transform-origin: bottom;
+    animation: icon-grow-y 600ms var(--ds-ease-brand) 200ms backwards;
+  }
+  /* Team: a second person joins */
+  & .lucide-users > :nth-child(2),
+  & .lucide-users > :nth-child(3) {
+    animation: icon-join 600ms var(--ds-ease-brand);
+  }
+  & .lucide-users > :nth-child(4) {
+    animation: icon-lift 600ms var(--ds-ease-brand);
+  }
+  /* Security: the tick is drawn into the shield */
+  & .lucide-shield-check > :nth-child(2) {
+    stroke-dasharray: 12;
+    animation: icon-draw-12 500ms var(--ds-ease-brand) 100ms backwards;
+  }
+  & .lucide-shield-check > :nth-child(1) {
+    animation: icon-pop 500ms var(--ds-ease-brand);
+  }
+  /* Contact: the bubble wiggles */
+  & .lucide-message-circle {
+    transform-origin: 20% 85%;
+    animation: icon-wiggle 600ms var(--ds-ease-brand);
+  }
+  /* ECO. LEARN: the cap is tossed */
+  & .lucide-graduation-cap {
+    animation: icon-toss 700ms var(--ds-ease-brand);
+  }
+  /* Blog: fresh lines are printed */
+  & .lucide-newspaper > :nth-child(-n + 2) {
+    stroke-dasharray: 10;
+    animation: icon-draw-10 500ms var(--ds-ease-brand) backwards;
+  }
+  & .lucide-newspaper > :nth-child(1) {
+    animation-delay: 120ms;
+  }
+  & .lucide-newspaper > :nth-child(4) {
+    animation: icon-pop 500ms var(--ds-ease-brand);
+  }
+  /* Docs: the book opens a little wider */
+  & .lucide-book-open > :nth-child(2) {
+    animation: icon-open 600ms var(--ds-ease-brand);
+  }
+  /* FAQ: the question mark tilts, wondering */
+  & .lucide-circle-help > :nth-child(n + 2) {
+    transform-origin: 12px 12px;
+    transform-box: view-box;
+    animation: icon-wiggle 600ms var(--ds-ease-brand);
+  }
+  /* Network logos spin like a coin */
+  & img {
+    animation: icon-coin 700ms var(--ds-ease-brand);
+  }
+}
+@keyframes icon-lift {
+  40% {
+    translate: 0 -2.5px;
+  }
+}
+@keyframes icon-draw-64 {
+  from {
+    stroke-dashoffset: 64;
+  }
+}
+@keyframes icon-draw-12 {
+  from {
+    stroke-dashoffset: 12;
+  }
+}
+@keyframes icon-draw-10 {
+  from {
+    stroke-dashoffset: 10;
+  }
+}
+@keyframes icon-flip {
+  50% {
+    scale: -1 1;
+  }
+}
+@keyframes icon-key {
+  40% {
+    scale: 1.9;
+  }
+}
+@keyframes icon-slide {
+  35% {
+    translate: -3px 0;
+  }
+  70% {
+    translate: 2px 0;
+  }
+}
+@keyframes icon-nudge-left {
+  45% {
+    translate: -3px 0;
+  }
+}
+@keyframes icon-nudge-right {
+  45% {
+    translate: 3px 0;
+  }
+}
+@keyframes icon-blink {
+  30% {
+    opacity: 0.15;
+  }
+}
+@keyframes icon-grow-y {
+  from {
+    scale: 1 0;
+  }
+}
+@keyframes icon-join {
+  from {
+    opacity: 0;
+    translate: 3px 0;
+  }
+}
+@keyframes icon-pop {
+  40% {
+    scale: 1.08;
+  }
+}
+@keyframes icon-wiggle {
+  25% {
+    rotate: -12deg;
+  }
+  55% {
+    rotate: 9deg;
+  }
+  80% {
+    rotate: -4deg;
+  }
+}
+@keyframes icon-toss {
+  35% {
+    translate: 0 -3px;
+    rotate: -10deg;
+  }
+  70% {
+    translate: 0 0;
+    rotate: 4deg;
+  }
+}
+@keyframes icon-open {
+  45% {
+    scale: 1.12 0.96;
+  }
+}
+@keyframes icon-coin {
+  from {
+    transform: perspective(60px) rotateY(0deg);
+  }
+  to {
+    transform: perspective(60px) rotateY(360deg);
+  }
+}
