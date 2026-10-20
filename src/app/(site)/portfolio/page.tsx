@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 export default function PortfolioPage() {
   return (
     <>
-      <section aria-labelledby="portfolio-title" className="relative isolate overflow-hidden">
+      <section aria-labelledby="portfolio-title" data-logo-hero className="relative isolate overflow-hidden">
         <LogoField className="-z-10" />
         {/* A soft clearing behind the words, so the far logos never fight the text */}
         <div
@@ -37,12 +37,10 @@ export default function PortfolioPage() {
             Your balance across {pools.length} networks, every daily reward, and when each unstake comes back. All on
             one screen.
           </p>
-          <div className="mt-8 flex flex-wrap justify-center gap-3 sm:mt-10">
-            <Link href="/register" className={buttonClasses({ size: "lg" })}>
+          {/* Hovering it gathers the logos into turning rings (LogoField) */}
+          <div className="mt-8 sm:mt-10">
+            <Link href="/register" data-orbit-trigger className={buttonClasses({ size: "lg" })}>
               Start staking
-            </Link>
-            <Link href="/login" className={buttonClasses({ size: "lg", variant: "secondary" })}>
-              Log in
             </Link>
           </div>
         </div>

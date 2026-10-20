@@ -8,8 +8,9 @@ import { POOL_TONES, TONE_CHIP } from "../dashboard/tones";
 /*
  * A field of network logos at three depths around a centred headline: near ones large and sharp, far ones small,
  * blurred and faint, like a lens focused on the middle. They come into focus from the centre outwards on load,
- * drift gently, and shift with the pointer and the scroll, nearer ones more. The layout is seeded, so the server
- * and the browser draw the same field. Decorative only.
+ * drift gently, and shift with the pointer and the scroll, nearer ones more. Hovering the hero's main button
+ * ([data-orbit-trigger]) gathers them into rings around the centre that turn, nearer rings faster (CSS only, see
+ * globals.css). The layout is seeded, so the server and the browser draw the same field. Decorative only.
  */
 
 type Depth = 0 | 1 | 2;
@@ -27,6 +28,8 @@ type Item = {
   fdelay: number;
   /** Phones show fewer, and none behind the text */
   phone: boolean;
+  /** Slot on its ring when the field gathers into orbits, in degrees */
+  angle: number;
 };
 
 const SIZE: Record<Depth, string> = { 0: "size-12", 1: "size-8", 2: "size-6" };
@@ -77,7 +80,19 @@ function layout(count: number): Item[] {
       fd: 5 + rand() * 4,
       fdelay: -rand() * 8,
       phone: Math.abs(y - 50) > 24,
+      angle: 0,
     });
+  }
+  /* Ring slots: each depth is one ring, spaced evenly, in the order the logos already sit around the centre, so
+     each one flies to the nearest free slot rather than across the field */
+  for (const depth of [0, 1, 2] as Depth[]) {
+    const ring = items
+      .filter((o) => o.depth === depth)
+      .sort((a, b) => Math.atan2(a.y - 50, (a.x - 50) / 2) - Math.atan2(b.y - 50, (b.x - 50) / 2));
+    const first = ring[0];
+    const start = first ? (Math.atan2(first.y - 50, (first.x - 50) / 2) * 180) / Math.PI : 0;
+    /* Rounded: the server's and the browser's trig can differ in the last digit, which would break hydration */
+    ring.forEach((o, k) => (o.angle = Math.round((start + (k / ring.length) * 360) * 10) / 10));
   }
   return items;
 }
@@ -98,8 +113,8 @@ export function LogoField({ className }: { className?: string }) {
     let frame = 0;
 
     const step = () => {
-      now.x += (target.x - now.x) * 0.08;
-      now.y += (target.y - now.y) * 0.08;
+      now.x += (target.x - now.x) * 0.12;
+      now.y += (target.y - now.y) * 0.12;
       el.style.setProperty("--mx", now.x.toFixed(4));
       el.style.setProperty("--my", now.y.toFixed(4));
       el.style.setProperty("--sy", String(Math.min(window.scrollY, 1200)));
@@ -123,7 +138,12 @@ export function LogoField({ className }: { className?: string }) {
   }, []);
 
   return (
-    <div ref={ref} aria-hidden data-no-reveal className={cn("pointer-events-none absolute inset-0", className)}>
+    <div
+      ref={ref}
+      aria-hidden
+      data-no-reveal
+      className={cn("logo-field pointer-events-none absolute inset-0", className)}
+    >
       {ITEMS.map((item, i) => {
         const distance = Math.hypot((item.x - 50) / 50, (item.y - 50) / 50);
         return (
@@ -132,8 +152,10 @@ export function LogoField({ className }: { className?: string }) {
             className={cn("logo-field-item absolute", !item.phone && "max-sm:hidden")}
             style={
               {
-                left: `${item.x}%`,
-                top: `${item.y}%`,
+                "--x": `${item.x.toFixed(2)}%`,
+                "--y": `${item.y.toFixed(2)}%`,
+                "--a": `${item.angle}deg`,
+                "--ring": item.depth,
                 zIndex: 3 - item.depth,
                 "--drift": DRIFT[item.depth],
               } as CSSProperties
@@ -150,26 +172,33 @@ export function LogoField({ className }: { className?: string }) {
                 } as CSSProperties
               }
             >
-              <span
-                className={cn(
-                  "logo-field-focus -translate-1/2 grid place-items-center rounded-pill",
-                  SIZE[item.depth],
-                  TONE_CHIP[item.poolId ? (POOL_TONES[item.poolId] ?? "blue") : item.tone],
-                )}
-                style={
-                  {
-                    "--blur": `${BLUR[item.depth]}px`,
-                    "--o": OPACITY[item.depth],
-                    "--appear": `${Math.round(150 + distance * 650 + item.depth * 120)}ms`,
-                  } as CSSProperties
-                }
-              >
-                {item.poolId ? (
-                  // eslint-disable-next-line @next/next/no-img-element -- tiny local SVG, decorative
-                  <img src={`/logos/networks/${item.poolId}.svg`} alt="" className={IMG[item.depth]} />
-                ) : (
-                  <span className="size-2 rounded-pill bg-current opacity-60" />
-                )}
+              {/* Orbit: turn to the slot, reach out to the ring, turn back so the logo stays upright */}
+              <span className="logo-field-orbit block">
+                <span className="logo-field-arm block">
+                  <span className="logo-field-upright block">
+                    <span
+                      className={cn(
+                        "logo-field-focus -translate-1/2 grid place-items-center rounded-pill",
+                        SIZE[item.depth],
+                        TONE_CHIP[item.poolId ? (POOL_TONES[item.poolId] ?? "blue") : item.tone],
+                      )}
+                      style={
+                        {
+                          "--blur": `${BLUR[item.depth]}px`,
+                          "--o": OPACITY[item.depth],
+                          "--appear": `${Math.round(150 + distance * 650 + item.depth * 120)}ms`,
+                        } as CSSProperties
+                      }
+                    >
+                      {item.poolId ? (
+                        // eslint-disable-next-line @next/next/no-img-element -- tiny local SVG, decorative
+                        <img src={`/logos/networks/${item.poolId}.svg`} alt="" className={IMG[item.depth]} />
+                      ) : (
+                        <span className="size-2 rounded-pill bg-current opacity-60" />
+                      )}
+                    </span>
+                  </span>
+                </span>
               </span>
             </span>
           </span>

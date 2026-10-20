@@ -838,19 +838,72 @@
   }
 }
 
-/* Portfolio hero (LogoField.tsx): network logos at three depths. The outer layer follows the pointer and the
-   scroll (--mx, --my, --sy set from script), the middle one drifts, the inner one comes into focus on load. */
+/* Portfolio hero (LogoField.tsx): network logos at three depths. The outer layer sits at its spot (--x, --y) and
+   follows the pointer and the scroll (--mx, --my, --sy set from script), the next one drifts, the inner one comes
+   into focus on load. Between them, three layers place it on its orbit ring, used while the hero's main button is
+   hovered: the item glides to the centre, the arm reaches out to its ring, and the rings turn (--logo-spin),
+   nearer ones faster. */
+@property --logo-spin {
+  syntax: "<angle>";
+  inherits: true;
+  initial-value: 0deg;
+}
+.logo-field {
+  animation: logo-spin 40s linear infinite paused;
+}
 .logo-field-item {
-  translate: calc(var(--mx, 0) * var(--drift) * -28px)
-    calc(var(--my, 0) * var(--drift) * -20px - var(--sy, 0) * var(--drift) * 0.18px);
+  left: var(--x);
+  top: var(--y);
+  translate: calc(var(--mx, 0) * var(--drift) * -80px)
+    calc(var(--my, 0) * var(--drift) * -56px - var(--sy, 0) * var(--drift) * 0.3px);
+  transition:
+    left 1100ms var(--ds-ease-brand),
+    top 1100ms var(--ds-ease-brand);
 }
 .logo-field-float {
   animation: logo-drift var(--fd) ease-in-out var(--fdelay) infinite alternate;
+}
+.logo-field-orbit {
+  rotate: calc(var(--a) + var(--logo-spin) * (1 - var(--ring) * 0.3));
+}
+.logo-field-arm {
+  transition: translate 1100ms var(--ds-ease-brand);
+}
+.logo-field-upright {
+  rotate: calc(-1 * (var(--a) + var(--logo-spin) * (1 - var(--ring) * 0.3)));
 }
 .logo-field-focus {
   filter: blur(var(--blur));
   opacity: var(--o);
   animation: logo-focus 1100ms var(--ds-ease-brand) var(--appear) backwards;
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  [data-logo-hero]:has([data-orbit-trigger]:is(:hover, :focus-visible)) {
+    & .logo-field {
+      animation-play-state: running;
+    }
+    /* Parallax off while orbiting, so the rings share one centre */
+    & .logo-field-item {
+      left: 50%;
+      top: 50%;
+      translate: 0 0;
+      transition:
+        left 1100ms var(--ds-ease-brand),
+        top 1100ms var(--ds-ease-brand),
+        translate 1100ms var(--ds-ease-brand);
+    }
+    & .logo-field-float {
+      animation-play-state: paused;
+    }
+    & .logo-field-arm {
+      translate: calc(min(22rem, 40vw) + var(--ring) * 3.5rem) 0;
+    }
+  }
+}
+@keyframes logo-spin {
+  to {
+    --logo-spin: 360deg;
+  }
 }
 @keyframes logo-drift {
   to {
