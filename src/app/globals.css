@@ -838,39 +838,43 @@
   }
 }
 
-/* Portfolio hero (LogoField.tsx): network logos at three depths. The outer layer sits at its spot (--x, --y) and
-   follows the pointer and the scroll (--mx, --my, --sy set from script), the next one drifts, the inner one comes
-   into focus on load. Between them, three layers place it on its orbit ring, used while the hero's main button is
-   hovered: the item glides to the centre, the arm reaches out to its ring, and the rings turn (--logo-spin),
-   nearer ones faster. */
-@property --logo-spin {
-  syntax: "<angle>";
-  inherits: true;
-  initial-value: 0deg;
+/* Portfolio hero (LogoField.tsx): logos at three depths, each in nested layers that only ever transform, so the
+   compositor does the moving:
+   item: parallax with the pointer and the scroll (--mx, --my, --sy from script), faded out by --pk while orbiting;
+   gather: to the centre of the field (--gx, --gy in container units);
+   float: the idle drift;
+   orbit + upright: turn to the ring slot and keep turning, the logo counter-turned so it stays upright;
+   arm: out to the ring's radius;
+   focus: the depth look, and the load-in from blur.
+   Hovering the hero's main button runs the orbit: the rings turn, nearer ones faster. */
+@property --pk {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 1;
 }
 .logo-field {
-  animation: logo-spin 40s linear infinite paused;
+  container-type: size;
 }
 .logo-field-item {
-  left: var(--x);
-  top: var(--y);
-  translate: calc(var(--mx, 0) * var(--drift) * -80px)
-    calc(var(--my, 0) * var(--drift) * -56px - var(--sy, 0) * var(--drift) * 0.3px);
-  transition:
-    left 1100ms var(--ds-ease-brand),
-    top 1100ms var(--ds-ease-brand);
+  translate: calc(var(--mx, 0) * var(--drift) * var(--pk) * -80px)
+    calc((var(--my, 0) * -56px - var(--sy, 0) * 0.3px) * var(--drift) * var(--pk));
+  transition: --pk 1200ms var(--ds-ease-in-out);
+}
+.logo-field-gather,
+.logo-field-arm {
+  transition: translate 1400ms var(--ds-ease-in-out) var(--gd);
+  will-change: translate;
 }
 .logo-field-float {
   animation: logo-drift var(--fd) ease-in-out var(--fdelay) infinite alternate;
 }
 .logo-field-orbit {
-  rotate: calc(var(--a) + var(--logo-spin) * (1 - var(--ring) * 0.3));
-}
-.logo-field-arm {
-  transition: translate 1100ms var(--ds-ease-brand);
+  rotate: var(--a);
+  animation: logo-orbit calc(36s + var(--ring) * 14s) linear infinite paused;
 }
 .logo-field-upright {
-  rotate: calc(-1 * (var(--a) + var(--logo-spin) * (1 - var(--ring) * 0.3)));
+  rotate: calc(var(--a) * -1);
+  animation: logo-upright calc(36s + var(--ring) * 14s) linear infinite paused;
 }
 .logo-field-focus {
   filter: blur(var(--blur));
@@ -879,30 +883,34 @@
 }
 @media (hover: hover) and (prefers-reduced-motion: no-preference) {
   [data-logo-hero]:has([data-orbit-trigger]:is(:hover, :focus-visible)) {
-    & .logo-field {
-      animation-play-state: running;
-    }
-    /* Parallax off while orbiting, so the rings share one centre */
     & .logo-field-item {
-      left: 50%;
-      top: 50%;
-      translate: 0 0;
-      transition:
-        left 1100ms var(--ds-ease-brand),
-        top 1100ms var(--ds-ease-brand),
-        translate 1100ms var(--ds-ease-brand);
+      --pk: 0;
     }
-    & .logo-field-float {
-      animation-play-state: paused;
+    & .logo-field-gather {
+      translate: calc(var(--gx) * 1cqw) calc(var(--gy) * 1cqh);
     }
     & .logo-field-arm {
-      translate: calc(min(22rem, 40vw) + var(--ring) * 3.5rem) 0;
+      translate: calc(min(22rem, 40cqw) + var(--ring) * 3.5rem) 0;
+    }
+    & :is(.logo-field-orbit, .logo-field-upright) {
+      animation-play-state: running;
     }
   }
 }
-@keyframes logo-spin {
+@keyframes logo-orbit {
+  from {
+    rotate: var(--a);
+  }
   to {
-    --logo-spin: 360deg;
+    rotate: calc(var(--a) + 360deg);
+  }
+}
+@keyframes logo-upright {
+  from {
+    rotate: calc(var(--a) * -1);
+  }
+  to {
+    rotate: calc(var(--a) * -1 - 360deg);
   }
 }
 @keyframes logo-drift {

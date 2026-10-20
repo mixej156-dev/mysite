@@ -127,6 +127,8 @@
 
 
   --ds-ease-brand: cubic-bezier(0.22, 1, 0.36, 1);
+  /* Long journeys that should start and land softly (the portfolio logos gathering into orbit) */
+  --ds-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
   --duration-fast: 160ms;
   --duration-base: 280ms;
   --duration-slow: 480ms;
