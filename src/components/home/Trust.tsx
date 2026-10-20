@@ -1,8 +1,7 @@
 import { Link } from "@/components/Link";
 import { buttonClasses } from "@/design-system";
-import { SECURITY_CONTROLS } from "@/data/security";
-import { ControlsList } from "../blocks/ControlsList";
 import { Section, SectionHeader } from "../blocks/Section";
+import { ControlLog } from "./ControlLog";
 
 export function Trust() {
   return (
@@ -17,7 +16,7 @@ export function Trust() {
           </Link>
         }
       />
-      <ControlsList items={SECURITY_CONTROLS} />
+      <ControlLog />
     </Section>
   );
 }

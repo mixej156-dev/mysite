@@ -1,5 +1,7 @@
 import { Section, SectionHeader } from "../blocks/Section";
-import { StakeStoryCover } from "./StakeStoryCover";
+import { DelegateScene, EarnScene, PaidScene, StakeScene } from "./StakeScenes";
+
+const SCENES = [StakeScene, DelegateScene, EarnScene, PaidScene];
 
 const STEPS = [
   {
@@ -20,24 +22,26 @@ const STEPS = [
   },
 ] as const;
 
-/** Four steps as illustrated cards: the covers read as one story from coin to wallet. */
+/**
+ * Four steps, each with a small piece of the dashboard acting it out (StakeScenes): one stake followed from the
+ * form to the wallet. The scene sits above the text on every screen, so it stays readable on phones.
+ */
 export function StakeSteps() {
   return (
-    <ol className="grid gap-5 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 lg:grid-cols-4">
-      {STEPS.map((step, i) => (
-        /* Phones: square cover beside the text, as on guide and article cards */
-        <li
-          key={step.title}
-          className="grid grid-cols-[6.5rem_minmax(0,1fr)] content-start gap-x-4 gap-y-1 sm:flex sm:flex-col sm:gap-0"
-        >
-          <div className="row-span-3 aspect-square overflow-hidden rounded-card border border-rule sm:aspect-[16/10]">
-            <StakeStoryCover step={i as 0 | 1 | 2 | 3} />
-          </div>
-          <p className="font-mono text-caption text-muted sm:mt-5">{String(i + 1).padStart(2, "0")}</p>
-          <h3 className="text-body font-medium sm:mt-1 sm:text-h4">{step.title}</h3>
-          <p className="font-serif text-small text-muted sm:mt-2 sm:max-w-[34ch] sm:text-body">{step.body}</p>
-        </li>
-      ))}
+    <ol className="grid gap-8 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 lg:grid-cols-4">
+      {STEPS.map((step, i) => {
+        const Scene = SCENES[i];
+        return (
+          <li key={step.title} className="flex flex-col">
+            <div className="h-52 overflow-hidden rounded-card border border-rule">
+              <Scene />
+            </div>
+            <p className="mt-5 font-mono text-caption text-muted">{String(i + 1).padStart(2, "0")}</p>
+            <h3 className="mt-1 text-h4">{step.title}</h3>
+            <p className="mt-2 max-w-[34ch] font-serif text-body text-muted">{step.body}</p>
+          </li>
+        );
+      })}
     </ol>
   );
 }

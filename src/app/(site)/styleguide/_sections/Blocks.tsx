@@ -75,7 +75,7 @@ export function BlocksSection() {
                 </MacWindow>
               </div>
             </Example>
-            <Example label="StakeSteps: illustrated steps (StakeStoryCover), one story from coin to wallet">
+            <Example label="StakeSteps: steps acted out by small live dashboard scenes (StakeScenes), one stake from form to wallet">
               <StakeSteps />
             </Example>
             <Example label="PoolCard: with unbonding and with no lock-up">
