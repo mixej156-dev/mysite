@@ -858,11 +858,11 @@
 .logo-field-item {
   translate: calc(var(--mx, 0) * var(--drift) * var(--pk) * -80px)
     calc((var(--my, 0) * -56px - var(--sy, 0) * 0.3px) * var(--drift) * var(--pk));
-  transition: --pk 1200ms var(--ds-ease-in-out);
+  transition: --pk 600ms var(--ds-ease-in-out);
 }
 .logo-field-gather,
 .logo-field-arm {
-  transition: translate 1400ms var(--ds-ease-in-out) var(--gd);
+  transition: translate 750ms var(--ds-ease-in-out) var(--gd);
   will-change: translate;
 }
 .logo-field-float {

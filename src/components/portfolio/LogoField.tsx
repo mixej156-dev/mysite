@@ -113,7 +113,7 @@ function layout(count: number): Item[] {
       fdelay: round(-rand() * 8),
       phone: Math.abs(y - 50) > 24,
       angle: 0,
-      gatherDelay: Math.round(rand() * 220),
+      gatherDelay: Math.round(rand() * 120),
     });
   }
   /* Ring slots: each depth is one ring, spaced evenly, in the order the logos already sit around the centre, so
