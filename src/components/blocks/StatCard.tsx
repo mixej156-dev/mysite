@@ -1,7 +1,6 @@
 "use client";
 
-import { useReducedMotion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import type { MetricFormat } from "@/data/metrics";
 import { duration } from "@/design-system/motion";
 import { cn } from "@/lib/cn";
@@ -16,20 +15,33 @@ export function formatMetric(value: number, format: MetricFormat): string {
 
 const COUNT_MS = duration.slow * 1000 * 3;
 
+/* Read through an external store so the server's zero is replaced right after hydration when motion is reduced */
+const REDUCE = "(prefers-reduced-motion: reduce)";
+const subscribeReduce = (onChange: () => void) => {
+  const query = window.matchMedia(REDUCE);
+  query.addEventListener("change", onChange);
+  return () => query.removeEventListener("change", onChange);
+};
+const useReduceMotion = () =>
+  useSyncExternalStore(
+    subscribeReduce,
+    () => window.matchMedia(REDUCE).matches,
+    () => false,
+  );
+
 /**
- * Counts up once when scrolled into view. Renders the final value on the server,
- * and when it is already visible on load, so nothing flickers.
+ * Counts up from zero once it is on screen: straight away when it is visible on load, otherwise when it scrolls
+ * in. The server renders zero so the count starts from where the page first painted; with reduced motion the
+ * final figure is shown at once.
  */
 export function useCountUp<T extends Element = HTMLDivElement>(target: number) {
-  const reduceMotion = useReducedMotion();
-  const { ref, inView, startedVisible } = useInViewOnce<T>();
-  const [value, setValue] = useState(target);
-
-  // Below the fold: hold at zero until it scrolls in
-  const armed = startedVisible === false && !reduceMotion;
+  const reduceMotion = useReduceMotion();
+  // Any part on screen is enough: on shorter laptop screens the panel only peeks above the fold on load
+  const { ref, inView } = useInViewOnce<T>("0px");
+  const [value, setValue] = useState(0);
 
   useEffect(() => {
-    if (!armed || !inView) return;
+    if (reduceMotion || !inView) return;
     let frame = 0;
     const start = performance.now();
     const tick = (now: number) => {
@@ -40,9 +52,9 @@ export function useCountUp<T extends Element = HTMLDivElement>(target: number) {
     };
     frame = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(frame);
-  }, [armed, inView, target]);
+  }, [reduceMotion, inView, target]);
 
-  return { ref, value: armed && !inView ? 0 : value };
+  return { ref, value: reduceMotion ? target : value };
 }
 
 export type StatCardProps = {
@@ -53,7 +65,13 @@ export type StatCardProps = {
   className?: string;
 };
 
-export function StatCard({ label, value, format, caption, className }: StatCardProps) {
+export function StatCard({
+  label,
+  value,
+  format,
+  caption,
+  className,
+}: StatCardProps) {
   const { ref, value: shown } = useCountUp(value);
 
   return (
