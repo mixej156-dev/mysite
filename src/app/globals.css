@@ -565,6 +565,19 @@
   & .lucide-coins > :nth-child(4) {
     animation: icon-lift 600ms var(--ds-ease-brand) 120ms;
   }
+  /* Portfolio: the dashboard's panels light up in turn */
+  & .lucide-layout-dashboard > * {
+    animation: icon-pop-big 450ms var(--ds-ease-brand) backwards;
+  }
+  & .lucide-layout-dashboard > :nth-child(2) {
+    animation-delay: 90ms;
+  }
+  & .lucide-layout-dashboard > :nth-child(3) {
+    animation-delay: 180ms;
+  }
+  & .lucide-layout-dashboard > :nth-child(4) {
+    animation-delay: 270ms;
+  }
   /* Network logos spin like a coin */
   & img {
     animation: icon-coin 700ms var(--ds-ease-brand);
@@ -821,6 +834,65 @@
 }
 @media (prefers-reduced-motion: reduce) {
   :is(.stake-drop, .stake-ripple, .stake-node, .stake-badge, .stake-check) {
+    animation: none;
+  }
+}
+
+/* Portfolio hero (LogoField.tsx): network logos at three depths. The outer layer follows the pointer and the
+   scroll (--mx, --my, --sy set from script), the middle one drifts, the inner one comes into focus on load. */
+.logo-field-item {
+  translate: calc(var(--mx, 0) * var(--drift) * -28px)
+    calc(var(--my, 0) * var(--drift) * -20px - var(--sy, 0) * var(--drift) * 0.18px);
+}
+.logo-field-float {
+  animation: logo-drift var(--fd) ease-in-out var(--fdelay) infinite alternate;
+}
+.logo-field-focus {
+  filter: blur(var(--blur));
+  opacity: var(--o);
+  animation: logo-focus 1100ms var(--ds-ease-brand) var(--appear) backwards;
+}
+@keyframes logo-drift {
+  to {
+    translate: var(--fx) var(--fy);
+  }
+}
+@keyframes logo-focus {
+  from {
+    opacity: 0;
+    scale: 0.4;
+    filter: blur(14px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .logo-field-float,
+  .logo-field-focus {
+    animation: none;
+  }
+}
+
+/* Portfolio live preview (LivePreview.tsx): the bell swings when a reward lands, the cursor dips on a click */
+.preview-ring {
+  transform-origin: 50% 10%;
+  animation: icon-wiggle 700ms var(--ds-ease-brand);
+}
+.preview-press {
+  animation: preview-press 300ms var(--ds-ease-brand);
+}
+@keyframes preview-press {
+  45% {
+    scale: 0.78;
+  }
+}
+/* Portfolio features: a new alert slides in on top of the list */
+.alert-in {
+  animation: rise var(--duration-slow) var(--ds-ease-brand);
+  --rise-distance: -0.75rem;
+}
+@media (prefers-reduced-motion: reduce) {
+  .preview-ring,
+  .preview-press,
+  .alert-in {
     animation: none;
   }
 }

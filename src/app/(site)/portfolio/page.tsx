@@ -1,0 +1,97 @@
+import type { Metadata } from "next";
+import { CTASection } from "@/components/blocks/CTASection";
+import { MacWindow } from "@/components/blocks/MacWindow";
+import { Section, SectionHeader } from "@/components/blocks/Section";
+import { Link } from "@/components/Link";
+import { Features } from "@/components/portfolio/Features";
+import { LivePreview } from "@/components/portfolio/LivePreview";
+import { LogoField } from "@/components/portfolio/LogoField";
+import { buttonClasses } from "@/design-system";
+import { pools } from "@/data/pools";
+
+export const metadata: Metadata = {
+  title: "Portfolio",
+  description:
+    "Every stake in one view: your balance across networks, daily rewards, unbonding dates and the alerts that matter.",
+};
+
+export default function PortfolioPage() {
+  return (
+    <>
+      <section aria-labelledby="portfolio-title" className="relative isolate overflow-hidden">
+        <LogoField className="-z-10" />
+        {/* A soft clearing behind the words, so the far logos never fight the text */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 top-1/2 -z-10 mx-auto h-[28rem] max-w-3xl -translate-y-1/2 rounded-pill bg-bg opacity-80 blur-3xl"
+        />
+        <div
+          data-intro
+          className="container-page flex min-h-[40rem] flex-col items-center justify-center py-24 text-center sm:min-h-[46rem] lg:min-h-[52rem]"
+        >
+          <p className="text-small font-medium text-accent-text">Portfolio</p>
+          <h1 id="portfolio-title" className="mt-4 max-w-[14ch] text-display">
+            Every stake, in one view.
+          </h1>
+          <p className="mt-6 max-w-[44ch] font-serif text-lead text-muted">
+            Your balance across {pools.length} networks, every daily reward, and when each unstake comes back. All on
+            one screen.
+          </p>
+          <div className="mt-8 flex flex-wrap justify-center gap-3 sm:mt-10">
+            <Link href="/register" className={buttonClasses({ size: "lg" })}>
+              Start staking
+            </Link>
+            <Link href="/login" className={buttonClasses({ size: "lg", variant: "secondary" })}>
+              Log in
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <Section labelledBy="preview-title" tone="subtle">
+        <SectionHeader
+          id="preview-title"
+          title="Your dashboard, live"
+          lead="This is the real overview, running on a sample account. Rewards land, the chart moves, nothing to set up."
+        />
+        <p className="sr-only">
+          A preview of the dashboard overview playing by itself: total balance, a balance chart whose period switches
+          between 30 days, 90 days and a year, latest rewards, open positions and recent activity, with new rewards
+          arriving every few seconds.
+        </p>
+        <div data-reveal-item>
+          <MacWindow address="lonar.eco/dashboard">
+            <LivePreview />
+          </MacWindow>
+        </div>
+      </Section>
+
+      <Section labelledBy="features-title">
+        <SectionHeader
+          id="features-title"
+          title="What you can see at a glance"
+          lead="The same figures the dashboard shows, nothing estimated twice."
+        />
+        <Features />
+      </Section>
+
+      <Section tone="inverse" labelledBy="portfolio-cta">
+        <CTASection
+          id="portfolio-cta"
+          title="Bring your stake into view."
+          lead="Create an account, stake from 0.1 ETH and watch the first reward arrive within a day. Estimates, not an offer or a forecast."
+          actions={
+            <>
+              <Link href="/register" className={buttonClasses({ size: "lg" })}>
+                Start staking
+              </Link>
+              <Link href="/staking" className={buttonClasses({ size: "lg", variant: "secondary" })}>
+                See pools
+              </Link>
+            </>
+          }
+        />
+      </Section>
+    </>
+  );
+}

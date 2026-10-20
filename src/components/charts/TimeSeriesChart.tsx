@@ -30,6 +30,8 @@ export type TimeSeriesChartProps = {
   note?: string;
   /** Dashboard look: lines draw in on mount and on period change, areas fade into a gradient */
   animate?: boolean;
+  /** Sets the window from outside (the portfolio page's live preview switches it by itself) */
+  period?: number;
   className?: string;
 };
 
@@ -138,6 +140,7 @@ export function TimeSeriesChart({
   defaultPeriod = 90,
   note,
   animate = false,
+  period: controlledPeriod,
   className,
 }: TimeSeriesChartProps) {
   const reduceMotion = useReducedMotion();
@@ -146,7 +149,8 @@ export function TimeSeriesChart({
   const [chosenPeriod, setPeriod] = useState<number | null>(null);
   /* Long windows turn into noise at phone width, so phones start with the shortest one */
   /* No period tabs: show every point */
-  const period = periods.length === 0 ? Infinity : (chosenPeriod ?? (narrow ? periods[0] : defaultPeriod));
+  const period =
+    periods.length === 0 ? Infinity : (controlledPeriod ?? chosenPeriod ?? (narrow ? periods[0] : defaultPeriod));
   const [view, setView] = useState<"chart" | "table">("chart");
   const titleId = useId();
   const gradientId = `fill${titleId.replace(/[^a-zA-Z0-9]/g, "")}`;

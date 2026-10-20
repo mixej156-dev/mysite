@@ -7,6 +7,7 @@ import {
   Columns2,
   GraduationCap,
   Layers,
+  LayoutDashboard,
   MessageCircle,
   Newspaper,
   Receipt,
@@ -41,7 +42,7 @@ export const NAV_SECTIONS: NavSection[] = [
   {
     id: "staking",
     label: "Staking",
-    match: ["/staking", "/validators", "/fees"],
+    match: ["/staking", "/portfolio", "/validators", "/fees"],
     links: [
       {
         label: "All pools",
@@ -49,6 +50,13 @@ export const NAV_SECTIONS: NavSection[] = [
         description: "Compare yield, lock-up and minimums",
         icon: Layers,
         tone: "blue",
+      },
+      {
+        label: "Portfolio",
+        href: "/portfolio",
+        description: "Every stake and reward in one view",
+        icon: LayoutDashboard,
+        tone: "violet",
       },
       {
         label: "Validator performance",
@@ -147,6 +155,7 @@ export const FOOTER_COLUMNS: { title: string; links: NavLink[] }[] = [
     title: "Product",
     links: [
       { label: "Staking pools", href: "/staking" },
+      { label: "Portfolio", href: "/portfolio" },
       { label: "Fees", href: "/fees" },
       { label: "Rewards calculator", href: "/tools/calculator" },
       { label: "Compare pools", href: "/tools/compare" },

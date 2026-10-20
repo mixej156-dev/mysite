@@ -9,6 +9,7 @@ import { SITE_URL } from "@/lib/site";
 const STATIC_ROUTES = [
   "",
   "/staking",
+  "/portfolio",
   "/tools",
   "/tools/calculator",
   "/tools/compare",
