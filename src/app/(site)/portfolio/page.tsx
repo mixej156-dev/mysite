@@ -18,16 +18,23 @@ export const metadata: Metadata = {
 export default function PortfolioPage() {
   return (
     <>
-      <section aria-labelledby="portfolio-title" data-logo-hero className="relative isolate overflow-hidden">
+      {/* Clipped at the top and the sides only: near logos at the bottom, pushed down by the parallax, spill into
+          the next section's empty top instead of being cut */}
+      <section
+        aria-labelledby="portfolio-title"
+        data-logo-hero
+        className="relative isolate overflow-x-clip [clip-path:inset(0_0_-12rem_0)]"
+      >
         <LogoField className="-z-10" />
         {/* A soft clearing behind the words, so the far logos never fight the text */}
         <div
           aria-hidden
           className="pointer-events-none absolute inset-x-0 top-1/2 -z-10 mx-auto h-[28rem] max-w-3xl -translate-y-1/2 rounded-pill bg-bg opacity-80 blur-3xl"
         />
+        {/* The first screen, under the site header (4.25rem) */}
         <div
           data-intro
-          className="container-page flex min-h-[40rem] flex-col items-center justify-center py-24 text-center sm:min-h-[46rem] lg:min-h-[52rem]"
+          className="container-page flex min-h-[max(36rem,calc(100svh-4.25rem))] flex-col items-center justify-center py-24 text-center"
         >
           <p className="text-small font-medium text-accent-text">Portfolio</p>
           <h1 id="portfolio-title" className="mt-4 max-w-[14ch] text-display">

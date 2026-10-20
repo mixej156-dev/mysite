@@ -84,12 +84,13 @@ const round = (v: number, digits = 2) => Math.round(v * 10 ** digits) / 10 ** di
 
 /*
  * The three stage shapes the hero takes, in reference pixels: the field is laid out once per shape so it looks the
- * same everywhere (evenly spread, the headline clear), and CSS picks the shape by the field's aspect ratio. `rx`/`ry`
+ * same everywhere (evenly spread, the headline clear), and CSS picks the shape by the field's aspect ratio. The
+ * hero is one screen high, so each shape spans a range of heights; the clearing is sized for the shorter ones. `rx`/`ry`
  * is the clearing around the text, `gap` the spacing between logos.
  */
 const STAGES = [
-  { w: 1440, h: 832, rx: 440, ry: 220, gap: 96 },
-  { w: 768, h: 736, rx: 330, ry: 215, gap: 62 },
+  { w: 1440, h: 760, rx: 460, ry: 285, gap: 88 },
+  { w: 768, h: 860, rx: 330, ry: 240, gap: 62 },
   { w: 375, h: 640, rx: 205, ry: 190, gap: 42 },
 ];
 
@@ -107,7 +108,8 @@ function place(depths: Depth[], stage: (typeof STAGES)[number], seed: number): S
         misses = 0;
       }
       const x = w * (0.03 + rand() * 0.94);
-      const y = h * (0.04 + rand() * 0.92);
+      /* A wider margin at the bottom: the hero fills the screen, so its bottom edge is the screen's */
+      const y = h * (0.05 + rand() * 0.86);
       const dx = (x - w / 2) / (rx * clear);
       const dy = (y - h / 2) / (ry * clear);
       if (dx * dx + dy * dy < 1) continue;
