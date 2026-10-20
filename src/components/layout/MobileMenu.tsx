@@ -5,13 +5,15 @@ import { AnimatePresence, m, useDragControls, useReducedMotion, type PanInfo } f
 import { Menu, X } from "lucide-react";
 import { Link } from "@/components/Link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { buttonClasses } from "@/design-system/components/Button";
 import { transition } from "@/design-system/motion";
+import { SHEET_OVERLAY, SHEET_SPRING, closesSheet } from "@/design-system/sheet";
 import { featuredPools } from "@/data/pools";
 import { useAuth } from "@/lib/auth";
 import { cn } from "@/lib/cn";
 import { formatPercent } from "@/lib/format";
+import { SearchField } from "../search/SearchButton";
 import { MenuIcon, PoolMenuIcon } from "./MenuIcon";
 import { NAV_SECTIONS, type NavLink } from "./nav";
 
@@ -28,10 +30,6 @@ const pressedButton =
 
 const pressable =
   "-mx-3 rounded-field px-3 transition-colors duration-fast [-webkit-tap-highlight-color:transparent] active:bg-accent active:text-on-accent";
-
-/* Pull the sheet down this far, or flick it, to close */
-const CLOSE_OFFSET = 96;
-const CLOSE_VELOCITY = 500;
 
 /* Every section's links in one list; Staking leads with the featured pools and their APY */
 const SECTIONS = NAV_SECTIONS.map((section) => ({
@@ -62,8 +60,10 @@ export function MobileMenu() {
   const { session, status, signOut } = useAuth();
 
   const close = () => setOpen(false);
+  /* Leaving for the search: don't hand focus back to the menu button, the search field has it */
+  const toSearch = useRef(false);
   const onDragEnd = (_: unknown, info: PanInfo) => {
-    if (info.offset.y > CLOSE_OFFSET || info.velocity.y > CLOSE_VELOCITY) close();
+    if (closesSheet(info)) close();
   };
 
   return (
@@ -76,14 +76,22 @@ export function MobileMenu() {
           <Dialog.Portal forceMount>
             <Dialog.Overlay asChild forceMount>
               <m.div
-                className="fixed inset-0 z-overlay bg-scrim/60 backdrop-blur-md lg:hidden"
+                className={cn("fixed inset-0 z-overlay lg:hidden", SHEET_OVERLAY)}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={transition.base}
               />
             </Dialog.Overlay>
-            <Dialog.Content asChild forceMount aria-describedby={undefined}>
+            <Dialog.Content
+              asChild
+              forceMount
+              aria-describedby={undefined}
+              onCloseAutoFocus={(e) => {
+                if (toSearch.current) e.preventDefault();
+                toSearch.current = false;
+              }}
+            >
               <m.div
                 className={cn(
                   "fixed inset-x-0 bottom-0 z-modal mx-auto flex max-h-[85dvh] w-full max-w-xl flex-col",
@@ -92,7 +100,7 @@ export function MobileMenu() {
                 initial={reduceMotion ? { opacity: 0 } : { y: "100%" }}
                 animate={reduceMotion ? { opacity: 1 } : { y: 0 }}
                 exit={reduceMotion ? { opacity: 0 } : { y: "100%" }}
-                transition={reduceMotion ? transition.base : { type: "spring", damping: 34, stiffness: 340 }}
+                transition={reduceMotion ? transition.base : SHEET_SPRING}
                 drag={reduceMotion ? false : "y"}
                 dragControls={drag}
                 dragListener={false}
@@ -111,6 +119,15 @@ export function MobileMenu() {
                   <Dialog.Close aria-label="Close menu" className={cn(iconButton, "-mr-2")}>
                     <X aria-hidden className="size-5" />
                   </Dialog.Close>
+                </div>
+
+                <div className="shrink-0 px-5 pt-1 pb-4 sm:px-6">
+                  <SearchField
+                    onOpen={() => {
+                      toSearch.current = true;
+                      close();
+                    }}
+                  />
                 </div>
 
                 {/* Icons act out their meaning as the sheet opens (no hover on touch screens) */}

@@ -7,10 +7,14 @@ import { Link } from "@/components/Link";
 import { transition } from "@/design-system/motion";
 import { cn } from "@/lib/cn";
 import { Logo } from "../layout/Logo";
+import { SearchField } from "../search/SearchButton";
 import { DASHBOARD_NAV, isNavActive } from "./nav";
 
-/** Dashboard navigation. Rendered in a fixed column on desktop and in a sheet on smaller screens. */
-export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
+/**
+ * Dashboard navigation. Rendered in a fixed column on desktop and in a sheet on smaller screens; the sheet
+ * (`withSearch`) also has the site search, since the top bar has no room for it on phones.
+ */
+export function Sidebar({ onNavigate, withSearch = false }: { onNavigate?: () => void; withSearch?: boolean }) {
   const pathname = usePathname();
   /* The desktop column and the sheet can both be mounted: each keeps its own sliding highlight */
   const group = useId();
@@ -20,6 +24,7 @@ export function Sidebar({ onNavigate }: { onNavigate?: () => void }) {
       <Link href="/" aria-label="LONAR ECO. home" className="self-start rounded-sm px-2" onClick={onNavigate}>
         <Logo />
       </Link>
+      {withSearch && onNavigate && <SearchField onOpen={onNavigate} label="Search" className="-mt-3 h-10 text-small" />}
       <nav aria-label="Dashboard">
         <LayoutGroup id={group}>
           <ul className="flex flex-col gap-0.5">

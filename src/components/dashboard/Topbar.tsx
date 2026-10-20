@@ -65,7 +65,7 @@ export function Topbar() {
             >
               <X aria-hidden className="size-5" />
             </Dialog.Close>
-            <Sidebar onNavigate={() => setOpen(false)} />
+            <Sidebar onNavigate={() => setOpen(false)} withSearch />
           </Dialog.Content>
         </Dialog.Portal>
       </Dialog.Root>

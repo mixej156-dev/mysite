@@ -18,6 +18,10 @@ const useIsMac = () =>
     () => true,
   );
 
+/* Other places (the mobile menu, the dashboard drawer) open the search through this event */
+const OPEN_EVENT = "site-search:open";
+export const openSearch = () => window.dispatchEvent(new Event(OPEN_EVENT));
+
 const isTyping = (target: EventTarget | null) =>
   target instanceof HTMLElement && (target.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(target.tagName));
 
@@ -39,8 +43,16 @@ export function SearchButton({ className }: { className?: string }) {
         setOpen((o) => (combo ? !o : true));
       }
     };
+    const onOpen = () => {
+      setUsed(true);
+      setOpen(true);
+    };
     window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
+    window.addEventListener(OPEN_EVENT, onOpen);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      window.removeEventListener(OPEN_EVENT, onOpen);
+    };
   }, []);
 
   const show = () => {
@@ -72,5 +84,35 @@ export function SearchButton({ className }: { className?: string }) {
       </button>
       {used && <SearchDialog open={open} onOpenChange={setOpen} />}
     </>
+  );
+}
+
+/** A search field look-alike for sheets: closes the sheet (`onOpen`), then opens the site search. */
+export function SearchField({
+  onOpen,
+  label = "Search pools, guides, questions…",
+  className,
+}: {
+  onOpen: () => void;
+  label?: string;
+  className?: string;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={() => {
+        onOpen();
+        openSearch();
+      }}
+      onPointerDown={() => void loadDialog()}
+      className={cn(
+        "flex h-11 w-full items-center gap-2.5 rounded-field border border-rule bg-surface-2 px-3 text-left text-body text-muted",
+        "transition-colors duration-fast [-webkit-tap-highlight-color:transparent] hover:border-rule-strong active:border-accent",
+        className,
+      )}
+    >
+      <Search aria-hidden className="size-[1.125rem] shrink-0" />
+      <span className="truncate">{label}</span>
+    </button>
   );
 }
