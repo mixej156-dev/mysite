@@ -841,12 +841,13 @@
 /* Portfolio hero (LogoField.tsx): logos at three depths, each in nested layers that only ever transform, so the
    compositor does the moving:
    item: parallax with the pointer and the scroll (--mx, --my, --sy from script), faded out by --pk while orbiting;
-   gather: to the centre of the field (--gx, --gy in container units);
+   gather: to the centre of the field (from the spot --x, --y, in container units);
    float: the idle drift;
    orbit + upright: turn to the ring slot and keep turning, the logo counter-turned so it stays upright;
    arm: out to the ring's radius;
    focus: the depth look, and the load-in from blur.
-   Hovering the hero's main button runs the orbit: the rings turn, nearer ones faster. */
+   Hovering the hero's main button runs the orbit: the rings turn, nearer ones faster. Without hover the field
+   does it by itself now and then. */
 @property --pk {
   syntax: "<number>";
   inherits: false;
@@ -856,9 +857,39 @@
   container-type: size;
 }
 .logo-field-item {
+  /* Wide stage by default; the square and tall ones below (LogoField lays out all three) */
+  --x: var(--x1);
+  --y: var(--y1);
+  --a: var(--a1);
+  --s: 1;
+  --r0: min(22rem, 40cqw);
+  --rs: 3.5rem;
+  left: calc(var(--x) * 1%);
+  top: calc(var(--y) * 1%);
   translate: calc(var(--mx, 0) * var(--drift) * var(--pk) * -80px)
     calc((var(--my, 0) * -56px - var(--sy, 0) * 0.3px) * var(--drift) * var(--pk));
   transition: --pk 600ms var(--ds-ease-in-out);
+}
+@container (aspect-ratio < 1.35) {
+  .logo-field-item {
+    --x: var(--x2);
+    --y: var(--y2);
+    --a: var(--a2);
+    --s: 0.85;
+    --r0: 34cqw;
+    --rs: 6cqw;
+  }
+}
+@container (aspect-ratio < 0.8) {
+  .logo-field-item {
+    --x: var(--x3);
+    --y: var(--y3);
+    --a: var(--a3);
+    --s: 0.72;
+    /* The text fills a phone's width, so the rings go round it wider than the screen, cut at the sides */
+    --r0: 46cqw;
+    --rs: 9cqw;
+  }
 }
 .logo-field-gather,
 .logo-field-arm {
@@ -874,6 +905,7 @@
 }
 .logo-field-upright {
   rotate: calc(var(--a) * -1);
+  scale: var(--s);
   animation: logo-upright calc(36s + var(--ring) * 14s) linear infinite paused;
 }
 .logo-field-focus {
@@ -881,16 +913,17 @@
   opacity: var(--o);
   animation: logo-focus 1100ms var(--ds-ease-brand) var(--appear) backwards;
 }
-@media (hover: hover) and (prefers-reduced-motion: no-preference) {
-  [data-logo-hero]:has([data-orbit-trigger]:is(:hover, :focus-visible)) {
+@media (prefers-reduced-motion: no-preference) {
+  /* Pointing at the button, or by itself now and then where there is no hover ([data-orbiting], from LogoField) */
+  [data-logo-hero]:is([data-orbiting], :has([data-orbit-trigger]:is(:hover, :focus-visible))) {
     & .logo-field-item {
       --pk: 0;
     }
     & .logo-field-gather {
-      translate: calc(var(--gx) * 1cqw) calc(var(--gy) * 1cqh);
+      translate: calc((50 - var(--x)) * 1cqw) calc((50 - var(--y)) * 1cqh);
     }
     & .logo-field-arm {
-      translate: calc(min(22rem, 40cqw) + var(--ring) * 3.5rem) 0;
+      translate: calc(var(--r0) + var(--ring) * var(--rs)) 0;
     }
     & :is(.logo-field-orbit, .logo-field-upright) {
       animation-play-state: running;

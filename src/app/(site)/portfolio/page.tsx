@@ -46,7 +46,7 @@ export default function PortfolioPage() {
         </div>
       </section>
 
-      <Section labelledBy="preview-title" tone="subtle">
+      <Section labelledBy="preview-title">
         <SectionHeader
           id="preview-title"
           title="Your dashboard, live"

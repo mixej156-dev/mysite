@@ -11,38 +11,36 @@ import { POOL_TONES, TONE_CHIP, type Tone } from "../dashboard/tones";
  * drift gently, and shift with the pointer and the scroll, nearer ones more. Hovering the hero's main button
  * ([data-orbit-trigger]) gathers them into rings around the centre that turn, nearer rings faster (CSS only, see
  * globals.css). Every move is a transform, so the browser can run it on the compositor. The layout is seeded, so
- * the server and the browser draw the same field. Decorative only.
+ * the server and the browser draw the same field; it is laid out for three stage shapes, so desktops, tablets and
+ * phones see the same picture, and without hover the field gathers by itself now and then. Decorative only.
  */
 
 type Depth = 0 | 1 | 2;
 type Logo = { src: string; tone: Tone };
+/** Where an item sits in one stage shape, in % of the field, and its slot on its ring in degrees */
+type Spot = { x: number; y: number; a: number };
 type Item = {
-  x: number;
-  y: number;
   depth: Depth;
-  /** A logo, or a plain tinted dot for the far haze */
-  logo?: Logo;
-  tone: Tone;
+  logo: Logo;
+  /** One spot per stage shape: wide (desktop), square (tablet), tall (phone) */
+  spots: [Spot, Spot, Spot];
   /** Drift: offset and timing */
   fx: number;
   fy: number;
   fd: number;
   fdelay: number;
-  /** Phones show fewer, and none behind the text */
-  phone: boolean;
-  /** Slot on its ring when the field gathers into orbits, in degrees */
-  angle: number;
   /** A small per-logo delay, so the gathering ripples instead of moving as one block */
   gatherDelay: number;
 };
 
-const SIZE: Record<Depth, string> = { 0: "size-12", 1: "size-8", 2: "size-6" };
-const IMG: Record<Depth, string> = { 0: "size-9", 1: "size-6", 2: "size-4" };
+/* Square chips with the site's icon radius, smaller ones a smaller radius so they keep the same look */
+const SIZE: Record<Depth, string> = { 0: "size-12 rounded-field", 1: "size-8 rounded-field", 2: "size-6 rounded-sm" };
+const IMG: Record<Depth, string> = { 0: "size-8", 1: "size-5", 2: "size-4" };
 const BLUR = [0, 2, 4];
 const OPACITY = [1, 0.85, 0.55];
 /** How far each depth moves with the pointer and the scroll */
 const DRIFT = [1, 0.55, 0.25];
-
+const COUNT = 84;
 /*
  * Our networks first, then other well-known assets people hold next to them (cryptocurrency-icons, CC0). Only a
  * picture of the wider market: the pools stay the six networks in data/pools.ts.
@@ -68,8 +66,6 @@ const LOGOS: Logo[] = [
     ] as const
   ).map(([id, tone]) => ({ src: `/logos/coins/${id}.svg`, tone })),
 ];
-const TONES = Object.values(POOL_TONES);
-
 function seeded(seed: number) {
   return () => {
     seed |= 0;
@@ -83,53 +79,74 @@ function seeded(seed: number) {
 /* Rounded: the server's and the browser's maths can differ in the last digit, which would break hydration */
 const round = (v: number, digits = 2) => Math.round(v * 10 ** digits) / 10 ** digits;
 
-function layout(count: number): Item[] {
-  const rand = seeded(7);
-  const items: Item[] = [];
-  let logos = 0;
-  let tries = 0;
-  while (items.length < count && tries++ < 4000) {
-    const x = 3 + rand() * 94;
-    const y = 4 + rand() * 92;
-    /* Keep the headline clear: an ellipse in the middle */
-    const dx = (x - 50) / 31;
-    const dy = (y - 50) / 25;
-    if (dx * dx + dy * dy < 1) continue;
-    /* Even spacing, in a roughly square measure (the field is about twice as wide as tall) */
-    if (items.some((o) => ((o.x - x) / 2) ** 2 + (o.y - y) ** 2 < 7.5 ** 2)) continue;
-    const r = rand();
-    const depth: Depth = r < 0.3 ? 0 : r < 0.62 ? 1 : 2;
-    const dot = depth === 2 && rand() < 0.45;
-    items.push({
-      x: round(x),
-      y: round(y),
-      depth,
-      /* Logos in turn, so all twenty appear before any repeats */
-      logo: dot ? undefined : LOGOS[logos++ % LOGOS.length],
-      tone: TONES[Math.floor(rand() * TONES.length)],
-      fx: round((rand() - 0.5) * 12),
-      fy: round((rand() - 0.5) * 12),
-      fd: round(5 + rand() * 4),
-      fdelay: round(-rand() * 8),
-      phone: Math.abs(y - 50) > 24,
-      angle: 0,
-      gatherDelay: Math.round(rand() * 120),
-    });
+/*
+ * The three stage shapes the hero takes, in reference pixels: the field is laid out once per shape so it looks the
+ * same everywhere (evenly spread, the headline clear), and CSS picks the shape by the field's aspect ratio. `rx`/`ry`
+ * is the clearing around the text, `gap` the spacing between logos.
+ */
+const STAGES = [
+  { w: 1440, h: 832, rx: 440, ry: 220, gap: 96 },
+  { w: 768, h: 736, rx: 330, ry: 215, gap: 62 },
+  { w: 375, h: 640, rx: 205, ry: 190, gap: 42 },
+];
+
+function place(depths: Depth[], stage: (typeof STAGES)[number], seed: number): Spot[] {
+  const rand = seeded(seed);
+  const { w, h, rx, ry } = stage;
+  const pts: { x: number; y: number }[] = [];
+  let gap = stage.gap;
+  for (const depth of depths) {
+    /* Far logos may sit closer in, behind the soft clearing; if the field is full, the spacing gives a little */
+    const clear = depth === 2 ? 0.6 : 1;
+    for (let misses = 0; ; misses++) {
+      if (misses > 400) {
+        gap *= 0.95;
+        misses = 0;
+      }
+      const x = w * (0.03 + rand() * 0.94);
+      const y = h * (0.04 + rand() * 0.92);
+      const dx = (x - w / 2) / (rx * clear);
+      const dy = (y - h / 2) / (ry * clear);
+      if (dx * dx + dy * dy < 1) continue;
+      if (pts.some((o) => (o.x - x) ** 2 + (o.y - y) ** 2 < gap * gap)) continue;
+      pts.push({ x, y });
+      break;
+    }
   }
+  const spots = pts.map((o) => ({ x: round((o.x / w) * 100), y: round((o.y / h) * 100), a: 0 }));
   /* Ring slots: each depth is one ring, spaced evenly, in the order the logos already sit around the centre, so
      each one flies to the nearest free slot rather than across the field */
+  const angle = (k: number) => Math.atan2(pts[k].y - h / 2, pts[k].x - w / 2);
   for (const depth of [0, 1, 2] as Depth[]) {
-    const ring = items
-      .filter((o) => o.depth === depth)
-      .sort((a, b) => Math.atan2(a.y - 50, (a.x - 50) / 2) - Math.atan2(b.y - 50, (b.x - 50) / 2));
-    const first = ring[0];
-    const start = first ? (Math.atan2(first.y - 50, (first.x - 50) / 2) * 180) / Math.PI : 0;
-    ring.forEach((o, k) => (o.angle = round(start + (k / ring.length) * 360, 1)));
+    const ring = depths.map((d, k) => (d === depth ? k : -1)).filter((k) => k >= 0);
+    ring.sort((a, b) => angle(a) - angle(b));
+    const start = ring.length ? (angle(ring[0]) * 180) / Math.PI : 0;
+    ring.forEach((k, n) => (spots[k].a = round(start + (n / ring.length) * 360, 1)));
   }
-  return items;
+  return spots;
 }
 
-const ITEMS = layout(58);
+function layout(count: number): Item[] {
+  const rand = seeded(7);
+  const depths = Array.from({ length: count }, (): Depth => {
+    const r = rand();
+    return r < 0.3 ? 0 : r < 0.62 ? 1 : 2;
+  });
+  const [wide, square, tall] = STAGES.map((stage, k) => place(depths, stage, 11 + k));
+  return depths.map((depth, i) => ({
+    depth,
+    /* Logos in turn, so all twenty appear before any repeats */
+    logo: LOGOS[i % LOGOS.length],
+    spots: [wide[i], square[i], tall[i]],
+    fx: round((rand() - 0.5) * 12),
+    fy: round((rand() - 0.5) * 12),
+    fd: round(5 + rand() * 4),
+    fdelay: round(-rand() * 8),
+    gatherDelay: Math.round(rand() * 120),
+  }));
+}
+
+const ITEMS = layout(COUNT);
 
 export function LogoField({ className }: { className?: string }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -162,8 +179,24 @@ export function LogoField({ className }: { className?: string }) {
     };
     if (fine) window.addEventListener("pointermove", onMove, { passive: true });
     window.addEventListener("scroll", kick, { passive: true });
+
+    /* Without hover (phones, tablets) nobody can point at the button, so the field gathers into its rings by itself
+       now and then, the same as on a desktop */
+    let orbit = 0;
+    const hero = el.closest<HTMLElement>("[data-logo-hero]");
+    if (hero && !window.matchMedia("(hover: hover)").matches) {
+      let on = false;
+      const toggle = () => {
+        on = !on;
+        hero.toggleAttribute("data-orbiting", on);
+        orbit = window.setTimeout(toggle, on ? 6000 : 4000);
+      };
+      orbit = window.setTimeout(toggle, 2200);
+    }
     return () => {
       cancelAnimationFrame(frame);
+      window.clearTimeout(orbit);
+      hero?.removeAttribute("data-orbiting");
       window.removeEventListener("pointermove", onMove);
       window.removeEventListener("scroll", kick);
     };
@@ -177,31 +210,30 @@ export function LogoField({ className }: { className?: string }) {
       className={cn("logo-field pointer-events-none absolute inset-0", className)}
     >
       {ITEMS.map((item, i) => {
-        const distance = Math.hypot((item.x - 50) / 50, (item.y - 50) / 50);
+        const [wide, square, tall] = item.spots;
+        const distance = Math.hypot((wide.x - 50) / 50, (wide.y - 50) / 50);
         return (
           <span
             key={i}
-            className={cn("logo-field-item absolute", !item.phone && "max-sm:hidden")}
+            className="logo-field-item absolute"
             style={
               {
-                left: `${item.x}%`,
-                top: `${item.y}%`,
+                "--x1": wide.x,
+                "--y1": wide.y,
+                "--a1": `${wide.a}deg`,
+                "--x2": square.x,
+                "--y2": square.y,
+                "--a2": `${square.a}deg`,
+                "--x3": tall.x,
+                "--y3": tall.y,
+                "--a3": `${tall.a}deg`,
                 zIndex: 3 - item.depth,
                 "--drift": DRIFT[item.depth],
               } as CSSProperties
             }
           >
             {/* Gather: from its spot to the centre of the field */}
-            <span
-              className="logo-field-gather block"
-              style={
-                {
-                  "--gx": round(50 - item.x),
-                  "--gy": round(50 - item.y),
-                  "--gd": `${item.gatherDelay}ms`,
-                } as CSSProperties
-              }
-            >
+            <span className="logo-field-gather block" style={{ "--gd": `${item.gatherDelay}ms` } as CSSProperties}>
               <span
                 className="logo-field-float block"
                 style={
@@ -214,17 +246,14 @@ export function LogoField({ className }: { className?: string }) {
                 }
               >
                 {/* Orbit: turn to the slot, reach out to the ring, turn back so the logo stays upright */}
-                <span
-                  className="logo-field-orbit block"
-                  style={{ "--a": `${item.angle}deg`, "--ring": item.depth } as CSSProperties}
-                >
+                <span className="logo-field-orbit block" style={{ "--ring": item.depth } as CSSProperties}>
                   <span className="logo-field-arm block">
                     <span className="logo-field-upright block">
                       <span
                         className={cn(
-                          "logo-field-focus -translate-1/2 grid place-items-center rounded-pill",
+                          "logo-field-focus -translate-1/2 grid place-items-center",
                           SIZE[item.depth],
-                          TONE_CHIP[item.logo?.tone ?? item.tone],
+                          TONE_CHIP[item.logo.tone],
                         )}
                         style={
                           {
@@ -234,12 +263,8 @@ export function LogoField({ className }: { className?: string }) {
                           } as CSSProperties
                         }
                       >
-                        {item.logo ? (
-                          // eslint-disable-next-line @next/next/no-img-element -- tiny local SVG, decorative
-                          <img src={item.logo.src} alt="" className={IMG[item.depth]} />
-                        ) : (
-                          <span className="size-2 rounded-pill bg-current opacity-60" />
-                        )}
+                        {/* eslint-disable-next-line @next/next/no-img-element -- tiny local SVG, decorative */}
+                        <img src={item.logo.src} alt="" className={IMG[item.depth]} />
                       </span>
                     </span>
                   </span>
