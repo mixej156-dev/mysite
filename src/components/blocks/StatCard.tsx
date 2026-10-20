@@ -65,13 +65,7 @@ export type StatCardProps = {
   className?: string;
 };
 
-export function StatCard({
-  label,
-  value,
-  format,
-  caption,
-  className,
-}: StatCardProps) {
+export function StatCard({ label, value, format, caption, className }: StatCardProps) {
   const { ref, value: shown } = useCountUp(value);
 
   return (

@@ -10,6 +10,7 @@ import { AccountMenu } from "./AccountMenu";
 import { Logo } from "./Logo";
 import { MegaMenu } from "./MegaMenu";
 import { MobileMenu } from "./MobileMenu";
+import { SearchButton } from "../search/SearchButton";
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -44,6 +45,7 @@ export function Header() {
         <MegaMenu className="max-lg:hidden" />
 
         <div className="ml-auto flex items-center gap-1">
+          <SearchButton className="xl:mr-2" />
           {status === "loading" && (
             /* Holds the space of the guest buttons so nothing jumps once the session is read */
             <span aria-hidden className="h-10 w-48 max-sm:hidden" />

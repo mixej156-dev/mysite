@@ -119,6 +119,21 @@ export function FaqBrowser() {
     return () => cancelAnimationFrame(frame);
   }, [scrollTo]);
 
+  /* Links like /faq#q-<category>-<id> (site search) open that answer */
+  useEffect(() => {
+    const onHash = () => {
+      const uid = decodeURIComponent(window.location.hash).match(/^#q-(.+)$/)?.[1];
+      if (!uid || !FAQ.some((c) => c.items.some((i) => `${c.id}-${i.id}` === uid))) return;
+      setCategory("all");
+      setQuery("");
+      setOpen(uid);
+      setScrollTo(uid);
+    };
+    onHash();
+    window.addEventListener("hashchange", onHash);
+    return () => window.removeEventListener("hashchange", onHash);
+  }, []);
+
   const groups = FAQ.filter((c) => category === "all" || c.id === category)
     .map((c) => ({
       ...c,

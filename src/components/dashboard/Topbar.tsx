@@ -8,6 +8,7 @@ import { buttonClasses, useDashboardTheme } from "@/design-system";
 import { useAuth } from "@/lib/auth";
 import { AccountMenu } from "../layout/AccountMenu";
 import { Logo } from "../layout/Logo";
+import { SearchButton } from "../search/SearchButton";
 import { NotificationsMenu } from "./notifications";
 import { Sidebar } from "./Sidebar";
 
@@ -74,6 +75,8 @@ export function Topbar() {
       </Link>
 
       <div data-enter className="ml-auto flex items-center gap-1.5">
+        {/* No room beside the logo on phones */}
+        <SearchButton className="max-sm:hidden xl:mr-1.5" />
         <Link href="/dashboard/stake" className={buttonClasses({ size: "sm", className: "max-sm:hidden" })}>
           <Plus aria-hidden />
           New stake

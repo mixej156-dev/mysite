@@ -1,6 +1,6 @@
 "use client";
 
-import { CircleCheck, Info } from "lucide-react";
+import { Info } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useRef, useState, type FormEvent } from "react";
 import { Link } from "@/components/Link";
@@ -13,6 +13,7 @@ import { priceOf, usePortfolio } from "@/lib/portfolio";
 import { DEMO_TODAY, addDays } from "@/lib/series";
 import { AssetIcon } from "../AssetIcon";
 import { PageTitle } from "../PageTitle";
+import { StakeSuccess } from "../StakeSuccess";
 import { tokenAmount } from "../txMeta";
 
 /** Numbered card heading; the number sits in a brand-tinted circle */
@@ -92,33 +93,10 @@ export function StakeFlow() {
   };
 
   if (done) {
-    const p = getPool(done.poolId)!;
     return (
       <>
         <PageTitle title="Stake" />
-        <div
-          role="status"
-          data-enter
-          className="flex max-w-xl flex-col items-start gap-5 rounded-card border border-rule bg-surface p-6 md:p-8"
-        >
-          <CircleCheck aria-hidden className="size-8 text-success" />
-          <div>
-            <h2 className="text-h3">
-              {tokenAmount(done.amount, p.ticker)} staked in {p.name}
-            </h2>
-            <p className="mt-2 font-serif text-body text-muted">
-              Your first reward is recorded on {formatDate(addDays(DEMO_TODAY, 1))} and paid out daily after that.
-            </p>
-          </div>
-          <div className="flex flex-wrap gap-3">
-            <Link href="/dashboard/positions" className={buttonClasses()}>
-              View positions
-            </Link>
-            <Button variant="secondary" onClick={() => setDone(null)}>
-              Stake more
-            </Button>
-          </div>
-        </div>
+        <StakeSuccess amount={done.amount} poolId={done.poolId} onMore={() => setDone(null)} />
       </>
     );
   }

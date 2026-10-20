@@ -725,3 +725,81 @@
     filter: brightness(1.2);
   }
 }
+
+/* Stake confirmed (StakeSuccess.tsx): the coin drops onto the orbit, the ring ripples, the validators light up
+   in turn and a check is drawn on the coin */
+.stake-drop {
+  animation: stake-drop 620ms var(--ds-ease-brand) 120ms backwards;
+}
+@keyframes stake-drop {
+  from {
+    opacity: 0;
+    translate: 0 -7rem;
+  }
+  55% {
+    opacity: 1;
+    translate: 0 0.5rem;
+    scale: 1.04 0.94;
+  }
+  80% {
+    translate: 0 -0.25rem;
+    scale: 1;
+  }
+}
+.stake-drop,
+.stake-ripple,
+.stake-node,
+.stake-badge {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+.stake-ripple {
+  opacity: 0;
+  animation: stake-ripple 900ms ease-out backwards;
+}
+@keyframes stake-ripple {
+  from {
+    opacity: 0.7;
+    scale: 1;
+  }
+  to {
+    opacity: 0;
+    scale: 2.1;
+  }
+}
+.stake-node {
+  animation: stake-node 420ms var(--ds-ease-brand) backwards;
+}
+@keyframes stake-node {
+  from {
+    opacity: 0.2;
+    scale: 0.4;
+  }
+}
+.stake-badge {
+  animation: stake-pop 480ms var(--ds-ease-brand) 900ms backwards;
+}
+@keyframes stake-pop {
+  from {
+    opacity: 0;
+    scale: 0.3;
+  }
+  60% {
+    opacity: 1;
+    scale: 1.2;
+  }
+}
+.stake-check {
+  stroke-dasharray: 1;
+  animation: stake-check 360ms var(--ds-ease-brand) 1150ms backwards;
+}
+@keyframes stake-check {
+  from {
+    stroke-dashoffset: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  :is(.stake-drop, .stake-ripple, .stake-node, .stake-badge, .stake-check) {
+    animation: none;
+  }
+}
