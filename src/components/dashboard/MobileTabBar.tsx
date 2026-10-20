@@ -28,6 +28,7 @@ export function MobileTabBar() {
               <Link
                 href={href}
                 aria-current={active ? "page" : undefined}
+                data-tour={href === "/dashboard/stake" ? "stake" : undefined}
                 className={cn(
                   "relative my-1.5 flex flex-1 flex-col items-center justify-center gap-1 rounded-field text-caption font-medium",
                   "transition-colors duration-fast [-webkit-tap-highlight-color:transparent]",

@@ -11,6 +11,7 @@ export function Panel({
   action,
   children,
   className,
+  tour,
 }: {
   title: string;
   icon?: LucideIcon;
@@ -18,12 +19,15 @@ export function Panel({
   action?: ReactNode;
   children: ReactNode;
   className?: string;
+  /** Stop in the first-visit tour (DashboardTour) */
+  tour?: string;
 }) {
   const id = `panel-${title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
   return (
     <section
       aria-labelledby={id}
       data-enter
+      data-tour={tour}
       className={cn("min-w-0 rounded-card border border-rule bg-surface p-4 sm:p-5 md:p-6", className)}
     >
       <div className="mb-3 flex items-center justify-between gap-4 sm:mb-4">

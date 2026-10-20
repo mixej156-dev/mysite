@@ -32,7 +32,7 @@ export function Prose({
               <h2
                 key={i}
                 id={`${idPrefix}${block.id ?? slugify(block.text)}`}
-                className="mt-8 sm:mt-12 scroll-mt-24 text-h3 text-text first:mt-0"
+                className="mt-8 scroll-mt-36 text-h3 text-text first:mt-0 sm:mt-12 lg:scroll-mt-24"
               >
                 {block.text}
               </h2>

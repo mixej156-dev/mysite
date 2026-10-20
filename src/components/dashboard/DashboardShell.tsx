@@ -35,6 +35,7 @@ export function DashboardShell({ children }: { children: ReactNode }) {
         <div data-density="dashboard" className="flex min-h-dvh">
           <aside
             aria-label="Sidebar"
+            data-tour="nav"
             data-enter-scope="nav"
             className="sticky top-0 h-dvh w-64 shrink-0 border-r border-rule bg-bg max-lg:hidden"
           >

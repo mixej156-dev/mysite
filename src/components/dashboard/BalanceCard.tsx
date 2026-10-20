@@ -27,6 +27,7 @@ export function BalanceCard({ total, change, periodLabel, breakdown, actions }: 
     <section
       aria-labelledby="balance-title"
       data-enter
+      data-tour="balance"
       className="relative isolate overflow-hidden rounded-card border border-rule bg-surface short:flex"
     >
       {/* Soft brand glow in the corner, decorative */}

@@ -1,4 +1,4 @@
-import { BookOpen, CircleHelp, GraduationCap, Newspaper, type LucideIcon } from "lucide-react";
+import { BookOpen, GraduationCap, Newspaper, type LucideIcon } from "lucide-react";
 import { DOC_ARTICLES } from "@/data/docs";
 import { FAQ } from "@/data/faq";
 import { GUIDES } from "@/data/learn";
@@ -6,6 +6,7 @@ import { pools } from "@/data/pools";
 import { sortedPosts } from "@/data/posts";
 import { formatPercent, formatUnbonding } from "@/lib/format";
 import { DASHBOARD_NAV } from "../dashboard/nav";
+import { FAQ_CATEGORY_ICONS } from "../faq/categories";
 import { NAV_SECTIONS, type NavTone } from "../layout/nav";
 
 /*
@@ -111,8 +112,8 @@ const faq: SearchEntry[] = FAQ.flatMap((category) =>
     detail: category.title,
     href: `/faq#q-${category.id}-${item.id}`,
     keywords: `question ${item.answer}`,
-    icon: CircleHelp,
-    tone: "teal" as const,
+    icon: FAQ_CATEGORY_ICONS[category.id].icon,
+    tone: FAQ_CATEGORY_ICONS[category.id].tone,
   })),
 );
 

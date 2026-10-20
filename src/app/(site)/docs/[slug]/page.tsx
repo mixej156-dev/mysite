@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { Suspense } from "react";
 import { Breadcrumbs } from "@/components/blocks/Breadcrumbs";
 import { Prose } from "@/components/blocks/Prose";
-import { TableOfContents } from "@/components/docs/TableOfContents";
+import { TableOfContents } from "@/components/blocks/ArticleOutline";
 import { Link } from "@/components/Link";
 import { Skeleton } from "@/design-system";
 import { DOC_ARTICLES, getDoc } from "@/data/docs";

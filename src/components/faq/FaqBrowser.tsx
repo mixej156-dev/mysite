@@ -4,8 +4,24 @@ import { ArrowRight, Search, ThumbsDown, ThumbsUp } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link } from "@/components/Link";
 import { Accordion, Button, Input, Tag } from "@/design-system";
+import { cn } from "@/lib/cn";
 import { FAQ, FAQ_COUNT, type FaqItem } from "@/data/faq";
 import { EmptyState } from "../blocks/EmptyState";
+import { MenuIcon } from "../layout/MenuIcon";
+import type { NavTone } from "../layout/nav";
+import { PlayOnView } from "../layout/PlayOnView";
+import { FAQ_CATEGORY_ICONS } from "./categories";
+
+/* Icon colour in an unselected topic filter; a selected one takes the chip's own text colour */
+const TONE_TEXT: Record<NavTone, string> = {
+  blue: "text-topic-blue",
+  green: "text-topic-green",
+  teal: "text-topic-teal",
+  orange: "text-topic-orange",
+  amber: "text-topic-amber",
+  violet: "text-topic-violet",
+  rose: "text-topic-rose",
+};
 
 /* Per-visitor answer feedback, kept in this browser only */
 const FEEDBACK_KEY = "faq_feedback";
@@ -96,7 +112,7 @@ function Answer({ item, uid }: { item: FaqItem; uid: string }) {
 }
 
 const POPULAR = FAQ.flatMap((c) =>
-  c.items.filter((i) => i.popular).map((i) => ({ ...i, category: c.title, uid: `${c.id}-${i.id}` })),
+  c.items.filter((i) => i.popular).map((i) => ({ ...i, category: c.title, categoryId: c.id, uid: `${c.id}-${i.id}` })),
 );
 
 export function FaqBrowser() {
@@ -165,9 +181,18 @@ export function FaqBrowser() {
                 <button
                   type="button"
                   onClick={() => openPopular(p.uid)}
-                  className="group flex h-full w-full flex-col gap-3 rounded-card border border-rule bg-surface p-5 text-left transition-colors duration-fast hover:border-rule-strong"
+                  className="group group/link flex h-full w-full flex-col gap-3 rounded-card border border-rule bg-surface p-5 text-left transition-colors duration-fast hover:border-rule-strong"
                 >
-                  <span className="text-caption text-muted">{p.category}</span>
+                  <span className="flex items-center gap-2 text-caption text-muted">
+                    <MenuIcon
+                      icon={FAQ_CATEGORY_ICONS[p.categoryId].icon}
+                      tone={FAQ_CATEGORY_ICONS[p.categoryId].tone}
+                      colored
+                      className="size-7"
+                      iconClassName="size-4"
+                    />
+                    {p.category}
+                  </span>
                   <span className="text-body font-medium transition-colors duration-fast group-hover:text-accent-text">
                     {p.question}
                   </span>
@@ -191,11 +216,24 @@ export function FaqBrowser() {
             <Tag selected={category === "all"} onClick={() => setCategory("all")} count={FAQ_COUNT}>
               All
             </Tag>
-            {FAQ.map((c) => (
-              <Tag key={c.id} selected={category === c.id} onClick={() => setCategory(c.id)} count={c.items.length}>
-                {c.title}
-              </Tag>
-            ))}
+            {FAQ.map((c) => {
+              const { icon: Icon, tone } = FAQ_CATEGORY_ICONS[c.id];
+              const selected = category === c.id;
+              return (
+                <Tag key={c.id} selected={selected} onClick={() => setCategory(c.id)} count={c.items.length}>
+                  {/* Acts out its meaning when the topic is chosen */}
+                  <span
+                    aria-hidden
+                    data-menu-icon
+                    data-icon-play={selected || undefined}
+                    className={cn("-ml-1 inline-flex", !selected && TONE_TEXT[tone])}
+                  >
+                    <Icon className="size-4" />
+                  </span>
+                  {c.title}
+                </Tag>
+              );
+            })}
           </div>
           <Input
             label="Search questions"
@@ -232,13 +270,24 @@ export function FaqBrowser() {
           <div className="flex flex-col gap-10 sm:gap-16">
             {groups.map((g) => (
               <section key={g.id} aria-labelledby={`faq-${g.id}`} className="grid gap-6 lg:grid-cols-12 lg:gap-8">
-                <div className="lg:col-span-4">
-                  <h2 id={`faq-${g.id}`} className="text-h3">
-                    {g.title}
-                  </h2>
-                  <p className="mt-1 text-small text-muted">
-                    {g.items.length} {g.items.length === 1 ? "question" : "questions"}
-                  </p>
+                <div className="flex items-start gap-4 lg:col-span-4">
+                  <PlayOnView>
+                    <MenuIcon
+                      icon={FAQ_CATEGORY_ICONS[g.id].icon}
+                      tone={FAQ_CATEGORY_ICONS[g.id].tone}
+                      colored
+                      className="size-11"
+                      iconClassName="size-5"
+                    />
+                  </PlayOnView>
+                  <div>
+                    <h2 id={`faq-${g.id}`} className="text-h3">
+                      {g.title}
+                    </h2>
+                    <p className="mt-1 text-small text-muted">
+                      {g.items.length} {g.items.length === 1 ? "question" : "questions"}
+                    </p>
+                  </div>
                 </div>
                 <Accordion
                   value={open}

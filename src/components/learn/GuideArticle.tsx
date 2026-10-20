@@ -2,6 +2,7 @@ import { Check } from "lucide-react";
 import { Link } from "@/components/Link";
 import { Skeleton, buttonClasses } from "@/design-system";
 import { relatedGuides, type Guide } from "@/data/learn";
+import { OutlineChip, ReadingProgress, TableOfContents } from "../blocks/ArticleOutline";
 import { Breadcrumbs } from "../blocks/Breadcrumbs";
 import { LearnCard, TopicLabel } from "../blocks/LearnCard";
 import { LearnCover } from "../blocks/LearnCover";
@@ -11,6 +12,9 @@ import { Section, SectionHeader } from "../blocks/Section";
 export function GuideArticle({ guide }: { guide: Guide }) {
   const related = relatedGuides(guide);
   const titleId = `guide-title-${guide.slug}`;
+  const bodyId = `${guide.slug}-body`;
+  /* The outline ends with the takeaways, which sit outside the body text */
+  const extra = [{ id: `${guide.slug}-takeaways`, label: "Key takeaways" }];
 
   return (
     <>
@@ -41,21 +45,37 @@ export function GuideArticle({ guide }: { guide: Guide }) {
 
         <div className="container-page grid gap-8 pt-6 pb-14 sm:gap-10 sm:pt-12 sm:pb-24 md:pb-32 lg:grid-cols-12 lg:gap-8 lg:pt-16">
           <div className="lg:col-span-3">
-            <dl className="grid grid-cols-3 gap-4 text-small lg:sticky lg:top-24 lg:grid-cols-1">
-              {[
-                ["Level", guide.level],
-                ["Format", guide.format],
-                ["Reading time", `${guide.minutes} min`],
-              ].map(([label, value]) => (
-                <div key={label} className="border-t border-rule pt-3">
-                  <dt className="text-caption text-muted">{label}</dt>
-                  <dd className="mt-0.5 font-medium">{value}</dd>
-                </div>
-              ))}
-            </dl>
+            <div className="flex flex-col gap-8 lg:sticky lg:top-24">
+              <dl className="grid grid-cols-3 gap-4 text-small lg:grid-cols-1">
+                {[
+                  ["Level", guide.level],
+                  ["Format", guide.format],
+                  ["Reading time", `${guide.minutes} min`],
+                ].map(([label, value]) => (
+                  <div key={label} className="border-t border-rule pt-3">
+                    <dt className="text-caption text-muted">{label}</dt>
+                    <dd className="mt-0.5 font-medium">{value}</dd>
+                  </div>
+                ))}
+              </dl>
+              <TableOfContents
+                blocks={guide.body}
+                idPrefix={`${guide.slug}-`}
+                extra={extra}
+                sticky={false}
+                className="max-lg:hidden"
+              />
+            </div>
           </div>
 
-          <div className="min-w-0 lg:col-span-7">
+          <div id={bodyId} className="min-w-0 lg:col-span-7">
+            <OutlineChip
+              blocks={guide.body}
+              idPrefix={`${guide.slug}-`}
+              extra={extra}
+              targetId={bodyId}
+              className="mb-6 lg:hidden"
+            />
             <section
               aria-labelledby={`${guide.slug}-outcomes`}
               className="mb-8 sm:mb-12 rounded-card border border-rule bg-surface p-6"
@@ -79,7 +99,7 @@ export function GuideArticle({ guide }: { guide: Guide }) {
               aria-labelledby={`${guide.slug}-takeaways`}
               className="mt-10 sm:mt-14 border-t-2 border-accent pt-6"
             >
-              <h2 id={`${guide.slug}-takeaways`} className="text-h4 font-medium">
+              <h2 id={`${guide.slug}-takeaways`} className="scroll-mt-36 text-h4 font-medium lg:scroll-mt-24">
                 Key takeaways
               </h2>
               <ol className="mt-4 flex flex-col gap-3">
@@ -103,6 +123,7 @@ export function GuideArticle({ guide }: { guide: Guide }) {
             </div>
           </div>
         </div>
+        <ReadingProgress targetId={bodyId} />
       </article>
 
       <Section tone="inverse" labelledBy={`related-${guide.slug}`}>

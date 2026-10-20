@@ -552,6 +552,19 @@
   & .lucide-briefcase {
     animation: icon-lift 600ms var(--ds-ease-brand);
   }
+  /* Getting started (FAQ): the rocket lifts off and settles */
+  & .lucide-rocket {
+    animation: icon-launch 700ms var(--ds-ease-brand);
+  }
+  /* Rewards (FAQ): the front coin pops, the one behind it jumps */
+  & .lucide-coins > :nth-child(1),
+  & .lucide-coins > :nth-child(3) {
+    animation: icon-pop-big 500ms var(--ds-ease-brand);
+  }
+  & .lucide-coins > :nth-child(2),
+  & .lucide-coins > :nth-child(4) {
+    animation: icon-lift 600ms var(--ds-ease-brand) 120ms;
+  }
   /* Network logos spin like a coin */
   & img {
     animation: icon-coin 700ms var(--ds-ease-brand);
@@ -674,6 +687,14 @@
   }
   75% {
     translate: 1.5px 1.5px;
+  }
+}
+@keyframes icon-launch {
+  40% {
+    translate: 2.5px -2.5px;
+  }
+  70% {
+    translate: -0.5px 0.5px;
   }
 }
 @keyframes icon-quarter {

@@ -4,6 +4,7 @@ import { Skeleton, buttonClasses } from "@/design-system";
 import { relatedPosts, type Post } from "@/data/posts";
 import { TEAM } from "@/data/team";
 import { formatDate } from "@/lib/format";
+import { OutlineChip, ReadingProgress, TableOfContents } from "../blocks/ArticleOutline";
 import { BlogCard } from "../blocks/BlogCard";
 import { Breadcrumbs } from "../blocks/Breadcrumbs";
 import { PostCover } from "../blocks/PostCover";
@@ -50,23 +51,37 @@ export function Article({ post }: { post: Post }) {
 
         <div className="container-page grid gap-8 pt-6 pb-14 sm:gap-10 sm:pt-12 sm:pb-24 md:pb-32 lg:grid-cols-12 lg:gap-8 lg:pt-16">
           <div className="flex flex-col gap-6 lg:col-span-3">
-            <div className="flex items-center gap-3 lg:sticky lg:top-24">
-              <span
-                aria-hidden
-                className="grid size-11 shrink-0 place-items-center rounded-pill tint-accent font-display text-small font-semibold text-accent-text"
-              >
-                {initials(post.author)}
-              </span>
-              <div>
-                <p className="text-small font-medium">{post.author}</p>
-                {author && <p className="text-caption text-muted">{author.role}</p>}
+            <div className="flex flex-col gap-6 lg:sticky lg:top-24">
+              <div className="flex items-center gap-3">
+                <span
+                  aria-hidden
+                  className="grid size-11 shrink-0 place-items-center rounded-pill tint-accent font-display text-small font-semibold text-accent-text"
+                >
+                  {initials(post.author)}
+                </span>
+                <div>
+                  <p className="text-small font-medium">{post.author}</p>
+                  {author && <p className="text-caption text-muted">{author.role}</p>}
+                </div>
               </div>
-            </div>
-            <div className="lg:sticky lg:top-44">
-              <ShareButton />
+              <div>
+                <ShareButton />
+              </div>
+              <TableOfContents
+                blocks={post.body}
+                idPrefix={`${post.slug}-`}
+                sticky={false}
+                className="border-t border-rule pt-6 max-lg:hidden"
+              />
             </div>
           </div>
-          <div className="min-w-0 lg:col-span-7">
+          <div id={`${post.slug}-body`} className="min-w-0 lg:col-span-7">
+            <OutlineChip
+              blocks={post.body}
+              idPrefix={`${post.slug}-`}
+              targetId={`${post.slug}-body`}
+              className="mb-6 lg:hidden"
+            />
             <Prose blocks={post.body} idPrefix={`${post.slug}-`} />
             <div className="mt-10 sm:mt-16 border-t border-rule pt-8">
               <Link href="/blog" className={buttonClasses({ variant: "secondary" })}>
@@ -75,6 +90,7 @@ export function Article({ post }: { post: Post }) {
             </div>
           </div>
         </div>
+        <ReadingProgress targetId={`${post.slug}-body`} />
       </article>
 
       <Section tone="inverse" labelledBy={`related-title-${post.slug}`}>

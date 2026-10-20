@@ -2,7 +2,7 @@ import { Info } from "lucide-react";
 import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/blocks/Breadcrumbs";
 import { Prose } from "@/components/blocks/Prose";
-import { TableOfContents } from "@/components/docs/TableOfContents";
+import { TableOfContents } from "@/components/blocks/ArticleOutline";
 import { Link } from "@/components/Link";
 import { LEGAL_DOCS, getLegalDoc } from "@/data/legal";
 import { formatDate } from "@/lib/format";

@@ -13,6 +13,7 @@ import { EmptyState } from "../../blocks/EmptyState";
 import { TimeSeriesChart } from "../../charts/TimeSeriesChart";
 import { ActivityList } from "../ActivityList";
 import { BalanceCard } from "../BalanceCard";
+import { DashboardTour } from "../DashboardTour";
 import { PageTitle } from "../PageTitle";
 import { Panel } from "../Panel";
 import { RewardsFeed } from "../RewardsFeed";
@@ -111,6 +112,7 @@ export function Overview() {
           <Panel
             title="Positions"
             icon={Layers}
+            tour="positions"
             className="xl:col-span-2"
             action={
               <Link href="/dashboard/positions" className={viewAll}>
@@ -150,6 +152,7 @@ export function Overview() {
           </Panel>
         </div>
       </div>
+      <DashboardTour />
     </>
   );
 }

@@ -47,6 +47,7 @@ export function Topbar() {
       <Dialog.Root open={open} onOpenChange={setOpen}>
         <Dialog.Trigger
           aria-label="Open navigation"
+          data-tour="nav"
           className="grid size-10 place-items-center rounded-field text-text transition-colors duration-fast hover:bg-surface-2 lg:hidden"
         >
           <Menu aria-hidden className="size-5" />
@@ -77,7 +78,11 @@ export function Topbar() {
       <div data-enter className="ml-auto flex items-center gap-1.5">
         {/* No room beside the logo on phones */}
         <SearchButton className="max-sm:hidden xl:mr-1.5" />
-        <Link href="/dashboard/stake" className={buttonClasses({ size: "sm", className: "max-sm:hidden" })}>
+        <Link
+          href="/dashboard/stake"
+          data-tour="stake"
+          className={buttonClasses({ size: "sm", className: "max-sm:hidden" })}
+        >
           <Plus aria-hidden />
           New stake
         </Link>

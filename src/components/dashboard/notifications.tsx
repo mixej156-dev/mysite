@@ -94,6 +94,7 @@ export function NotificationsMenu() {
   return (
     <Menu.Root modal={false}>
       <Menu.Trigger
+        data-tour="notifications"
         aria-label={unread.length ? `Notifications, ${unread.length} unread` : "Notifications"}
         className="relative grid size-10 place-items-center rounded-field text-text transition-colors duration-fast hover:bg-surface-2 data-[state=open]:bg-surface-2"
       >

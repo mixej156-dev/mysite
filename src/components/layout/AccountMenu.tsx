@@ -1,7 +1,7 @@
 "use client";
 
-import { LayoutDashboard, LogOut, Settings } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { Compass, LayoutDashboard, LogOut, Settings } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
 /* Direct imports: this ships with the site header, so it must not pull in the whole design system */
 import {
   Dropdown,
@@ -13,6 +13,7 @@ import {
 } from "@/design-system/components/Dropdown";
 import { useToast } from "@/design-system/components/Toast";
 import type { Session } from "@/lib/auth";
+import { restartTour } from "../dashboard/tour";
 
 export function initials(name: string) {
   return name
@@ -25,6 +26,7 @@ export function initials(name: string) {
 
 export function AccountMenu({ session, onSignOut }: { session: Session; onSignOut: () => void }) {
   const router = useRouter();
+  const pathname = usePathname();
   const { toast } = useToast();
 
   return (
@@ -47,6 +49,18 @@ export function AccountMenu({ session, onSignOut }: { session: Session; onSignOu
         <DropdownItem icon={<Settings aria-hidden />} onSelect={() => router.push("/dashboard/settings")}>
           Settings
         </DropdownItem>
+        {/* Replays the first-visit tour of the overview (opens the overview first when elsewhere) */}
+        {pathname.startsWith("/dashboard") && (
+          <DropdownItem
+            icon={<Compass aria-hidden />}
+            onSelect={() => {
+              restartTour();
+              if (pathname !== "/dashboard") router.push("/dashboard");
+            }}
+          >
+            Take the tour
+          </DropdownItem>
+        )}
         <DropdownSeparator />
         <DropdownItem
           icon={<LogOut aria-hidden />}
