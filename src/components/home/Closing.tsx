@@ -4,9 +4,9 @@ import { latestPosts } from "@/data/posts";
 import { testimonials } from "@/data/testimonials";
 import { BlogCard } from "../blocks/BlogCard";
 import { CTASection } from "../blocks/CTASection";
-import { Newsletter } from "../blocks/Newsletter";
 import { Section, SectionHeader } from "../blocks/Section";
 import { TestimonialSlider } from "../blocks/TestimonialSlider";
+import { HomeFaq } from "./HomeFaq";
 
 export function Testimonials() {
   return (
@@ -68,7 +68,7 @@ export function Closing() {
         }
       />
       <div className="mt-12 sm:mt-20 border-t border-rule pt-12 md:mt-28">
-        <Newsletter />
+        <HomeFaq />
       </div>
     </Section>
   );
