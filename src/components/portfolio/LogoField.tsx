@@ -8,8 +8,8 @@ import { POOL_TONES, TONE_CHIP, type Tone } from "../dashboard/tones";
 /*
  * A field of crypto logos at three depths around a centred headline: near ones large and sharp, far ones small,
  * blurred and faint, like a lens focused on the middle. They come into focus from the centre outwards on load,
- * drift gently, and shift with the pointer and the scroll, nearer ones more. Hovering the hero's main button
- * ([data-orbit-trigger]) gathers them into rings around the centre that turn, nearer rings faster (CSS only, see
+ * drift gently, and shift with the pointer and the scroll, nearer ones more (each depth is one layer that moves). Hovering the hero's main button
+ * ([data-orbit-trigger]) gathers them into rings around the centre that turn, nearer rings faster (see also
  * globals.css). Every move is a transform, so the browser can run it on the compositor. The layout is seeded, so
  * the server and the browser draw the same field; it is laid out for three stage shapes, so desktops, tablets and
  * phones see the same picture, and without hover the field gathers by itself now and then. Decorative only.
@@ -41,6 +41,9 @@ const OPACITY = [1, 0.85, 0.55];
 /** How far each depth moves with the pointer and the scroll */
 const DRIFT = [1, 0.55, 0.25];
 const COUNT = 84;
+const MAX_GATHER_DELAY = 120;
+/** Far layer first, so nearer ones paint over it */
+const DEPTHS_ORDER: Depth[] = [2, 1, 0];
 /*
  * Our networks first, then other well-known assets people hold next to them (cryptocurrency-icons, CC0). Only a
  * picture of the wider market: the pools stay the six networks in data/pools.ts.
@@ -142,61 +145,179 @@ function layout(count: number): Item[] {
     fy: round((rand() - 0.5) * 12),
     fd: round(5 + rand() * 4),
     fdelay: round(-rand() * 8),
-    gatherDelay: Math.round(rand() * 120),
+    gatherDelay: Math.round(rand() * MAX_GATHER_DELAY),
   }));
 }
 
 const ITEMS = layout(COUNT);
+/* In the order the field renders them: by depth, far first */
+const ITEMS_BY_NODE = DEPTHS_ORDER.flatMap((depth) => ITEMS.filter((item) => item.depth === depth));
 
 export function LogoField({ className }: { className?: string }) {
   const ref = useRef<HTMLDivElement>(null);
 
-  /* Pointer and scroll feed custom properties; the browser does the moving. Eased towards the pointer each frame,
-     and only while something is still changing. */
+  /* The pointer moves three depth layers, not every logo. While the logos orbit the parallax eases to rest, so the
+     rings stay centred. The scroll parallax is a scroll-driven CSS animation where the browser has them; elsewhere
+     the pointer glide does it too. */
   useEffect(() => {
     const el = ref.current;
-    if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const hero = el?.closest<HTMLElement>("[data-logo-hero]");
+    if (!el || !hero || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const layers = Array.from(el.querySelectorAll<HTMLElement>("[data-depth]"));
+    const drift = layers.map((l) => DRIFT[Number(l.dataset.depth)]);
+    const scrollInCss = CSS.supports("animation-timeline: scroll()");
     const fine = window.matchMedia("(pointer: fine)").matches;
-    const target = { x: 0, y: 0 };
-    const now = { x: 0, y: 0 };
-    let frame = 0;
+    const pointer = { x: 0, y: 0 };
+    const ease = getComputedStyle(document.documentElement).getPropertyValue("--ds-ease-brand").trim() || "ease-out";
+    const glides: (Animation | undefined)[] = [];
+    let orbiting = false;
+    let timer = 0;
+    let sent = 0;
 
-    const step = () => {
-      now.x += (target.x - now.x) * 0.12;
-      now.y += (target.y - now.y) * 0.12;
-      el.style.setProperty("--mx", now.x.toFixed(4));
-      el.style.setProperty("--my", now.y.toFixed(4));
-      el.style.setProperty("--sy", String(Math.min(window.scrollY, 1200)));
-      frame = Math.abs(target.x - now.x) + Math.abs(target.y - now.y) > 0.001 ? requestAnimationFrame(step) : 0;
+    /* Each aim glides the layers from where they are to where the pointer says, as one compositor animation; a new
+       aim takes over mid-glide. A few aims a second read as following the pointer, and the page does no work in
+       between (setting a style every frame made the browser recheck every logo's animation, every frame). */
+    const aim = () => {
+      timer = 0;
+      sent = performance.now();
+      const tx = orbiting ? 0 : pointer.x;
+      const ty = orbiting ? 0 : pointer.y;
+      const sy = scrollInCss ? 0 : Math.min(window.scrollY, 1200);
+      layers.forEach((layer, i) => {
+        /* Where the layer is now, mid-glide or not, in the same form as the target, so the two interpolate simply */
+        const from = new DOMMatrix(getComputedStyle(layer).transform);
+        const x = tx * drift[i] * -80;
+        const y = (ty * -56 - sy * 0.3) * drift[i];
+        const glide = layer.animate(
+          [
+            { transform: `translate3d(${from.m41.toFixed(1)}px, ${from.m42.toFixed(1)}px, 0)` },
+            { transform: `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0)` },
+          ],
+          { duration: 700, easing: ease, fill: "forwards" },
+        );
+        glides[i]?.cancel();
+        glides[i] = glide;
+      });
     };
     const kick = () => {
-      if (!frame) frame = requestAnimationFrame(step);
+      if (!timer) timer = window.setTimeout(aim, Math.max(0, 90 - (performance.now() - sent)));
     };
     const onMove = (e: PointerEvent) => {
-      target.x = (e.clientX / window.innerWidth) * 2 - 1;
-      target.y = (e.clientY / window.innerHeight) * 2 - 1;
+      pointer.x = (e.clientX / window.innerWidth) * 2 - 1;
+      pointer.y = (e.clientY / window.innerHeight) * 2 - 1;
       kick();
     };
     if (fine) window.addEventListener("pointermove", onMove, { passive: true });
-    window.addEventListener("scroll", kick, { passive: true });
+    if (!scrollInCss) window.addEventListener("scroll", kick, { passive: true });
+
+    /* The gathering: each logo flies to the centre and out to its ring, and back. Web Animations rather than CSS
+       transitions, which fire start and end events for every logo and kept the main thread busy all through the
+       move. A new move starts from wherever the last one got to. The rings' turning is CSS ([data-orbiting]). A
+       resize while gathered keeps the old rings until the next move; fine for a hover. */
+    const inOut =
+      getComputedStyle(document.documentElement).getPropertyValue("--ds-ease-in-out").trim() || "ease-in-out";
+    const gathers = Array.from(el.querySelectorAll<HTMLElement>(".logo-field-gather"));
+    const arms = Array.from(el.querySelectorAll<HTMLElement>(".logo-field-orbit"));
+    let moves: Animation[] = [];
+    /* Ring radii by stage shape (the same thresholds as the container queries in globals.css), in pixels: plain
+       numbers keep the moves on the compositor, where var() and container units would not */
+    const rings = (w: number, h: number) => {
+      const rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
+      if (w / h < 0.8) return [0.46 * w, 0.09 * w]; // tall: the text fills a phone's width, so wider than the screen
+      if (w / h < 1.35) return [0.34 * w, 0.06 * w];
+      return [Math.min(22 * rem, 0.4 * w), 3.5 * rem];
+    };
+    const setOrbiting = (on: boolean) => {
+      if (on === orbiting) return;
+      orbiting = on;
+      hero.toggleAttribute("data-orbiting", on);
+      kick();
+      const { width: w, height: h } = el.getBoundingClientRect();
+      const [r0, rs] = rings(w, h);
+      const at = gathers.map((g) => {
+        const [x = 0, y = 0] = getComputedStyle(g)
+          .translate.split(" ")
+          .map((v) => parseFloat(v) || 0);
+        return { x, y };
+      });
+      const reach = arms.map((o) => new DOMMatrix(getComputedStyle(o).transform).m41);
+      const spots = gathers.map((g) => {
+        const item = getComputedStyle(g.parentElement!);
+        return { x: parseFloat(item.getPropertyValue("--x")), y: parseFloat(item.getPropertyValue("--y")) };
+      });
+      moves.forEach((m) => m.cancel());
+      /* All moves start and end together (each start or end of its own would wake the main thread); the ripple
+         is a hold at the start of each logo's keyframes instead of a delay */
+      const total = 750 + MAX_GATHER_DELAY;
+      moves = gathers.flatMap((g, i) => {
+        const hold = ITEMS_BY_NODE[i].gatherDelay / total;
+        const gx = on ? ((50 - spots[i].x) / 100) * w : 0;
+        const gy = on ? ((50 - spots[i].y) / 100) * h : 0;
+        const r = on ? r0 + ITEMS_BY_NODE[i].depth * rs : 0;
+        const path = (from: string, to: string, property: "translate" | "transform") => [
+          { [property]: from },
+          { [property]: from, offset: hold, easing: inOut },
+          { [property]: to },
+        ];
+        const timing: KeyframeAnimationOptions = { duration: total, fill: "both" };
+        return [
+          g.animate(
+            path(
+              `${at[i].x.toFixed(1)}px ${at[i].y.toFixed(1)}px`,
+              `${gx.toFixed(1)}px ${gy.toFixed(1)}px`,
+              "translate",
+            ),
+            timing,
+          ),
+          arms[i].animate(
+            path(`translateX(${reach[i].toFixed(1)}px)`, `translateX(${r.toFixed(1)}px)`, "transform"),
+            timing,
+          ),
+        ];
+      });
+    };
+    const trigger = hero.querySelector<HTMLElement>("[data-orbit-trigger]");
+    const onTrigger = () => setOrbiting(!!trigger?.matches(":hover, :focus-visible"));
+    const triggerEvents = ["pointerenter", "pointerleave", "focus", "blur"] as const;
+    triggerEvents.forEach((type) => trigger?.addEventListener(type, onTrigger));
 
     /* Without hover (phones, tablets) nobody can point at the button, so the field gathers into its rings by itself
        now and then, the same as on a desktop */
     let orbit = 0;
-    const hero = el.closest<HTMLElement>("[data-logo-hero]");
-    if (hero && !window.matchMedia("(hover: hover)").matches) {
-      let on = false;
+    if (!window.matchMedia("(hover: hover)").matches) {
       const toggle = () => {
-        on = !on;
-        hero.toggleAttribute("data-orbiting", on);
-        orbit = window.setTimeout(toggle, on ? 6000 : 4000);
+        setOrbiting(!orbiting);
+        orbit = window.setTimeout(toggle, orbiting ? 6000 : 4000);
       };
       orbit = window.setTimeout(toggle, 2200);
     }
+
+    /* The idle drift, as Web Animations too: as CSS animations, each on its own rhythm, they kept pulling the main
+       thread in (their iteration events), which made the field stutter. Off screen, they pause. */
+    const drifts = Array.from(el.querySelectorAll<HTMLElement>(".logo-field-gather")).map((g) => {
+      const v = (name: string) => g.style.getPropertyValue(name);
+      return g.animate([{ transform: "none" }, { transform: `translate(${v("--fx")}, ${v("--fy")})` }], {
+        duration: parseFloat(v("--fd")) * 1000,
+        delay: parseFloat(v("--fdelay")) * 1000,
+        iterations: Infinity,
+        direction: "alternate",
+        easing: "ease-in-out",
+      });
+    });
+    const seen = new IntersectionObserver(([entry]) =>
+      drifts.forEach((d) => (entry.isIntersecting ? d.play() : d.pause())),
+    );
+    seen.observe(el);
+
     return () => {
-      cancelAnimationFrame(frame);
+      window.clearTimeout(timer);
+      glides.forEach((g) => g?.cancel());
       window.clearTimeout(orbit);
-      hero?.removeAttribute("data-orbiting");
+      seen.disconnect();
+      drifts.forEach((d) => d.cancel());
+      moves.forEach((m) => m.cancel());
+      triggerEvents.forEach((type) => trigger?.removeEventListener(type, onTrigger));
+      hero.removeAttribute("data-orbiting");
       window.removeEventListener("pointermove", onMove);
       window.removeEventListener("scroll", kick);
     };
@@ -209,71 +330,77 @@ export function LogoField({ className }: { className?: string }) {
       data-no-reveal
       className={cn("logo-field pointer-events-none absolute inset-0", className)}
     >
-      {ITEMS.map((item, i) => {
-        const [wide, square, tall] = item.spots;
-        const distance = Math.hypot((wide.x - 50) / 50, (wide.y - 50) / 50);
-        return (
-          <span
-            key={i}
-            className="logo-field-item absolute"
-            style={
-              {
-                "--x1": wide.x,
-                "--y1": wide.y,
-                "--a1": `${wide.a}deg`,
-                "--x2": square.x,
-                "--y2": square.y,
-                "--a2": `${square.a}deg`,
-                "--x3": tall.x,
-                "--y3": tall.y,
-                "--a3": `${tall.a}deg`,
-                zIndex: 3 - item.depth,
-                "--drift": DRIFT[item.depth],
-              } as CSSProperties
-            }
-          >
-            {/* Gather: from its spot to the centre of the field */}
-            <span className="logo-field-gather block" style={{ "--gd": `${item.gatherDelay}ms` } as CSSProperties}>
-              <span
-                className="logo-field-float block"
-                style={
-                  {
-                    "--fx": `${item.fx}px`,
-                    "--fy": `${item.fy}px`,
-                    "--fd": `${item.fd}s`,
-                    "--fdelay": `${item.fdelay}s`,
-                  } as CSSProperties
-                }
-              >
-                {/* Orbit: turn to the slot, reach out to the ring, turn back so the logo stays upright */}
-                <span className="logo-field-orbit block" style={{ "--ring": item.depth } as CSSProperties}>
-                  <span className="logo-field-arm block">
-                    <span className="logo-field-upright block">
+      {DEPTHS_ORDER.map((depth) => (
+        <div
+          key={depth}
+          data-depth={depth}
+          className="logo-field-depth absolute inset-0"
+          style={{ zIndex: 3 - depth, "--drift": DRIFT[depth] } as CSSProperties}
+        >
+          <div className="logo-field-scroll absolute inset-0">
+            {ITEMS.map((item, i) => {
+              if (item.depth !== depth) return null;
+              const [wide, square, tall] = item.spots;
+              const distance = Math.hypot((wide.x - 50) / 50, (wide.y - 50) / 50);
+              return (
+                <span
+                  key={i}
+                  className="logo-field-item absolute"
+                  style={
+                    {
+                      "--x1": wide.x,
+                      "--y1": wide.y,
+                      "--a1": `${wide.a}deg`,
+                      "--x2": square.x,
+                      "--y2": square.y,
+                      "--a2": `${square.a}deg`,
+                      "--x3": tall.x,
+                      "--y3": tall.y,
+                      "--a3": `${tall.a}deg`,
+                      "--ring": depth,
+                    } as CSSProperties
+                  }
+                >
+                  {/* Gather to the centre (translate) while drifting (transform) */}
+                  <span
+                    className="logo-field-gather block"
+                    style={
+                      {
+                        "--fx": `${item.fx}px`,
+                        "--fy": `${item.fy}px`,
+                        "--fd": `${item.fd}s`,
+                        "--fdelay": `${item.fdelay}s`,
+                      } as CSSProperties
+                    }
+                  >
+                    {/* Turn to the ring slot (rotate), reach out to the ring (transform) */}
+                    <span className="logo-field-orbit block">
+                      {/* Turn back so the logo stays upright; the depth look and the load-in */}
                       <span
                         className={cn(
-                          "logo-field-focus -translate-1/2 grid place-items-center",
-                          SIZE[item.depth],
+                          "logo-field-chip -translate-1/2 grid place-items-center",
+                          SIZE[depth],
                           TONE_CHIP[item.logo.tone],
                         )}
                         style={
                           {
-                            "--blur": `${BLUR[item.depth]}px`,
-                            "--o": OPACITY[item.depth],
-                            "--appear": `${Math.round(150 + distance * 650 + item.depth * 120)}ms`,
+                            "--blur": `${BLUR[depth]}px`,
+                            "--o": OPACITY[depth],
+                            "--appear": `${Math.round(150 + distance * 650 + depth * 120)}ms`,
                           } as CSSProperties
                         }
                       >
                         {/* eslint-disable-next-line @next/next/no-img-element -- tiny local SVG, decorative */}
-                        <img src={item.logo.src} alt="" className={IMG[item.depth]} />
+                        <img src={item.logo.src} alt="" className={IMG[depth]} />
                       </span>
                     </span>
                   </span>
                 </span>
-              </span>
-            </span>
-          </span>
-        );
-      })}
+              );
+            })}
+          </div>
+        </div>
+      ))}
     </div>
   );
 }

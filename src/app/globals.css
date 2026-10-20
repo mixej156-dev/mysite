@@ -838,23 +838,29 @@
   }
 }
 
-/* Portfolio hero (LogoField.tsx): logos at three depths, each in nested layers that only ever transform, so the
-   compositor does the moving:
-   item: parallax with the pointer and the scroll (--mx, --my, --sy from script), faded out by --pk while orbiting;
-   gather: to the centre of the field (from the spot --x, --y, in container units);
-   float: the idle drift;
-   orbit + upright: turn to the ring slot and keep turning, the logo counter-turned so it stays upright;
-   arm: out to the ring's radius;
-   focus: the depth look, and the load-in from blur.
-   Hovering the hero's main button runs the orbit: the rings turn, nearer ones faster. Without hover the field
-   does it by itself now and then. */
-@property --pk {
-  syntax: "<number>";
-  inherits: false;
-  initial-value: 1;
-}
+/* Portfolio hero (LogoField.tsx): logos at three depths. Every move is a transform or an individual transform
+   property, so the compositor runs it and a frame needs no style work:
+   depth layer: the pointer parallax (transform, from script), one layer per depth;
+   scroll layer: the scroll parallax, a scroll-driven animation where supported (script otherwise);
+   item: only places the logo (--x, --y in %, per stage shape);
+   gather: to the centre of the field (translate, in container units) while drifting (transform), both from script;
+   orbit: turns to the ring slot and keeps turning (rotate), reaches out to the ring (transform, from script);
+   chip: turns back so the logo stays upright (rotate), the depth look and the load-in.
+   Hovering the hero's main button gathers the logos and turns the rings, nearer ones faster; without hover the
+   field does it by itself now and then ([data-orbiting], set by LogoField). Moves are Web Animations started in
+   LogoField, which keep the main thread out of it; CSS keeps the layout and the turning. */
 .logo-field {
   container-type: size;
+}
+.logo-field-depth {
+  will-change: transform;
+}
+@supports (animation-timeline: scroll()) {
+  .logo-field-scroll {
+    animation: logo-scroll linear both;
+    animation-timeline: scroll(root);
+    animation-range: 0 1200px;
+  }
 }
 .logo-field-item {
   /* Wide stage by default; the square and tall ones below (LogoField lays out all three) */
@@ -862,13 +868,8 @@
   --y: var(--y1);
   --a: var(--a1);
   --s: 1;
-  --r0: min(22rem, 40cqw);
-  --rs: 3.5rem;
   left: calc(var(--x) * 1%);
   top: calc(var(--y) * 1%);
-  translate: calc(var(--mx, 0) * var(--drift) * var(--pk) * -80px)
-    calc((var(--my, 0) * -56px - var(--sy, 0) * 0.3px) * var(--drift) * var(--pk));
-  transition: --pk 600ms var(--ds-ease-in-out);
 }
 @container (aspect-ratio < 1.35) {
   .logo-field-item {
@@ -876,8 +877,6 @@
     --y: var(--y2);
     --a: var(--a2);
     --s: 0.85;
-    --r0: 34cqw;
-    --rs: 6cqw;
   }
 }
 @container (aspect-ratio < 0.8) {
@@ -886,48 +885,25 @@
     --y: var(--y3);
     --a: var(--a3);
     --s: 0.72;
-    /* The text fills a phone's width, so the rings go round it wider than the screen, cut at the sides */
-    --r0: 46cqw;
-    --rs: 9cqw;
   }
-}
-.logo-field-gather,
-.logo-field-arm {
-  transition: translate 750ms var(--ds-ease-in-out) var(--gd);
-  will-change: translate;
-}
-.logo-field-float {
-  animation: logo-drift var(--fd) ease-in-out var(--fdelay) infinite alternate;
 }
 .logo-field-orbit {
   rotate: var(--a);
   animation: logo-orbit calc(36s + var(--ring) * 14s) linear infinite paused;
 }
-.logo-field-upright {
+.logo-field-chip {
   rotate: calc(var(--a) * -1);
   scale: var(--s);
-  animation: logo-upright calc(36s + var(--ring) * 14s) linear infinite paused;
-}
-.logo-field-focus {
   filter: blur(var(--blur));
   opacity: var(--o);
-  animation: logo-focus 1100ms var(--ds-ease-brand) var(--appear) backwards;
+  backface-visibility: hidden;
+  animation:
+    logo-upright calc(36s + var(--ring) * 14s) linear infinite paused,
+    logo-appear 900ms var(--ds-ease-brand) var(--appear) backwards;
 }
 @media (prefers-reduced-motion: no-preference) {
-  /* Pointing at the button, or by itself now and then where there is no hover ([data-orbiting], from LogoField) */
-  [data-logo-hero]:is([data-orbiting], :has([data-orbit-trigger]:is(:hover, :focus-visible))) {
-    & .logo-field-item {
-      --pk: 0;
-    }
-    & .logo-field-gather {
-      translate: calc((50 - var(--x)) * 1cqw) calc((50 - var(--y)) * 1cqh);
-    }
-    & .logo-field-arm {
-      translate: calc(var(--r0) + var(--ring) * var(--rs)) 0;
-    }
-    & :is(.logo-field-orbit, .logo-field-upright) {
-      animation-play-state: running;
-    }
+  [data-orbiting] :is(.logo-field-orbit, .logo-field-chip) {
+    animation-play-state: running;
   }
 }
 @keyframes logo-orbit {
@@ -946,21 +922,20 @@
     rotate: calc(var(--a) * -1 - 360deg);
   }
 }
-@keyframes logo-drift {
-  to {
-    translate: var(--fx) var(--fy);
-  }
-}
-@keyframes logo-focus {
+@keyframes logo-appear {
   from {
     opacity: 0;
-    scale: 0.4;
-    filter: blur(14px);
+    transform: scale(0.4);
+  }
+}
+@keyframes logo-scroll {
+  to {
+    transform: translateY(calc(var(--drift) * -360px));
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .logo-field-float,
-  .logo-field-focus {
+  .logo-field-chip,
+  .logo-field-scroll {
     animation: none;
   }
 }
