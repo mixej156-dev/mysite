@@ -1,17 +1,31 @@
 "use client";
 
-import { useReducedMotion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { duration } from "@/design-system/motion";
 
 const COUNT_MS = duration.slow * 1000 * 2.5;
+
+/* The visitor's reduced-motion setting, false on the server and in the first render, so hydration matches what the
+   server sent (framer-motion's hook reads it straight away, which made the figure differ from the server's 0) */
+const REDUCE = "(prefers-reduced-motion: reduce)";
+const subscribeReduce = (onChange: () => void) => {
+  const query = window.matchMedia(REDUCE);
+  query.addEventListener("change", onChange);
+  return () => query.removeEventListener("change", onChange);
+};
+const useReduceMotion = () =>
+  useSyncExternalStore(
+    subscribeReduce,
+    () => window.matchMedia(REDUCE).matches,
+    () => false,
+  );
 
 /**
  * A figure that counts up from zero when it mounts and glides to a new value when it changes (after a stake or a
  * deposit). Screen readers get the final value only.
  */
 export function AnimatedNumber({ value, format }: { value: number; format: (v: number) => string }) {
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = useReduceMotion();
   const [shown, setShown] = useState(0);
   const from = useRef(0);
 
