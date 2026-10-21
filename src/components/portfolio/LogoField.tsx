@@ -47,9 +47,9 @@ const DRIFT = [1, 0.55, 0.25];
 /** Lanes within a depth: how much of the depth's sideways and up-down move they take, and how long they take to
    catch up with the pointer */
 const LANES = [
-  { x: 0.7, y: 1.3, ms: 600 },
-  { x: 1, y: 0.9, ms: 850 },
-  { x: 1.35, y: 0.65, ms: 1150 },
+  { x: 0.85, y: 1.15, ms: 650 },
+  { x: 1, y: 0.95, ms: 800 },
+  { x: 1.15, y: 0.82, ms: 950 },
 ];
 const LANE_IDS: Lane[] = [0, 1, 2];
 /** How far a logo wanders by itself, by depth, in px */
