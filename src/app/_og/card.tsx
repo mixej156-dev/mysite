@@ -14,10 +14,10 @@ export const OG_THEME = {
   rule: "#d5d8de",
   text: "#121316",
   muted: "#5d616c",
-  accent: "#2638c4",
-  accentText: "#2638c4",
+  accent: "#335cf0",
+  accentText: "#2b51d8",
   topic: {
-    blue: "#3a4de0",
+    blue: "#335cf0",
     green: "#1a9a6a",
     teal: "#16919f",
     orange: "#e0622c",

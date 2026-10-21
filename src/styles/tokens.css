@@ -4,7 +4,7 @@
  * mapped in globals.css (@theme inline), never hex values.
  *
  * Themes: data-theme="light" on <html> for the site; the dashboard can switch <html> to "dark".
- * Inverse sections: data-tone="inverse" on a container in a light page turns it graphite, with light buttons.
+ * Inverse sections: data-tone="inverse" on a container in a light page turns it graphite.
  * Dark is the dashboard's own near-black palette, separate from the graphite inverse sections.
  */
 
@@ -18,21 +18,20 @@
   --rule-strong: #42454d;
   --text: #f1f2f4;
   --muted: #9a9ea8;
-  /* On graphite the buttons go light with dark text: ultramarine itself would sink into the background */
-  --accent: #9aa6ff;
-  --accent-hover: #b3bcff;
-  --accent-text: #9aa6ff;
-  --on-accent: #121316;
+  --accent: #335cf0;
+  --accent-hover: #2a4fd8;
+  --accent-text: #8aa6ff;
+  --on-accent: #ffffff;
   --success: #3fc28e;
   --warning: #e0a93a;
   --danger: #f07070;
   --scrim: rgb(8 9 11 / 0.72);
   /* Chart series, fixed order (validated with the dataviz palette checks, all-pairs, dark surface) */
-  --series-1: #5668f0;
+  --series-1: #4a6ef5;
   --series-2: #d95926;
   --series-3: #199e70;
   /* Topic palette: decorative cover art in ECO. LEARN only, never text or UI state */
-  --topic-blue: #6676f2;
+  --topic-blue: #5b7cfa;
   --topic-green: #3fc28e;
   --topic-teal: #3ab7c9;
   --topic-orange: #f07a45;
@@ -53,19 +52,19 @@
   --rule-strong: #38383e;
   --text: #f2f2f4;
   --muted: #8f9099;
-  --accent: #4255e6;
-  --accent-hover: #5668f0;
-  --accent-text: #9aa6ff;
+  --accent: #335cf0;
+  --accent-hover: #4a6ef5;
+  --accent-text: #8ea8ff;
   --on-accent: #ffffff;
   --success: #3fc28e;
   --warning: #e0a93a;
   --danger: #f07070;
   --scrim: rgb(0 0 0 / 0.72);
   /* Chart series (validated, all-pairs, near-black surface) */
-  --series-1: #5668f0;
+  --series-1: #4a6ef5;
   --series-2: #d95926;
   --series-3: #199e70;
-  --topic-blue: #6676f2;
+  --topic-blue: #5b7cfa;
   --topic-green: #3fc28e;
   --topic-teal: #3ab7c9;
   --topic-orange: #f07a45;
@@ -87,19 +86,19 @@
   --rule-strong: #b7bcc5;
   --text: #121316;
   --muted: #5d616c;
-  --accent: #2638c4;
-  --accent-hover: #1e2ea3;
-  --accent-text: #2638c4;
+  --accent: #335cf0;
+  --accent-hover: #2a4fd8;
+  --accent-text: #2b51d8;
   --on-accent: #ffffff;
   --success: #147550;
   --warning: #7a5206;
   --danger: #b53030;
   --scrim: rgb(18 19 22 / 0.48);
   /* Chart series, fixed order (validated, all-pairs, light surface; slot 3 < 3:1 → charts ship a table view) */
-  --series-1: #2638c4;
+  --series-1: #335cf0;
   --series-2: #eb6834;
   --series-3: #1baf7a;
-  --topic-blue: #3a4de0;
+  --topic-blue: #335cf0;
   --topic-green: #1a9a6a;
   --topic-teal: #16919f;
   --topic-orange: #e0622c;
