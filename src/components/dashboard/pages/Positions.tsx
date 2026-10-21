@@ -182,7 +182,7 @@ export function Positions() {
           </div>
         )}
         {selected && pool && confirming && (
-          <div className="flex flex-col gap-3 font-serif text-body text-muted">
+          <div className="flex flex-col gap-3 text-body text-muted">
             <p>
               Unstake {tokenAmount(selected.amount, pool.ticker)} from {pool.name}?
             </p>

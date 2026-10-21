@@ -15,7 +15,7 @@ export function CTASection({ id, title, lead, actions }: CTASectionProps) {
         <h2 id={id} className="text-display">
           {title}
         </h2>
-        <p className="mt-6 max-w-[48ch] font-serif text-lead text-muted">{lead}</p>
+        <p className="mt-6 max-w-[48ch] text-lead text-muted">{lead}</p>
       </div>
       <div className="flex flex-wrap gap-3">{actions}</div>
     </div>

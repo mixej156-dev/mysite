@@ -50,7 +50,7 @@ export default function TeamPage() {
           lead="Small teams, written decisions and on-call shared fairly. Most roles are remote within a few time zones."
         />
         <OpenRoles />
-        <p className="mt-8 font-serif text-body text-muted">
+        <p className="mt-8 text-body text-muted">
           Don’t see your role?{" "}
           <Link
             href="/contact?topic=careers&role=open#write"

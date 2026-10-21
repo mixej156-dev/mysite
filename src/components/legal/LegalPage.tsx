@@ -23,7 +23,7 @@ export function LegalPage({ slug }: { slug: string }) {
         <h1 id={`legal-title-${slug}`} className="text-h1">
           {doc.title}
         </h1>
-        <p className="mt-4 font-serif text-lead text-muted">{doc.summary}</p>
+        <p className="mt-4 text-lead text-muted">{doc.summary}</p>
         <p className="mt-4 text-small text-muted">
           Last updated <time dateTime={doc.updated}>{formatDate(doc.updated)}</time>
         </p>

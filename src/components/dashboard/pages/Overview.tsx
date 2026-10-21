@@ -56,7 +56,13 @@ export function Overview() {
               inTotal: true,
             },
             { label: "In wallet", value: wallet, note: "Available to stake or withdraw", tone: "teal", inTotal: true },
-            { label: "30-day rewards", value: rewardsUsd(rewards, 30), note: "Paid out daily", tone: "amber" },
+            {
+              label: "30-day rewards",
+              shortLabel: "30d rewards",
+              value: rewardsUsd(rewards, 30),
+              note: "Paid out daily",
+              tone: "amber",
+            },
           ]}
           actions={
             <>

@@ -33,7 +33,7 @@ export function GuideArticle({ guide }: { guide: Guide }) {
             <h1 id={titleId} className="mt-4 text-h1">
               {guide.title}
             </h1>
-            <p className="mt-6 max-w-[52ch] font-serif text-lead text-muted">{guide.excerpt}</p>
+            <p className="mt-6 max-w-[52ch] text-lead text-muted">{guide.excerpt}</p>
           </div>
         </header>
 
@@ -104,7 +104,7 @@ export function GuideArticle({ guide }: { guide: Guide }) {
               </h2>
               <ol className="mt-4 flex flex-col gap-3">
                 {guide.takeaways.map((t, i) => (
-                  <li key={t} className="flex gap-3 font-serif text-body">
+                  <li key={t} className="flex gap-3 text-body">
                     <span className="font-mono text-small text-muted">{String(i + 1).padStart(2, "0")}</span>
                     {t}
                   </li>

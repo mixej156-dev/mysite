@@ -31,7 +31,7 @@ export function TestimonialSlider({ items, label }: { items: Testimonial[]; labe
         {/* Invisible copies of every quote share this cell, so the block is always as tall as the longest one */}
         {items.map((it) => (
           <div key={it.id} aria-hidden className="invisible col-start-1 row-start-1 flex flex-col gap-8 sm:gap-10">
-            <p className="max-w-[38ch] font-serif text-h3 sm:text-h2 leading-[1.3] font-normal tracking-[-0.01em] text-pretty">
+            <p className="max-w-[38ch] text-h3 sm:text-h2 leading-[1.3] font-normal tracking-[-0.01em] text-pretty">
               “{it.quote}”
             </p>
             <p className="flex flex-col gap-0.5 text-small">
@@ -53,7 +53,7 @@ export function TestimonialSlider({ items, label }: { items: Testimonial[]; labe
             transition={transition.base}
             className="col-start-1 row-start-1 flex flex-col gap-8 sm:gap-10"
           >
-            <blockquote className="max-w-[38ch] font-serif text-h3 sm:text-h2 leading-[1.3] font-normal tracking-[-0.01em] text-pretty">
+            <blockquote className="max-w-[38ch] text-h3 sm:text-h2 leading-[1.3] font-normal tracking-[-0.01em] text-pretty">
               “{item.quote}”
             </blockquote>
             <figcaption className="flex flex-col gap-0.5 text-small">

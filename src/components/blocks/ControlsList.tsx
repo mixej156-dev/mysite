@@ -38,7 +38,7 @@ export function ControlsList({ items, icons, active }: { items: Control[]; icons
             )}
             {item.title}
           </h3>
-          <p className="col-start-2 max-w-[56ch] font-serif text-body text-muted sm:col-start-auto">{item.body}</p>
+          <p className="col-start-2 max-w-[56ch] text-body text-muted sm:col-start-auto">{item.body}</p>
         </li>
       ))}
     </ol>

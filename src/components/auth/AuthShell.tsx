@@ -18,7 +18,7 @@ export function AuthShell({ children }: { children: ReactNode }) {
         </Link>
         <div>
           <p className="max-w-[14ch] text-h1 font-semibold">Staking, kept to account.</p>
-          <ul className="mt-8 flex flex-col gap-3 font-serif text-body text-muted">
+          <ul className="mt-8 flex flex-col gap-3 text-body text-muted">
             {POINTS.map((p) => (
               <li key={p} className="flex gap-3">
                 <span aria-hidden className="mt-2.5 size-1.5 shrink-0 rounded-pill bg-accent" />

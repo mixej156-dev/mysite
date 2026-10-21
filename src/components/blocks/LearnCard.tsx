@@ -39,9 +39,7 @@ export function LearnCard({ guide }: { guide: GuideSummary }) {
           {guide.title}
         </Link>
       </h3>
-      <p className="line-clamp-2 font-serif text-small text-muted sm:-mt-2 sm:line-clamp-none sm:text-body">
-        {guide.excerpt}
-      </p>
+      <p className="line-clamp-2 text-small text-muted sm:-mt-2 sm:line-clamp-none sm:text-body">{guide.excerpt}</p>
     </article>
   );
 }

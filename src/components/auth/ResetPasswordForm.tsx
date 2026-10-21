@@ -48,7 +48,7 @@ export function ResetPasswordForm() {
         <CircleCheck aria-hidden className="size-8 text-success" />
         <div>
           <h1 className="text-h2">Password updated</h1>
-          <p className="mt-3 font-serif text-body text-muted">
+          <p className="mt-3 text-body text-muted">
             You can log in with your new password now. For your security, every other device has been signed out.
           </p>
         </div>
@@ -63,7 +63,7 @@ export function ResetPasswordForm() {
     <div className="flex flex-col gap-8">
       <div>
         <h1 className="text-h2">Set a new password</h1>
-        <p className="mt-2 font-serif text-body text-muted">
+        <p className="mt-2 text-body text-muted">
           Enter the code from the reset email and choose a password you don’t use anywhere else.
         </p>
       </div>

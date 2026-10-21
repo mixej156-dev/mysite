@@ -170,7 +170,7 @@ export function PoolDetail({ pool }: { pool: Pool }) {
             <h2 id={`${pool.id}-about-pool-title`} className="text-h2">
               About this pool
             </h2>
-            <p className="mt-5 max-w-[60ch] font-serif text-lead text-muted">{pool.description}</p>
+            <p className="mt-5 max-w-[60ch] text-lead text-muted">{pool.description}</p>
           </div>
           <div>
             <h2 className="flex items-center gap-3 text-h2">
@@ -181,7 +181,7 @@ export function PoolDetail({ pool }: { pool: Pool }) {
               {POOL_RISKS.map((risk) => (
                 <li key={risk.title} className="border-b border-rule py-4">
                   <p className="font-medium">{risk.title}</p>
-                  <p className="mt-1 font-serif text-body text-muted">{risk.body}</p>
+                  <p className="mt-1 text-body text-muted">{risk.body}</p>
                 </li>
               ))}
             </ul>

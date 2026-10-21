@@ -40,7 +40,7 @@ export default function PortfolioPage() {
           <h1 id="portfolio-title" className="mt-4 max-w-[14ch] text-display">
             Every stake, in one view.
           </h1>
-          <p className="mt-6 max-w-[44ch] font-serif text-lead text-muted">
+          <p className="mt-6 max-w-[44ch] text-lead text-muted">
             Your balance across {pools.length} networks, every daily reward, and when each unstake comes back. All on
             one screen.
           </p>

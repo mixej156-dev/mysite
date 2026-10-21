@@ -14,7 +14,7 @@ export default function DocsPage() {
     <>
       <Breadcrumbs items={[{ label: "Home", href: "/" }, { label: "Docs" }]} />
       <h1 className="mt-8 text-h1">Documentation</h1>
-      <p className="mt-5 max-w-[56ch] font-serif text-lead text-muted">
+      <p className="mt-5 max-w-[56ch] text-lead text-muted">
         How the platform works, from your first stake to reading the rewards ledger. Short articles, one task each.
       </p>
       <div className="mt-8 sm:mt-12 grid gap-4 md:grid-cols-2">

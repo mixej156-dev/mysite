@@ -71,7 +71,7 @@ function Card({ title, body, children }: { title: string; body: string; children
         {children}
       </div>
       <h3 className="mt-6 text-h4 font-medium">{title}</h3>
-      <p className="mt-2 font-serif text-body text-muted">{body}</p>
+      <p className="mt-2 text-body text-muted">{body}</p>
     </article>
   );
 }

@@ -43,7 +43,6 @@
 
   --font-*: initial;
   --font-display: var(--ds-font-display);
-  --font-serif: var(--ds-font-serif);
   --font-mono: var(--ds-font-mono);
 
   /* Type scale: size / line-height / tracking / weight */

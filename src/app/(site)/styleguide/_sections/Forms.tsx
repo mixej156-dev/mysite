@@ -91,14 +91,7 @@ export function InputSection() {
         {() => (
           <>
             <Input label="Email" type="email" placeholder="you@company.com" prefix={<Mail aria-hidden />} />
-            <Input
-              label="Amount"
-              inputMode="decimal"
-              numeric
-              defaultValue="2.5"
-              suffix="ETH"
-              hint="Minimum 0.1 ETH"
-            />
+            <Input label="Amount" inputMode="decimal" numeric defaultValue="2.5" suffix="ETH" hint="Minimum 0.1 ETH" />
             <Input
               label="Withdrawal address"
               numeric
@@ -242,13 +235,13 @@ export function TabsSection() {
                     Validators
                   </TabsTrigger>
                 </TabsList>
-                <TabsContent value="overview" className="font-serif text-body text-muted">
+                <TabsContent value="overview" className="text-body text-muted">
                   Ethereum pool delegates to a set of independent validators.
                 </TabsContent>
-                <TabsContent value="rewards" className="font-serif text-body text-muted">
+                <TabsContent value="rewards" className="text-body text-muted">
                   Rewards are paid daily in ETH.
                 </TabsContent>
-                <TabsContent value="risks" className="font-serif text-body text-muted">
+                <TabsContent value="risks" className="text-body text-muted">
                   Slashing, smart-contract and price risk apply.
                 </TabsContent>
               </Tabs>

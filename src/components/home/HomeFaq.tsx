@@ -17,7 +17,7 @@ export function HomeFaq() {
         <h3 id="home-faq-title" className="text-h3">
           Common questions
         </h3>
-        <p className="mt-2 max-w-[40ch] font-serif text-body text-muted">
+        <p className="mt-2 max-w-[40ch] text-body text-muted">
           What people ask first. All {FAQ_COUNT} answers, across {FAQ.length} topics, are in the full FAQ.
         </p>
         {/* One chip per FAQ topic, acting out its meaning as the block comes into view */}

@@ -66,7 +66,7 @@ export function VerifyEmailForm() {
       <div className="flex flex-col gap-6">
         <div>
           <h1 className="text-h2">Nothing to confirm</h1>
-          <p className="mt-3 font-serif text-body text-muted">
+          <p className="mt-3 text-body text-muted">
             This confirmation has expired or was opened in another tab. Create your account again to get a new code.
           </p>
         </div>
@@ -85,7 +85,7 @@ export function VerifyEmailForm() {
       <div>
         <MailCheck aria-hidden className="size-8 text-accent-text" />
         <h1 className="mt-6 text-h2">Confirm your email</h1>
-        <p className="mt-3 font-serif text-body text-muted">
+        <p className="mt-3 text-body text-muted">
           We sent a 6-digit code to <span className="font-display font-medium text-text">{pending.email}</span>. Enter
           it below, or open the link in the email. The code works for 15 minutes.
         </p>

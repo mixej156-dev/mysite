@@ -42,7 +42,7 @@ export default function AboutPage() {
             <h2 id="why-title" className="text-h2">
               Why we started
             </h2>
-            <div className="mt-6 flex max-w-[62ch] flex-col gap-5 font-serif text-lead text-muted">
+            <div className="mt-6 flex max-w-[62ch] flex-col gap-5 text-lead text-muted">
               <p>
                 Staking rewards are public on every chain, yet most stakers only ever see a single yield figure. When it
                 moves, nobody can say why.
@@ -72,7 +72,7 @@ export default function AboutPage() {
           {VALUES.map((value) => (
             <li key={value.title} className="border-t border-rule pt-6">
               <h3 className="text-h3">{value.title}</h3>
-              <p className="mt-3 max-w-[48ch] font-serif text-body text-muted">{value.body}</p>
+              <p className="mt-3 max-w-[48ch] text-body text-muted">{value.body}</p>
             </li>
           ))}
         </ul>
@@ -99,7 +99,7 @@ export default function AboutPage() {
               </div>
               <div className="pb-12 max-md:col-start-2">
                 <h3 className="text-h3 max-md:mt-1">{item.title}</h3>
-                <p className="mt-2 max-w-[52ch] font-serif text-body text-muted">{item.body}</p>
+                <p className="mt-2 max-w-[52ch] text-body text-muted">{item.body}</p>
               </div>
             </li>
           ))}

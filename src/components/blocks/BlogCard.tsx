@@ -26,9 +26,7 @@ export function BlogCard({ post, showExcerpt = true }: { post: PostSummary; show
         </Link>
       </h3>
       {showExcerpt && (
-        <p className="line-clamp-2 font-serif text-small text-muted sm:-mt-2 sm:line-clamp-none sm:text-body">
-          {post.excerpt}
-        </p>
+        <p className="line-clamp-2 text-small text-muted sm:-mt-2 sm:line-clamp-none sm:text-body">{post.excerpt}</p>
       )}
     </article>
   );
@@ -57,7 +55,7 @@ export function FeaturedPostCard({ post }: { post: PostSummary }) {
             {post.title}
           </Link>
         </h2>
-        <p className="mt-3 max-w-[48ch] font-serif text-lead text-muted sm:mt-4">{post.excerpt}</p>
+        <p className="mt-3 max-w-[48ch] text-lead text-muted sm:mt-4">{post.excerpt}</p>
         <p className="mt-4 text-small text-muted sm:mt-6">By {post.author}</p>
       </div>
     </article>

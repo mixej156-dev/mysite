@@ -44,7 +44,7 @@ export function Accordion({
         </RadixAccordion.Trigger>
       </RadixAccordion.Header>
       <RadixAccordion.Content className="overflow-hidden data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
-        <div className="max-w-[68ch] pb-5 font-serif text-body text-muted sm:pb-6">{item.content}</div>
+        <div className="max-w-[68ch] pb-5 text-body text-muted sm:pb-6">{item.content}</div>
       </RadixAccordion.Content>
     </RadixAccordion.Item>
   ));

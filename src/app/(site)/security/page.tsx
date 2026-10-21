@@ -125,7 +125,7 @@ export default function SecurityPage() {
                 <MenuIcon icon={CUSTODY_ICONS[i].icon} tone={CUSTODY_ICONS[i].tone} colored className="size-10" />
               </PlayOnView>
               <h3 className="text-h3">{item.title}</h3>
-              <p className="mt-3 font-serif text-body text-muted">{item.body}</p>
+              <p className="mt-3 text-body text-muted">{item.body}</p>
             </li>
           ))}
         </ul>
@@ -167,7 +167,7 @@ export default function SecurityPage() {
             <h2 id="bounty-title" className="mt-4 text-h2">
               Bug bounty
             </h2>
-            <p className="mt-4 max-w-[46ch] font-serif text-body text-muted">
+            <p className="mt-4 max-w-[46ch] text-body text-muted">
               We’re preparing a public bug bounty. Until it opens, we welcome reports through the address below and
               credit researchers who agree to be named.
             </p>
@@ -233,7 +233,7 @@ export default function SecurityPage() {
             <h2 id="report-title" className="text-h2">
               Report a vulnerability
             </h2>
-            <p className="mt-4 max-w-[46ch] font-serif text-body text-muted">
+            <p className="mt-4 max-w-[46ch] text-body text-muted">
               Please don’t test against other people’s accounts or disclose the issue publicly before we’ve had a chance
               to fix it. We aim to acknowledge reports within two business days.
             </p>
@@ -248,7 +248,7 @@ export default function SecurityPage() {
             </a>
             <div>
               <h3 className="text-small font-medium">Include in your report</h3>
-              <ul className="mt-2 flex list-disc flex-col gap-1.5 pl-5 font-serif text-body text-muted">
+              <ul className="mt-2 flex list-disc flex-col gap-1.5 pl-5 text-body text-muted">
                 <li>What you found and where</li>
                 <li>Steps to reproduce it</li>
                 <li>What an attacker could do with it</li>

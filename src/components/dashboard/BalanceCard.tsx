@@ -11,7 +11,7 @@ export type BalanceCardProps = {
   change: number;
   periodLabel: string;
   /** `inTotal` items add up to the total and fill the composition bar, in this order */
-  breakdown: { label: string; value: number; note?: string; tone?: Tone; inTotal?: boolean }[];
+  breakdown: { label: string; shortLabel?: string; value: number; note?: string; tone?: Tone; inTotal?: boolean }[];
   /** Quick actions under the figure on phones and tablets, where the top bar has no room for them */
   actions?: ReactNode;
 };
@@ -88,7 +88,14 @@ export function BalanceCard({ total, change, periodLabel, breakdown, actions }: 
           >
             <dt className="flex items-center gap-1.5 text-caption text-muted sm:gap-2 sm:text-small">
               {item.tone && <span aria-hidden className={cn("size-2 shrink-0 rounded-pill", TONE_FILL[item.tone])} />}
-              <span className="truncate">{item.label}</span>
+              {item.shortLabel ? (
+                <>
+                  <span className="truncate sm:hidden">{item.shortLabel}</span>
+                  <span className="truncate max-sm:hidden">{item.label}</span>
+                </>
+              ) : (
+                <span className="truncate">{item.label}</span>
+              )}
             </dt>
             <dd className="mt-1 font-mono text-body sm:text-h4">
               <AnimatedNumber value={item.value} format={formatCurrency} />

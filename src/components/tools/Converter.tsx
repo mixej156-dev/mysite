@@ -257,9 +257,7 @@ export function Converter() {
             <Clock aria-hidden className="mt-0.5 size-4 shrink-0 text-accent-text" />
             <span>
               Estimated arrival:{" "}
-              <span className="font-medium">
-                {to.kind === "fiat" ? "1–2 business days" : minutesLabel(q.minutes)}
-              </span>
+              <span className="font-medium">{to.kind === "fiat" ? "1–2 business days" : minutesLabel(q.minutes)}</span>
               {fromNetwork && (
                 <span className="block text-caption text-muted">
                   Includes {minutesLabel(fromNetwork.finalityMinutes)} for your {fromNetwork.name} deposit to confirm.
@@ -315,11 +313,14 @@ function NetworkComparison({
 }) {
   if (to.kind === "fiat") {
     return (
-      <section aria-labelledby="compare-title" className="min-w-0 rounded-card border border-rule bg-surface p-5 md:p-8 lg:col-span-7">
+      <section
+        aria-labelledby="compare-title"
+        className="min-w-0 rounded-card border border-rule bg-surface p-5 md:p-8 lg:col-span-7"
+      >
         <h2 id="compare-title" className="text-h4 font-medium">
           Delivery
         </h2>
-        <p className="mt-3 max-w-[56ch] font-serif text-body text-muted">
+        <p className="mt-3 max-w-[56ch] text-body text-muted">
           {to.name} payouts go to a verified bank account in your name. Transfers arrive in one to two business days,
           with no network fee.
         </p>
@@ -333,7 +334,10 @@ function NetworkComparison({
     : SPEEDS.map((s) => ({ key: s.id, label: s.label, network: getNetwork(to.networks[0]), s: s.id }));
 
   return (
-    <section aria-labelledby="compare-title" className="min-w-0 rounded-card border border-rule bg-surface p-5 md:p-8 lg:col-span-7">
+    <section
+      aria-labelledby="compare-title"
+      className="min-w-0 rounded-card border border-rule bg-surface p-5 md:p-8 lg:col-span-7"
+    >
       <h2 id="compare-title" className="text-h4 font-medium">
         {byNetwork ? `${to.ticker} by network` : `${getNetwork(to.networks[0]).name} fees by speed`}
       </h2>
@@ -400,7 +404,10 @@ function NetworkComparison({
 function RatesTable({ base }: { base: string }) {
   const others = ASSETS.filter((a) => a.ticker !== base);
   return (
-    <section aria-labelledby="rates-title" className="min-w-0 rounded-card border border-rule bg-surface p-5 md:p-8 lg:col-span-5">
+    <section
+      aria-labelledby="rates-title"
+      className="min-w-0 rounded-card border border-rule bg-surface p-5 md:p-8 lg:col-span-5"
+    >
       <h2 id="rates-title" className="text-h4 font-medium">
         1 {base} in other assets
       </h2>

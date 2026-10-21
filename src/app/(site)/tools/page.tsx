@@ -63,7 +63,7 @@ export default function ToolsPage() {
                       {title}
                     </Link>
                   </h2>
-                  <p className="mt-2 max-w-[48ch] font-serif text-body text-muted">{body}</p>
+                  <p className="mt-2 max-w-[48ch] text-body text-muted">{body}</p>
                 </div>
               </Card>
             </li>

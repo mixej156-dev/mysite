@@ -343,7 +343,7 @@ export function StakeStepsLive({ steps }: { steps: readonly { title: string; bod
             </div>
             <p className="mt-5 font-mono text-caption text-muted">{String(i + 1).padStart(2, "0")}</p>
             <h3 className="mt-1 text-h4">{step.title}</h3>
-            <p className="mt-2 max-w-[34ch] font-serif text-body text-muted">{step.body}</p>
+            <p className="mt-2 max-w-[34ch] text-body text-muted">{step.body}</p>
           </li>
         );
       })}

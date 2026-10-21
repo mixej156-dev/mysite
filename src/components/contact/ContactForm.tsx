@@ -143,7 +143,7 @@ export function ContactForm({
       >
         <CircleCheck aria-hidden className="size-6 text-success" />
         <h2 className="text-h3">Thanks, {fields.name.trim().split(" ")[0]}.</h2>
-        <p className="max-w-[48ch] font-serif text-body text-muted">
+        <p className="max-w-[48ch] text-body text-muted">
           Your message is with the {meta.label.toLowerCase()} team. We’ll reply to {fields.email.trim()}, {meta.reply}.
         </p>
         <Button

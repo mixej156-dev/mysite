@@ -28,10 +28,10 @@ export function LeaderProfile({ member, profile, titleId }: { member: TeamMember
         <h2 id={titleId} className="mt-2 text-h2">
           {member.name}
         </h2>
-        <p className="mt-5 max-w-[60ch] font-serif text-body text-muted">{profile.bio}</p>
+        <p className="mt-5 max-w-[60ch] text-body text-muted">{profile.bio}</p>
 
         <figure className="mt-8 sm:mt-10 border-l-2 border-accent pl-6">
-          <blockquote className="max-w-[52ch] font-serif text-lead text-text">“{profile.quote}”</blockquote>
+          <blockquote className="max-w-[52ch] text-lead text-text">“{profile.quote}”</blockquote>
           <figcaption className="mt-3 text-small text-muted">
             {member.name}, {member.role}
           </figcaption>

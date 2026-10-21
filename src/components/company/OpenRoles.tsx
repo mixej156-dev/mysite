@@ -35,7 +35,7 @@ export function OpenRoles() {
           <Accordion.Content className="overflow-hidden data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
             <div className="grid gap-6 pb-8 md:grid-cols-[minmax(0,2fr)_minmax(0,2fr)_7.5rem] md:gap-6">
               <div>
-                <p className="max-w-[48ch] font-serif text-lead">{role.summary}</p>
+                <p className="max-w-[48ch] text-lead">{role.summary}</p>
                 <h4 className="mt-6 text-small font-medium text-muted">What you’ll do</h4>
                 <ul className="mt-3 flex flex-col gap-2 text-small">
                   {role.responsibilities.map((item) => (

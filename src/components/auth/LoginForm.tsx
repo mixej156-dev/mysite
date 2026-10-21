@@ -78,7 +78,7 @@ export function LoginForm() {
         <div>
           <ShieldCheck aria-hidden className="size-8 text-accent-text" />
           <h1 className="mt-6 text-h2">Two-factor authentication</h1>
-          <p className="mt-3 font-serif text-body text-muted">
+          <p className="mt-3 text-body text-muted">
             {useRecovery
               ? "Enter one of the recovery codes you saved when you set up two-factor. Each code works once."
               : "Open your authenticator app and enter the 6-digit code for LONAR ECO."}

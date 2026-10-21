@@ -64,7 +64,7 @@ function StakingPanel({ section }: { section: NavSection }) {
           <span>
             <MenuIcon icon={Calculator} tone="violet" className="mb-4 size-10 bg-surface" />
             <span className="block text-body font-medium text-text">Estimate your rewards</span>
-            <span className="mt-1.5 block font-serif text-small text-muted">
+            <span className="mt-1.5 block text-small text-muted">
               Pick a pool and an amount to see projected earnings by month and year.
             </span>
           </span>

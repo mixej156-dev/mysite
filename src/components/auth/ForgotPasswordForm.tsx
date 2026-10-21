@@ -50,7 +50,7 @@ export function ForgotPasswordForm() {
         <MailCheck aria-hidden className="size-8 text-accent-text" />
         <div>
           <h1 className="text-h2">Check your inbox</h1>
-          <p className="mt-3 font-serif text-body text-muted">
+          <p className="mt-3 text-body text-muted">
             If an account exists for <span className="font-display font-medium text-text">{email.trim()}</span>, an
             email with a reset link and a 6-digit code is on its way. Both work for 30 minutes.
           </p>
@@ -87,7 +87,7 @@ export function ForgotPasswordForm() {
     <div className="flex flex-col gap-8">
       <div>
         <h1 className="text-h2">Reset your password</h1>
-        <p className="mt-2 font-serif text-body text-muted">Enter your email and we’ll send a link to set a new one.</p>
+        <p className="mt-2 text-body text-muted">Enter your email and we’ll send a link to set a new one.</p>
       </div>
       <form ref={formRef} onSubmit={submit} noValidate aria-label="Reset password" className="flex flex-col gap-5">
         <Input

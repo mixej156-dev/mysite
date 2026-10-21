@@ -87,9 +87,7 @@ export function Modal({ open, onOpenChange, title, description, trigger, footer,
                     <div className="flex flex-col gap-1.5">
                       <Dialog.Title className="text-h4 font-semibold">{title}</Dialog.Title>
                       {description ? (
-                        <Dialog.Description className="font-serif text-body text-muted">
-                          {description}
-                        </Dialog.Description>
+                        <Dialog.Description className="text-body text-muted">{description}</Dialog.Description>
                       ) : (
                         <Dialog.Description className="sr-only">{title}</Dialog.Description>
                       )}

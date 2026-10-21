@@ -92,7 +92,7 @@ export function NotFoundContent() {
           404
         </p>
         <h1 className="mt-4 text-h1 md:text-display">Page not found</h1>
-        <p className="mt-6 max-w-[52ch] font-serif text-lead text-muted">
+        <p className="mt-6 max-w-[52ch] text-lead text-muted">
           The address may be mistyped or the page may have moved. Pick up from one of the places below.
         </p>
         <div className="mt-8 flex flex-wrap gap-3">

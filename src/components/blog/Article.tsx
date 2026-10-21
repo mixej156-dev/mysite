@@ -39,7 +39,7 @@ export function Article({ post }: { post: Post }) {
             <h1 id={`article-title-${post.slug}`} className="mt-4 text-h1">
               {post.title}
             </h1>
-            <p className="mt-6 max-w-[52ch] font-serif text-lead text-muted">{post.excerpt}</p>
+            <p className="mt-6 max-w-[52ch] text-lead text-muted">{post.excerpt}</p>
           </div>
         </header>
 

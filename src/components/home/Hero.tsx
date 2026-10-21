@@ -10,7 +10,7 @@ export function Hero() {
           <h1 id="hero-title" className="max-w-[11ch] text-display">
             Staking, kept to account.
           </h1>
-          <p className="mt-8 max-w-[46ch] font-serif text-lead text-muted">
+          <p className="mt-8 max-w-[46ch] text-lead text-muted">
             Stake ETH, SOL, ATOM and more with validators held to published uptime targets. Every reward is recorded per
             epoch and paid out daily.
           </p>

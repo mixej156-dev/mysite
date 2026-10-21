@@ -28,9 +28,9 @@
 
 ## Шрифты
 
-- Display / UI: **Schibsted Grotesk** — заголовки 600, трекинг −2% на крупных кеглях.
-- Text: **Source Serif 4** — body, лиды, цитаты; line-height 1.6; длина строки ≤ 72 знаков.
-- Mono: **IBM Plex Mono** — только цифры, суммы, адреса, хеши. Все цифры `tabular-nums`.
+- Sans: **Geist** — всё: заголовки (600, трекинг −2% на крупных кеглях), лиды, текст статей, интерфейс; line-height текста 1.6; длина строки ≤ 72 знаков.
+- Mono: **Geist Mono** — только цифры, суммы, адреса, хеши. Все цифры `tabular-nums`.
+- Курсива и шрифта с засечками нет (решение заказчика 2026-10-21: прежний Source Serif 4 в лидах читался как курсив; до этого — Schibsted Grotesk + Source Serif 4 + IBM Plex Mono).
 
 ## Форма и глубина
 
@@ -56,7 +56,7 @@
 │  Staking, kept                    │ ETH  +0.0041  09:12│ │
 │  to account.        (graphite)    │ SOL  +0.18    09:12│ │
 │                                   │ ATOM +0.62    09:11│ │
-│  Serif lead, 2 lines max.         │ ...  (лента)       │ │
+│  Lead, 2 lines max.               │ ...  (лента)       │ │
 │  [Start staking]  [See pools]     └────────────────────┘ │
 ├──────────────────────────────────────────────────────────┤
 │ TVL  │ Assets │ Paid out 30d │ Validators   (rule-линии) │

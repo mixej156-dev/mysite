@@ -131,7 +131,7 @@ export function StakeSuccess({ amount, poolId, onMore }: { amount: number; poolI
           <h2 className="text-h3">
             {token(amount)} staked in {pool.name}
           </h2>
-          <p className="mt-2 font-serif text-body text-muted">
+          <p className="mt-2 text-body text-muted">
             Your first reward is recorded on {formatDate(addDays(DEMO_TODAY, 1))} and paid out daily after that.
           </p>
         </div>

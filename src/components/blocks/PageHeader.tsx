@@ -20,7 +20,7 @@ export function PageHeader({ title, lead, breadcrumbs, children, aside, classNam
       <div className={cn("grid gap-8 sm:gap-10 lg:grid-cols-12 lg:items-end lg:gap-8", breadcrumbs && "mt-5 sm:mt-8")}>
         <div className={aside ? "lg:col-span-7" : "lg:col-span-9"}>
           <h1 className="text-h1 md:text-display">{title}</h1>
-          {lead && <p className="mt-4 max-w-[52ch] font-serif text-lead text-muted sm:mt-6">{lead}</p>}
+          {lead && <p className="mt-4 max-w-[52ch] text-lead text-muted sm:mt-6">{lead}</p>}
           {children && <div className="mt-6 sm:mt-8">{children}</div>}
         </div>
         {aside && <div className="lg:col-span-5">{aside}</div>}

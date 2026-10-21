@@ -37,7 +37,7 @@ async function DocContent({ params }: { params: PageProps<"/docs/[slug]">["param
         <h1 id={`doc-title-${slug}`} className="mt-8 text-h1">
           {doc.title}
         </h1>
-        <p className="mt-4 max-w-[56ch] font-serif text-lead text-muted">{doc.description}</p>
+        <p className="mt-4 max-w-[56ch] text-lead text-muted">{doc.description}</p>
         <Prose blocks={doc.body} lead={false} idPrefix={`${slug}-`} className="mt-8 sm:mt-10" />
         <nav
           aria-label="Previous and next article"

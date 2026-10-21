@@ -33,14 +33,12 @@ const FONT_DIR = join(process.cwd(), "src/app/_og/fonts");
 
 async function fonts() {
   const [semibold, regular, mono] = await Promise.all(
-    ["SchibstedGrotesk-SemiBold.ttf", "SchibstedGrotesk-Regular.ttf", "IBMPlexMono-Medium.ttf"].map((f) =>
-      readFile(join(FONT_DIR, f)),
-    ),
+    ["Geist-SemiBold.ttf", "Geist-Regular.ttf", "GeistMono-Medium.ttf"].map((f) => readFile(join(FONT_DIR, f))),
   );
   return [
-    { name: "Schibsted", data: semibold, weight: 600 as const, style: "normal" as const },
-    { name: "Schibsted", data: regular, weight: 400 as const, style: "normal" as const },
-    { name: "Plex Mono", data: mono, weight: 500 as const, style: "normal" as const },
+    { name: "Geist", data: semibold, weight: 600 as const, style: "normal" as const },
+    { name: "Geist", data: regular, weight: 400 as const, style: "normal" as const },
+    { name: "Geist Mono", data: mono, weight: 500 as const, style: "normal" as const },
   ];
 }
 
@@ -70,7 +68,7 @@ export async function renderOgCard({ eyebrow, title, subtitle, figures = [], col
         flexDirection: "column",
         background: OG_THEME.bg,
         color: OG_THEME.text,
-        fontFamily: "Schibsted",
+        fontFamily: "Geist",
       }}
     >
       <div style={{ display: "flex", flexDirection: "column", flex: 1, padding: "64px 72px 56px" }}>
@@ -126,7 +124,7 @@ export async function renderOgCard({ eyebrow, title, subtitle, figures = [], col
           <div style={{ display: "flex", gap: 64 }}>
             {figures.slice(0, 3).map((f) => (
               <div key={f.label} style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-                <div style={{ display: "flex", fontFamily: "Plex Mono", fontSize: 40, letterSpacing: "-0.02em" }}>
+                <div style={{ display: "flex", fontFamily: "Geist Mono", fontSize: 40, letterSpacing: "-0.02em" }}>
                   {f.value}
                 </div>
                 <div style={{ display: "flex", fontSize: 22, color: OG_THEME.muted }}>{f.label}</div>

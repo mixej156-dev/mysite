@@ -86,13 +86,13 @@ const TYPE_SCALE = [
   { name: "h3", className: "text-h3 font-semibold", sample: "Ethereum validator pool" },
   { name: "h4", className: "text-h4 font-medium", sample: "Withdrawal window" },
   {
-    name: "lead, serif",
-    className: "font-serif text-lead",
+    name: "lead",
+    className: "text-lead",
     sample: "Every reward is recorded per epoch, so the number in your dashboard matches the chain.",
   },
   {
-    name: "body, serif",
-    className: "font-serif text-body max-w-[68ch]",
+    name: "body",
+    className: "text-body max-w-[68ch]",
     sample:
       "Staked assets stay delegated to validators operated under published uptime targets. Rewards accrue each epoch and are paid out daily, minus the platform fee shown on every pool.",
   },
@@ -105,7 +105,7 @@ export function TypographySection() {
   return (
     <Section
       id="typography"
-      description="Schibsted Grotesk sets headings and interface. Source Serif 4 carries reading text, the way a fund report does. IBM Plex Mono is reserved for figures, addresses and hashes, always with tabular digits."
+      description="Geist sets everything: headings, reading text and interface, one family so the page reads as one voice. Geist Mono is reserved for figures, addresses and hashes, always with tabular digits."
     >
       <div className="flex flex-col divide-y divide-rule rounded-card border border-rule">
         {TYPE_SCALE.map((row) => (

@@ -45,7 +45,7 @@ export function SectionHeader({ id, title, lead, action, className }: SectionHea
         <h2 id={id} className="text-h1">
           {title}
         </h2>
-        {lead && <p className="mt-3 font-serif text-lead text-muted sm:mt-5">{lead}</p>}
+        {lead && <p className="mt-3 text-lead text-muted sm:mt-5">{lead}</p>}
       </div>
       {action && <div className="shrink-0">{action}</div>}
     </div>

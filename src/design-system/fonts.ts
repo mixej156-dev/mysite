@@ -1,22 +1,16 @@
-import { IBM_Plex_Mono, Schibsted_Grotesk, Source_Serif_4 } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 
-export const fontDisplay = Schibsted_Grotesk({
+export const fontSans = Geist({
   subsets: ["latin"],
-  variable: "--font-schibsted",
+  variable: "--font-geist",
   display: "swap",
 });
 
-export const fontSerif = Source_Serif_4({
-  subsets: ["latin"],
-  variable: "--font-source-serif",
-  display: "swap",
-});
-
-export const fontMono = IBM_Plex_Mono({
+export const fontMono = Geist_Mono({
   subsets: ["latin"],
   weight: ["400", "500"],
-  variable: "--font-plex-mono",
+  variable: "--font-geist-mono",
   display: "swap",
 });
 
-export const fontVariables = [fontDisplay.variable, fontSerif.variable, fontMono.variable].join(" ");
+export const fontVariables = [fontSans.variable, fontMono.variable].join(" ");

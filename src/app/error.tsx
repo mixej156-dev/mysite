@@ -9,7 +9,7 @@ export default function GlobalError({ reset }: { error: Error & { digest?: strin
         Error
       </p>
       <h1 className="mt-4 text-h1 md:text-display">Something went wrong</h1>
-      <p className="mt-6 max-w-[52ch] font-serif text-lead text-muted">
+      <p className="mt-6 max-w-[52ch] text-lead text-muted">
         The page failed to load. Nothing in your account was changed. Try again, or return to the home page.
       </p>
       <div className="mt-8 flex flex-wrap gap-3">

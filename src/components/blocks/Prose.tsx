@@ -18,7 +18,7 @@ export function Prose({
   className?: string;
 }) {
   return (
-    <div className={cn("max-w-[68ch] font-serif text-body text-text", className)}>
+    <div className={cn("max-w-[68ch] text-body text-text", className)}>
       {blocks.map((block, i) => {
         switch (block.type) {
           case "p":

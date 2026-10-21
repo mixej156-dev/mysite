@@ -13,7 +13,7 @@ export function Footer() {
           <Link href="/" aria-label="LONAR ECO. home" className="self-start rounded-sm">
             <Logo />
           </Link>
-          <p className="font-serif text-small text-muted">
+          <p className="text-small text-muted">
             Staking across major networks, with rewards recorded per epoch and paid out daily.
           </p>
         </div>

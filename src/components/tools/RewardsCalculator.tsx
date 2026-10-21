@@ -105,7 +105,11 @@ export function RewardsCalculator() {
             onChange={(e) => setAmountText(e.target.value)}
             suffix={pool.ticker}
             error={error}
-            hint={valid ? `≈ ${formatCurrency(amount * price)} at a reference price` : `Minimum ${pool.minStake} ${pool.ticker}`}
+            hint={
+              valid
+                ? `≈ ${formatCurrency(amount * price)} at a reference price`
+                : `Minimum ${pool.minStake} ${pool.ticker}`
+            }
           />
           <Slider
             label="Adjust amount"
@@ -143,7 +147,9 @@ export function RewardsCalculator() {
               <dd className={`mt-1 font-mono text-h4 ${item.positive ? "text-success" : ""}`}>
                 {valid ? item.value : "—"}
               </dd>
-              <dd className="mt-0.5 font-mono text-caption text-muted">{valid ? `≈ ${formatCurrency(item.usd)}` : ""}</dd>
+              <dd className="mt-0.5 font-mono text-caption text-muted">
+                {valid ? `≈ ${formatCurrency(item.usd)}` : ""}
+              </dd>
             </div>
           ))}
         </dl>
@@ -160,7 +166,7 @@ export function RewardsCalculator() {
         <div className="grid items-center gap-6 rounded-card border border-rule bg-surface p-6 md:grid-cols-2 md:p-8">
           <div>
             <h2 className="text-h3">Year by year</h2>
-            <p className="mt-2 font-serif text-body text-muted">
+            <p className="mt-2 text-body text-muted">
               Each ring is one full year of rewards, drawn on the same scale for every pool, so higher yields show as
               wider rings.
             </p>
@@ -179,11 +185,13 @@ export function RewardsCalculator() {
 
         <div className="rounded-card border border-rule p-6 md:p-8">
           <h2 className="text-h4">Assumptions</h2>
-          <ul className="mt-3 flex list-disc flex-col gap-2 pl-5 font-serif text-body text-muted">
+          <ul className="mt-3 flex list-disc flex-col gap-2 pl-5 text-body text-muted">
             <li>The APY stays at today’s estimate of {formatPercent(pool.apy)}; in practice it changes daily.</li>
             <li>The {pool.feePercent}% platform fee is already deducted from that APY.</li>
             <li>No slashing, no price change, and no network fees are included.</li>
-            <li>USD values use a fixed reference price of {formatCurrency(price)} per {pool.ticker}.</li>
+            <li>
+              USD values use a fixed reference price of {formatCurrency(price)} per {pool.ticker}.
+            </li>
           </ul>
         </div>
       </div>

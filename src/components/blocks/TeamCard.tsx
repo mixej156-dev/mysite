@@ -64,9 +64,7 @@ export function LeaderCard({ member }: { member: TeamMember }) {
       </div>
       <p className="text-caption text-muted sm:mt-6 sm:text-small">{member.role}</p>
       <h3 className="mt-0.5 text-h4 sm:mt-1 sm:text-h3">{member.name}</h3>
-      {member.bio && (
-        <p className="mt-2 max-w-[44ch] font-serif text-small text-muted sm:mt-3 sm:text-body">{member.bio}</p>
-      )}
+      {member.bio && <p className="mt-2 max-w-[44ch] text-small text-muted sm:mt-3 sm:text-body">{member.bio}</p>}
       <div className="mt-3 sm:mt-4">
         <ProfileLinks member={member} />
       </div>

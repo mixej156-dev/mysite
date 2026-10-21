@@ -89,7 +89,7 @@ export function LatestNews({ stories }: { stories: PostSummary[] }) {
                 <div className="flex flex-col gap-3 p-5 sm:p-6">
                   <Meta post={post} />
                   <h3 className="text-h3 text-pretty">{post.title}</h3>
-                  <p className="line-clamp-2 font-serif text-body text-muted">{post.excerpt}</p>
+                  <p className="line-clamp-2 text-body text-muted">{post.excerpt}</p>
                   <Link
                     href={`/blog/${post.slug}`}
                     className="inline-flex items-center gap-1.5 self-start rounded-sm text-small font-medium text-accent-text hover:underline"

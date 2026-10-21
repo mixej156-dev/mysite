@@ -107,7 +107,7 @@ export default function FeesPage() {
           <h2 id="platform-title" className="text-h2">
             Platform fee by pool
           </h2>
-          <p className="mt-3 max-w-[60ch] font-serif text-body text-muted">
+          <p className="mt-3 max-w-[60ch] text-body text-muted">
             The fee is a fixed share of each reward, deducted before payout. APY figures are estimates; the one on pool
             pages is already net of the fee.
           </p>

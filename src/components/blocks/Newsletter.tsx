@@ -30,16 +30,14 @@ export function Newsletter() {
     <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-start">
       <div>
         <h3 className="text-h3">Monthly staking notes</h3>
-        <p className="mt-2 max-w-[46ch] font-serif text-body text-muted">
+        <p className="mt-2 max-w-[46ch] text-body text-muted">
           Network yields, validator performance and product changes. One email a month, no promotions.
         </p>
       </div>
       {status === "done" ? (
         <p role="status" className="flex items-start gap-3 text-body">
           <CircleCheck aria-hidden className="mt-0.5 size-5 shrink-0 text-success" />
-          <span>
-            You’re subscribed. The next issue goes out on the 1st.
-          </span>
+          <span>You’re subscribed. The next issue goes out on the 1st.</span>
         </p>
       ) : (
         <form onSubmit={submit} noValidate className="flex flex-col gap-3 sm:flex-row sm:items-start">

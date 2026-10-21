@@ -168,7 +168,7 @@ export default function ValidatorsPage() {
                 </div>
                 <div className="max-w-[64ch]">
                   <h3 className="text-h4 font-medium">{inc.title}</h3>
-                  <p className="mt-2 font-serif text-body text-muted">{inc.impact}</p>
+                  <p className="mt-2 text-body text-muted">{inc.impact}</p>
                   <p className="mt-3 text-small">
                     <span className="font-medium">What changed: </span>
                     <span className="text-muted">{inc.fix}</span>
@@ -187,7 +187,7 @@ export default function ValidatorsPage() {
             <h2 id="method-title" className="text-h1">
               How we measure
             </h2>
-            <p className="mt-5 max-w-[44ch] font-serif text-lead text-muted">
+            <p className="mt-5 max-w-[44ch] text-lead text-muted">
               Each quarter we publish a full report with per-validator figures and the reviews behind every incident.
             </p>
             <Link href={LATEST_REPORT.href} className={buttonClasses({ variant: "secondary", className: "mt-8" })}>
@@ -199,7 +199,7 @@ export default function ValidatorsPage() {
             {METHOD.map((m) => (
               <div key={m.term} className="border-t border-rule py-6">
                 <dt className="font-medium">{m.term}</dt>
-                <dd className="mt-2 font-serif text-body text-muted">{m.body}</dd>
+                <dd className="mt-2 text-body text-muted">{m.body}</dd>
               </div>
             ))}
           </dl>
