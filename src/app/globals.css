@@ -842,7 +842,7 @@
    depth layer: the pointer parallax (transform, from script), one layer per depth;
    scroll layer: the scroll parallax, a scroll-driven animation where supported (script otherwise);
    item: only places the logo (--x, --y in %, per stage shape);
-   gather: to the centre of the field (translate, in container units) while drifting (transform), both from script;
+   gather: to the centre of the field (translate) while wandering on its own loop (transform), both from script;
    orbit: turns to the ring slot and keeps turning (rotate), reaches out to the ring (transform, from script);
    chip: turns back so the logo stays upright (rotate), the depth look and the load-in.
    Hovering the hero's main button gathers the logos and turns the rings, nearer ones faster; without hover the
