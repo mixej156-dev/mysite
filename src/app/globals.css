@@ -92,6 +92,7 @@
   --animate-marquee: marquee 144s linear infinite;
   --animate-grow-x: grow-x 900ms var(--ds-ease-brand) 200ms backwards;
   --animate-fill-y: fill-y 2400ms linear forwards;
+  --animate-fill-x: fill-x 2400ms linear forwards;
 
   @keyframes pop-in {
     from {
@@ -112,6 +113,14 @@
   @keyframes fill-y {
     from {
       scale: 1 0;
+    }
+    to {
+      scale: 1 1;
+    }
+  }
+  @keyframes fill-x {
+    from {
+      scale: 0 1;
     }
     to {
       scale: 1 1;
