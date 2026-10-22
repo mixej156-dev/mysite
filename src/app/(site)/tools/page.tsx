@@ -9,7 +9,7 @@ import { Card } from "@/design-system";
 
 export const metadata: Metadata = {
   title: "Tools",
-  description: "Rewards calculator, pool comparison and a converter with network fees and arrival times.",
+  description: "Rewards calculator, pool comparison and swaps with network fees and arrival times.",
 };
 
 /* Same icons and hues as these tools have in the navigation menu */
@@ -29,11 +29,11 @@ const FEATURED: { href: string; icon: LucideIcon; tone: NavTone; title: string; 
     body: "Put up to three pools side by side: yield, withdrawal period, minimum, fee and APY history.",
   },
   {
-    href: "/tools/converter",
+    href: "/swap",
     icon: ArrowLeftRight,
     tone: "orange",
-    title: "Converter",
-    body: "Convert between assets, stablecoins and fiat, with conversion and network fees, slippage and arrival time.",
+    title: "Swap",
+    body: "Trade between assets, stablecoins and cash, with the swap and network fees, slippage and arrival time.",
   },
 ];
 

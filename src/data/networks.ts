@@ -1,4 +1,4 @@
-/* Networks and assets for the converter. Fees and times are typical reference figures, not live estimates. */
+/* Networks and assets for swaps. Fees and times are typical reference figures, not live estimates. */
 
 export type FeeSpeed = "slow" | "standard" | "fast";
 

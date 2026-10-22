@@ -10,7 +10,7 @@ const STATIC_ROUTES = [
   "/tools",
   "/tools/calculator",
   "/tools/compare",
-  "/tools/converter",
+  "/swap",
   "/validators",
   "/fees",
   "/learn",

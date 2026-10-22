@@ -4,7 +4,9 @@ import { LearnCard } from "@/components/blocks/LearnCard";
 import { LearnCover } from "@/components/blocks/LearnCover";
 import { PostCover } from "@/components/blocks/PostCover";
 import { Prose } from "@/components/blocks/Prose";
-import { Converter } from "@/components/tools/Converter";
+import { Swap } from "@/components/swap/Swap";
+import { ASSETS, CONVERSION_FEE, NETWORKS, SLIPPAGE_OPTIONS } from "@/data/networks";
+import { CHANGE_24H, USD_PRICES } from "@/data/prices";
 import { TOPICS, type GuideSummary } from "@/data/learn-meta";
 import { POST_CATEGORIES } from "@/data/posts-meta";
 import type { ContentBlock } from "@/lib/content";
@@ -79,8 +81,11 @@ export function ContentSection() {
       </Preview>
       <Preview>
         {() => (
-          <Example label="Converter (/tools/converter)">
-            <Converter />
+          <Example label="Swap (/swap)">
+            <Swap
+              terms={{ networks: NETWORKS, assets: ASSETS, fee: CONVERSION_FEE, slippageOptions: SLIPPAGE_OPTIONS }}
+              prices={{ usd: USD_PRICES, change24h: CHANGE_24H }}
+            />
           </Example>
         )}
       </Preview>

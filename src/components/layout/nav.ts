@@ -71,7 +71,7 @@ export const NAV_SECTIONS: NavSection[] = [
   {
     id: "tools",
     label: "Tools",
-    match: ["/tools"],
+    match: ["/tools", "/swap"],
     links: [
       {
         label: "Rewards calculator",
@@ -88,9 +88,9 @@ export const NAV_SECTIONS: NavSection[] = [
         tone: "teal",
       },
       {
-        label: "Converter",
-        href: "/tools/converter",
-        description: "Rates, network fees and arrival times",
+        label: "Swap",
+        href: "/swap",
+        description: "Trade assets with every fee shown",
         icon: ArrowLeftRight,
         tone: "orange",
       },
@@ -159,7 +159,7 @@ export const FOOTER_COLUMNS: { title: string; links: NavLink[] }[] = [
       { label: "Fees", href: "/fees" },
       { label: "Rewards calculator", href: "/tools/calculator" },
       { label: "Compare pools", href: "/tools/compare" },
-      { label: "Converter", href: "/tools/converter" },
+      { label: "Swap", href: "/swap" },
       { label: "All tools", href: "/tools" },
     ],
   },

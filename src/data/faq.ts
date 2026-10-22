@@ -179,7 +179,7 @@ export const FAQ: FaqCategory[] = [
         question: "What does converting cost?",
         answer:
           "0.5% of the converted value, plus the network fee for delivery. Moving the same asset between networks is free.",
-        links: [{ label: "Converter", href: "/tools/converter" }],
+        links: [{ label: "Swap", href: "/swap" }],
       },
       {
         id: "change",

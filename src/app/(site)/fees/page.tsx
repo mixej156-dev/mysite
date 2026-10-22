@@ -11,7 +11,7 @@ import { formatCurrency, formatNumber, formatPercent, formatToken, formatUnbondi
 export const metadata: Metadata = {
   title: "Fees",
   description:
-    "One platform fee, taken as a share of rewards. No deposit, staking or unstaking fees. Every pool's fee, conversion and network fees in one place.",
+    "One platform fee, taken as a share of rewards. No deposit, staking or unstaking fees. Every pool's fee, swap and network fees in one place.",
 };
 
 const FAQ = [
@@ -60,7 +60,7 @@ export default async function FeesPage() {
     { label: "Platform fee", value: `${feeRange[0]}–${feeRange[1]}%`, note: "of rewards only" },
     { label: "Deposits", value: "Free", note: "you pay the network fee" },
     { label: "Staking & unstaking", value: "Free", note: "no exit penalty" },
-    { label: "Conversion", value: formatPercent(conversionFee * 100, 1), note: "of the converted value" },
+    { label: "Swaps", value: formatPercent(conversionFee * 100, 1), note: "of the swapped value" },
   ];
 
   const OTHER_FEES = [
@@ -69,7 +69,7 @@ export default async function FeesPage() {
     { item: "Unstake", fee: "Free", detail: "Funds wait out the network’s unbonding period; we add no penalty." },
     { item: "Withdraw", fee: "Network fee only", detail: "Passed through at cost; see the table below." },
     {
-      item: "Convert",
+      item: "Swap",
       fee: `${formatPercent(conversionFee * 100, 1)} of value`,
       detail: "Moving the same asset between networks is free.",
     },
@@ -239,8 +239,8 @@ export default async function FeesPage() {
         </Table>
         <p className="mt-6 text-small text-muted">
           Compare networks for a specific transfer in the{" "}
-          <Link href="/tools/converter" className="rounded-sm font-medium text-accent-text hover:underline">
-            converter
+          <Link href="/swap" className="rounded-sm font-medium text-accent-text hover:underline">
+            swap page
           </Link>
           .
         </p>

@@ -1,4 +1,4 @@
-/* Reference USD prices for the converter and fee estimates. Static, not market data. */
+/* Reference USD prices for swaps and fee estimates. Static, not market data. */
 
 export const USD_PRICES: Record<string, number> = {
   ETH: 2_640,
