@@ -18,7 +18,7 @@ import type { AccountResult } from "@/lib/api/account";
 import { DEMO_TODAY, addDays, apyHistory, daysBetween } from "@/lib/series";
 
 /*
- * Demo account state (CLAUDE.md §7), stored in localStorage. Stake, unstake, deposit and withdraw go through the
+ * Demo account state, stored in localStorage. Stake, unstake, deposit and withdraw go through the
  * account API (lib/api/account), which for now changes only this local state. Nothing is sent anywhere.
  */
 

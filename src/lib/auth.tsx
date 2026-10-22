@@ -3,7 +3,7 @@
 import { createContext, useCallback, useContext, useMemo, useSyncExternalStore, type ReactNode } from "react";
 
 /*
- * Fake authentication for the prototype (CLAUDE.md §7). Any email and password "work".
+ * Fake authentication for the prototype. Any email and password "work".
  * The session lives in localStorage under `demo_session`; nothing leaves the browser.
  */
 

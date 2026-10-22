@@ -1,5 +1,5 @@
 /*
- * Design tokens — "Clearing House" (docs/design-direction.md).
+ * Design tokens — "Clearing House".
  * Raw values live only in this file. Components use the Tailwind utilities
  * mapped in globals.css (@theme inline), never hex values.
  *
