@@ -4,7 +4,7 @@ import { useRef, useState, type FormEvent } from "react";
 import { Link } from "@/components/Link";
 import { useRouter } from "next/navigation";
 import { Button, Checkbox, Input, useToast } from "@/design-system";
-import { useAuth } from "@/lib/auth";
+import { useAuth, withNext } from "@/lib/auth";
 import { isEmail, useFocusFirstError } from "@/lib/forms";
 import { GOOGLE_DEMO_ACCOUNT, GoogleSignIn } from "./GoogleSignIn";
 import { PasswordInput } from "./PasswordInput";
@@ -18,7 +18,8 @@ export function RegisterForm() {
   const { status, signUp } = useAuth();
   const { toast } = useToast();
   const router = useRouter();
-  useRedirectWhenAuthed();
+  /* Where to go once the account exists: kept through email confirmation, used directly after Google */
+  const next = useRedirectWhenAuthed();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -46,7 +47,7 @@ export function RegisterForm() {
     /* The account is created once the email is confirmed on the next screen */
     await new Promise((res) => setTimeout(res, 700));
     setPendingSignup({ name: name.trim(), email: email.trim() });
-    router.push("/verify-email");
+    router.push(withNext("/verify-email", next));
   };
 
   return (
@@ -55,7 +56,7 @@ export function RegisterForm() {
         <h1 className="text-h2">Create an account</h1>
         <p className="mt-2 text-small text-muted">
           Already have one?{" "}
-          <Link href="/login" className="rounded-sm font-medium text-accent-text hover:underline">
+          <Link href={withNext("/login", next)} className="rounded-sm font-medium text-accent-text hover:underline">
             Log in
           </Link>
         </p>

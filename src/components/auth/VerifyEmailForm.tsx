@@ -4,7 +4,7 @@ import { MailCheck } from "lucide-react";
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import { Link } from "@/components/Link";
 import { Button, Skeleton, useToast } from "@/design-system";
-import { useAuth } from "@/lib/auth";
+import { useAuth, withNext } from "@/lib/auth";
 import { useFocusFirstError } from "@/lib/forms";
 import { CodeInput, isSixDigits } from "./CodeInput";
 import { setPendingSignup, usePendingSignup } from "./pendingSignup";
@@ -17,7 +17,7 @@ export function VerifyEmailForm() {
   const pending = usePendingSignup();
   const { signUp, status } = useAuth();
   const { toast } = useToast();
-  useRedirectWhenAuthed();
+  const next = useRedirectWhenAuthed();
   const [code, setCode] = useState("");
   const [error, setError] = useState<string>();
   const [submitting, setSubmitting] = useState(false);
@@ -71,7 +71,7 @@ export function VerifyEmailForm() {
           </p>
         </div>
         <Link
-          href="/register"
+          href={withNext("/register", next)}
           className="self-start rounded-sm text-small font-medium text-accent-text hover:underline"
         >
           Create an account
@@ -118,7 +118,7 @@ export function VerifyEmailForm() {
         >
           {cooldown > 0 ? `Resend code in ${cooldown}s` : "Resend code"}
         </button>
-        <Link href="/register" className="rounded-sm font-medium text-accent-text hover:underline">
+        <Link href={withNext("/register", next)} className="rounded-sm font-medium text-accent-text hover:underline">
           Use a different email
         </Link>
       </div>

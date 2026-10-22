@@ -1,7 +1,8 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Input, Select, Slider, Toggle } from "@/design-system";
+import { Input, Select, Slider, Toggle, buttonClasses } from "@/design-system";
+import { Link } from "@/components/Link";
 import { pools } from "@/data/pools";
 import { USD_PRICES } from "@/data/prices";
 import { RING_YEARS, feeOnRewards, monthlyBalances } from "@/lib/compound";
@@ -136,6 +137,18 @@ export function RewardsCalculator() {
           checked={restake}
           onCheckedChange={setRestake}
         />
+        {/* The next step after a projection: stake this pool and amount, or read about the pool first */}
+        <div className="flex flex-wrap gap-3 border-t border-rule pt-6">
+          <Link
+            href={`/dashboard/stake?pool=${pool.id}${valid && !belowMinimum ? `&amount=${amount}` : ""}`}
+            className={buttonClasses({ className: "flex-1" })}
+          >
+            Stake {pool.ticker}
+          </Link>
+          <Link href={`/staking/${pool.id}`} className={buttonClasses({ variant: "secondary", className: "flex-1" })}>
+            View {pool.name} pool
+          </Link>
+        </div>
       </div>
 
       {/* Results */}

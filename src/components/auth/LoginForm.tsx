@@ -4,7 +4,7 @@ import { ShieldCheck } from "lucide-react";
 import { useRef, useState, type FormEvent } from "react";
 import { Link } from "@/components/Link";
 import { Button, Checkbox, Input, useToast } from "@/design-system";
-import { useAuth } from "@/lib/auth";
+import { useAuth, withNext } from "@/lib/auth";
 import { isTwoFactorEnabled } from "@/lib/portfolio";
 import { isEmail, useFocusFirstError } from "@/lib/forms";
 import { CodeInput, isRecoveryCode, isSixDigits } from "./CodeInput";
@@ -157,7 +157,7 @@ export function LoginForm() {
         <h1 className="text-h2">Log in</h1>
         <p className="mt-2 text-small text-muted">
           New here?{" "}
-          <Link href="/register" className="rounded-sm font-medium text-accent-text hover:underline">
+          <Link href={withNext("/register", next)} className="rounded-sm font-medium text-accent-text hover:underline">
             Create an account
           </Link>
         </p>

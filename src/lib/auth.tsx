@@ -128,3 +128,8 @@ export function useAuth(): AuthApi {
 export function safeNext(next: string | null, fallback = "/dashboard"): string {
   return next && next.startsWith("/") && !next.startsWith("//") ? next : fallback;
 }
+
+/** A sign-in screen's link that keeps the return path, so moving between log in and sign up doesn't lose it */
+export function withNext(path: string, next: string): string {
+  return next === "/dashboard" ? path : `${path}?next=${encodeURIComponent(next)}`;
+}

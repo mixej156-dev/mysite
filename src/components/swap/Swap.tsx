@@ -16,7 +16,9 @@ import {
   TabsList,
   TabsTrigger,
   Tag,
+  buttonClasses,
 } from "@/design-system";
+import { Link } from "@/components/Link";
 import type { Asset, ConversionTerms, Network, Prices } from "@/lib/api/catalog";
 import { cn } from "@/lib/cn";
 import { formatCurrency, formatNumber } from "@/lib/format";
@@ -25,15 +27,29 @@ import { SPEEDS, assetLogo, createMarket, minutesLabel, type FeeSpeed, type Mark
 /*
  * Swap: one asset for another, across networks, stablecoins and fiat. Reference prices only and not tied to the
  * dashboard wallet: confirming plays the submission and shows the result, nothing moves. Below the widget, the
- * same swap compared across delivery networks, and the reference rates of the asset being paid.
+ * same swap compared across delivery networks, and the reference rates of the asset being paid. When the asset
+ * received has a staking pool, the widget and the result point on to it.
  */
+
+/** A pool the received asset can be staked in */
+export type StakeTarget = { ticker: string; poolId: string; name: string; apy: number };
 
 const PRESETS_USD = [100, 1_000, 10_000];
 const SUBMIT_MS = 1200;
 
 type Side = "from" | "to";
 
-export function Swap({ terms, prices, intro }: { terms: ConversionTerms; prices: Prices; intro?: ReactNode }) {
+export function Swap({
+  terms,
+  prices,
+  stakeable = [],
+  intro,
+}: {
+  terms: ConversionTerms;
+  prices: Prices;
+  stakeable?: StakeTarget[];
+  intro?: ReactNode;
+}) {
   const market = useMemo(() => createMarket(terms, prices), [terms, prices]);
   const { usd, getAsset, getNetwork, digitsFor } = market;
 
@@ -60,6 +76,7 @@ export function Swap({ terms, prices, intro }: { terms: ConversionTerms; prices:
   const sameRoute = q.sameAsset && (from.kind === "fiat" || fromNet === toNet);
   const tooSmall = valid && !sameRoute && q.receive === 0;
   const ready = valid && !sameRoute && !tooSmall;
+  const stakeTarget = stakeable.find((t) => t.ticker === to.ticker);
 
   const pick = (side: Side, ticker: string) => {
     const net = getAsset(ticker).networks[0] ?? "bank";
@@ -181,9 +198,19 @@ export function Swap({ terms, prices, intro }: { terms: ConversionTerms; prices:
               </output>
               <AssetButton asset={to} onClick={() => setPicking("to")} label="Asset to receive" />
             </div>
-            <p className="mt-3 text-small text-muted">
-              {ready ? `≈ ${formatCurrency(q.receive * usd[to.ticker])}` : "After every fee"}
-            </p>
+            <div className="mt-3 flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 text-small">
+              <p className="text-muted">
+                {ready ? `≈ ${formatCurrency(q.receive * usd[to.ticker])}` : "After every fee"}
+              </p>
+              {stakeTarget && (
+                <Link
+                  href={`/staking/${stakeTarget.poolId}`}
+                  className="rounded-sm font-medium text-accent-text hover:underline"
+                >
+                  Stake {stakeTarget.ticker} at est. {stakeTarget.apy}% APY
+                </Link>
+              )}
+            </div>
           </div>
 
           <QuoteDetails
@@ -268,6 +295,7 @@ export function Swap({ terms, prices, intro }: { terms: ConversionTerms; prices:
         toNetwork={toNetwork}
         slippage={slippage}
         onNewSwap={() => setAmountText("")}
+        stakeTarget={stakeTarget}
       />
     </div>
   );
@@ -512,6 +540,7 @@ function ReviewModal({
   toNetwork,
   slippage,
   onNewSwap,
+  stakeTarget,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -524,6 +553,7 @@ function ReviewModal({
   toNetwork: Network | null;
   slippage: number;
   onNewSwap: () => void;
+  stakeTarget?: StakeTarget;
 }) {
   const [stage, setStage] = useState<"review" | "sending" | "done">("review");
   const { fmt, usd } = market;
@@ -558,7 +588,14 @@ function ReviewModal({
             >
               New swap
             </Button>
-            <Button onClick={() => change(false)}>Done</Button>
+            {/* The next step after a swap into a staking asset is to stake it */}
+            {stakeTarget ? (
+              <Link href={`/staking/${stakeTarget.poolId}`} className={buttonClasses()}>
+                Stake {stakeTarget.ticker}
+              </Link>
+            ) : (
+              <Button onClick={() => change(false)}>Done</Button>
+            )}
           </>
         ) : (
           <>

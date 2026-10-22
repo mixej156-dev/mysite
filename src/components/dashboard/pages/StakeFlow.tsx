@@ -34,7 +34,11 @@ export function StakeFlow() {
   const { toast } = useToast();
 
   const [poolId, setPoolId] = useState(() => getPool(params.get("pool") ?? "")?.id ?? "eth");
-  const [amountText, setAmountText] = useState("");
+  /* ?amount= comes from the rewards calculator */
+  const [amountText, setAmountText] = useState(() => {
+    const preset = Number(params.get("amount"));
+    return Number.isFinite(preset) && preset > 0 ? String(preset) : "";
+  });
   const [consent, setConsent] = useState(false);
   const [errors, setErrors] = useState<{ amount?: string; consent?: string }>({});
   const [attempt, setAttempt] = useState(0);

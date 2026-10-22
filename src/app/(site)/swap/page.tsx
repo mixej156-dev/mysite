@@ -3,7 +3,8 @@ import { PageHeader } from "@/components/blocks/PageHeader";
 import { Section } from "@/components/blocks/Section";
 import { Swap } from "@/components/swap/Swap";
 import { Accordion } from "@/design-system";
-import { getConversionTerms, getPrices } from "@/lib/api/catalog";
+import { Link } from "@/components/Link";
+import { getConversionTerms, getPools, getPrices } from "@/lib/api/catalog";
 import { formatPercent } from "@/lib/format";
 
 export const metadata: Metadata = {
@@ -13,7 +14,8 @@ export const metadata: Metadata = {
 };
 
 export default async function SwapPage() {
-  const [terms, prices] = await Promise.all([getConversionTerms(), getPrices()]);
+  const [terms, prices, pools] = await Promise.all([getConversionTerms(), getPrices(), getPools()]);
+  const stakeable = pools.map((p) => ({ ticker: p.ticker, poolId: p.id, name: p.name, apy: p.apy }));
   const fee = formatPercent(terms.fee * 100, 1);
 
   const steps = [
@@ -58,8 +60,15 @@ export default async function SwapPage() {
     {
       id: "stake",
       title: "Can I stake what I receive?",
-      content:
-        "Yes. Swap into any staking asset, then open a position from the dashboard. Swaps and stakes are separate steps.",
+      content: (
+        <>
+          Yes. Swap into any of the {pools.length} staking assets, then open a position from its pool page. Swaps and
+          stakes are separate steps.{" "}
+          <Link href="/staking" className="rounded-sm font-medium text-accent-text hover:underline">
+            See staking pools
+          </Link>
+        </>
+      ),
     },
   ];
 
@@ -74,6 +83,7 @@ export default async function SwapPage() {
         <Swap
           terms={terms}
           prices={prices}
+          stakeable={stakeable}
           intro={
             <div className="flex h-full flex-col gap-8">
               <ol className="flex flex-col border-t border-rule">
