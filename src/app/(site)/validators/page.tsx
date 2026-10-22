@@ -6,8 +6,7 @@ import { Link } from "@/components/Link";
 import { CountUp } from "@/components/blocks/CountUp";
 import { StatusLegend, UptimeStrip } from "@/components/validators/UptimeStrip";
 import { Badge, buttonClasses } from "@/design-system";
-import { getPool } from "@/data/pools";
-import { INCIDENTS, LATEST_REPORT, NETWORK_PERFORMANCE, uptimeHistory } from "@/data/validators";
+import { getPools, getUptimeHistory, getValidatorReport } from "@/lib/api/catalog";
 import { formatDate, formatNumber } from "@/lib/format";
 import { DEMO_TODAY } from "@/lib/series";
 
@@ -16,17 +15,6 @@ export const metadata: Metadata = {
   description:
     "Uptime, duty effectiveness, missed duties, client mix and incidents for every network LONAR ECO. validates on.",
 };
-
-const totalValidators = NETWORK_PERFORMANCE.reduce((sum, n) => sum + (getPool(n.poolId)?.validators ?? 0), 0);
-const averageUptime = NETWORK_PERFORMANCE.reduce((sum, n) => sum + n.uptime30d, 0) / NETWORK_PERFORMANCE.length;
-const slashing = NETWORK_PERFORMANCE.reduce((sum, n) => sum + n.slashingEvents, 0);
-
-const FACTS = [
-  { label: "Networks", value: String(NETWORK_PERFORMANCE.length) },
-  { label: "Validators", value: formatNumber(totalValidators) },
-  { label: "Uptime, 30 days", value: `${averageUptime.toFixed(2)}%` },
-  { label: "Slashing events", value: String(slashing) },
-];
 
 const METHOD = [
   {
@@ -47,7 +35,21 @@ const METHOD = [
   },
 ];
 
-export default function ValidatorsPage() {
+export default async function ValidatorsPage() {
+  const [{ networks, incidents, latestReport }, pools] = await Promise.all([getValidatorReport(), getPools()]);
+  const uptime = await Promise.all(networks.map((n) => getUptimeHistory(n.poolId)));
+  const getPool = (id: string) => pools.find((p) => p.id === id);
+
+  const totalValidators = networks.reduce((sum, n) => sum + (getPool(n.poolId)?.validators ?? 0), 0);
+  const averageUptime = networks.reduce((sum, n) => sum + n.uptime30d, 0) / networks.length;
+  const slashing = networks.reduce((sum, n) => sum + n.slashingEvents, 0);
+  const FACTS = [
+    { label: "Networks", value: String(networks.length) },
+    { label: "Validators", value: formatNumber(totalValidators) },
+    { label: "Uptime, 30 days", value: `${averageUptime.toFixed(2)}%` },
+    { label: "Slashing events", value: String(slashing) },
+  ];
+
   return (
     <>
       <PageHeader
@@ -76,7 +78,7 @@ export default function ValidatorsPage() {
           <StatusLegend />
         </div>
         <ul className="mt-8 sm:mt-10 grid gap-6 lg:grid-cols-2">
-          {NETWORK_PERFORMANCE.map((n) => {
+          {networks.map((n, i) => {
             const pool = getPool(n.poolId);
             return (
               <li key={n.poolId}>
@@ -103,7 +105,7 @@ export default function ValidatorsPage() {
                     </div>
                   </div>
 
-                  <UptimeStrip days={uptimeHistory(n.poolId)} label={n.network} />
+                  <UptimeStrip days={uptime[i]} label={n.network} />
 
                   <dl className="grid grid-cols-3 border-t border-rule text-small">
                     {[
@@ -150,8 +152,8 @@ export default function ValidatorsPage() {
           lead="Every event that took a pool below 99.9% uptime for a day, with what it cost and what we changed."
         />
         <ol className="flex flex-col">
-          {INCIDENTS.map((inc) => {
-            const network = NETWORK_PERFORMANCE.find((n) => n.poolId === inc.poolId)?.network ?? inc.poolId;
+          {incidents.map((inc) => {
+            const network = networks.find((n) => n.poolId === inc.poolId)?.network ?? inc.poolId;
             return (
               <li
                 key={`${inc.date}-${inc.poolId}`}
@@ -190,8 +192,8 @@ export default function ValidatorsPage() {
             <p className="mt-5 max-w-[44ch] text-lead text-muted">
               Each quarter we publish a full report with per-validator figures and the reviews behind every incident.
             </p>
-            <Link href={LATEST_REPORT.href} className={buttonClasses({ variant: "secondary", className: "mt-8" })}>
-              Read the {LATEST_REPORT.title}
+            <Link href={latestReport.href} className={buttonClasses({ variant: "secondary", className: "mt-8" })}>
+              Read the {latestReport.title}
               <ArrowRight aria-hidden />
             </Link>
           </div>

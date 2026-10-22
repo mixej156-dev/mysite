@@ -1,14 +1,10 @@
-import { metrics } from "@/data/metrics";
-import { pools } from "@/data/pools";
+import type { Metric, Pool } from "@/lib/api/catalog";
 import { cn } from "@/lib/cn";
 import { LogoMarquee, type MarqueeItem } from "../blocks/LogoMarquee";
 import { StatCard } from "../blocks/StatCard";
 
-/* Networks the platform validates on, one per pool, with the network's own logo */
-const NETWORKS: MarqueeItem[] = pools.map((pool) => ({ name: pool.name, logo: `/logos/networks/${pool.id}.svg` }));
-
 /** The four platform figures in one panel, with short hairline separators between them. */
-export function MetricsPanel() {
+export function MetricsPanel({ metrics }: { metrics: Metric[] }) {
   return (
     <div className="grid grid-cols-2 rounded-card bg-surface-2 px-1 py-2 sm:px-3 sm:py-3 lg:grid-cols-4 lg:py-6">
       {metrics.map((m, i) => (
@@ -33,22 +29,24 @@ export function MetricsPanel() {
   );
 }
 
-export function NetworksMarquee() {
-  return <LogoMarquee items={NETWORKS} label="Networks we validate on" />;
+/** Networks the platform validates on, one per pool, with the network's own logo */
+export function NetworksMarquee({ pools }: { pools: Pool[] }) {
+  const items: MarqueeItem[] = pools.map((pool) => ({ name: pool.name, logo: `/logos/networks/${pool.id}.svg` }));
+  return <LogoMarquee items={items} label="Networks we validate on" />;
 }
 
-export function Metrics() {
+export function Metrics({ metrics, pools }: { metrics: Metric[]; pools: Pool[] }) {
   return (
     <section aria-labelledby="metrics-title" className="pb-14 sm:pb-24 md:pb-32">
       <h2 id="metrics-title" className="sr-only">
         Platform figures
       </h2>
       <div className="container-page">
-        <MetricsPanel />
+        <MetricsPanel metrics={metrics} />
       </div>
       <div className="mt-10 flex flex-col gap-6 sm:mt-16 md:mt-20">
         <p className="container-page text-small text-muted">Networks we validate on</p>
-        <NetworksMarquee />
+        <NetworksMarquee pools={pools} />
       </div>
     </section>
   );

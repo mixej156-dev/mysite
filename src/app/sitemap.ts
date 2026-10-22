@@ -1,8 +1,5 @@
 import type { MetadataRoute } from "next";
-import { DOC_ARTICLES } from "@/data/docs";
-import { GUIDES } from "@/data/learn";
-import { pools } from "@/data/pools";
-import { posts } from "@/data/posts";
+import { getContentIndex, getPools } from "@/lib/api/catalog";
 import { SITE_URL } from "@/lib/site";
 
 /* Public pages only: the dashboard, sign-in flows and the styleguide stay out */
@@ -29,7 +26,8 @@ const STATIC_ROUTES = [
   "/legal/risk-disclosure",
 ];
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const [pools, { posts, guides, docs }] = await Promise.all([getPools(), getContentIndex()]);
   const entry = (path: string, priority: number, lastModified?: string): MetadataRoute.Sitemap[number] => ({
     url: `${SITE_URL}${path}`,
     priority,
@@ -40,7 +38,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...STATIC_ROUTES.map((path) => entry(path, path === "" ? 1 : path.split("/").length === 2 ? 0.8 : 0.6)),
     ...pools.map((pool) => entry(`/staking/${pool.id}`, 0.8)),
     ...posts.map((post) => entry(`/blog/${post.slug}`, 0.5, post.date)),
-    ...GUIDES.map((guide) => entry(`/learn/${guide.slug}`, 0.5)),
-    ...DOC_ARTICLES.map((doc) => entry(`/docs/${doc.slug}`, 0.4)),
+    ...guides.map((guide) => entry(`/learn/${guide.slug}`, 0.5)),
+    ...docs.map((doc) => entry(`/docs/${doc.slug}`, 0.4)),
   ];
 }

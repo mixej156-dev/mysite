@@ -1,5 +1,4 @@
-import { metrics } from "@/data/metrics";
-import { pools } from "@/data/pools";
+import { getPlatformMetrics, getPools } from "@/lib/api/catalog";
 import { formatCompactCurrency } from "@/lib/format";
 import { OG_SIZE, renderOgCard } from "./_og/card";
 
@@ -8,7 +7,8 @@ export const size = OG_SIZE;
 export const contentType = "image/png";
 
 /** Default link preview for every page without its own */
-export default function Image() {
+export default async function Image() {
+  const [metrics, pools] = await Promise.all([getPlatformMetrics(), getPools()]);
   const metric = (id: string) => metrics.find((m) => m.id === id)?.value ?? 0;
   return renderOgCard({
     eyebrow: "Staking platform",

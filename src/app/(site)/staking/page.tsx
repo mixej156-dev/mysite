@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { PageHeader } from "@/components/blocks/PageHeader";
 import { PoolExplorer } from "@/components/staking/PoolExplorer";
-import { pools } from "@/data/pools";
+import { getPools } from "@/lib/api/catalog";
 import { formatCompactCurrency, formatPercent } from "@/lib/format";
 
 export const metadata: Metadata = {
@@ -9,10 +9,10 @@ export const metadata: Metadata = {
   description: "Compare estimated yield, withdrawal periods and minimums across every staking pool.",
 };
 
-const averageApy = pools.reduce((sum, p) => sum + p.apy, 0) / pools.length;
-const totalStaked = pools.reduce((sum, p) => sum + p.tvl, 0);
-
-export default function StakingPage() {
+export default async function StakingPage() {
+  const pools = await getPools();
+  const averageApy = pools.reduce((sum, p) => sum + p.apy, 0) / pools.length;
+  const totalStaked = pools.reduce((sum, p) => sum + p.tvl, 0);
   const summary = [
     { label: "Pools", value: String(pools.length) },
     { label: "Average est. APY", value: formatPercent(averageApy) },

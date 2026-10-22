@@ -46,10 +46,10 @@ export function BlocksSection() {
               </div>
             </Example>
             <Example label="MetricsPanel: one panel, short hairline separators (2×2 on phones)">
-              <MetricsPanel />
+              <MetricsPanel metrics={metrics} />
             </Example>
             <Example label="LogoMarquee: networks we validate on, real logos in brand colours; pauses on hover">
-              <NetworksMarquee />
+              <NetworksMarquee pools={pools} />
             </Example>
             <Example label="MacWindow: product screenshot frame (home hero), desktop and phone shots">
               <div className="flex flex-wrap items-start gap-6">

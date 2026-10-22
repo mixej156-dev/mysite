@@ -7,7 +7,7 @@ import { Features } from "@/components/portfolio/Features";
 import { LivePreview } from "@/components/portfolio/LivePreview";
 import { LogoField } from "@/components/portfolio/LogoField";
 import { buttonClasses } from "@/design-system";
-import { pools } from "@/data/pools";
+import { getPools } from "@/lib/api/catalog";
 
 export const metadata: Metadata = {
   title: "Portfolio",
@@ -15,7 +15,8 @@ export const metadata: Metadata = {
     "Every stake in one view: your balance across networks, daily rewards, unbonding dates and the alerts that matter.",
 };
 
-export default function PortfolioPage() {
+export default async function PortfolioPage() {
+  const pools = await getPools();
   return (
     <>
       {/* Clipped at the top and the sides only: near logos at the bottom, pushed down by the parallax, spill into

@@ -1,4 +1,4 @@
-import { getPool, pools } from "@/data/pools";
+import { getPool, getPools } from "@/lib/api/catalog";
 import { formatPercent } from "@/lib/format";
 import { OG_SIZE, renderOgCard } from "../../../_og/card";
 
@@ -6,12 +6,12 @@ export const alt = "LONAR ECO. staking pool";
 export const size = OG_SIZE;
 export const contentType = "image/png";
 
-export function generateStaticParams() {
-  return pools.map((pool) => ({ asset: pool.id }));
+export async function generateStaticParams() {
+  return (await getPools()).map((pool) => ({ asset: pool.id }));
 }
 
 export default async function Image({ params }: { params: Promise<{ asset: string }> }) {
-  const pool = getPool((await params).asset) ?? pools[0];
+  const pool = (await getPool((await params).asset)) ?? (await getPools())[0];
   return renderOgCard({
     eyebrow: "Staking pool",
     title: `${pool.name} staking`,

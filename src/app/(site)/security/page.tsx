@@ -24,7 +24,7 @@ import { StepsFlow, type StepIcon } from "@/components/blocks/StepsFlow";
 import { Link } from "@/components/Link";
 import { Accordion, Badge, TBody, TD, TH, THead, TR, Table, buttonClasses } from "@/design-system";
 import { BOUNTY_SEVERITIES, CUSTODY_PRACTICES, INCIDENT_STEPS, SECURITY_CONTROLS } from "@/data/security";
-import { INCIDENTS, NETWORK_PERFORMANCE } from "@/data/validators";
+import { getValidatorReport } from "@/lib/api/catalog";
 
 /* Icons for the controls, custody practices and incident steps, in the order of the data */
 const CONTROL_ICONS: ControlIcon[] = [
@@ -98,7 +98,8 @@ const FAQ = [
   },
 ];
 
-export default function SecurityPage() {
+export default async function SecurityPage() {
+  const { networks, incidents } = await getValidatorReport();
   return (
     <>
       <PageHeader
@@ -141,9 +142,9 @@ export default function SecurityPage() {
         <div className="mt-8 sm:mt-12 flex flex-col gap-6 rounded-card border border-rule bg-surface p-6 md:flex-row md:items-center md:justify-between md:p-8">
           <dl className="grid grid-cols-3 gap-6 md:gap-10">
             {[
-              ["Incidents, 90 days", String(INCIDENTS.length)],
-              ["Longest", `${Math.max(...INCIDENTS.map((i) => i.durationMinutes))} min`],
-              ["Slashing events", String(NETWORK_PERFORMANCE.reduce((sum, n) => sum + n.slashingEvents, 0))],
+              ["Incidents, 90 days", String(incidents.length)],
+              ["Longest", `${Math.max(...incidents.map((i) => i.durationMinutes))} min`],
+              ["Slashing events", String(networks.reduce((sum, n) => sum + n.slashingEvents, 0))],
             ].map(([label, value]) => (
               <div key={label}>
                 <dt className="text-caption text-muted">{label}</dt>

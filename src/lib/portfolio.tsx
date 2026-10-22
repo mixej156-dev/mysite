@@ -13,16 +13,16 @@ import {
 import { SEED_PORTFOLIO, demoHash, type PortfolioState, type Position, type Prefs, type Tx } from "@/data/portfolio";
 import { getPool, pools } from "@/data/pools";
 import { USD_PRICES } from "@/data/prices";
+import * as accountApi from "@/lib/api/account";
+import type { AccountResult } from "@/lib/api/account";
 import { DEMO_TODAY, addDays, apyHistory, daysBetween } from "@/lib/series";
 
 /*
- * Demo account state (CLAUDE.md §7). Stake, unstake, deposit and withdraw only change this
- * local state, stored in localStorage. Nothing is sent anywhere.
+ * Demo account state (CLAUDE.md §7), stored in localStorage. Stake, unstake, deposit and withdraw go through the
+ * account API (lib/api/account), which for now changes only this local state. Nothing is sent anywhere.
  */
 
 export const PORTFOLIO_KEY = "demo_portfolio";
-const ACTION_DELAY = 900;
-const WITHDRAW_SETTLE_MS = 8000;
 
 const listeners = new Set<() => void>();
 let cache: { raw: string | null; state: PortfolioState } | null = null;
@@ -120,18 +120,6 @@ export function shortHash(hash: string): string {
   return `${hash.slice(0, 6)}…${hash.slice(-4)}`;
 }
 
-function nowIso(): string {
-  /* The demo clock stays on DEMO_TODAY so new activity sorts with the seeded history */
-  return `${DEMO_TODAY}T${new Date().toISOString().slice(11)}`;
-}
-
-function newHash(seed: string): string {
-  const bytes = crypto.getRandomValues(new Uint8Array(16));
-  return `0x${[...bytes].map((b) => b.toString(16).padStart(2, "0")).join("")}${seed.length.toString(16)}`;
-}
-
-const delay = () => new Promise((resolve) => window.setTimeout(resolve, ACTION_DELAY));
-
 export type ActionResult = { ok: true; message: string; id?: string } | { ok: false; error: string };
 
 type PortfolioApi = {
@@ -190,140 +178,23 @@ export function PortfolioProvider({ children }: { children: ReactNode }) {
 
   const update = useCallback((fn: (s: PortfolioState) => PortfolioState) => save(fn(snapshot())), []);
 
-  const stake = useCallback(
-    async (poolId: string, amount: number): Promise<ActionResult> => {
-      const pool = getPool(poolId);
-      if (!pool) return { ok: false, error: "That pool doesn’t exist." };
-      if (amount < pool.minStake) return { ok: false, error: `The minimum is ${pool.minStake} ${pool.ticker}.` };
-      if (amount > (snapshot().wallet[pool.ticker] ?? 0))
-        return { ok: false, error: `Not enough ${pool.ticker} in your wallet.` };
-      await delay();
-      const id = `pos-${Date.now().toString(36)}`;
-      update((s) => ({
-        ...s,
-        wallet: { ...s.wallet, [pool.ticker]: (s.wallet[pool.ticker] ?? 0) - amount },
-        positions: [
-          { id, poolId, amount, startedAt: DEMO_TODAY, status: "active", autoRestake: false },
-          ...s.positions,
-        ],
-        activity: [
-          {
-            id: `tx-${id}`,
-            type: "stake",
-            ticker: pool.ticker,
-            amount,
-            date: nowIso(),
-            status: "completed",
-            hash: newHash(id),
-            poolId,
-          },
-          ...s.activity,
-        ],
-      }));
-      return { ok: true, id, message: `${amount} ${pool.ticker} is now staked in the ${pool.name} pool.` };
-    },
-    [update],
-  );
+  /* Account operations go through the API layer, which returns the account after the change */
+  const run = useCallback(async (call: (current: PortfolioState) => Promise<AccountResult>): Promise<ActionResult> => {
+    const res = await call(snapshot());
+    if (!res.ok) return res;
+    save(res.account);
+    return { ok: true, message: res.message, id: res.id };
+  }, []);
 
-  const unstake = useCallback(
-    async (positionId: string): Promise<ActionResult> => {
-      const position = snapshot().positions.find((p) => p.id === positionId);
-      const pool = position && getPool(position.poolId);
-      if (!position || !pool) return { ok: false, error: "That position no longer exists." };
-      if (position.status !== "active") return { ok: false, error: "This position is already unbonding." };
-      await delay();
-      const instant = pool.unbondingDays === 0;
-      update((s) => ({
-        ...s,
-        wallet: instant ? { ...s.wallet, [pool.ticker]: (s.wallet[pool.ticker] ?? 0) + position.amount } : s.wallet,
-        positions: instant
-          ? s.positions.filter((p) => p.id !== positionId)
-          : s.positions.map((p) =>
-              p.id === positionId
-                ? {
-                    ...p,
-                    status: "unbonding",
-                    unbondingSince: DEMO_TODAY,
-                    unlockAt: addDays(DEMO_TODAY, pool.unbondingDays),
-                  }
-                : p,
-            ),
-        activity: [
-          {
-            id: `tx-un-${Date.now().toString(36)}`,
-            type: "unstake",
-            ticker: pool.ticker,
-            amount: position.amount,
-            date: nowIso(),
-            status: "completed",
-            hash: newHash(positionId),
-            poolId: pool.id,
-          },
-          ...s.activity,
-        ],
-      }));
-      return {
-        ok: true,
-        message: instant
-          ? `${position.amount} ${pool.ticker} is back in your wallet.`
-          : `Unbonding started. Funds unlock on ${addDays(DEMO_TODAY, pool.unbondingDays)}.`,
-      };
-    },
-    [update],
-  );
-
+  const stake = useCallback((poolId: string, amount: number) => run((s) => accountApi.stake(s, poolId, amount)), [run]);
+  const unstake = useCallback((positionId: string) => run((s) => accountApi.unstake(s, positionId)), [run]);
   const deposit = useCallback(
-    async (ticker: string, amount: number): Promise<ActionResult> => {
-      if (!(amount > 0)) return { ok: false, error: "Enter an amount greater than 0." };
-      await delay();
-      update((s) => ({
-        ...s,
-        wallet: { ...s.wallet, [ticker]: (s.wallet[ticker] ?? 0) + amount },
-        activity: [
-          {
-            id: `tx-dep-${Date.now().toString(36)}`,
-            type: "deposit",
-            ticker,
-            amount,
-            date: nowIso(),
-            status: "completed",
-            hash: newHash(ticker),
-          },
-          ...s.activity,
-        ],
-      }));
-      return { ok: true, message: `${amount} ${ticker} added to your wallet.` };
-    },
-    [update],
+    (ticker: string, amount: number) => run((s) => accountApi.deposit(s, ticker, amount)),
+    [run],
   );
-
   const withdraw = useCallback(
-    async (ticker: string, amount: number, address: string): Promise<ActionResult> => {
-      if (!(amount > 0)) return { ok: false, error: "Enter an amount greater than 0." };
-      if (amount > (snapshot().wallet[ticker] ?? 0))
-        return { ok: false, error: `Not enough ${ticker} in your wallet.` };
-      await delay();
-      update((s) => ({
-        ...s,
-        wallet: { ...s.wallet, [ticker]: (s.wallet[ticker] ?? 0) - amount },
-        activity: [
-          {
-            id: `tx-wd-${Date.now().toString(36)}`,
-            type: "withdraw",
-            ticker,
-            amount,
-            date: nowIso(),
-            status: "pending",
-            hash: newHash(address),
-            address,
-            completesAt: Date.now() + WITHDRAW_SETTLE_MS,
-          },
-          ...s.activity,
-        ],
-      }));
-      return { ok: true, message: `Withdrawal of ${amount} ${ticker} is on its way.` };
-    },
-    [update],
+    (ticker: string, amount: number, address: string) => run((s) => accountApi.withdraw(s, ticker, amount, address)),
+    [run],
   );
 
   const setAutoRestake = useCallback(

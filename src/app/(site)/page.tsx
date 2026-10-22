@@ -6,6 +6,7 @@ import { HowItWorks } from "@/components/home/HowItWorks";
 import { Metrics } from "@/components/home/Metrics";
 import { LatestNews } from "@/components/home/LatestNews";
 import { latestPosts, toPostSummary } from "@/data/posts";
+import { getPlatformMetrics, getPools } from "@/lib/api/catalog";
 import { Trust } from "@/components/home/Trust";
 
 export const metadata: Metadata = {
@@ -14,11 +15,12 @@ export const metadata: Metadata = {
     "Stake ETH, SOL, ATOM and more with validators held to published uptime targets. Rewards recorded per epoch and paid out daily.",
 };
 
-export default function HomePage() {
+export default async function HomePage() {
+  const [metrics, pools] = await Promise.all([getPlatformMetrics(), getPools()]);
   return (
     <>
       <Hero />
-      <Metrics />
+      <Metrics metrics={metrics} pools={pools} />
       <LatestNews stories={latestPosts(3).map(toPostSummary)} />
       <HowItWorks />
       <Trust />

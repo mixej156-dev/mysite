@@ -6,9 +6,8 @@ import { Link } from "@/components/Link";
 import { buttonClasses } from "@/design-system";
 import { LeaderProfile } from "@/components/company/LeaderProfile";
 import { HISTORY, VALUES } from "@/data/history";
-import { metrics } from "@/data/metrics";
-import { pools } from "@/data/pools";
 import { CEO, TEAM } from "@/data/team";
+import { getPlatformMetrics, getPools } from "@/lib/api/catalog";
 import { formatCompactCurrency } from "@/lib/format";
 
 export const metadata: Metadata = {
@@ -16,18 +15,17 @@ export const metadata: Metadata = {
   description: "Who runs LONAR ECO., what we value, and how the company got here.",
 };
 
-const tvl = metrics.find((m) => m.id === "tvl")?.value ?? 0;
-
 const ceo = TEAM.find((m) => m.id === CEO.memberId);
 
-const FACTS = [
-  { label: "Founded", value: HISTORY[0].year },
-  { label: "Networks", value: String(pools.length) },
-  { label: "Total staked", value: formatCompactCurrency(tvl) },
-  { label: "People", value: "40+" },
-];
-
-export default function AboutPage() {
+export default async function AboutPage() {
+  const [metrics, pools] = await Promise.all([getPlatformMetrics(), getPools()]);
+  const tvl = metrics.find((m) => m.id === "tvl")?.value ?? 0;
+  const FACTS = [
+    { label: "Founded", value: HISTORY[0].year },
+    { label: "Networks", value: String(pools.length) },
+    { label: "Total staked", value: formatCompactCurrency(tvl) },
+    { label: "People", value: "40+" },
+  ];
   return (
     <>
       <PageHeader

@@ -4,9 +4,8 @@ import { PageHeader } from "@/components/blocks/PageHeader";
 import { Section, SectionHeader } from "@/components/blocks/Section";
 import { Link } from "@/components/Link";
 import { Accordion, TBody, TD, TH, THead, TR, Table, buttonClasses } from "@/design-system";
-import { CONVERSION_FEE, getAsset, getNetwork, networkFee } from "@/data/networks";
-import { pools } from "@/data/pools";
-import { USD_PRICES } from "@/data/prices";
+import { networkFee } from "@/data/networks";
+import { getConversionTerms, getPools, getPrices } from "@/lib/api/catalog";
 import { formatCurrency, formatNumber, formatPercent, formatToken, formatUnbonding } from "@/lib/format";
 
 export const metadata: Metadata = {
@@ -14,29 +13,6 @@ export const metadata: Metadata = {
   description:
     "One platform fee, taken as a share of rewards. No deposit, staking or unstaking fees. Every pool's fee, conversion and network fees in one place.",
 };
-
-const feeRange = [Math.min(...pools.map((p) => p.feePercent)), Math.max(...pools.map((p) => p.feePercent))];
-
-const FACTS = [
-  { label: "Platform fee", value: `${feeRange[0]}–${feeRange[1]}%`, note: "of rewards only" },
-  { label: "Deposits", value: "Free", note: "you pay the network fee" },
-  { label: "Staking & unstaking", value: "Free", note: "no exit penalty" },
-  { label: "Conversion", value: formatPercent(CONVERSION_FEE * 100, 1), note: "of the converted value" },
-];
-
-const OTHER_FEES = [
-  { item: "Deposit", fee: "Free", detail: "The sending wallet or exchange pays the network fee." },
-  { item: "Stake", fee: "Free", detail: "No charge to open a position, at any amount above the pool minimum." },
-  { item: "Unstake", fee: "Free", detail: "Funds wait out the network’s unbonding period; we add no penalty." },
-  { item: "Withdraw", fee: "Network fee only", detail: "Passed through at cost; see the table below." },
-  {
-    item: "Convert",
-    fee: `${formatPercent(CONVERSION_FEE * 100, 1)} of value`,
-    detail: "Moving the same asset between networks is free.",
-  },
-  { item: "Auto-restake", fee: "Free", detail: "Payouts are added to the position at no charge." },
-  { item: "Account, reports, API", fee: "Free", detail: "No subscription, custody or inactivity fees." },
-];
 
 const FAQ = [
   {
@@ -71,18 +47,47 @@ const FAQ = [
   },
 ];
 
-/* Worked example: 10 ETH for one year */
-const example = (() => {
-  const pool = pools.find((p) => p.id === "eth") ?? pools[0];
-  const amount = 10;
-  const netRate = pool.apy / 100;
-  const grossRate = netRate / (1 - pool.feePercent / 100);
-  const gross = amount * grossRate;
-  const net = amount * netRate;
-  return { pool, amount, gross, fee: gross - net, net, price: USD_PRICES[pool.ticker] };
-})();
+export default async function FeesPage() {
+  const [pools, prices, terms] = await Promise.all([getPools(), getPrices(), getConversionTerms()]);
+  const conversionFee = terms.fee;
+  const { usd } = prices;
+  const getAsset = (ticker: string) => terms.assets.find((a) => a.ticker === ticker) ?? terms.assets[0];
+  const getNetwork = (id: string) => terms.networks.find((n) => n.id === id) ?? terms.networks[0];
 
-export default function FeesPage() {
+  const feeRange = [Math.min(...pools.map((p) => p.feePercent)), Math.max(...pools.map((p) => p.feePercent))];
+
+  const FACTS = [
+    { label: "Platform fee", value: `${feeRange[0]}–${feeRange[1]}%`, note: "of rewards only" },
+    { label: "Deposits", value: "Free", note: "you pay the network fee" },
+    { label: "Staking & unstaking", value: "Free", note: "no exit penalty" },
+    { label: "Conversion", value: formatPercent(conversionFee * 100, 1), note: "of the converted value" },
+  ];
+
+  const OTHER_FEES = [
+    { item: "Deposit", fee: "Free", detail: "The sending wallet or exchange pays the network fee." },
+    { item: "Stake", fee: "Free", detail: "No charge to open a position, at any amount above the pool minimum." },
+    { item: "Unstake", fee: "Free", detail: "Funds wait out the network’s unbonding period; we add no penalty." },
+    { item: "Withdraw", fee: "Network fee only", detail: "Passed through at cost; see the table below." },
+    {
+      item: "Convert",
+      fee: `${formatPercent(conversionFee * 100, 1)} of value`,
+      detail: "Moving the same asset between networks is free.",
+    },
+    { item: "Auto-restake", fee: "Free", detail: "Payouts are added to the position at no charge." },
+    { item: "Account, reports, API", fee: "Free", detail: "No subscription, custody or inactivity fees." },
+  ];
+
+  /* Worked example: 10 ETH for one year */
+  const example = (() => {
+    const pool = pools.find((p) => p.id === "eth") ?? pools[0];
+    const amount = 10;
+    const netRate = pool.apy / 100;
+    const grossRate = netRate / (1 - pool.feePercent / 100);
+    const gross = amount * grossRate;
+    const net = amount * netRate;
+    return { pool, amount, gross, fee: gross - net, net, price: usd[pool.ticker] };
+  })();
+
   return (
     <>
       <PageHeader
@@ -214,13 +219,13 @@ export default function FeesPage() {
             {pools.map((p) => {
               const network = getNetwork(getAsset(p.ticker).networks[0]);
               const native = networkFee(network, network.nativeTicker, "standard");
-              const usd = (v: number) => formatCurrency(v * USD_PRICES[network.nativeTicker]);
+              const toUsd = (v: number) => formatCurrency(v * usd[network.nativeTicker]);
               return (
                 <TR key={p.id}>
                   <TD className="font-medium">{network.name}</TD>
                   <TD numeric>
                     {formatNumber(native, 6)} {network.nativeTicker}
-                    <span className="block text-caption text-muted">≈ {usd(native)}</span>
+                    <span className="block text-caption text-muted">≈ {toUsd(native)}</span>
                   </TD>
                   <TD numeric>
                     {network.finalityMinutes < 1
