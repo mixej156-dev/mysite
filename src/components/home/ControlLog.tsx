@@ -65,15 +65,15 @@ const clock = (k: number) => {
 
 export function ControlLog() {
   const { ref, tick } = usePlayWhileVisible<HTMLDivElement>(STEP_MS);
-  /* Entry k belongs to control k % 5; the still frame shows the first four */
-  const newest = tick === null ? SHOWN - 1 : SHOWN + tick;
+  /* Entry k belongs to control k % 5; playing starts from the first control, so its progress bar fills from the top */
+  const newest = tick === null ? SHOWN : SHOWN + 1 + tick;
   const active = tick === null ? undefined : newest % SECURITY_CONTROLS.length;
   const rows = Array.from({ length: SHOWN }, (_, i) => newest - i);
 
   return (
     <div className="grid gap-10 lg:grid-cols-12 lg:gap-12">
       <div className="min-w-0 lg:col-span-7">
-        <ControlsList items={SECURITY_CONTROLS} active={active} />
+        <ControlsList items={SECURITY_CONTROLS} active={active} stepMs={STEP_MS} />
       </div>
       <div className="min-w-0 max-lg:order-first lg:col-span-5">
         <div
