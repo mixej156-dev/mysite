@@ -11,7 +11,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps<"/learn/[slug]">): Promise<Metadata> {
   const guide = getGuide((await params).slug);
   if (!guide) return { title: "Guide not found" };
-  return { title: `${guide.title} · ECO. LEARN`, description: guide.excerpt };
+  return { title: guide.title, description: guide.excerpt };
 }
 
 /* params are URL data: read them inside Suspense so navigations show the skeleton instantly */

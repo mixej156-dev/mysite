@@ -362,12 +362,7 @@ export function LogoField({ className }: { className?: string }) {
   }, []);
 
   return (
-    <div
-      ref={ref}
-      aria-hidden
-      data-no-reveal
-      className={cn("logo-field pointer-events-none absolute inset-0", className)}
-    >
+    <div ref={ref} aria-hidden className={cn("logo-field pointer-events-none absolute inset-0", className)}>
       {DEPTHS_ORDER.flatMap((depth) =>
         LANE_IDS.map((lane) => (
           <div

@@ -65,7 +65,7 @@ export default async function PortfolioPage() {
           between 30 days, 90 days and a year, latest rewards, open positions and recent activity, with new rewards
           arriving every few seconds.
         </p>
-        <div data-reveal-item>
+        <div data-reveal>
           <MacWindow address="lonar.eco/dashboard">
             <LivePreview />
           </MacWindow>

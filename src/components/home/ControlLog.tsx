@@ -71,7 +71,7 @@ export function ControlLog() {
   const rows = Array.from({ length: SHOWN }, (_, i) => newest - i);
 
   return (
-    <div className="grid gap-10 lg:grid-cols-12 lg:gap-12">
+    <div data-reveal className="grid gap-10 lg:grid-cols-12 lg:gap-12">
       <div className="min-w-0 lg:col-span-7">
         <ControlsList items={SECURITY_CONTROLS} active={active} stepMs={STEP_MS} />
       </div>
@@ -108,7 +108,7 @@ export function ControlLog() {
                   <span className="min-w-0 flex-1">
                     <span className="block truncate text-small font-medium">{entry.title}</span>
                     <span className="block truncate text-caption text-muted">
-                      {SECURITY_CONTROLS[control].title} · {entry.detail}
+                      {SECURITY_CONTROLS[control].title}: {entry.detail}
                     </span>
                   </span>
                   <span className="self-start font-mono text-caption text-muted">{clock(k)}</span>

@@ -19,8 +19,7 @@ export const testimonials: Testimonial[] = [
   },
   {
     id: "teodor",
-    quote:
-      "The unbonding dates are shown before you commit, and they matched what happened. That is rarer than it should be.",
+    quote: "Unbonding dates up front, and they were right. Rarer than it should be.",
     name: "Teodor Lisk",
     role: "Portfolio Manager",
     company: "Ashgrove Partners",
@@ -28,15 +27,14 @@ export const testimonials: Testimonial[] = [
   {
     id: "anika",
     quote:
-      "I moved a long-term ETH position here mainly for the daily payouts. The dashboard shows exactly which validator earned what.",
+      "Honestly, I came for the daily payouts. I stayed because I can see which validator earned what, down to the epoch, and my old provider never showed me that.",
     name: "Anika Rao",
     role: "Independent investor",
     company: "Private client",
   },
   {
     id: "jules",
-    quote:
-      "Uptime reports and incident notes are published without us asking. For a fund our size, that transparency is the product.",
+    quote: "They publish uptime reports and incident notes before anyone asks. At our size, that is the product.",
     name: "Jules Benedek",
     role: "COO",
     company: "Kettle Digital Assets",

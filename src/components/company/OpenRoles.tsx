@@ -11,7 +11,7 @@ export function OpenRoles() {
   return (
     <Accordion.Root type="single" collapsible className="border-t border-rule">
       {OPEN_ROLES.map((role) => (
-        <Accordion.Item key={role.id} value={role.id} data-reveal-item className="border-b border-rule">
+        <Accordion.Item key={role.id} value={role.id} className="border-b border-rule">
           <Accordion.Header>
             <Accordion.Trigger className="group grid w-full gap-2 py-6 text-left transition-colors duration-fast hover:text-accent-text md:grid-cols-[minmax(0,2fr)_minmax(0,1fr)_minmax(0,1fr)_6rem_1.5rem] md:items-center md:gap-6">
               <span className="flex items-start justify-between gap-4 text-h4 font-medium">

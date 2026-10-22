@@ -7,7 +7,7 @@ const linkClass = "rounded-sm text-small text-muted transition-colors duration-f
 
 export function Footer() {
   return (
-    <footer data-reveal-scope className="border-t border-rule">
+    <footer className="border-t border-rule">
       <div className="container-page grid gap-8 sm:gap-12 py-12 sm:py-16 lg:grid-cols-[minmax(0,1.3fr)_repeat(4,minmax(0,1fr))] lg:gap-8">
         <div className="flex max-w-xs flex-col gap-4">
           <Link href="/" aria-label="LONAR ECO. home" className="self-start rounded-sm">

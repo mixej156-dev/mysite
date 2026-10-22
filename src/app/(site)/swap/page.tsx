@@ -92,7 +92,9 @@ export default async function SwapPage() {
                     key={step.title}
                     className="grid grid-cols-[2.5rem_minmax(0,1fr)] gap-x-2 border-b border-rule py-5"
                   >
-                    <span className="font-mono text-small leading-7 text-muted">{String(i + 1).padStart(2, "0")}</span>
+                    <span className="text-small font-medium tabular-nums leading-7 text-muted">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
                     <div>
                       <h2 className="text-h4">{step.title}</h2>
                       <p className="mt-1 text-body text-muted">{step.body}</p>

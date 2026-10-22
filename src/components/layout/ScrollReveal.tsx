@@ -3,8 +3,8 @@
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 
-/* What counts as a block: section-level children, grid cells, table rows, or anything marked by hand */
-const CANDIDATES = ".container-page > *, section > *, [class~='grid'] > *, tbody > tr, [data-reveal-item]";
+/* Only the blocks marked by hand rise, each as one piece; the rest of the page is simply there */
+const BLOCKS = "[data-reveal-scope] [data-reveal]";
 const SCOPE = "[data-reveal-scope]";
 /* Blocks that enter the viewport together rise one after another */
 const STAGGER_MS = 80;
@@ -16,32 +16,16 @@ const RISE: Keyframe[] = [
 ];
 const RISE_TIMING = { duration: 800, easing: "cubic-bezier(0.22, 1, 0.36, 1)", fill: "backwards" } as const;
 
-/**
- * Innermost candidates only: a block whose children are blocks themselves lets them rise on their own.
- * A [data-reveal-item] rises as one piece, so nothing inside it is a candidate.
- */
-function leaves(root: Element): HTMLElement[] {
-  const found = new Set<Element>(root.querySelectorAll(`${SCOPE} :is(${CANDIDATES})`));
-  if (root.matches(`${SCOPE} :is(${CANDIDATES})`)) found.add(root);
-  for (const el of [...found]) {
-    if (el.parentElement?.closest("[data-reveal-item]")) found.delete(el);
-  }
-  for (const el of [...found]) {
-    if (!found.has(el)) continue;
-    for (let p = el.parentElement; p && !p.matches(SCOPE); p = p.parentElement) found.delete(p);
-  }
-  return [...found].filter(
-    (el): el is HTMLElement =>
-      el instanceof HTMLElement &&
-      /* Intro items have their own load animation */
-      !el.parentElement?.hasAttribute("data-intro") &&
-      !el.closest("[data-no-reveal], .sr-only"),
-  );
+function blocks(root: Element): HTMLElement[] {
+  const found = [...root.querySelectorAll(BLOCKS)];
+  if (root.matches(BLOCKS)) found.push(root);
+  return found.filter((el): el is HTMLElement => el instanceof HTMLElement && !el.closest(".sr-only"));
 }
 
 /**
- * Site-wide scroll reveal: every block below the fold waits, then rises into place as it scrolls into view.
- * Content already on screen is left alone so nothing flickers on load; headers have their own CSS intro instead.
+ * Scroll reveal for a few key blocks (marked [data-reveal]): below the fold they wait, then rise into place as they
+ * scroll into view. Content already on screen is left alone so nothing flickers on load; headers have their own CSS
+ * intro instead.
  * Runs again for content added later (route changes, streamed sections).
  *
  * The waiting state is a held Web Animation, not an attribute or class: React never sees a DOM change, so
@@ -79,7 +63,7 @@ export function ScrollReveal() {
 
     const arm = (root: Element) => {
       const fold = window.innerHeight * 0.92;
-      for (const el of leaves(root)) {
+      for (const el of blocks(root)) {
         if (done.has(el) || waiting.has(el)) continue;
         const rect = el.getBoundingClientRect();
         if (rect.height === 0 || rect.top < fold) {

@@ -41,7 +41,7 @@ export function StepsFlow({ steps, icons, className }: { steps: Step[]; icons?: 
             </span>
           )}
           <div className={icons ? "lg:mt-6" : "lg:mt-8"}>
-            <p className="font-mono text-caption text-muted">{String(i + 1).padStart(2, "0")}</p>
+            <p className="text-small font-medium tabular-nums text-muted">{String(i + 1).padStart(2, "0")}</p>
             <h3 className="mt-1 text-h4 sm:mt-2 sm:text-h3">{step.title}</h3>
             <p className="mt-2 max-w-[34ch] text-body text-muted sm:mt-3">{step.body}</p>
           </div>

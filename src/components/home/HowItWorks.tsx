@@ -4,19 +4,19 @@ import { StakeStepsLive } from "./StakeScenes";
 const STEPS = [
   {
     title: "Stake",
-    body: "Choose a pool and an amount. The fee and unbonding period are shown before you confirm.",
+    body: "Pick a pool, type an amount. The fee and the unbonding period are on screen before you confirm, not after.",
   },
   {
     title: "Delegate",
-    body: "Your stake is delegated to validators that meet published uptime targets.",
+    body: "We spread it across validators that hit their uptime targets.",
   },
   {
     title: "Earn each epoch",
-    body: "Validators earn rewards for their duties. Your share is recorded every epoch.",
+    body: "Validators are paid for proposing and attesting blocks. Every epoch your share goes into a ledger, so any reward can be traced to the validator that earned it.",
   },
   {
     title: "Get paid daily",
-    body: "Rewards land in your wallet once a day. Unstake whenever you like; funds release after unbonding.",
+    body: "Once a day, straight to your wallet. Want out? Unstake any time; funds come back when unbonding ends.",
   },
 ] as const;
 

@@ -256,7 +256,7 @@ export default async function SecurityPage() {
                 <li>Whether you’d like to be credited</li>
               </ul>
             </div>
-            <p className="border-t border-rule pt-4 font-mono text-caption text-muted">
+            <p className="border-t border-rule pt-4 text-caption text-muted">
               PGP key: published at launch (placeholder)
             </p>
           </div>

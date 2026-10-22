@@ -48,7 +48,7 @@ export function ControlsList({
           )}
           <span
             className={cn(
-              "font-mono text-small leading-7 transition-colors duration-slow sm:leading-5",
+              "text-small font-medium tabular-nums leading-7 transition-colors duration-slow sm:leading-5",
               active === i ? "text-accent-text" : "text-muted",
             )}
           >

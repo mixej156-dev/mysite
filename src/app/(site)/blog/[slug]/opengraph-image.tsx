@@ -22,7 +22,7 @@ export function generateStaticParams() {
 export default async function Image({ params }: { params: Promise<{ slug: string }> }) {
   const post = getPost((await params).slug) ?? posts[0];
   return renderOgCard({
-    eyebrow: `Blog · ${post.category}`,
+    eyebrow: `Blog: ${post.category}`,
     title: post.title,
     color: OG_THEME.topic[CATEGORY_COLOR[post.category]],
     figures: [

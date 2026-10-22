@@ -46,7 +46,7 @@ export function UptimeStrip({ days, label }: { days: UptimeDay[]; label: string 
       <figcaption className="flex items-baseline justify-between gap-4 text-caption text-muted">
         <span aria-hidden className="font-mono">
           {day ? (
-            `${formatDate(day.date)} · ${day.uptime.toFixed(2)}% · ${STATUS_META[day.status].label}`
+            `${formatDate(day.date)}: ${day.uptime.toFixed(2)}%, ${STATUS_META[day.status].label.toLowerCase()}`
           ) : (
             <>
               <span className="sm:hidden">Last 30 days</span>

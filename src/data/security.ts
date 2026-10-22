@@ -3,23 +3,23 @@
 export const SECURITY_CONTROLS = [
   {
     title: "Key management",
-    body: "Validator signing keys are generated offline and split across separate secure locations, so no single person can sign alone.",
+    body: "Signing keys are generated offline and split across separate secure locations. No single person can sign alone.",
   },
   {
     title: "Validator operations",
-    body: "Validators run across several regions and hosting providers, so one outage doesn’t stop a pool.",
+    body: "Several regions, several hosting providers. One outage doesn’t stop a pool.",
   },
   {
     title: "Monitoring",
-    body: "Performance and missed duties are watched around the clock, with on-call engineers and published incident notes.",
+    body: "Performance and missed duties are watched around the clock. When something slips, an on-call engineer picks it up and a note is published, even when no rewards were lost.",
   },
   {
     title: "Reward accounting",
-    body: "Each reward is recorded per epoch against the validator that earned it, and the ledger is visible in your dashboard.",
+    body: "Each reward is recorded per epoch against the validator that earned it. You see the same ledger in your dashboard.",
   },
   {
     title: "Withdrawals",
-    body: "Unstake requests follow the network’s unbonding queue. The expected release date is shown before you confirm.",
+    body: "Unstaking follows the network’s own unbonding queue. You see the release date before you confirm.",
   },
 ];
 
@@ -39,10 +39,13 @@ export const CUSTODY_PRACTICES = [
 ];
 
 export const INCIDENT_STEPS = [
-  { title: "Detect", body: "Automated alerts and on-call engineers pick up missed duties, outages and unusual behaviour." },
-  { title: "Contain", body: "Affected validators are isolated or failed over, following written runbooks." },
+  { title: "Detect", body: "Alerts and on-call engineers catch missed duties, outages and anything that looks off." },
+  { title: "Contain", body: "Isolate or fail over, by the written runbook." },
   { title: "Communicate", body: "A status note goes out while we work, and affected stakers are contacted directly." },
-  { title: "Review", body: "Each incident ends with a written review: cause, impact on rewards, and what changed." },
+  {
+    title: "Review",
+    body: "Every incident ends with a written review: what caused it, what it cost in rewards, and what we changed so it doesn’t happen the same way twice.",
+  },
 ];
 
 export const BOUNTY_SEVERITIES = [

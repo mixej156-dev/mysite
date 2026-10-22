@@ -13,7 +13,7 @@ export function generateStaticParams() {
 export default async function Image({ params }: { params: Promise<{ slug: string }> }) {
   const guide = getGuide((await params).slug) ?? GUIDES[0];
   return renderOgCard({
-    eyebrow: `ECO. LEARN · ${guide.topic}`,
+    eyebrow: `ECO. LEARN: ${guide.topic}`,
     title: guide.title,
     color: OG_THEME.topic[getTopic(guide.topic).color],
     figures: [

@@ -163,7 +163,7 @@ export function DelegateScene({ play }: SceneProps) {
                       )}
                     />
                     <span className="truncate">
-                      {v.region} · {v.client}
+                      {v.region}, {v.client}
                     </span>
                   </span>
                   <span
@@ -333,7 +333,7 @@ export function StakeStepsLive({ steps }: { steps: readonly { title: string; bod
   }, [visible, turn]);
 
   return (
-    <ol ref={ref} className="grid gap-8 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 lg:grid-cols-4">
+    <ol ref={ref} data-reveal className="grid gap-8 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 lg:grid-cols-4">
       {steps.map((step, i) => {
         const Scene = SCENES[i];
         return (
@@ -341,7 +341,7 @@ export function StakeStepsLive({ steps }: { steps: readonly { title: string; bod
             <div className="h-52 overflow-hidden rounded-card border border-rule">
               <Scene play={visible && turn === i} />
             </div>
-            <p className="mt-5 font-mono text-caption text-muted">{String(i + 1).padStart(2, "0")}</p>
+            <p className="mt-5 text-small font-medium tabular-nums text-muted">{String(i + 1).padStart(2, "0")}</p>
             <h3 className="mt-1 text-h4">{step.title}</h3>
             <p className="mt-2 max-w-[34ch] text-body text-muted">{step.body}</p>
           </li>

@@ -105,7 +105,9 @@ export function GuideArticle({ guide }: { guide: Guide }) {
               <ol className="mt-4 flex flex-col gap-3">
                 {guide.takeaways.map((t, i) => (
                   <li key={t} className="flex gap-3 text-body">
-                    <span className="font-mono text-small text-muted">{String(i + 1).padStart(2, "0")}</span>
+                    <span className="text-small font-medium tabular-nums text-muted">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
                     {t}
                   </li>
                 ))}

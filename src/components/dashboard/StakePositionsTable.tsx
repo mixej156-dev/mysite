@@ -103,10 +103,9 @@ export function StakePositionsTable({
                     )}
                     <StatusBadge position={r} />
                   </div>
-                  <p className="mt-1 font-mono text-caption text-muted">
+                  <p className="mt-1 text-caption text-muted tabular-nums">
                     <span className="sr-only">Staked </span>
-                    {tokenAmount(r.amount, pool.ticker)} · {formatPercent(pool.apy)}
-                    <span className="sr-only"> estimated APY</span>
+                    {tokenAmount(r.amount, pool.ticker)} at {formatPercent(pool.apy)} est. APY
                   </p>
                 </div>
               </div>
