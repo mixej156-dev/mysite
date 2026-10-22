@@ -306,21 +306,15 @@ export function PaidScene({ play }: SceneProps) {
   );
 }
 
-/** How long each scene acts, in order; the ticking ones end just before a tick would start a new beat */
+/** How long each scene's turn lasts, in order; the ticking ones end just before a tick would start a new beat */
 const TURNS = [STAKE_MS * STAKE_FRAMES, DELEGATE_MS * DELEGATE_FRAMES, EPOCH_MS * EARN_EPOCHS - 100, PAY_MS - 100];
-/** After acting, a scene holds its last frame this long, still marked, so it can be read before the next one starts */
-const HOLD_MS = 1400;
 const SCENES = [StakeScene, DelegateScene, EarnScene, PaidScene];
 
-/**
- * The four steps with their scenes, which take turns while the list is on screen (never with reduced motion). The
- * step whose turn it is gets an accent frame and a bar under its scene that fills over the turn.
- */
+/** The four steps with their scenes, which take turns while the list is on screen (never with reduced motion) */
 export function StakeStepsLive({ steps }: { steps: readonly { title: string; body: string }[] }) {
   const ref = useRef<HTMLOListElement>(null);
   const [visible, setVisible] = useState(false);
   const [turn, setTurn] = useState(0);
-  const [acting, setActing] = useState(true);
 
   useEffect(() => {
     const el = ref.current;
@@ -334,47 +328,20 @@ export function StakeStepsLive({ steps }: { steps: readonly { title: string; bod
 
   useEffect(() => {
     if (!visible) return;
-    const id = acting
-      ? window.setTimeout(() => setActing(false), TURNS[turn])
-      : window.setTimeout(() => {
-          setTurn((t) => (t + 1) % SCENES.length);
-          setActing(true);
-        }, HOLD_MS);
+    const id = window.setTimeout(() => setTurn((t) => (t + 1) % SCENES.length), TURNS[turn]);
     return () => window.clearTimeout(id);
-  }, [visible, turn, acting]);
+  }, [visible, turn]);
 
   return (
     <ol ref={ref} className="grid gap-8 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 lg:grid-cols-4">
       {steps.map((step, i) => {
         const Scene = SCENES[i];
-        const current = visible && turn === i;
         return (
           <li key={step.title} className="flex flex-col">
-            <div
-              className={cn(
-                "relative h-52 overflow-hidden rounded-card border transition-[border-color,box-shadow] duration-slow",
-                current ? "border-accent shadow-float" : "border-rule",
-              )}
-            >
-              <Scene play={current && acting} />
-              {current && (
-                <span aria-hidden className="absolute inset-x-0 bottom-0 h-0.5 bg-rule">
-                  <span
-                    key={turn}
-                    className="block size-full origin-left animate-fill-x bg-accent"
-                    style={{ animationDuration: `${TURNS[i] + HOLD_MS}ms` }}
-                  />
-                </span>
-              )}
+            <div className="h-52 overflow-hidden rounded-card border border-rule">
+              <Scene play={visible && turn === i} />
             </div>
-            <p
-              className={cn(
-                "mt-5 font-mono text-caption transition-colors duration-slow",
-                current ? "text-accent-text" : "text-muted",
-              )}
-            >
-              {String(i + 1).padStart(2, "0")}
-            </p>
+            <p className="mt-5 font-mono text-caption text-muted">{String(i + 1).padStart(2, "0")}</p>
             <h3 className="mt-1 text-h4">{step.title}</h3>
             <p className="mt-2 max-w-[34ch] text-body text-muted">{step.body}</p>
           </li>
