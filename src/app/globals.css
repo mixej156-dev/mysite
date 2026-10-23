@@ -221,6 +221,36 @@
       font-size: 87.5%;
     }
   }
+  /*
+   * One minimal scrollbar everywhere: a thin rounded thumb in the theme's rule colour on a transparent track, darker
+   * on hover. Chrome, Edge and Safari take the ::-webkit-scrollbar rules (they allow the rounded, inset thumb);
+   * Firefox, which has no such pseudo-elements, gets the standard thin scrollbar in the same colours. Colours come
+   * from the tokens, so inverse sections and the dark dashboard follow.
+   */
+  ::-webkit-scrollbar {
+    width: var(--ds-scrollbar-size);
+    height: var(--ds-scrollbar-size);
+  }
+  ::-webkit-scrollbar-track,
+  ::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--rule-strong);
+    background-clip: content-box;
+    border: var(--ds-scrollbar-inset) solid transparent;
+    border-radius: var(--ds-radius-pill);
+  }
+  ::-webkit-scrollbar-thumb:hover,
+  ::-webkit-scrollbar-thumb:active {
+    background-color: var(--muted);
+  }
+  @supports (-moz-appearance: none) {
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: var(--rule-strong) transparent;
+    }
+  }
   body {
     background-color: var(--bg);
     color: var(--text);

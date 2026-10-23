@@ -119,6 +119,10 @@
   --ds-radius-card: 16px;
   --ds-radius-pill: 999px;
 
+  /* Scrollbars: a thin pill floating in a wider transparent gutter, so it is easy to grab but reads as a hairline */
+  --ds-scrollbar-size: 10px;
+  --ds-scrollbar-inset: 3px;
+
   /* Window controls on product screenshots (macOS-style frame), decorative only */
   --chrome-close: #ff5f57;
   --chrome-minimize: #febc2e;
