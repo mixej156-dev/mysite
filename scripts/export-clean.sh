@@ -7,7 +7,7 @@ set -euo pipefail
 
 SRC="$(git -C "$(dirname "$0")" rev-parse --show-toplevel)"
 DEST="${1:-$SRC/../my-site-clean}"
-EXCLUDE=(CLAUDE.md AGENTS.md docs references scripts/export-clean.sh)
+EXCLUDE=(CLAUDE.md AGENTS.md docs references scripts/export-clean.sh scripts/deploy-vercel.sh)
 
 if [ -n "$(git -C "$SRC" status --porcelain)" ]; then
   echo "Commit or stash your changes first: only committed code is exported." >&2
