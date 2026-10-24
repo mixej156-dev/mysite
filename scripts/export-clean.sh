@@ -19,8 +19,8 @@ if [ ! -d "$DEST/.git" ]; then
   git -C "$DEST" init -q -b main
 fi
 
-# Replace everything except .git with the current commit, minus the excluded paths
-find "$DEST" -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+# Replace everything except .git and the Vercel link with the current commit, minus the excluded paths
+find "$DEST" -mindepth 1 -maxdepth 1 ! -name .git ! -name .vercel -exec rm -rf {} +
 git -C "$SRC" archive HEAD | tar -x -C "$DEST"
 for path in "${EXCLUDE[@]}"; do rm -rf "${DEST:?}/$path"; done
 rmdir "$DEST/scripts" 2>/dev/null || true
