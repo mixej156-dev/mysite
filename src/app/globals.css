@@ -876,6 +876,34 @@
   }
 }
 
+/* Sparkline (blocks/Sparkline.tsx): the chart opens left to right, then the end dot lands. A clip rather than a
+   stroke dash, so the pace doesn't depend on the line's length. Plays on mount. */
+.sparkline-chart {
+  animation: sparkline-reveal 700ms var(--ds-ease-in-out) 150ms backwards;
+}
+.sparkline-dot {
+  animation: sparkline-dot 280ms var(--ds-ease-brand) 800ms backwards;
+}
+@keyframes sparkline-reveal {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+@keyframes sparkline-dot {
+  from {
+    opacity: 0;
+    scale: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  :is(.sparkline-chart, .sparkline-dot) {
+    animation: none;
+  }
+}
+
 /* Portfolio hero (LogoField.tsx): logos at three depths. Every move is a transform or an individual transform
    property, so the compositor runs it and a frame needs no style work:
    depth layer: the pointer parallax (transform, from script), one layer per depth;
